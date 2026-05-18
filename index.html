@@ -1,0 +1,1403 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Baaz | Structured Arts</title>
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+
+    <!-- GSAP & Plugins -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/Draggable.min.js"></script>
+    
+    <!-- Lenis (Smooth Scroll) -->
+    <script src="https://unpkg.com/@studio-freight/lenis@1.0.34/dist/lenis.min.js"></script>
+
+    <!-- Tone.js (Cinematic Sound Design) -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/tone/14.8.49/Tone.js"></script>
+
+    <!-- Fonts: Dr Sugiyama (Logo) + Inter (Modern/Technical UI) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Dr+Sugiyama&family=Inter:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+
+    <style>
+        :root {
+            --beige: #F4EFE6;
+            --beige-dark: #E5DFC8;
+            --blue: #012CEB;
+            --navy: #051024;
+            --border-w: 2px;
+            --font-main: 'Inter', Arial, sans-serif;
+        }
+
+        body {
+            font-family: var(--font-main);
+            background-color: #01040a; /* Deep void base */
+            color: var(--navy);
+            margin: 0;
+            overflow: hidden; /* Fully controlled by Lenis */
+            -webkit-font-smoothing: antialiased;
+            font-weight: 600; 
+        }
+
+        /* --- UI UTILS --- */
+        .border-grid { border-color: var(--blue); border-width: var(--border-w); }
+        .border-b-grid { border-bottom: var(--border-w) solid var(--blue); }
+        
+        #cad-cursor-container { pointer-events: none; z-index: 10001; mix-blend-mode: difference; }
+        #cad-line-x, #cad-line-y { position: fixed; background-color: #FFF; opacity: 0.25; pointer-events: none; }
+        #cad-line-x { top: 0; left: 0; width: 100vw; height: 1px; }
+        #cad-line-y { top: 0; left: 0; width: 1px; height: 100vh; }
+        #cad-center-wrapper { position: fixed; top: 0; left: 0; pointer-events: none; }
+        #cad-center-box { position: absolute; top: -6px; left: -6px; width: 12px; height: 12px; border: 1px solid #FFF; transition: all 0.2s; }
+        #cad-coords { position: fixed; top: 0; left: 0; font-size: 10px; font-weight: 800; color: #FFF; white-space: nowrap; font-family: var(--font-main); text-transform: uppercase; letter-spacing: 1px; pointer-events: none; }
+
+        /* The Core Navbar Element */
+        .nav-brutal { 
+            display: flex; position: relative; background: var(--beige); 
+            border: 2px solid var(--navy); box-shadow: 4px 4px 0px var(--navy); 
+            padding: 4px; pointer-events: auto; justify-content: center;
+            overflow: hidden; /* Contains the timeline elements */
+            will-change: width, transform, border-color, background-color;
+        }
+        @media (min-width: 768px) {
+            .nav-brutal { border-width: 3px; box-shadow: 8px 8px 0px var(--navy); padding: 6px; }
+        }
+        
+        .nav-indicator { 
+            position: absolute; top: 4px; bottom: 4px; left: 4px; 
+            background: var(--blue); z-index: 0; 
+            will-change: transform, width, left;
+        }
+        @media (min-width: 768px) {
+            .nav-indicator { top: 6px; bottom: 6px; left: 6px; }
+        }
+        
+        .nav-item { 
+            position: relative; z-index: 1; font-weight: 800; 
+            text-transform: uppercase; letter-spacing: 0.1em; color: var(--navy); 
+            transition: color 0.3s ease; text-decoration: none; white-space: nowrap; 
+            flex-shrink: 0;
+        }
+        .nav-item.active { color: var(--beige); }
+
+        .bg-blueprint {
+            background-size: 50px 50px;
+            background-image: 
+                linear-gradient(to right, rgba(1, 44, 235, 0.15) 1px, transparent 1px),
+                linear-gradient(to bottom, rgba(1, 44, 235, 0.15) 1px, transparent 1px);
+        }
+
+        h2, h3 { font-weight: 800; letter-spacing: -0.03em; }
+        ::-webkit-scrollbar { display: none; }
+        @keyframes ticker { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
+
+        /* --- CINEMATIC WORLD ARCHITECTURE --- */
+        #world-viewport {
+            width: 100vw;
+            height: 100vh;
+            position: fixed;
+            top: 0; left: 0;
+            overflow-y: auto; 
+            overflow-x: hidden;
+            z-index: 10;
+            background: #01040a;
+            perspective: 1500px; /* For the rail tilt effect */
+        }
+
+        #world-container {
+            will-change: transform, filter, opacity;
+            background: var(--beige); 
+            min-height: 100vh;
+            transform-origin: center bottom;
+            transform-style: preserve-3d;
+        }
+
+        /* Cinematic HUD Vignette */
+        #cinematic-vignette {
+            position: fixed; inset: 0; z-index: 9000; pointer-events: none;
+            background: radial-gradient(circle at center, transparent 20%, rgba(1,4,12,0.98) 100%);
+            opacity: 0.1; transition: opacity 0.8s ease; mix-blend-mode: multiply;
+        }
+        body.traveling #cinematic-vignette { opacity: 1; }
+
+        /* The Atmospheric Pass-by Flashes */
+        #cinematic-passby {
+            position: fixed; inset: 0; z-index: 40; pointer-events: none;
+            display: flex; items: center; justify-content: center;
+            opacity: 0; mix-blend-mode: screen; overflow: hidden;
+        }
+        .passby-text {
+            font-family: 'Inter'; font-weight: 900; text-transform: uppercase;
+            font-size: 15vw; color: rgba(1, 44, 235, 0.4);
+            white-space: nowrap; transform: translateX(50vw);
+            will-change: transform; filter: blur(8px);
+        }
+        .passby-grain {
+            position: absolute; inset: 0; opacity: 0.15;
+            background-image: url('data:image/svg+xml,%3Csvg viewBox=%220 0 200 200%22 xmlns=%22http://www.w3.org/2000/svg%22%3E%3Cfilter id=%22noise%22%3E%3CfeTurbulence type=%22fractalNoise%22 baseFrequency=%221.5%22 numOctaves=%223%22 stitchTiles=%22stitch%22/%3E%3C/filter%3E%3Crect width=%22100%25%22 height=%22100%25%22 filter=%22url(%23noise)%22/%3E%3C/svg%3E');
+        }
+
+        /* Cinematic Glass Reflection Animation */
+        @keyframes drift {
+            0% { transform: translateX(-150%) skewX(-15deg); }
+            100% { transform: translateX(250%) skewX(-15deg); }
+        }
+        .glass-reflection {
+            position: absolute; top: 0; left: 0; right: 0; bottom: 0;
+            background: linear-gradient(90deg, transparent 0%, rgba(255,255,255,0.03) 45%, rgba(255,255,255,0.08) 50%, rgba(255,255,255,0.03) 55%, transparent 100%);
+            animation: drift 15s infinite linear;
+            pointer-events: none; z-index: 50; mix-blend-mode: overlay;
+        }
+
+        @keyframes cardWave {
+            0% { transform: translateX(-200%) skewX(-15deg); }
+            100% { transform: translateX(300%) skewX(-15deg); }
+        }
+
+        .card-wave {
+            position: absolute; top: 0; left: 0; bottom: 0; width: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), rgba(255,255,255,0.8), rgba(255,255,255,0.2), transparent);
+            animation: cardWave 2.5s infinite linear;
+            z-index: 5; pointer-events: none; mix-blend-mode: screen; 
+        }
+
+        /* Conveyor Belt Stripes */
+        .conveyor-stripes {
+            background-image: repeating-linear-gradient(90deg, transparent, transparent 40px, rgba(255,255,255,0.03) 40px, rgba(255,255,255,0.03) 42px);
+        }
+
+    </style>
+</head>
+<body class="selection:bg-[var(--blue)] selection:text-[var(--beige)]">
+
+    <!-- Cinematic HUD / Overlays -->
+    <div id="cinematic-vignette"></div>
+
+    <!-- Atmospheric Transit Pass-by Elements (Hidden normally) -->
+    <div id="cinematic-passby">
+        <div class="passby-grain"></div>
+        <!-- Massive text layers removed for cleaner transit -->
+    </div>
+
+    <!-- Preloader Layers -->
+    <div id="preloader-bg" class="fixed inset-0 bg-[var(--blue)] z-[9999] pointer-events-none will-change-opacity"></div>
+    <div id="preloader-content" class="fixed inset-0 flex flex-col justify-center items-center z-[10000] pointer-events-none w-full max-w-[1500px] mx-auto px-4 sm:px-8 lg:px-12 overflow-hidden">
+        <div class="w-full flex flex-col text-[var(--beige)] font-['Inter'] font-[900] leading-[1.0] tracking-[-0.04em] uppercase text-[7vw] lg:text-[100px] pt-10">
+            <div class="flex items-center w-full mb-2 lg:mb-4 relative" style="height: 1.1em;">
+                <div class="leading-none flex-shrink-0 relative z-10 pr-4 lg:pr-6" style="top: 0.05em;" id="intro-i">WE</div>
+                <div class="flex-grow relative h-full z-10" id="intro-box-wrapper">
+                    <div id="grad-box" class="absolute left-0 bg-[var(--navy)]" style="top: 8%; height: 95%; width: 0%;"></div>
+                    <div class="absolute inset-0 flex items-center justify-center text-[var(--beige)]">
+                        <span class="leading-none whitespace-nowrap relative" style="top: 0.06em;" id="intentionally">CRAFT DIGITAL</span>
+                    </div>
+                </div>
+                <div class="relative h-full flex-shrink-0 ml-3 sm:ml-4" style="width: 15vw; max-width: 220px;">
+                    <div id="intro-thumb-container" class="absolute inset-x-0 z-[100] overflow-hidden will-change-[transform,width,height,top,left] bg-[var(--blue)]" style="top: 8%; height: 95%; clip-path: inset(0% 100% 0% 0%); transform-style: preserve-3d;">
+                        <video src="1778536504558493.mp4" id="intro-vid" class="w-full h-full object-cover block pointer-events-none" style="object-position: 50% 50%; opacity: 0.8;" muted loop playsinline autoplay></video>
+                        <div class="hero-overlay-text absolute top-6 right-6 md:top-8 md:right-8 text-[var(--beige)] text-xs font-medium opacity-0 z-10 transform translateZ(20px)">2026</div>
+                        <div class="hero-overlay-text absolute bottom-6 right-6 md:bottom-8 md:right-8 text-[var(--beige)] text-xs font-medium text-right opacity-0 z-10 leading-tight transform translateZ(20px)">Marketing &<br>Creativity</div>
+                    </div>
+                </div>
+            </div>
+            <div class="flex justify-between w-full mb-2 lg:mb-4">
+                <span class="leading-none" id="make">EXPERIENCES</span>
+                <span class="leading-none text-right" id="misalignment">AND BOLD</span>
+            </div>
+            <div class="flex justify-between w-full">
+                <span class="leading-none" id="look">AESTHETIC</span>
+                <span class="leading-none text-right" id="intentional-end">DESIGN.</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- CAD Drafting Cursor -->
+    <div id="cad-cursor-container">
+        <div id="cad-line-x"></div>
+        <div id="cad-line-y"></div>
+        <div id="cad-center-wrapper"><div id="cad-center-box"></div></div>
+        <div id="cad-coords">X:0000 Y:0000</div>
+    </div>
+
+    <!-- Floating Brutalist Nav (The Track Generator) -->
+    <div class="fixed bottom-8 left-1/2 -translate-x-1/2 z-50 pointer-events-none opacity-0 flex justify-center w-full" id="main-nav-container">
+        <nav class="nav-brutal pointer-events-auto w-max" id="main-nav">
+            <div class="nav-indicator" id="nav-indicator"></div>
+            
+            <!-- Standard Nav Links -->
+            <a href="#hero" class="nav-item active cursor-hover nav-link-route px-3 py-2 text-[10px] sm:px-4 md:px-5 md:py-2.5 md:text-xs">Genesis</a>
+            <a href="#quote" class="nav-item cursor-hover nav-link-route px-3 py-2 text-[10px] sm:px-4 md:px-5 md:py-2.5 md:text-xs">Mantra</a>
+            <a href="#about" class="nav-item cursor-hover nav-link-route px-3 py-2 text-[10px] sm:px-4 md:px-5 md:py-2.5 md:text-xs">Memory</a>
+            <a href="#experience" class="nav-item cursor-hover nav-link-route px-3 py-2 text-[10px] sm:px-4 md:px-5 md:py-2.5 md:text-xs">Stack</a>
+            <a href="#vending" class="nav-item cursor-hover nav-link-route px-3 py-2 text-[10px] sm:px-4 md:px-5 md:py-2.5 md:text-xs">Dispenser</a>
+
+            <!-- The Internal Cinematic Timeline (Hidden until transit) -->
+            <div id="nav-timeline-track" class="absolute inset-0 z-0 pointer-events-none opacity-0 flex flex-col justify-center overflow-hidden bg-[var(--blue)]">
+                <div class="w-full h-[1px] bg-[var(--beige)] opacity-40 mb-2"></div>
+                <div class="w-full flex items-center justify-between px-10 relative z-10">
+                    <span class="font-bold text-[10px] text-[var(--beige)] opacity-60 uppercase tracking-widest" id="timeline-sys-status">SYS.TRACK_ACTIVE</span>
+                    <span class="font-bold text-[12px] text-[var(--beige)] uppercase tracking-[0.2em]" id="timeline-dest-text">LOCATING...</span>
+                    <span class="font-bold text-[10px] text-[var(--beige)] opacity-60 uppercase tracking-widest">VOL.2026</span>
+                </div>
+                <div class="w-full h-[1px] bg-[var(--beige)] opacity-40 mt-2"></div>
+                
+                <!-- Fast scrolling film ticks -->
+                <div id="nav-ticks-container" class="absolute bottom-0 left-0 w-[400vw] flex justify-between px-4 pb-1">
+                    <!-- Javascript populates this with vertical lines -->
+                </div>
+                <!-- Top ticks -->
+                <div id="nav-ticks-top-container" class="absolute top-0 left-0 w-[400vw] flex justify-between px-4 pt-1">
+                    <!-- Javascript populates this with vertical lines -->
+                </div>
+            </div>
+        </nav>
+    </div>
+
+    <!-- Top Ribbon -->
+    <header id="top-ribbon" class="fixed top-0 left-0 w-full z-40 h-12 flex border-b-[2px] border-[var(--blue)] bg-[var(--beige)] text-[10px] md:text-xs font-extrabold uppercase tracking-widest text-[var(--blue)] opacity-0 pointer-events-none -translate-y-4">
+        <div class="flex items-center justify-center px-8 bg-[var(--blue)] text-[var(--beige)] border-r-[2px] border-[var(--blue)] pointer-events-auto cursor-hover">
+            BAAZ
+        </div>
+        <div class="hidden md:flex pointer-events-auto" id="top-nav">
+            <a href="#hero" class="nav-item-top flex items-center justify-center px-6 border-r-[2px] border-[var(--blue)] hover:bg-[rgba(1,44,235,0.05)] transition-colors cursor-hover nav-link-route text-[var(--blue)]">01. Genesis</a>
+            <a href="#quote" class="nav-item-top flex items-center justify-center px-6 border-r-[2px] border-[var(--blue)] hover:bg-[rgba(1,44,235,0.05)] transition-colors cursor-hover nav-link-route">01.5. Mantra</a>
+            <a href="#about" class="nav-item-top flex items-center justify-center px-6 border-r-[2px] border-[var(--blue)] hover:bg-[rgba(1,44,235,0.05)] transition-colors cursor-hover nav-link-route">02. Memory</a>
+            <a href="#experience" class="nav-item-top flex items-center justify-center px-6 border-r-[2px] border-[var(--blue)] hover:bg-[rgba(1,44,235,0.05)] transition-colors cursor-hover nav-link-route">03. Stack</a>
+            <a href="#vending" class="nav-item-top flex items-center justify-center px-6 border-r-[2px] border-[var(--blue)] hover:bg-[rgba(1,44,235,0.05)] transition-colors cursor-hover nav-link-route">04. Dispenser</a>
+        </div>
+        <div class="flex-grow pointer-events-auto"></div>
+        <div class="flex items-center justify-center px-6 bg-[var(--beige-dark)] border-l-[2px] border-[var(--blue)] pointer-events-auto">
+            VOL. 2026
+        </div>
+    </header>
+
+    <!-- The 3D World Viewport -->
+    <div id="world-viewport">
+        <div id="world-container">
+            <main class="pt-0">
+                
+                <!-- 1. HERO -->
+                <section id="hero" class="h-screen w-full relative overflow-hidden flex flex-col justify-center items-center border-b-grid bg-[var(--beige)] cursor-none" style="transform-style: preserve-3d; perspective: 1200px;">
+                    <div id="hero-bg-target" class="absolute inset-0 w-full h-full will-change-transform flex items-center justify-center scale-105"></div>
+                    <div id="hero-lighting" class="absolute inset-0 w-full h-full pointer-events-none opacity-0 mix-blend-multiply z-10 will-change-[background]"></div>
+                    <div id="hero-text-wrapper" class="absolute inset-0 flex flex-col justify-center items-center z-20 pointer-events-none transform-style: preserve-3d;">
+                        <h1 id="hero-text-3d" class="relative font-['Dr_Sugiyama'] text-[var(--beige)] leading-none flex items-baseline pointer-events-auto cursor-hover opacity-0 will-change-transform transition-shadow duration-300" style="font-size: clamp(150px, 29.375vw, 564px); letter-spacing: -0.019em; transform: rotate(-4deg) scale(0.12) translateY(-114px); font-weight: 400; transform-origin: center center;">
+                            baa<span style="display: inline-block; transform: translateY(-17px);">z</span>
+                        </h1>
+                    </div>
+                    <div id="hero-badges" class="absolute top-24 left-8 md:left-12 bg-[var(--beige)] border-grid text-[var(--blue)] font-bold px-4 py-2 text-xs uppercase tracking-widest z-30 shadow-[4px_4px_0px_var(--navy)] rotate-[-2deg] opacity-0 hidden sm:block transform translateZ(30px)">
+                        Design System Active
+                    </div>
+                </section>
+
+                <!-- 1.5. THE EDGE / QUOTE -->
+                <section id="quote" class="min-h-screen py-32 px-6 md:px-12 flex flex-col items-center justify-center text-center border-b-grid relative z-10 bg-[var(--beige)] transform-style-preserve-3d">
+                    <span class="text-xs font-bold uppercase tracking-widest text-[var(--blue)] block mb-8 border border-[var(--blue)] px-3 py-1 bg-[rgba(1,44,235,0.05)] transform translateZ(20px)">Section 01.5 / The Edge</span>
+                    <h2 class="text-5xl md:text-[7vw] leading-[0.9] font-extrabold text-[var(--navy)] uppercase max-w-6xl mx-auto tracking-tighter transform translateZ(40px)">
+                        Mass Production With<br>Artisanal-Level Quality.
+                    </h2>
+                    <div class="relative mt-20 mb-16 w-[320px] h-[400px] border-[3px] border-[var(--navy)] shadow-[12px_12px_0_var(--blue)] bg-[var(--beige-dark)] group cursor-hover transform translateZ(60px)">
+                        <div class="absolute inset-2 border-[3px] border-[var(--navy)] bg-white z-10 overflow-hidden flex items-center justify-center">
+                            <video autoplay loop muted playsinline class="w-full h-full object-cover opacity-80 mix-blend-multiply filter contrast-125">
+                                <source src="1778536504558493.mp4" type="video/mp4">
+                            </video>
+                        </div>
+                        <canvas id="quote-scratch-canvas" class="absolute inset-2 z-20 touch-none" style="width: calc(100% - 16px); height: calc(100% - 16px);"></canvas>
+                        <div id="coin-dock" class="absolute -right-10 -bottom-10 w-[80px] h-[80px] z-30 flex items-center justify-center pointer-events-auto" style="perspective: 800px;">
+                            <div id="scratch-coin" class="w-full h-full bg-[var(--blue)] border-[3px] border-[var(--navy)] rounded-full flex items-center justify-center shadow-[4px_4px_0px_var(--navy)] cursor-grab active:cursor-grabbing hover:scale-105 transition-transform will-change-transform z-10">
+                                <span class="font-['Dr_Sugiyama'] text-5xl text-[var(--beige)] pt-2 leading-none pointer-events-none" style="font-weight: 400;">B</span>
+                            </div>
+                        </div>
+                    </div>
+                    <p class="font-bold text-[11px] md:text-[14px] uppercase tracking-[0.05em] text-[var(--navy)] max-w-xl mx-auto leading-[1.8] opacity-90 mt-8 transform translateZ(20px)">
+                        We combine AI technologies with human intuition to create visual content that is both precise and emotional.
+                    </p>
+                </section>
+
+                <!-- 2. ABOUT -->
+                <section id="about" class="relative w-full bg-[var(--beige)] z-20 border-b-grid overflow-hidden">
+                    <div class="h-screen relative overflow-hidden z-10 bg-transparent">
+                        <div class="absolute bottom-0 left-0 w-full bg-[var(--navy)] h-[40px] z-30 flex items-center pointer-events-auto border-t-grid overflow-hidden">
+                            <div class="whitespace-nowrap flex animate-[ticker_15s_linear_infinite] w-max">
+                                <p class="text-[var(--beige)] font-['Inter'] font-bold text-xs md:text-sm uppercase leading-none tracking-widest px-4">EVERY DETAIL MATTERS. YOUR BRAND. OUR PLAYGROUND.</p>
+                                <p class="text-[var(--beige)] font-['Inter'] font-bold text-xs md:text-sm uppercase leading-none tracking-widest px-4 text-[var(--blue)]">///</p>
+                                <p class="text-[var(--beige)] font-['Inter'] font-bold text-xs md:text-sm uppercase leading-none tracking-widest px-4">EVERY DETAIL MATTERS. YOUR BRAND. OUR PLAYGROUND.</p>
+                                <p class="text-[var(--beige)] font-['Inter'] font-bold text-xs md:text-sm uppercase leading-none tracking-widest px-4 text-[var(--blue)]">///</p>
+                            </div>
+                        </div>
+
+                        <div id="about-horizontal-wrapper" class="flex flex-nowrap w-[200vw] h-full items-center relative z-10 will-change-transform">
+                            <div class="w-[100vw] h-full flex-shrink-0 relative flex justify-center items-end pb-[40px] border-r-grid">
+                                <span class="absolute top-24 left-8 md:left-12 text-xs font-bold uppercase tracking-widest text-[var(--blue)] border border-[var(--blue)] px-3 py-1 bg-[rgba(1,44,235,0.05)] z-40">Section 02 / The Catalyst</span>
+                                <div class="silhouette-anim-container relative h-full w-auto max-w-none origin-bottom opacity-0 flex justify-center items-end" style="transform-style: preserve-3d;">
+                                    <div class="relative w-[80vw] md:w-[40vw] h-[70vh] bg-[var(--blue)] shadow-[12px_12px_0_var(--navy)] border-grid overflow-hidden rounded-t-[500px]">
+                                        <video autoplay loop muted playsinline class="w-full h-full object-cover filter contrast-125 opacity-80 mix-blend-multiply">
+                                            <source src="1778536504558493.mp4" type="video/mp4">
+                                        </video>
+                                        <img src="About-us-image.svg" id="silhouette-img" class="absolute inset-0 w-full h-full object-cover mix-blend-overlay grayscale contrast-125" onerror="this.style.display='none';">
+                                    </div>
+                                    <div class="absolute left-1/2 bottom-[15%] z-30 pointer-events-none transform origin-center -translate-x-1/2">
+                                        <div class="about-title-anim opacity-100 will-change-transform relative w-[300px] h-[200px] md:w-[427px] md:h-[378px]">
+                                            <div id="about-parallax-1" class="absolute top-[-20%] left-[-30%] md:left-[-10%] will-change-transform">
+                                                <div id="about-text-1" class="font-['Dr_Sugiyama'] text-[var(--beige)] w-full h-full flex items-center justify-center will-change-transform drop-shadow-[4px_4px_0_var(--navy)]" style="font-size: clamp(120px, 20vw, 280px); line-height: 1;">About</div>
+                                            </div>
+                                            <div id="about-parallax-2" class="absolute bottom-[20%] right-[-30%] md:right-[-20%] will-change-transform">
+                                                <div id="about-text-2" class="font-['Dr_Sugiyama'] text-[var(--blue)] w-full h-full flex items-center justify-center will-change-transform drop-shadow-[4px_4px_0_var(--beige)]" style="font-size: clamp(120px, 20vw, 280px); line-height: 1;">me</div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="w-[100vw] h-full flex-shrink-0 relative flex flex-col justify-center pt-[40px] px-[6vw] md:px-[10vw] bg-blueprint">
+                                <div class="w-full max-w-[1400px] bio-interactive-area relative z-10">
+                                    <div class="text-left uppercase font-['Inter'] font-[900] text-[42px] md:text-[64px] lg:text-[80px] leading-[1.05] text-[var(--navy)] scrub-bio-text z-10 relative w-full tracking-tighter">
+                                        WE CRAFT BOLD DESIGN AND CLEAN WORKFLOWS. NO AVERAGE 
+                                        <span id="sneaker-module" class="relative inline-flex items-center justify-center align-baseline whitespace-nowrap cursor-none px-5 mx-2 group bg-[var(--beige)] border-grid shadow-[8px_8px_0px_var(--blue)]" style="top: -0.1em;">
+                                            <span class="sneaker-text-target text-[var(--navy)] font-[900] select-none tracking-tighter transition-transform duration-300 relative z-10 leading-none">PROJECTS</span>
+                                            <canvas id="sneaker-scratch-canvas" class="absolute inset-0 w-full h-full z-20 touch-none"></canvas>
+                                            <div id="about-coin-dock" class="absolute -right-6 -bottom-6 w-[60px] h-[60px] z-30 cursor-none flex items-center justify-center pointer-events-auto">
+                                                <div id="about-resting-coin" class="w-full h-full will-change-[transform,opacity] relative z-10 bg-[var(--blue)] border-[3px] border-[var(--navy)] rounded-full flex items-center justify-center shadow-[4px_4px_0px_var(--navy)] cursor-grab active:cursor-grabbing hover:scale-105 transition-transform">
+                                                    <span class="font-['Dr_Sugiyama'] text-3xl text-[var(--beige)] pt-1 leading-none pointer-events-none font-normal">B</span>
+                                                </div>
+                                            </div>
+                                        </span> 
+                                        ALLOWED.
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- 3. EXPERIENCE -->
+                <section id="experience" class="h-[250vh] w-full relative bg-[var(--beige)] border-b-grid">
+                    <div class="sticky top-16 h-[calc(100vh-64px)] w-full overflow-hidden flex flex-col md:flex-row p-8 gap-8">
+                        <div class="w-full md:w-1/3 flex flex-col justify-between pb-8">
+                            <div>
+                                <span class="text-xs font-bold uppercase tracking-widest text-[var(--blue)] block mb-4">Section 03</span>
+                                <h2 class="text-6xl md:text-8xl font-extrabold uppercase text-[var(--navy)] leading-none tracking-tighter">Stack<br>Trace</h2>
+                            </div>
+                            <p class="font-extrabold text-sm uppercase text-[var(--blue)] max-w-xs mt-8 md:mt-0">Scroll to unstack career history components.</p>
+                        </div>
+                        <div class="w-full md:w-2/3 h-full relative" id="cards-container">
+                            <div class="exp-card absolute top-[10%] left-0 w-full md:w-[85%] bg-[var(--blue)] text-[var(--beige)] border-grid p-8 shadow-[8px_8px_0px_var(--navy)] rotate-[-1deg]">
+                                <div class="flex justify-between border-b-2 border-[var(--beige)] pb-4 mb-6 font-extrabold text-xs uppercase tracking-widest"><span>Grimbyte</span><span>4 Weeks</span></div>
+                                <h3 class="text-4xl font-extrabold uppercase mb-4 leading-none">Brand Strategy Intern</h3>
+                            </div>
+                            <div class="exp-card absolute top-[20%] left-[5%] w-full md:w-[85%] bg-[var(--beige)] text-[var(--navy)] border-grid p-8 shadow-[8px_8px_0px_var(--blue)] rotate-[1.5deg] opacity-0 translate-y-16">
+                                <div class="flex justify-between border-b-2 border-[var(--blue)] pb-4 mb-6 font-extrabold text-xs uppercase tracking-widest text-[var(--blue)]"><span>Sinskari</span><span>4 Weeks</span></div>
+                                <h3 class="text-4xl font-extrabold uppercase mb-4 leading-none">Strategy Intern</h3>
+                            </div>
+                            <div class="exp-card absolute top-[30%] left-[10%] w-full md:w-[85%] bg-[var(--navy)] text-[var(--beige)] border-grid p-8 shadow-[8px_8px_0px_var(--blue)] rotate-[-0.5deg] opacity-0 translate-y-16">
+                                <div class="flex justify-between border-b-2 border-[var(--blue)] pb-4 mb-6 font-extrabold text-xs uppercase tracking-widest text-[var(--blue)]"><span>MusicVerse</span><span>4 Weeks</span></div>
+                                <h3 class="text-4xl font-extrabold uppercase mb-4 leading-none">Events Intern</h3>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- 4. INTERACTIVE DOPAMINE VENDING MACHINE (CINEMATIC ARCHIVE) -->
+                <section id="vending" class="h-[100vh] w-full relative bg-[#010205] flex flex-col overflow-hidden text-[var(--beige)] perspective-[2500px]">
+                    
+                    <div class="absolute inset-0 pointer-events-none opacity-[0.05] mix-blend-overlay z-10" style="background-image: url('data:image/svg+xml,%3Csvg viewBox=%220 0 200 200%22 xmlns=%22http://www.w3.org/2000/svg%22%3E%3Cfilter id=%22noiseFilter%22%3E%3CfeTurbulence type=%22fractalNoise%22 baseFrequency=%221.5%22 numOctaves=%223%22 stitchTiles=%22stitch%22/%3E%3C/filter%3E%3Crect width=%22100%25%22 height=%22100%25%22 filter=%22url(%23noiseFilter)%22/%3E%3C/svg%3E');"></div>
+                    <div id="vending-ambient-light" class="absolute top-1/4 left-1/2 w-[90vw] max-w-[1200px] h-[800px] bg-[var(--blue)] rounded-full filter blur-[200px] opacity-[0.08] -translate-x-1/2 pointer-events-none z-0 transition-all duration-1000 animate-pulse"></div>
+
+                    <!-- TOP 35%: THE MACHINE -->
+                    <div id="vending-top" class="h-[38vh] min-h-[320px] w-full flex items-center justify-center px-4 lg:px-8 z-[50] relative mt-16 pb-4">
+                        <div class="w-full max-w-[1600px] grid grid-cols-12 gap-4 lg:gap-8 items-center pointer-events-auto h-full">
+                            
+                            <!-- LEFT COLUMN: System Status & Coin -->
+                            <div class="col-span-12 lg:col-span-3 flex flex-col justify-center h-full relative">
+                                <div class="opacity-30 mb-4 hidden lg:block">
+                                    <span class="text-[8px] font-extrabold uppercase tracking-[0.4em] text-[var(--blue)] block mb-2">Archive Terminal . 04</span>
+                                    <h2 class="text-4xl xl:text-5xl font-[900] uppercase tracking-[0.05em] leading-[0.9] text-[var(--beige)] opacity-20 filter blur-[0.5px]">Data<br>Dispenser</h2>
+                                </div>
+                                <div id="vending-coin-start" class="w-[80px] h-[80px] flex items-center justify-center relative mx-auto lg:mx-0">
+                                    <div class="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-[70px] h-[70px] rounded-full border border-dashed border-[rgba(255,255,255,0.1)] animate-[spin_15s_linear_infinite] pointer-events-none"></div>
+                                    <div id="vending-coin" class="w-[50px] h-[50px] rounded-full flex items-center justify-center cursor-grab active:cursor-grabbing hover:scale-105 hover:-translate-y-1 z-10 relative touch-none shadow-[0_10px_20px_rgba(0,0,0,0.9),_inset_0_2px_4px_rgba(255,255,255,0.6),_inset_0_-2px_8px_rgba(0,0,0,0.8),_0_0_10px_rgba(1,44,235,0.2)]" style="background: radial-gradient(circle at 40% 30%, #6e7c99 0%, #2a344a 40%, #0a0e17 100%); border: 1px solid rgba(255,255,255,0.3);">
+                                        <span class="font-['Dr_Sugiyama'] text-3xl text-[rgba(244,239,230,0.9)] pt-1 leading-none pointer-events-none drop-shadow-md text-shadow-[0_1px_2px_rgba(0,0,0,1)]">B</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- CENTER COLUMN: Machine Chassis -->
+                            <div class="col-span-12 lg:col-span-6 xl:col-span-7 h-full flex justify-center items-center relative z-50">
+                                <div id="vending-machine" class="w-full max-w-[900px] flex flex-col p-[2px] rounded-[16px] shadow-[0_40px_100px_rgba(0,0,0,1),_0_10px_30px_rgba(1,44,235,0.05)] bg-gradient-to-br from-[rgba(255,255,255,0.1)] to-[rgba(255,255,255,0.03)] relative">
+                                    <div class="absolute inset-0 rounded-[16px] pointer-events-none opacity-[0.03] mix-blend-overlay bg-[url('data:image/svg+xml,%3Csvg viewBox=%220 0 200 200%22 xmlns=%22http://www.w3.org/2000/svg%22%3E%3Cfilter id=%22noise%22%3E%3CfeTurbulence type=%22fractalNoise%22 baseFrequency=%222%22 numOctaves=%223%22 stitchTiles=%22stitch%22/%3E%3C/filter%3E%3Crect width=%22100%25%22 height=%22100%25%22 filter=%22url(%23noise)%22/%3E%3C/svg%3E')]"></div>
+                                    <div class="w-full rounded-[14px] flex flex-col p-4 md:p-6 bg-gradient-to-br from-[#121620] to-[#030408] shadow-[inset_1px_1px_2px_rgba(255,255,255,0.1),_inset_-1px_-1px_3px_rgba(0,0,0,1)]">
+                                        
+                                        <div class="w-full flex justify-between items-start mb-4 px-2 relative z-10">
+                                            <div class="flex flex-col">
+                                                <div class="font-['Dr_Sugiyama'] text-3xl md:text-4xl text-[rgba(244,239,230,0.4)] leading-none drop-shadow-md mb-1">Baaz Analog</div>
+                                                <div class="text-[6px] md:text-[7px] font-bold uppercase tracking-[0.4em] text-[#8e98ac] opacity-30">Private Archive Device</div>
+                                            </div>
+                                            <div id="vending-status" class="text-[8px] md:text-[9px] font-extrabold uppercase tracking-widest text-[var(--blue)] flex items-center gap-2 transition-colors duration-300 opacity-100 pt-1">
+                                                <span id="status-dot" class="w-2 h-2 rounded-full bg-[var(--blue)] shadow-[0_0_8px_var(--blue)] transition-colors duration-300"></span>
+                                                <span id="status-text">Awaiting Token</span>
+                                            </div>
+                                        </div>
+
+                                        <!-- Middle Display Area -->
+                                        <div class="flex gap-4 h-[160px] md:h-[180px] mb-4 relative z-10 w-full">
+                                            <div id="glass-chamber-container" class="relative flex-grow h-full rounded-xl overflow-hidden bg-[#010204] shadow-[inset_0_40px_80px_rgba(0,0,0,1),_inset_0_0_0_1px_rgba(255,255,255,0.02),_0_5px_15px_rgba(0,0,0,0.5)]">
+                                                <div class="glass-reflection"></div>
+                                                <div class="absolute inset-0 rounded-xl pointer-events-none z-30 shadow-[inset_0_0_60px_20px_#000]"></div>
+                                                <div id="vending-rail" class="absolute top-1/2 -translate-y-1/2 left-1/2 flex items-center z-10 will-change-transform"></div>
+                                                <div id="chamber-blackout" class="absolute inset-0 bg-[#010204] z-[15] pointer-events-none transform origin-right scale-x-0"></div>
+                                                <div id="chamber-scanner" class="absolute top-0 bottom-0 w-[2px] bg-[var(--blue)] shadow-[0_0_20px_5px_rgba(1,44,235,1),_0_0_5px_1px_#FFF] z-[20] opacity-0 pointer-events-none" style="left: 0%;"></div>
+                                                
+                                                <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[120px] h-[160px] z-30 pointer-events-none opacity-40 flex items-center justify-center">
+                                                    <div id="target-halo" class="absolute inset-0 rounded-lg bg-[var(--blue)] opacity-0 filter blur-[20px] transition-opacity duration-500"></div>
+                                                    <div class="absolute top-0 left-0 w-3 h-3 border-t-[1.5px] border-l-[1.5px] border-[#8e98ac]"></div>
+                                                    <div class="absolute top-0 right-0 w-3 h-3 border-t-[1.5px] border-r-[1.5px] border-[#8e98ac]"></div>
+                                                    <div class="absolute bottom-0 left-0 w-3 h-3 border-b-[1.5px] border-l-[1.5px] border-[#8e98ac]"></div>
+                                                    <div class="absolute bottom-0 right-0 w-3 h-3 border-b-[1.5px] border-r-[1.5px] border-[#8e98ac]"></div>
+                                                </div>
+                                            </div>
+
+                                            <div class="hidden md:flex w-[160px] xl:w-[220px] h-full flex-col bg-[#020306] rounded-xl p-3 border border-[rgba(255,255,255,0.03)] shadow-[inset_0_10px_30px_rgba(0,0,0,1)] relative overflow-hidden flex-shrink-0">
+                                                <div class="absolute inset-0 opacity-[0.03] bg-[url('data:image/svg+xml;utf8,<svg width=%2210%22 height=%2210%22 xmlns=%22http://www.w3.org/2000/svg%22><path d=%22M10 0H0v10h10z%22 fill=%22none%22/><path d=%22M10 1H1v9h9z%22 stroke=%22rgba(255,255,255,0.5)%22 stroke-width=%221%22 fill=%22none%22/></svg>')]"></div>
+                                                <div class="text-[7px] text-[var(--blue)] font-mono uppercase mb-2 flex justify-between relative z-10">
+                                                    <span>SYS.MONITOR</span><span class="animate-pulse">REC</span>
+                                                </div>
+                                                <div class="flex-grow text-[6px] text-[#8e98ac] font-mono leading-relaxed opacity-60 relative z-10 break-words">
+                                                    > BAAZ_OS // V.2026<br>
+                                                    > AESTHETIC_DRIVE: <span class="text-[var(--beige)]">ACTIVE</span><br>
+                                                    > VOID_PROTOCOL: STABLE<br>
+                                                    > CRAFTING_DIGITAL...<br>
+                                                    > <span class="text-[var(--blue)] animate-pulse">AWAITING_TOKEN_</span>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <!-- Bottom Token Slot & Extraction Port -->
+                                        <div id="activation-chamber" class="w-full h-[60px] md:h-[70px] relative rounded-xl overflow-hidden flex items-center px-4 md:px-8 transition-colors duration-700 bg-[#020305] shadow-[inset_0_20px_40px_rgba(0,0,0,1),_inset_0_0_0_1px_rgba(255,255,255,0.02)]">
+                                            <div id="chamber-grid" class="absolute inset-0 opacity-[0.02] transition-opacity duration-700 bg-[url('data:image/svg+xml;utf8,<svg width=%2220%22 height=%2220%22 xmlns=%22http://www.w3.org/2000/svg%22><path d=%22M20 0H0v20h20z%22 fill=%22none%22/><path d=%22M20 1H1v19h19z%22 stroke=%22rgba(1,44,235,0.8)%22 stroke-width=%221%22 fill=%22none%22/></svg>')]"></div>
+                                            <div id="chamber-scanline" class="absolute left-0 right-0 h-[2px] bg-[var(--blue)] opacity-0 shadow-[0_0_20px_var(--blue)] z-0"></div>
+
+                                            <div class="w-[80px] flex flex-col items-center justify-center gap-2 relative z-20">
+                                                <div class="text-[6px] font-bold uppercase text-[#8e98ac] tracking-[0.3em] opacity-30">Token Slot</div>
+                                                <div id="vending-slot-target" class="w-[44px] h-[44px] rounded-full flex items-center justify-center relative overflow-hidden bg-[#010102] shadow-[inset_0_10px_20px_rgba(0,0,0,1),_inset_0_0_3px_rgba(0,0,0,0.8),_0_1px_1px_rgba(255,255,255,0.05)]">
+                                                    <div id="slot-glow" class="absolute inset-1 rounded-full border-[1.5px] border-[var(--blue)] opacity-20 shadow-[inset_0_0_10px_var(--blue),_0_0_10px_var(--blue)] transition-all duration-300"></div>
+                                                    <div class="absolute inset-0 rounded-full bg-[var(--blue)] opacity-0 scale-50 transition-all duration-300 mix-blend-screen" id="slot-pulse"></div>
+                                                </div>
+                                            </div>
+
+                                            <div class="flex-grow h-full flex flex-col items-center justify-end relative mx-6 pb-2 z-20">
+                                                <div class="absolute inset-x-4 bottom-2 h-[16px] bg-[#000] rounded-sm shadow-[inset_0_10px_20px_rgba(0,0,0,1)] border-b border-[rgba(255,255,255,0.05)] border-t border-[rgba(0,0,0,1)] flex justify-center items-center pointer-events-none" id="extraction-port">
+                                                    <div class="w-[120px] h-[6px] bg-[#010102] rounded-sm shadow-[inset_0_3px_6px_rgba(0,0,0,1)]"></div>
+                                                </div>
+                                                <span class="absolute top-2 text-[7px] font-extrabold uppercase tracking-[0.3em] text-[var(--blue)] opacity-50">Data Extraction Port</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <!-- RIGHT COLUMN: Specs -->
+                            <div class="col-span-12 lg:col-span-3 hidden xl:flex flex-col justify-center gap-10 pl-6 opacity-30">
+                                <div class="flex items-start gap-4">
+                                    <div class="w-6 h-6 rounded-full border border-[#8e98ac] opacity-30 flex items-center justify-center"><i data-lucide="lock" class="w-3 h-3 text-[#8e98ac]"></i></div>
+                                    <div><h4 class="text-[8px] font-extrabold uppercase tracking-widest text-[#8e98ac] opacity-80 mb-1">Magnetic Lock</h4><p class="text-[7px] font-bold uppercase tracking-widest text-[#8e98ac] opacity-40">Token Recognition</p></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- BOTTOM 65%: THE 2D/3D ZOOMING BLUR CAROUSEL (Z-40 ensuring no overlap) -->
+                    <div id="vending-bottom" class="h-[62vh] min-h-[400px] w-full relative z-[40]">
+                        <div id="carousel-viewport" class="absolute inset-0 overflow-hidden touch-pan-y pt-4 lg:pt-8">
+                            <div id="carousel-track" class="relative w-full h-full cursor-grab active:cursor-grabbing">
+                                <!-- Dispensed Cards injected here -->
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- DISSECT MODAL -->
+                <div id="dissect-modal" class="fixed inset-0 z-[10000] hidden flex-col items-center justify-center bg-[#01040a]/95 backdrop-blur-2xl opacity-0 transition-opacity pointer-events-none">
+                    <button id="close-modal-btn" class="absolute top-10 right-10 text-[var(--beige)] hover:text-white transition-colors cursor-pointer pointer-events-auto z-50">
+                        <i data-lucide="x" class="w-12 h-12"></i>
+                    </button>
+                    <div id="dissect-card-container" class="relative w-[90vw] max-w-[600px] h-[80vh] max-h-[850px] rounded-[32px] overflow-hidden shadow-[0_50px_100px_rgba(0,0,0,0.9)] transform scale-90 transition-transform duration-500 border border-black/10 flex flex-col p-12 justify-between pointer-events-auto">
+                        <div class="absolute inset-0 pointer-events-none opacity-[0.08] mix-blend-overlay" style="background-image: url('data:image/svg+xml,%3Csvg viewBox=%220 0 200 200%22 xmlns=%22http://www.w3.org/2000/svg%22%3E%3Cfilter id=%22noise%22%3E%3CfeTurbulence type=%22fractalNoise%22 baseFrequency=%221.5%22 numOctaves=%223%22 stitchTiles=%22stitch%22/%3E%3C/filter%3E%3Crect width=%22100%25%22 height=%22100%25%22 filter=%22url(%23noise)%22/%3E%3C/svg%3E');"></div>
+                        <div class="z-10">
+                            <div class="text-[12px] font-bold uppercase tracking-widest opacity-80 mb-8" id="modal-client">CLIENT: ...</div>
+                            <h3 class="text-6xl md:text-8xl font-[900] uppercase tracking-tighter leading-[0.85] mb-10" id="modal-title">...</h3>
+                            <div class="flex flex-wrap gap-3 items-start" id="modal-tags"></div>
+                        </div>
+                        <div class="z-10">
+                            <div class="text-[12px] font-bold uppercase tracking-widest opacity-80 mb-2">Metrics Generated</div>
+                            <div class="text-5xl md:text-6xl font-[900] uppercase tracking-tighter" id="modal-stat">...</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 5. GRID FOOTER -->
+                <footer class="bg-[var(--beige)] text-[var(--navy)] border-t-[3px] border-[var(--navy)] py-12 px-8 relative grid grid-cols-1 md:grid-cols-3 gap-8 z-40">
+                    <div class="font-bold text-3xl uppercase tracking-tighter text-[var(--blue)] flex items-center">
+                        Baaz.
+                    </div>
+                    <div class="font-bold text-xs tracking-widest uppercase flex flex-col justify-center gap-2">
+                        <span>Designed for structure.</span>
+                        <span>Built for impact.</span>
+                    </div>
+                    <div class="font-bold text-xs tracking-widest uppercase flex items-center md:justify-end">
+                        <span class="bg-[var(--blue)] text-[var(--beige)] px-4 py-2">&copy; 2026 / SYS.END</span>
+                    </div>
+                </footer>
+
+            </main>
+        </div> <!-- End World Container -->
+    </div> <!-- End World Viewport -->
+
+    <script>
+        lucide.createIcons();
+        gsap.registerPlugin(ScrollTrigger, Draggable);
+
+        // --- AUDIO DESIGN (TONE.JS) ---
+        let isAudioInit = false;
+        
+        const travelSynth = new Tone.NoiseSynth({
+            noise: { type: 'pink' },
+            envelope: { attack: 0.1, decay: 0.5, sustain: 1, release: 1.5 }
+        }).toDestination();
+        travelSynth.volume.value = -12;
+
+        const lockSynth = new Tone.MembraneSynth({
+            pitchDecay: 0.05,
+            octaves: 2,
+            oscillator: { type: 'sine' },
+            envelope: { attack: 0.01, decay: 0.4, sustain: 0.01, release: 1.4 }
+        }).toDestination();
+        lockSynth.volume.value = -10;
+
+        const arrivalSynth = new Tone.PolySynth(Tone.Synth, {
+            oscillator: { type: "triangle" },
+            envelope: { attack: 0.1, decay: 0.2, sustain: 0.3, release: 2 }
+        }).toDestination();
+        arrivalSynth.volume.value = -12;
+
+
+        // --- LENIS SCROLL SETUP (Bound to viewport) ---
+        const worldViewport = document.getElementById('world-viewport');
+        const worldContainer = document.getElementById('world-container');
+        
+        const lenis = new Lenis({ 
+            wrapper: worldViewport,
+            content: worldContainer,
+            duration: 1.2, 
+            easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)) 
+        });
+        function raf(time) { lenis.raf(time); requestAnimationFrame(raf); }
+        requestAnimationFrame(raf);
+
+        ScrollTrigger.defaults({ scroller: worldViewport });
+        lenis.on('scroll', ScrollTrigger.update);
+
+
+        // --- PRELOADER & HERO REVEAL ---
+        const preloaderBg = document.getElementById('preloader-bg');
+        const preloaderContent = document.getElementById('preloader-content');
+        const gradBox = document.getElementById('grad-box');
+        const introThumb = document.getElementById('intro-thumb-container');
+        const heroStage = document.getElementById('hero-stage');
+        const heroBgTarget = document.getElementById('hero-bg-target');
+        const heroLighting = document.getElementById('hero-lighting');
+        const heroText3d = document.getElementById('hero-text-3d');
+        
+        gsap.set('#main-nav-container', { opacity: 0, yPercent: -100, pointerEvents: 'none' }); 
+        gsap.set('#top-ribbon', { opacity: 0, y: -20, pointerEvents: 'none' });
+        gsap.set('#preloader-bg', { opacity: 1 });
+        gsap.set('#hero-badges', { opacity: 0 });
+
+        const splitTextToChars = (id) => {
+            const el = document.getElementById(id);
+            if(!el) return [];
+            const text = el.innerText;
+            el.innerHTML = text.split('').map(c => `<span class="char inline-block will-change-[opacity,filter]">${c === ' ' ? '&nbsp;' : c}</span>`).join('');
+            const chars = el.querySelectorAll('.char');
+            gsap.set(chars, { opacity: 0, filter: "blur(24px)" });
+            return chars;
+        };
+
+        const charI = splitTextToChars('intro-i');
+        const charIntentionally = splitTextToChars('intentionally');
+        const charMake = splitTextToChars('make');
+        const charMisalignment = splitTextToChars('misalignment');
+        const charLook = splitTextToChars('look');
+        const charIntentionalEnd = splitTextToChars('intentional-end');
+
+        const introTl = gsap.timeline();
+        const charDur = 1.0; const stg = 0.025; 
+
+        introTl.to(charI, { opacity: 1, filter: "blur(0px)", duration: charDur, stagger: stg, ease: "power2.out" })
+            .addLabel("intent", "-=0.6")
+            .to(gradBox, { width: "100%", duration: 1.0, ease: "power4.inOut" }, "intent")
+            .to(charIntentionally, { opacity: 1, filter: "blur(0px)", duration: charDur, stagger: stg, ease: "power2.out" }, "intent")
+            .to(introThumb, { clipPath: "inset(0% 0% 0% 0%)", duration: 1.0, ease: "power4.inOut" }, "intent+=0.2")
+            .addLabel("line2", "-=0.6")
+            .to(charMake, { opacity: 1, filter: "blur(0px)", duration: charDur, stagger: stg, ease: "power2.out" }, "line2")
+            .to(charMisalignment, { opacity: 1, filter: "blur(0px)", duration: charDur, stagger: stg, ease: "power2.out" }, "line2+=0.2")
+            .addLabel("line3", "-=0.6")
+            .to(charLook, { opacity: 1, filter: "blur(0px)", duration: charDur, stagger: stg, ease: "power2.out" }, "line3")
+            .to(charIntentionalEnd, { opacity: 1, filter: "blur(0px)", duration: charDur, stagger: stg, ease: "power2.out" }, "line3+=0.2");
+
+        introTl.to({}, { duration: 0.5 }); 
+
+        const allTextChars = [...charI, ...charIntentionally, ...charMake, ...charMisalignment, ...charLook, ...charIntentionalEnd];
+        introTl.addLabel("outro");
+        introTl.to(allTextChars, { opacity: 0, filter: "blur(12px)", duration: 0.6, stagger: { amount: 0.5, from: "end" }, ease: "power2.inOut" }, "outro");
+        introTl.to(gradBox, { opacity: 0, filter: "blur(12px)", duration: 0.6, ease: "power2.inOut" }, "outro+=0.4");
+
+        introTl.add(() => {
+            const rect = introThumb.getBoundingClientRect();
+            heroBgTarget.appendChild(introThumb);
+            gsap.set(introThumb, { 
+                clipPath: "none", position: "absolute", top: rect.top, left: rect.left, 
+                width: rect.width, height: rect.height, margin: 0, zIndex: 1, borderRadius: "0px",
+                transformOrigin: "center center"
+            });
+            preloaderBg.style.display = 'none';
+        }, "expand");
+
+        introTl.to(introThumb, { top: "0px", left: "0px", width: "100%", height: "100%", borderRadius: "0px", duration: 1.5, ease: "expo.inOut" }, "expand");
+        introTl.to('#intro-vid', { opacity: 1, scale: 1.05, duration: 1.5, ease: "expo.inOut" }, "expand");
+        
+        introTl.to(heroText3d, { opacity: 1, scale: 1, y: 0, duration: 1.5, ease: "expo.inOut" }, "expand");
+        
+        introTl.to(heroLighting, { opacity: 1, duration: 1.5, ease: "power2.inOut" }, "expand+=0.5");
+        introTl.to('.hero-overlay-text', { opacity: 0.9, duration: 1.0 }, "expand+=1.0");
+        introTl.to('#hero-badges', { opacity: 1, duration: 0.8 }, "expand+=1.0");
+        introTl.to('#preloader-bg', { opacity: 0, duration: 0.8, ease: "power2.inOut" }, "expand+=1.0");
+        introTl.to('#main-nav-container', { opacity: 1, yPercent: 0, duration: 1.0, ease: "power3.out", pointerEvents: 'auto' }, "expand+=1.2");
+        introTl.to('#top-ribbon', { opacity: 1, y: 0, duration: 1.0, ease: "power3.out", pointerEvents: 'auto' }, "expand+=1.2");
+
+        introTl.add(() => {
+            isPhysicsActive = true;
+            preloaderContent.style.display = 'none'; 
+        }, "expand+=1.5");
+
+
+        // --- BUILD TIMELINE TRACK TICKS ---
+        const tickContainer = document.getElementById('nav-ticks-container');
+        const tickTopContainer = document.getElementById('nav-ticks-top-container');
+        let tickHTML = ''; let tickTopHTML = '';
+        for(let i=0; i<80; i++) {
+            const h = i % 5 === 0 ? '16px' : '8px';
+            tickHTML += `<div style="width:2px; height:${h}; background:var(--beige); opacity:0.4;"></div>`;
+            tickTopHTML += `<div style="width:2px; height:${h}; background:var(--beige); opacity:0.4;"></div>`;
+        }
+        if (tickContainer) tickContainer.innerHTML = tickHTML;
+        if (tickTopContainer) tickTopContainer.innerHTML = tickTopHTML;
+
+
+        // --- NAVIGATION STATE TRACKER ---
+        let isWarping = false; // Global lock for cinematic transit
+        let currentActiveId = 'hero'; // Tracks the active section for resizes
+
+        const navSections = ['hero', 'quote', 'about', 'experience', 'vending'];
+        const navBottomLinks = document.querySelectorAll('#main-nav a.nav-link-route');
+        const navTopLinks = document.querySelectorAll('#top-nav a.nav-item-top');
+        const navIndicator = document.getElementById('nav-indicator');
+
+        function updateNavState(id, force = false) {
+            // IGNORE ScrollTrigger updates if we are actively in a cinematic transit (unless forced)
+            if (isWarping && !force) return;
+
+            currentActiveId = id; // Store for resize recalculations
+
+            navBottomLinks.forEach(link => link.classList.remove('active'));
+            navTopLinks.forEach(link => link.classList.remove('text-[var(--navy)]', 'font-extrabold'));
+            navTopLinks.forEach(link => link.classList.add('text-[var(--blue)]')); 
+
+            const activeBottom = Array.from(navBottomLinks).find(l => l.getAttribute('href') === `#${id}`);
+            const activeTop = Array.from(navTopLinks).find(l => l.getAttribute('href') === `#${id}`);
+
+            if(activeBottom) {
+                activeBottom.classList.add('active');
+                
+                // Use offsetLeft instead of bounding client rect to avoid zoom/scale math issues
+                const indicatorLeftOffset = window.innerWidth >= 768 ? 6 : 4;
+                
+                gsap.to(navIndicator, {
+                    x: activeBottom.offsetLeft - indicatorLeftOffset,
+                    width: activeBottom.offsetWidth,
+                    duration: force ? 0 : 0.4, 
+                    ease: "power3.out",
+                    overwrite: "auto" // Prevent conflicts if scrolling fast
+                });
+            }
+            if(activeTop) {
+                activeTop.classList.remove('text-[var(--blue)]');
+                activeTop.classList.add('text-[var(--navy)]', 'font-extrabold');
+            }
+        }
+
+        // FIX: Re-calculate the indicator offset if the window resizes or fonts shift!
+        window.addEventListener('resize', () => {
+            if (!isWarping) {
+                updateNavState(currentActiveId, true);
+            }
+        });
+        
+        // Wait for custom fonts to load so widths measure accurately
+        if (document.fonts) {
+            document.fonts.ready.then(() => updateNavState('hero', true));
+        } else {
+            setTimeout(() => updateNavState('hero', true), 250);
+        }
+
+        // --- CINEMATIC TRACK TRANSIT SYSTEM ---
+        const mainNavBrutal = document.getElementById('main-nav');
+        
+        [...navBottomLinks, ...navTopLinks].forEach(link => {
+            link.addEventListener('click', async (e) => {
+                e.preventDefault();
+                if(isWarping) return;
+                isWarping = true; // Lock the nav updater
+                
+                if(!isAudioInit) {
+                    await Tone.start();
+                    isAudioInit = true;
+                }
+
+                const targetId = link.getAttribute('href');
+                const targetEl = document.querySelector(targetId);
+                const sectionName = link.innerText.replace(/[0-9.]/g, '').trim().toUpperCase();
+                
+                // Capture target position BEFORE any 3D scaling messes up the offset math
+                const targetScroll = worldViewport.scrollTop + targetEl.getBoundingClientRect().top;
+
+                document.body.classList.add('traveling');
+                // Lock user interactions during the automated film scroll
+                document.body.style.pointerEvents = 'none'; 
+                lockSynth.triggerAttackRelease("C2", "8n");
+
+                // Get original dimensions to restore later
+                const origWidth = mainNavBrutal.offsetWidth;
+                
+                const transitTl = gsap.timeline({
+                    onComplete: () => {
+                        document.body.classList.remove('traveling');
+                        document.body.style.pointerEvents = 'auto'; // Unlock
+                        isWarping = false; // Release the lock
+                    }
+                });
+
+                // 1. The Mount: Navbar transforms into the full-screen track
+                transitTl.to('.nav-item, .nav-item-top', { opacity: 0, duration: 0.2 }, 0);
+                transitTl.to(navIndicator, { 
+                    width: "100%", x: 0, 
+                    backgroundColor: "var(--blue)", 
+                    duration: 0.3, ease: "power4.inOut" 
+                }, 0);
+                
+                transitTl.to(mainNavBrutal, { 
+                    width: "110vw", 
+                    padding: "30px 0",
+                    borderWidth: "8px",
+                    borderColor: "var(--beige)",
+                    duration: 0.6,
+                    ease: "power4.inOut"
+                }, 0.1);
+
+                // 2. Camera tracking (Zoom out and Tilt entire viewport to create 3D "Film Reel" frame)
+                transitTl.to(worldViewport, {
+                    scale: 0.82, 
+                    rotationX: 28, 
+                    y: "-4vh", 
+                    transformPerspective: 1200, 
+                    transformOrigin: "center center",
+                    borderRadius: "24px", 
+                    filter: "brightness(0.35) blur(6px)", 
+                    duration: 0.6,
+                    ease: "power3.inOut"
+                }, 0.1);
+
+                // 3. The Reel Scroll (Physical High-Speed Transit)
+                transitTl.add(() => {
+                    document.getElementById('timeline-dest-text').innerText = `TARGET: ${sectionName}`;
+                    travelSynth.triggerAttackRelease("1.4s");
+                    
+                    if(targetEl) {
+                        // Smoothly scroll the scaled-down film strip
+                        lenis.scrollTo(targetScroll, { 
+                            duration: 1.4, 
+                            easing: (t) => t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2 
+                        });
+                    }
+                }, 0.6);
+                
+                transitTl.to('#nav-timeline-track', { opacity: 1, duration: 0.2 }, 0.4);
+                
+                // Slide tick marks rapidly to simulate speed
+                transitTl.fromTo('#nav-ticks-container', { x: "0vw" }, { x: "-200vw", duration: 1.8, ease: "power2.inOut" }, 0.4);
+                transitTl.fromTo('#nav-ticks-top-container', { x: "0vw" }, { x: "-200vw", duration: 1.8, ease: "power2.inOut" }, 0.4);
+
+                // 4. Atmospheric Pass-by Moments
+                const passby = document.getElementById('cinematic-passby');
+                if (passby) {
+                    transitTl.to(passby, { opacity: 1, duration: 0.1 }, 0.5);
+                    transitTl.to(passby, { opacity: 0, duration: 0.2 }, 1.8);
+                }
+
+                // Hides the tracking overlay before the navbar shrinks back down
+                transitTl.to('#nav-timeline-track', { opacity: 0, duration: 0.3 }, 1.8); 
+
+                // 5. Arrival & De-Mount (After the 1.4s scroll completes)
+                // clearProps ensures it returns to Tailwind's "w-max" natively
+                const isDesktop = window.innerWidth >= 768;
+                transitTl.to(mainNavBrutal, { 
+                    width: origWidth, 
+                    padding: isDesktop ? "6px" : "4px",
+                    borderWidth: isDesktop ? "3px" : "2px",
+                    borderColor: "var(--navy)",
+                    duration: 0.7,
+                    ease: "expo.out",
+                    clearProps: "width" 
+                }, 2.0);
+                
+                // Setup target state while the navbar is finishing its resizing
+                transitTl.add(() => {
+                    navIndicator.style.backgroundColor = "var(--blue)";
+                    arrivalSynth.triggerAttackRelease(["C4", "E4", "G4"], "4n"); 
+                    updateNavState(targetId.replace('#', ''), false);
+                }, 2.1);
+
+                // World camera restores (Zoom back into the flat frame)
+                transitTl.to(worldViewport, {
+                    scale: 1,
+                    rotationX: 0,
+                    y: "0vh",
+                    borderRadius: "0px",
+                    filter: "brightness(1) blur(0px)",
+                    duration: 0.9,
+                    ease: "expo.out"
+                }, 2.0);
+
+                transitTl.to('.nav-item, .nav-item-top', { opacity: 1, duration: 0.4 }, 2.3);
+                
+                // Final hard snap after all CSS padding/width transitions definitively finish
+                transitTl.add(() => {
+                    updateNavState(targetId.replace('#', ''), true);
+                }, 2.8);
+            });
+        });
+
+        // --- CAD CURSOR LOGIC ---
+        const lineX = document.getElementById('cad-line-x');
+        const lineY = document.getElementById('cad-line-y');
+        const centerWrap = document.getElementById('cad-center-wrapper');
+        const centerBox = document.getElementById('cad-center-box');
+        const coords = document.getElementById('cad-coords');
+        
+        let globalMouseX = window.innerWidth / 2;
+        let globalMouseY = window.innerHeight / 2;
+        let isMagneticLock = false;
+
+        window.addEventListener('mousemove', (e) => {
+            globalMouseX = e.clientX;
+            globalMouseY = e.clientY;
+
+            gsap.set(lineX, { y: e.clientY });
+            gsap.set(lineY, { x: e.clientX });
+            gsap.set(centerWrap, { x: e.clientX, y: e.clientY });
+            
+            if(!document.body.classList.contains('traveling') && !isMagneticLock) {
+                coords.innerText = `X:${Math.round(e.clientX)} Y:${Math.round(e.clientY)}`;
+            }
+            gsap.set(coords, { x: e.clientX + 20, y: e.clientY - 20 });
+        });
+
+        if (heroText3d) {
+            heroText3d.addEventListener('mouseenter', () => {
+                if(isPhysicsActive) {
+                    isMagneticLock = true;
+                    coords.innerText = '[ TARGET ACQUIRED ]';
+                    gsap.to(centerBox, { scale: 2.5, borderRadius: "50%", backgroundColor: "var(--beige)", duration: 0.4, ease: "back.out(2)" });
+                }
+            });
+            heroText3d.addEventListener('mouseleave', () => {
+                if(isPhysicsActive) {
+                    isMagneticLock = false;
+                    gsap.to(centerBox, { scale: 1, borderRadius: "0%", backgroundColor: "transparent", duration: 0.4, ease: "power2.out" });
+                }
+            });
+        }
+
+        // --- HERO PARALLAX ---
+        let isPhysicsActive = false;
+        let currMouseX = window.innerWidth / 2;
+        let currMouseY = window.innerHeight / 2;
+        let currTextScale = 1;
+        
+        gsap.ticker.add(() => {
+            if(!isPhysicsActive || isWarping) return;
+
+            currMouseX += (globalMouseX - currMouseX) * 0.06;
+            currMouseY += (globalMouseY - currMouseY) * 0.06;
+
+            const normX = (currMouseX / window.innerWidth - 0.5) * 2;
+            const normY = (currMouseY / window.innerHeight - 0.5) * 2;
+
+            if (heroBgTarget) {
+                gsap.set(heroBgTarget, { x: normX * -30, y: normY * -30, rotationY: normX * 4, rotationX: normY * -4 });
+            }
+
+            if (heroText3d) {
+                const targetScale = isMagneticLock ? 1.03 : 1;
+                currTextScale += (targetScale - currTextScale) * 0.08;
+
+                gsap.set(heroText3d, { x: normX * 25, y: normY * 25, rotationY: normX * 5, rotationX: normY * -5, scale: currTextScale });
+
+                const shadowMax = 60; 
+                const shX = normX * -shadowMax; 
+                const shY = normY * -shadowMax;
+                
+                let shadowStr = '';
+                const layers = 40; 
+                for(let i=1; i<=layers; i++) {
+                    const factor = i / layers;
+                    const r = Math.round(1 + (5 - 1) * factor);
+                    const g = Math.round(44 + (16 - 44) * factor);
+                    const b = Math.round(235 + (36 - 235) * factor);
+                    shadowStr += `${shX * factor}px ${shY * factor}px 0 rgba(${r},${g},${b}, 1), `;
+                }
+                const shBlur = isMagneticLock ? 40 : 25; 
+                shadowStr += `${shX * 1.1}px ${shY * 1.1}px ${shBlur}px rgba(5, 16, 36, 0.8)`;
+                heroText3d.style.textShadow = shadowStr;
+            }
+
+            if (heroLighting) {
+                heroLighting.style.background = `radial-gradient(circle 1100px at ${currMouseX}px ${currMouseY}px, rgba(244, 239, 230, 0) 0%, rgba(5, 16, 36, 0.65) 100%)`;
+            }
+        });
+
+        // --- QUOTE SCRATCH LOGIC ---
+        const quoteCanvas = document.getElementById('quote-scratch-canvas');
+        const quoteCoin = document.getElementById('scratch-coin');
+        
+        if (quoteCanvas && quoteCoin) {
+            const qCtx = quoteCanvas.getContext('2d', { willReadFrequently: true });
+            let isQuoteDrag = false;
+
+            const resQ = () => {
+                quoteCanvas.width = quoteCanvas.offsetWidth; quoteCanvas.height = quoteCanvas.offsetHeight;
+                qCtx.fillStyle = '#051024'; qCtx.fillRect(0, 0, quoteCanvas.width, quoteCanvas.height);
+                qCtx.strokeStyle = '#012CEB'; qCtx.lineWidth = 1;
+                for(let x=0; x<quoteCanvas.width; x+=20) { qCtx.beginPath(); qCtx.moveTo(x,0); qCtx.lineTo(x,quoteCanvas.height); qCtx.stroke(); }
+                for(let y=0; y<quoteCanvas.height; y+=20) { qCtx.beginPath(); qCtx.moveTo(0,y); qCtx.lineTo(quoteCanvas.width,y); qCtx.stroke(); }
+            };
+            resQ(); window.addEventListener('resize', resQ);
+
+            quoteCoin.addEventListener('mousedown', () => isQuoteDrag = true);
+            window.addEventListener('mouseup', () => {
+                isQuoteDrag = false; gsap.to(quoteCoin, { x: 0, y: 0, duration: 0.5 });
+            });
+            window.addEventListener('mousemove', (e) => {
+                if(!isQuoteDrag) return;
+                const r = quoteCanvas.getBoundingClientRect();
+                gsap.set(quoteCoin, { x: e.clientX - r.right + 40, y: e.clientY - r.bottom + 40 });
+                qCtx.globalCompositeOperation = 'destination-out';
+                qCtx.fillRect(e.clientX - r.left - 35, e.clientY - r.top - 35, 70, 70);
+            });
+        }
+
+        // --- ABOUT SCROLL LOGIC ---
+        const aboutSection = document.getElementById('about');
+        if (aboutSection) {
+            const bioPinTl = gsap.timeline({ scrollTrigger: { trigger: "#about", start: "top top", end: "+=2500", pin: true, scrub: 1, invalidateOnRefresh: true } });
+            bioPinTl.fromTo('.silhouette-anim-container', { opacity: 0, scale: 1.3, y: 150, z: -200, rotationX: 15, filter: "blur(25px)" }, { opacity: 1, scale: 1, y: 0, z: 0, rotationX: 0, filter: "blur(0px)", duration: 2.5, ease: "power3.out" }, 0);
+            bioPinTl.fromTo('#about-parallax-1', { x: 80, y: 40, z: -150, rotationX: 30, rotationY: -20, opacity: 0, filter: "blur(25px)" }, { x: 0, y: 0, z: 0, rotationX: 0, rotationY: 0, opacity: 1, filter: "blur(0px)", duration: 1.5, ease: "power4.out" }, 0);
+            bioPinTl.fromTo('#about-parallax-2', { x: -80, y: -40, z: -150, rotationX: -30, rotationY: 20, opacity: 0, filter: "blur(25px)" }, { x: 0, y: 0, z: 0, rotationX: 0, rotationY: 0, opacity: 1, filter: "blur(0px)", duration: 1.5, ease: "power4.out" }, 0.2);
+            gsap.to(['#about-text-1', '#about-text-2'], { y: "-=15", rotationZ: 1.5, rotationY: 3, duration: 3.5, yoyo: true, repeat: -1, ease: "sine.inOut" });
+            bioPinTl.to("#about-horizontal-wrapper", { x: () => -(window.innerWidth), ease: "power2.inOut", duration: 2.5 }, 3.5);
+        }
+
+        const aboutScratchContainer = document.getElementById('sneaker-module'); 
+        const aboutCanvas = document.getElementById('sneaker-scratch-canvas');
+        if (aboutCanvas && aboutScratchContainer) {
+            const aCtx = aboutCanvas.getContext('2d', { willReadFrequently: true });
+            let isDrawingAbout = false; let lastX = 0; let lastY = 0;
+            const resizeAboutCanvas = () => {
+                const dpr = window.devicePixelRatio || 1;
+                aboutCanvas.width = aboutScratchContainer.offsetWidth * dpr; aboutCanvas.height = aboutScratchContainer.offsetHeight * dpr;
+                aCtx.scale(dpr, dpr);
+                aCtx.fillStyle = '#012CEB'; aCtx.fillRect(0, 0, aboutScratchContainer.offsetWidth, aboutScratchContainer.offsetHeight); 
+                aCtx.strokeStyle = 'rgba(244, 239, 230, 0.15)'; aCtx.lineWidth = 1;
+                for(let x=0; x<aboutScratchContainer.offsetWidth; x+=10) { aCtx.beginPath(); aCtx.moveTo(x,0); aCtx.lineTo(x,aboutScratchContainer.offsetHeight); aCtx.stroke(); }
+                for(let y=0; y<aboutScratchContainer.offsetHeight; y+=10) { aCtx.beginPath(); aCtx.moveTo(0,y); aCtx.lineTo(aboutScratchContainer.offsetWidth,y); aCtx.stroke(); }
+                aCtx.globalCompositeOperation = 'destination-out';
+            };
+            resizeAboutCanvas(); window.addEventListener('resize', resizeAboutCanvas);
+            const aboutCoin = document.getElementById('about-resting-coin');
+            let aboutCoinDrag = false;
+            aboutCoin.addEventListener('mousedown', () => aboutCoinDrag = true);
+            window.addEventListener('mouseup', () => { aboutCoinDrag = false; isDrawingAbout = false; gsap.to(aboutCoin, {x:0, y:0, duration:0.5}); });
+            window.addEventListener('mousemove', (e) => {
+                if(!aboutCoinDrag) return;
+                const r = aboutCanvas.getBoundingClientRect();
+                gsap.set(aboutCoin, { x: e.clientX - r.right + 30, y: e.clientY - r.bottom + 30 });
+                const x = e.clientX - r.left; const y = e.clientY - r.top;
+                aCtx.globalCompositeOperation = 'destination-out'; aCtx.lineCap = 'round'; aCtx.lineWidth = 40;
+                if (!isDrawingAbout) { aCtx.beginPath(); aCtx.moveTo(x, y); isDrawingAbout = true; } 
+                else { aCtx.lineTo(x, y); aCtx.stroke(); }
+                lastX = x; lastY = y;
+            });
+        }
+
+        // --- INTERACTIVE DOPAMINE VENDING MACHINE LOGIC ---
+        
+        // --- INTERACTIVE VENDING & 3D COVERFLOW LOGIC ---
+        const inventoryData = [
+            { id: 'Wander', client: 'Krishna Shukla', tags: ['Identity Content', 'Comedy Business'], stat: '186M Views', bg: '#012CEB', text: '#F4EFE6', sysId: '01' },
+            { id: 'Kroft', client: 'RNTL.', tags: ['Founding Marketer', 'Gen-Z Fashion'], stat: '4.6X Efficiency Lift', bg: '#FF331F', text: '#F4EFE6', sysId: '02' },
+            { id: 'Funnel Rescue', client: 'SaaS Co.', tags: ['Conversion', 'UX/UI Drop'], stat: '60% Drop Reduced', bg: '#051024', text: '#F4EFE6', sysId: '03' },
+            { id: 'Culture Takeover', client: 'Traction', tags: ['Community', 'Event Design'], stat: '10K+ Gained', bg: '#00E559', text: '#051024', sysId: '04' },
+            { id: 'Metrics to KPIs', client: 'Growth Tech', tags: ['ROAS Strategy', 'Ad Budget'], stat: 'Optimized Budget', bg: '#E5DFC8', text: '#012CEB', sysId: '05' }
+        ];
+        
+        const railEl = document.getElementById('vending-rail');
+        const glassChamber = document.getElementById('glass-chamber-container');
+        const cardWidth = 110; const totalItems = 35; 
+        
+        let dispenseCount = 0;
+        let targetIndex = 0; 
+        
+        // Populate internal reel dynamically with targeted colors
+        function buildReel() {
+            if (!railEl) return;
+            let htmlCards = '';
+            for(let i=0; i<totalItems; i++) {
+                const data = inventoryData[i % inventoryData.length];
+                const finalData = i === (totalItems - 2) ? inventoryData[targetIndex] : data;
+                htmlCards += `
+                    <div class="archival-card absolute top-1/2 -translate-y-1/2 w-[100px] h-[150px] flex flex-col justify-between p-3 rounded-[5px] overflow-hidden transition-colors border border-[rgba(255,255,255,0.1)]" style="background: ${finalData.bg}; color: ${finalData.text}; box-shadow: 0 10px 20px rgba(0,0,0,0.8); left: ${i * cardWidth}px;">
+                        <div class="absolute inset-0 pointer-events-none opacity-20 mix-blend-overlay" style="background-image: url('data:image/svg+xml,%3Csvg viewBox=%220 0 200 200%22 xmlns=%22http://www.w3.org/2000/svg%22%3E%3Cfilter id=%22noise%22%3E%3CfeTurbulence type=%22fractalNoise%22 baseFrequency=%221.5%22 numOctaves=%223%22 stitchTiles=%22stitch%22/%3E%3C/filter%3E%3Crect width=%22100%25%22 height=%22100%25%22 filter=%22url(%23noise)%22/%3E%3C/svg%3E');"></div>
+                        <div class="card-wave" style="opacity: 0.8;"></div>
+                        <div class="font-[Inter] font-bold text-[6px] tracking-widest uppercase flex justify-between z-10 opacity-70 top-row transition-colors duration-500"><span>[${finalData.sysId}]</span></div>
+                        <div class="z-10 flex flex-col gap-1 mt-auto pb-1"><div class="font-[Inter] font-[900] text-xl uppercase tracking-tighter opacity-90 card-title transition-colors duration-500 leading-none">${finalData.id}</div></div>
+                        <div class="card-glow absolute inset-0 mix-blend-screen opacity-0 transition-opacity duration-1000 z-0" style="background: linear-gradient(180deg, rgba(255,255,255,0.3) 0%, transparent 100%);"></div>
+                    </div>`;
+            }
+            railEl.innerHTML = htmlCards;
+        }
+        buildReel();
+        
+        // Machine internal loop
+        gsap.ticker.add(() => {
+            if(!glassChamber || !railEl) return;
+            const chamberCenter = glassChamber.getBoundingClientRect().left + (glassChamber.getBoundingClientRect().width / 2);
+            Array.from(railEl.children).forEach((card, i) => {
+                if (card.classList.contains('locked-focus')) return; // Prevent ticker from fighting the extraction animation
+                const cardWorldX = railEl.getBoundingClientRect().left + (i * cardWidth + (cardWidth/2));
+                const dist = cardWorldX - chamberCenter;
+                const scale = Math.max(0.6, 1 - (Math.abs(dist) * 0.002));
+                const opacity = Math.max(0, 1 - (Math.abs(dist) * 0.005));
+                const blur = Math.min(10, Math.abs(dist) * 0.05);
+                gsap.set(card, { scale: scale, opacity: opacity, filter: `blur(${blur}px)` });
+            });
+        });
+        if (railEl) gsap.set(railEl, { x: -(cardWidth / 2) });
+
+        // --- BULLETPROOF GSAP DRAGGABLE FOR COIN ---
+        const coin = document.getElementById('vending-coin');
+        const slot = document.getElementById('vending-slot-target');
+        let vendingActive = false;
+
+        if(coin && slot) {
+            Draggable.create(coin, {
+                type: "x,y", bounds: document.getElementById('vending-top'),
+                onPress: async function() {
+                    if(!isAudioInit) { await Tone.start(); isAudioInit = true; }
+                },
+                onDrag: function() {
+                    if (this.hitTest(slot, "50%")) { gsap.to('#slot-glow', { opacity: 1, borderColor: "var(--beige)", boxShadow: "inset 0 0 20px var(--beige), 0 0 20px var(--beige)", duration: 0.2 }); } 
+                    else { gsap.to('#slot-glow', { opacity: 0.2, borderColor: "var(--blue)", boxShadow: "inset 0 0 10px var(--blue), 0 0 10px var(--blue)", duration: 0.2 }); }
+                },
+                onRelease: function() {
+                    if (this.hitTest(slot, "50%") && !vendingActive) {
+                        vendingActive = true;
+                        const sRect = slot.getBoundingClientRect(); const cRect = coin.getBoundingClientRect();
+                        const dx = (sRect.left + sRect.width/2) - (cRect.left + cRect.width/2);
+                        const dy = (sRect.top + sRect.height/2) - (cRect.top + cRect.height/2);
+                        gsap.to(coin, {
+                            x: "+=" + dx, y: "+=" + dy, scale: 0.75, duration: 0.15, ease: "power2.in",
+                            onComplete: () => {
+                                gsap.fromTo(coin, { x: "+=2" }, { x: "-=2", yoyo: true, repeat: 3, duration: 0.04 });
+                                gsap.fromTo('#slot-pulse', { scale: 0.5, opacity: 1 }, { scale: 1.5, opacity: 0, duration: 0.6, ease: "power2.out" });
+                                
+                                if (dispenseCount >= 5) {
+                                    initiateEasterEggSequence();
+                                } else {
+                                    initiateVendingSequence();
+                                }
+                            }
+                        });
+                    } else { gsap.to(coin, { x: 0, y: 0, duration: 0.6, ease: "power3.out" }); }
+                }
+            });
+        }
+
+        // --- COVERFLOW CAROUSEL ENGINE ---
+        const carouselTrack = document.getElementById('carousel-track');
+        let dispensedCards = [];
+        let carouselTargetX = 0; let carouselCurrentX = 0;
+        let globalCardCount = 0; 
+        const coverflowSpacing = window.innerWidth > 768 ? 420 : 320; 
+        
+        let isCarouselDragging = false; let hasDraggedCarousel = false; let carStartX = 0; let carInitialTargetX = 0;
+
+        window.addEventListener('pointerdown', (e) => {
+            if(dispensedCards.length <= 1 || e.target.closest('#vending-top')) return;
+            isCarouselDragging = true; hasDraggedCarousel = false; carStartX = e.clientX; carInitialTargetX = carouselTargetX;
+        });
+        window.addEventListener('pointermove', (e) => {
+            if(!isCarouselDragging) return;
+            if(Math.abs(e.clientX - carStartX) > 5) hasDraggedCarousel = true; 
+            carouselTargetX = carInitialTargetX + ((e.clientX - carStartX) * 1.5); 
+        });
+        window.addEventListener('pointerup', () => {
+            if(!isCarouselDragging || dispensedCards.length === 0) { isCarouselDragging = false; return; }
+            isCarouselDragging = false;
+            let index = Math.round(-carouselTargetX / coverflowSpacing);
+            index = Math.max(-2, Math.min(index, 2));
+            carouselTargetX = -index * coverflowSpacing;
+        });
+
+        gsap.ticker.add(() => {
+            if(dispensedCards.length === 0) return;
+            carouselCurrentX += (carouselTargetX - carouselCurrentX) * 0.08;
+            
+            dispensedCards.forEach((card) => {
+                const targetSlot = parseInt(card.dataset.index);
+                if (card._currentSlot === undefined) card._currentSlot = targetSlot;
+                card._currentSlot += (targetSlot - card._currentSlot) * 0.08;
+                
+                const cardOffset = (card._currentSlot * coverflowSpacing) + carouselCurrentX;
+                const absOffset = Math.abs(cardOffset);
+                const ratio = Math.min(1, absOffset / coverflowSpacing); 
+                
+                const scale = 1 - (ratio * 0.15); 
+                const blur = ratio * 12; 
+                const opacity = 1 - (ratio * 0.6); 
+                const zTranslate = -ratio * 50; 
+                
+                gsap.set(card, { x: cardOffset, xPercent: -50, yPercent: -50, scale: scale, opacity: opacity, filter: `blur(${blur}px)`, z: zTranslate, zIndex: 30 - Math.floor(absOffset/100) });
+            });
+        });
+
+        function initiateVendingSequence() {
+            document.getElementById('status-text').innerText = "Scanning Archive";
+            gsap.set('#chamber-blackout', { scaleX: 1 }); gsap.set(railEl, { filter: "blur(20px) brightness(2.5)" }); gsap.set('#chamber-scanner', { left: "0%", opacity: 1 });
+            const stopIndex = totalItems - 2; const finalX = -(stopIndex * cardWidth) - (cardWidth / 2);
+            const seqTl = gsap.timeline();
+            seqTl.to('#chamber-scanner', { left: "100%", duration: 1.5, ease: "power2.inOut" }, 0);
+            seqTl.to('#chamber-blackout', { scaleX: 0, duration: 1.5, ease: "power2.inOut" }, 0);
+            seqTl.to('#chamber-scanner', { opacity: 0, duration: 0.2 }, 1.5);
+            seqTl.to(railEl, { filter: "blur(0px) brightness(1)", duration: 1.2, ease: "power2.out" }, 0.8);
+            seqTl.to(railEl, { x: finalX - 20, duration: 4.0, ease: "power3.out", onComplete: () => {
+                gsap.to(railEl, { x: finalX, duration: 0.4, ease: "back.out(2)" });
+                const winningCardDOM = railEl.children[stopIndex];
+                winningCardDOM.classList.add('locked-focus'); // Lock from ticker override
+                
+                gsap.to(winningCardDOM.querySelector('.card-glow'), { opacity: 0.9, duration: 0.5 });
+                
+                const focusTl = gsap.timeline();
+                focusTl.to('#target-halo', { opacity: 0.6, duration: 0.5 }, 0);
+                focusTl.to(winningCardDOM, { scale: 1.15, duration: 0.6, ease: "back.out(1.5)" }, 0);
+                focusTl.add(() => { document.getElementById('status-text').innerText = "Extracting Fragment"; }, "-=1.0");
+                
+                focusTl.to(winningCardDOM, { y: 180, scale: 0.5, opacity: 0, duration: 0.5, ease: "power2.in", delay: 0.6 });
+                focusTl.to('#target-halo', { opacity: 0, duration: 0.4 }, "-=0.4");
+                focusTl.add(() => { dispenseToCarousel(); });
+            }}, 0.5);
+        }
+
+        function dispenseToCarousel() {
+            dispenseCount++;
+            globalCardCount++;
+            const isEven = globalCardCount % 2 === 0;
+
+            dispensedCards.forEach(card => {
+                let currentIndex = parseInt(card.dataset.index);
+                if (isEven && currentIndex <= 0) { card.dataset.index = currentIndex - 1; } 
+                else if (!isEven && currentIndex >= 0) { card.dataset.index = currentIndex + 1; }
+            });
+
+            dispensedCards = dispensedCards.filter(card => {
+                let idx = parseInt(card.dataset.index);
+                if (Math.abs(idx) > 2) { gsap.to(card, { scale: 0.4, opacity: 0, duration: 0.8, ease: "power2.in", onComplete: () => card.remove() }); return false; }
+                return true;
+            });
+
+            const data = inventoryData[targetIndex];
+            const domCard = document.createElement('div');
+            
+            domCard.className = `absolute top-[50%] left-[50%] w-[260px] h-[400px] md:w-[320px] md:h-[480px] rounded-[20px] p-6 md:p-8 flex flex-col justify-between shadow-[0_30px_60px_rgba(0,0,0,0.6)] cursor-pointer pointer-events-auto border transition-colors overflow-hidden`;
+            domCard.style.background = data.bg; domCard.style.color = data.text;
+            domCard.style.borderColor = data.bg === '#010204' || data.bg === '#051024' ? 'rgba(255,255,255,0.1)' : 'rgba(0,0,0,0.1)';
+            
+            domCard.innerHTML = `
+                <div class="absolute inset-0 pointer-events-none opacity-[0.15] mix-blend-overlay" style="background-image: url('data:image/svg+xml,%3Csvg viewBox=%220 0 200 200%22 xmlns=%22http://www.w3.org/2000/svg%22%3E%3Cfilter id=%22noise%22%3E%3CfeTurbulence type=%22fractalNoise%22 baseFrequency=%221.5%22 numOctaves=%223%22 stitchTiles=%22stitch%22/%3E%3C/filter%3E%3Crect width=%22100%25%22 height=%22100%25%22 filter=%22url(%23noise)%22/%3E%3C/svg%3E');"></div>
+                <div class="card-wave" style="opacity: 0.9;"></div>
+                <div class="relative z-10 pointer-events-none">
+                    <div class="text-[9px] font-bold uppercase tracking-widest opacity-80 mb-6 flex justify-between"><span>Client: ${data.client}</span></div>
+                    <h3 class="text-4xl md:text-5xl font-[900] uppercase tracking-tighter leading-[0.9] mb-8">${data.id}</h3>
+                    <div class="flex flex-col gap-2 items-start">
+                        ${data.tags.map(tag => `<span class="text-[9px] font-extrabold uppercase tracking-widest px-4 py-[6px] rounded-full border border-current">${tag}</span>`).join('')}
+                    </div>
+                </div>
+                <div class="relative z-10 pointer-events-none flex justify-between items-end">
+                    <div>
+                        <div class="text-[9px] font-bold uppercase tracking-widest opacity-80 mb-2">Primary Metric</div>
+                        <div class="text-3xl md:text-4xl font-[900] uppercase tracking-tighter">${data.stat}</div>
+                    </div>
+                    <div class="flex items-center gap-2">
+                        <span class="text-[8px] font-bold uppercase tracking-widest">Open File</span>
+                        <div class="w-8 h-8 rounded-full border border-current flex items-center justify-center"><i data-lucide="arrow-up-right" class="w-3 h-3"></i></div>
+                    </div>
+                </div>
+            `;
+            
+            domCard.addEventListener('mouseenter', () => {
+                if (isCarouselDragging) return;
+                const cardIndex = parseInt(domCard.dataset.index);
+                carouselTargetX = -cardIndex * coverflowSpacing;
+            });
+
+            domCard.addEventListener('click', () => {
+                if (hasDraggedCarousel) return; 
+                const cardIndex = parseInt(domCard.dataset.index);
+                const targetPos = -cardIndex * coverflowSpacing;
+                if (Math.abs(carouselCurrentX - targetPos) > 50) { carouselTargetX = targetPos; } 
+                else { openDissectModal(data, domCard); }
+            });
+
+            domCard.dataset.index = 0;
+            carouselTrack.appendChild(domCard); dispensedCards.push(domCard); 
+            if (typeof lucide !== 'undefined') lucide.createIcons({ root: domCard });
+            carouselTargetX = 0;
+            
+            gsap.fromTo(domCard, { y: -800 }, { y: 0, duration: 1.6, ease: "expo.out" });
+
+            setTimeout(() => {
+                document.getElementById('status-text').innerText = "Rewinding Archive";
+                
+                // Cinematic Rewind
+                gsap.to(railEl, {
+                    x: -(cardWidth / 2),
+                    duration: 2.5,
+                    ease: "power3.inOut",
+                    onComplete: () => {
+                        document.getElementById('status-text').innerText = dispenseCount >= 5 ? "System Maxed / Freeplay Ready" : "Awaiting Token";
+                        gsap.set(coin, { x: 0, y: 0, scale: 0, opacity: 0 });
+                        gsap.to(coin, { scale: 1, opacity: 1, duration: 0.8, ease: "elastic.out(1, 0.4)", onComplete: () => { vendingActive = false; }});
+                        
+                        targetIndex = dispenseCount < 5 ? dispenseCount : 4;
+                        buildReel(); 
+                        
+                        gsap.set('#chamber-blackout', { scaleX: 0 }); 
+                    }
+                });
+            }, 2000);
+        }
+
+        // --- EASTER EGG (FREE TIME DESIGN REDIRECT) ---
+        function initiateEasterEggSequence() {
+            document.getElementById('status-text').innerText = "SYS.BREACH // OVERLOAD";
+            
+            const statusDot = document.getElementById('status-dot');
+            if (statusDot) {
+                statusDot.style.backgroundColor = "#FF331F";
+                statusDot.style.boxShadow = "0 0 15px #FF331F";
+            }
+            
+            // Machine Glitch Effect
+            const tl = gsap.timeline();
+            tl.to('#vending-machine', { x: "+=10", yoyo: true, repeat: 5, duration: 0.05 });
+            tl.to('#glass-chamber-container', { filter: "invert(1) hue-rotate(90deg)", duration: 0.2, yoyo: true, repeat: 3 }, 0);
+            
+            // Easter Egg Audio
+            if (isAudioInit && typeof travelSynth !== 'undefined' && typeof arrivalSynth !== 'undefined') {
+                travelSynth.triggerAttackRelease("0.5s");
+                arrivalSynth.triggerAttackRelease(["C5", "E5", "G5", "B5"], "2n");
+            }
+
+            // Screen transition
+            const glitchBg = document.createElement('div');
+            glitchBg.className = 'fixed inset-0 z-[9999] flex flex-col justify-center items-center pointer-events-none opacity-0 bg-[var(--blue)]';
+            glitchBg.innerHTML = '<h2 class="font-[\'Inter\'] font-[900] text-5xl md:text-8xl uppercase tracking-tighter text-[var(--beige)] animate-pulse text-center leading-none">Entering<br>Playground</h2><p class="font-bold text-xs uppercase tracking-widest text-[var(--beige)] mt-6 opacity-80 border border-[var(--beige)] px-4 py-2">Diverting to free-time designs...</p>';
+            document.body.appendChild(glitchBg);
+
+            tl.to(glitchBg, { opacity: 1, duration: 1.0, ease: "power2.inOut", onComplete: () => {
+                
+                // --- REDIRECT HAPPENS HERE ---
+                // Replace this URL with your actual free-time designs link!
+                window.open('https://dribbble.com/', '_blank'); 
+                
+                // Reset machine state so when they close the new tab, it's not locked forever
+                setTimeout(() => {
+                    gsap.to(glitchBg, { opacity: 0, duration: 1.0, onComplete: () => glitchBg.remove() });
+                    document.getElementById('status-text').innerText = "Archive Depleted";
+                    vendingActive = false;
+                    gsap.set(coin, { x: 0, y: 0, scale: 1, opacity: 1 });
+                    if (statusDot) {
+                        statusDot.style.backgroundColor = "var(--blue)";
+                        statusDot.style.boxShadow = "0 0 8px var(--blue)";
+                    }
+                }, 1500);
+            }}, "+=0.5");
+        }
+
+        // --- FULL SCREEN DISSECT MODAL ---
+        const dissectModal = document.getElementById('dissect-modal');
+        const dissectCardContainer = document.getElementById('dissect-card-container');
+
+        function openDissectModal(data, sourceCard) {
+            document.getElementById('modal-client').innerText = `CLIENT: ${data.client}`; document.getElementById('modal-title').innerText = data.id;
+            document.getElementById('modal-tags').innerHTML = data.tags.map(tag => `<span class="text-[10px] font-extrabold uppercase tracking-widest px-4 py-2 rounded-full border border-current">${tag}</span>`).join('');
+            document.getElementById('modal-stat').innerText = data.stat;
+            dissectCardContainer.style.background = data.bg; dissectCardContainer.style.color = data.text;
+            dissectModal.classList.remove('hidden'); dissectModal.classList.add('flex');
+            
+            const rect = sourceCard.getBoundingClientRect();
+            gsap.fromTo(dissectCardContainer, 
+                { scale: 0.6, x: (rect.left + rect.width / 2) - window.innerWidth / 2, y: (rect.top + rect.height / 2) - window.innerHeight / 2, opacity: 0 },
+                { scale: 1, x: 0, y: 0, opacity: 1, duration: 0.6, ease: "power4.out" }
+            );
+            gsap.to(dissectModal, { opacity: 1, duration: 0.4, pointerEvents: 'auto' });
+        }
+
+        const closeBtn = document.getElementById('close-modal-btn');
+        if(closeBtn) {
+            closeBtn.addEventListener('click', () => {
+                gsap.to(dissectCardContainer, { scale: 0.8, y: 100, opacity: 0, duration: 0.4, ease: "power2.in" });
+                gsap.to(dissectModal, { opacity: 0, pointerEvents: 'none', duration: 0.4, delay: 0.1, onComplete: () => { dissectModal.classList.add('hidden'); dissectModal.classList.remove('flex'); }});
+            });
+        }
+
+        // --- DEFERRED SCROLLTRIGGERS ---
+        // Initialize nav triggers AFTER all pinning timelines to ensure correct scroll positions.
+        // This prevents the navbar from prematurely highlighting the next section during the horizontal scroll.
+        navSections.forEach(id => {
+            ScrollTrigger.create({
+                trigger: `#${id}`,
+                start: "top top",
+                end: "bottom top",
+                onEnter: () => updateNavState(id),
+                onEnterBack: () => updateNavState(id)
+            });
+        });
+    </script>
+</body>
+</html>
