@@ -8,8 +8,8 @@
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
     
-    <!-- Lucide Icons -->
-    <script src="https://unpkg.com/lucide@latest"></script>
+    <!-- Reliable Lucide Icons UMD CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/lucide@0.435.0/dist/umd/lucide.min.js"></script>
 
     <!-- GSAP & Plugins -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
@@ -22,10 +22,10 @@
     <!-- Tone.js (Cinematic Sound Design) -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/tone/14.8.49/Tone.js"></script>
 
-    <!-- Fonts: Dr Sugiyama (Logo) + Inter (Modern/Technical UI) -->
+    <!-- Fonts: Dr Sugiyama + Inter + DM Mono + Bebas Neue -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Dr+Sugiyama&family=Inter:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500;700&family=Dr+Sugiyama&family=Inter:wght@400;600;800;900&family=Bebas+Neue&display=swap" rel="stylesheet">
 
     <style>
         :root {
@@ -51,20 +51,16 @@
         .border-grid { border-color: var(--blue); border-width: var(--border-w); }
         .border-b-grid { border-bottom: var(--border-w) solid var(--blue); }
         
-        #cad-cursor-container { pointer-events: none; z-index: 10001; mix-blend-mode: difference; }
-        #cad-line-x, #cad-line-y { position: fixed; background-color: #FFF; opacity: 0.25; pointer-events: none; }
-        #cad-line-x { top: 0; left: 0; width: 100vw; height: 1px; }
-        #cad-line-y { top: 0; left: 0; width: 1px; height: 100vh; }
-        #cad-center-wrapper { position: fixed; top: 0; left: 0; pointer-events: none; }
-        #cad-center-box { position: absolute; top: -6px; left: -6px; width: 12px; height: 12px; border: 1px solid #FFF; transition: all 0.2s; }
-        #cad-coords { position: fixed; top: 0; left: 0; font-size: 10px; font-weight: 800; color: #FFF; white-space: nowrap; font-family: var(--font-main); text-transform: uppercase; letter-spacing: 1px; pointer-events: none; }
+        body, a, button, [role="button"], input, select, textarea, .cursor-pointer, .cursor-hover {
+            cursor: none !important;
+        }
 
         /* The Core Navbar Element */
         .nav-brutal { 
             display: flex; position: relative; background: var(--beige); 
             border: 2px solid var(--navy); box-shadow: 4px 4px 0px var(--navy); 
             padding: 4px; pointer-events: auto; justify-content: center;
-            overflow: hidden; /* Contains the timeline elements */
+            overflow: hidden;
             will-change: width, transform, border-color, background-color;
         }
         @media (min-width: 768px) {
@@ -89,10 +85,10 @@
         .nav-item.active { color: var(--beige); }
 
         .bg-blueprint {
-            background-size: 50px 50px;
+            background-size: 40px 40px;
             background-image: 
-                linear-gradient(to right, rgba(1, 44, 235, 0.15) 1px, transparent 1px),
-                linear-gradient(to bottom, rgba(1, 44, 235, 0.15) 1px, transparent 1px);
+                linear-gradient(to right, rgba(1, 44, 235, 0.05) 1px, transparent 1px),
+                linear-gradient(to bottom, rgba(1, 44, 235, 0.05) 1px, transparent 1px);
         }
 
         h2, h3 { font-weight: 800; letter-spacing: -0.03em; }
@@ -109,7 +105,7 @@
             overflow-x: hidden;
             z-index: 10;
             background: #01040a;
-            perspective: 1500px; /* For the rail tilt effect */
+            perspective: 1500px;
         }
 
         #world-container {
@@ -128,52 +124,206 @@
         }
         body.traveling #cinematic-vignette { opacity: 1; }
 
-        /* The Atmospheric Pass-by Flashes */
-        #cinematic-passby {
-            position: fixed; inset: 0; z-index: 40; pointer-events: none;
-            display: flex; items: center; justify-content: center;
-            opacity: 0; mix-blend-mode: screen; overflow: hidden;
-        }
-        .passby-text {
-            font-family: 'Inter'; font-weight: 900; text-transform: uppercase;
-            font-size: 15vw; color: rgba(1, 44, 235, 0.4);
-            white-space: nowrap; transform: translateX(50vw);
-            will-change: transform; filter: blur(8px);
-        }
-        .passby-grain {
-            position: absolute; inset: 0; opacity: 0.15;
-            background-image: url('data:image/svg+xml,%3Csvg viewBox=%220 0 200 200%22 xmlns=%22http://www.w3.org/2000/svg%22%3E%3Cfilter id=%22noise%22%3E%3CfeTurbulence type=%22fractalNoise%22 baseFrequency=%221.5%22 numOctaves=%223%22 stitchTiles=%22stitch%22/%3E%3C/filter%3E%3Crect width=%22100%25%22 height=%22100%25%22 filter=%22url(%23noise)%22/%3E%3C/svg%3E');
-        }
-
-        /* Cinematic Glass Reflection Animation */
-        @keyframes drift {
-            0% { transform: translateX(-150%) skewX(-15deg); }
-            100% { transform: translateX(250%) skewX(-15deg); }
-        }
+        /* Modern Glass Reflections */
         .glass-reflection {
             position: absolute; top: 0; left: 0; right: 0; bottom: 0;
             background: linear-gradient(90deg, transparent 0%, rgba(255,255,255,0.03) 45%, rgba(255,255,255,0.08) 50%, rgba(255,255,255,0.03) 55%, transparent 100%);
             animation: drift 15s infinite linear;
             pointer-events: none; z-index: 50; mix-blend-mode: overlay;
         }
+        @keyframes drift {
+            0% { transform: translateX(-150%) skewX(-15deg); }
+            100% { transform: translateX(250%) skewX(-15deg); }
+        }
 
+        /* Card Highlights */
         @keyframes cardWave {
             0% { transform: translateX(-200%) skewX(-15deg); }
             100% { transform: translateX(300%) skewX(-15deg); }
         }
-
         .card-wave {
             position: absolute; top: 0; left: 0; bottom: 0; width: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), rgba(255,255,255,0.8), rgba(255,255,255,0.2), transparent);
-            animation: cardWave 2.5s infinite linear;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.15), rgba(255,255,255,0.6), rgba(255,255,255,0.15), transparent);
+            animation: cardWave 3s infinite linear;
             z-index: 5; pointer-events: none; mix-blend-mode: screen; 
         }
 
-        /* Conveyor Belt Stripes */
-        .conveyor-stripes {
-            background-image: repeating-linear-gradient(90deg, transparent, transparent 40px, rgba(255,255,255,0.03) 40px, rgba(255,255,255,0.03) 42px);
+        /* --- STACK TRACE ACCORDION --- */
+        .stack-card { 
+            transition: transform 0.4s cubic-bezier(0.23,1,0.32,1), top 0.4s cubic-bezier(0.23,1,0.32,1), margin-top 0.4s ease; 
+        }
+        .card-expand { 
+            max-height: 0; 
+            overflow: hidden; 
+            transition: max-height 0.5s cubic-bezier(0.23,1,0.32,1), opacity 0.4s ease, margin-top 0.4s ease; 
+            opacity: 0; 
+        }
+        .card-expand.open { 
+            max-height: 500px; 
+            opacity: 1; 
         }
 
+        /* --- DIARY REALISM STYLES --- */
+        .paper-texture {
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.08'/%3E%3C/svg%3E");
+            mix-blend-mode: multiply;
+            pointer-events: none;
+        }
+
+        .page-crease-left {
+            background: linear-gradient(to right, transparent 75%, rgba(0,0,0,0.04) 88%, rgba(0,0,0,0.15) 100%);
+        }
+        .page-crease-right {
+            background: linear-gradient(to left, transparent 75%, rgba(0,0,0,0.04) 88%, rgba(0,0,0,0.15) 100%);
+        }
+
+        .realistic-paper-stack {
+            box-shadow: 
+                0px 0px 0px 1px rgba(0,0,0,0.15),
+                1px 1px 0px #e0dbc6,
+                2px 2px 0px #d8d3bc,
+                3px 3px 0px #d0cab2,
+                4px 4px 0px #c8c2a8,
+                5px 5px 0px #bfb99e,
+                15px 15px 25px rgba(0,0,0,0.4),
+                25px 25px 0px rgba(1,44,235,0.25);
+        }
+
+        /* 3D Book Spine Hinge and Turning Mechanics */
+        .book-viewport {
+            perspective: 2200px;
+            transform-style: preserve-3d;
+        }
+
+        .book-container {
+            transform-style: preserve-3d;
+            position: relative;
+        }
+
+        /* Double-sided leaf structures */
+        .book-page-turning {
+            transform-style: preserve-3d;
+            transform-origin: left center;
+            position: absolute;
+            width: 50%;
+            height: 100%;
+            top: 0;
+            left: 50%;
+            z-index: 30;
+            will-change: transform;
+        }
+
+        .page-face {
+            position: absolute;
+            inset: 0;
+            width: 100%;
+            height: 100%;
+            backface-visibility: hidden;
+            overflow: hidden;
+        }
+
+        .page-face-back {
+            transform: rotateY(180deg);
+        }
+
+        /* Scotch Tape Realistic Elements */
+        .scotch-tape {
+            background: rgba(24bf, 240, 210, 0.28);
+            backdrop-filter: blur(0.5px);
+            border-left: 1px dashed rgba(255,255,255,0.3);
+            border-right: 1px dashed rgba(255,255,255,0.3);
+            box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+            transform: rotate(-3deg);
+            mix-blend-mode: multiply;
+        }
+        .scotch-tape::before, .scotch-tape::after {
+            content: '';
+            position: absolute;
+            left: 0; right: 0; height: 4px;
+            background-size: 6px 4px;
+        }
+        .scotch-tape::before {
+            top: -4px;
+            background-image: linear-gradient(45deg, transparent 75%, rgba(220,215,190,0.4) 75%), linear-gradient(-45deg, transparent 75%, rgba(220,215,190,0.4) 75%);
+        }
+        .scotch-tape::after {
+            bottom: -4px;
+            background-image: linear-gradient(45deg, transparent 75%, rgba(220,215,190,0.4) 75%), linear-gradient(-45deg, transparent 75%, rgba(220,215,190,0.4) 75%);
+        }
+
+        /* Realistic Pushpin Elements */
+        .pushpin {
+            width: 12px;
+            height: 12px;
+            background: radial-gradient(circle at 35% 35%, #ff3b30 0%, #b30000 70%, #660000 100%);
+            border-radius: 50%;
+            box-shadow: 
+                0 1px 1px rgba(0,0,0,0.3),
+                3px 5px 4px rgba(0,0,0,0.35);
+            position: relative;
+        }
+        .pushpin::after {
+            content: '';
+            position: absolute;
+            top: 50%; left: 50%;
+            width: 4px; height: 4px;
+            background: rgba(255,255,255,0.6);
+            border-radius: 50%;
+            transform: translate(-50%, -50%) translate(-2px, -2px);
+        }
+
+        /* Brass Paperclip Element */
+        .brass-paperclip {
+            width: 18px;
+            height: 48px;
+            border: 2px solid #b5a642;
+            border-radius: 10px;
+            background: transparent;
+            position: relative;
+            box-shadow: 2px 3px 5px rgba(0,0,0,0.25);
+            transform: rotate(8deg);
+        }
+        .brass-paperclip::before {
+            content: '';
+            position: absolute;
+            top: 4px; left: 2px; right: 2px; bottom: 8px;
+            border: 2px solid #b5a642;
+            border-radius: 6px;
+        }
+
+        /* Animated Interaction Radar Rings */
+        .interaction-radar {
+            width: 32px;
+            height: 32px;
+            border: 2px solid var(--blue);
+            border-radius: 50%;
+            position: relative;
+            animation: pulse-radar 2s infinite ease-out;
+            pointer-events: none;
+        }
+        .interaction-radar::after {
+            content: '';
+            position: absolute;
+            inset: 4px;
+            background: var(--blue);
+            border-radius: 50%;
+            opacity: 0.8;
+        }
+        @keyframes pulse-radar {
+            0% { transform: scale(0.85); opacity: 1; box-shadow: 0 0 0 0 rgba(1, 44, 235, 0.5); }
+            100% { transform: scale(1.4); opacity: 0; box-shadow: 0 0 0 12px rgba(1, 44, 235, 0); }
+        }
+
+        /* Scanning effect on portrait */
+        @keyframes scan {
+            0% { transform: translateY(0); }
+            50% { transform: translateY(110px); }
+            100% { transform: translateY(0); }
+        }
+        #scanning-laser {
+            animation: scan 4s infinite ease-in-out;
+            transform-origin: center;
+        }
     </style>
 </head>
 <body class="selection:bg-[var(--blue)] selection:text-[var(--beige)]">
@@ -181,10 +331,9 @@
     <!-- Cinematic HUD / Overlays -->
     <div id="cinematic-vignette"></div>
 
-    <!-- Atmospheric Transit Pass-by Elements (Hidden normally) -->
+    <!-- Atmospheric Transit Pass-by Elements -->
     <div id="cinematic-passby">
         <div class="passby-grain"></div>
-        <!-- Massive text layers removed for cleaner transit -->
     </div>
 
     <!-- Preloader Layers -->
@@ -192,53 +341,48 @@
     <div id="preloader-content" class="fixed inset-0 flex flex-col justify-center items-center z-[10000] pointer-events-none w-full max-w-[1500px] mx-auto px-4 sm:px-8 lg:px-12 overflow-hidden">
         <div class="w-full flex flex-col text-[var(--beige)] font-['Inter'] font-[900] leading-[1.0] tracking-[-0.04em] uppercase text-[7vw] lg:text-[100px] pt-10">
             <div class="flex items-center w-full mb-2 lg:mb-4 relative" style="height: 1.1em;">
-                <div class="leading-none flex-shrink-0 relative z-10 pr-4 lg:pr-6" style="top: 0.05em;" id="intro-i">WE</div>
+                <div class="leading-none flex-shrink-0 relative z-10 pr-4 lg:pr-6" style="top: 0.05em;" id="intro-i">I</div>
                 <div class="flex-grow relative h-full z-10" id="intro-box-wrapper">
                     <div id="grad-box" class="absolute left-0 bg-[var(--navy)]" style="top: 8%; height: 95%; width: 0%;"></div>
                     <div class="absolute inset-0 flex items-center justify-center text-[var(--beige)]">
-                        <span class="leading-none whitespace-nowrap relative" style="top: 0.06em;" id="intentionally">CRAFT DIGITAL</span>
+                        <span class="leading-none whitespace-nowrap relative" style="top: 0.06em;" id="intentionally">INTENTIONALLY</span>
                     </div>
                 </div>
                 <div class="relative h-full flex-shrink-0 ml-3 sm:ml-4" style="width: 15vw; max-width: 220px;">
                     <div id="intro-thumb-container" class="absolute inset-x-0 z-[100] overflow-hidden will-change-[transform,width,height,top,left] bg-[var(--blue)]" style="top: 8%; height: 95%; clip-path: inset(0% 100% 0% 0%); transform-style: preserve-3d;">
                         <video src="1778536504558493.mp4" id="intro-vid" class="w-full h-full object-cover block pointer-events-none" style="object-position: 50% 50%; opacity: 0.8;" muted loop playsinline autoplay></video>
+                        <!-- Added Lighting Overlay to Thumbnail -->
+                        <div id="intro-thumb-lighting" class="absolute inset-0 w-full h-full mix-blend-multiply pointer-events-none z-[5]" style="background: radial-gradient(circle at center, rgba(244, 239, 230, 0) 0%, rgba(5, 16, 36, 0.7) 100%);"></div>
                         <div class="hero-overlay-text absolute top-6 right-6 md:top-8 md:right-8 text-[var(--beige)] text-xs font-medium opacity-0 z-10 transform translateZ(20px)">2026</div>
                         <div class="hero-overlay-text absolute bottom-6 right-6 md:bottom-8 md:right-8 text-[var(--beige)] text-xs font-medium text-right opacity-0 z-10 leading-tight transform translateZ(20px)">Marketing &<br>Creativity</div>
                     </div>
                 </div>
             </div>
             <div class="flex justify-between w-full mb-2 lg:mb-4">
-                <span class="leading-none" id="make">EXPERIENCES</span>
-                <span class="leading-none text-right" id="misalignment">AND BOLD</span>
+                <span class="leading-none" id="make">MAKE</span>
+                <span class="leading-none text-right" id="misalignment">MISALIGNMENT</span>
             </div>
             <div class="flex justify-between w-full">
-                <span class="leading-none" id="look">AESTHETIC</span>
-                <span class="leading-none text-right" id="intentional-end">DESIGN.</span>
+                <span class="leading-none" id="look">LOOK</span>
+                <span class="leading-none text-right" id="intentional-end">INTENTIONAL.</span>
             </div>
         </div>
     </div>
 
-    <!-- CAD Drafting Cursor -->
-    <div id="cad-cursor-container">
-        <div id="cad-line-x"></div>
-        <div id="cad-line-y"></div>
-        <div id="cad-center-wrapper"><div id="cad-center-box"></div></div>
-        <div id="cad-coords">X:0000 Y:0000</div>
-    </div>
+    <!-- Cursor Elements -->
+    <div id="cursor-core" class="fixed top-0 left-0 w-2 h-2 bg-white rounded-full pointer-events-none z-[10002] mix-blend-difference will-change-transform"></div>
+    <div id="cursor-trail-container" class="fixed top-0 left-0 w-full h-full pointer-events-none z-[10001] mix-blend-difference overflow-visible"></div>
 
-    <!-- Floating Brutalist Nav (The Track Generator) -->
+    <!-- Floating Brutalist Nav -->
     <div class="fixed bottom-8 left-1/2 -translate-x-1/2 z-50 pointer-events-none opacity-0 flex justify-center w-full" id="main-nav-container">
         <nav class="nav-brutal pointer-events-auto w-max" id="main-nav">
             <div class="nav-indicator" id="nav-indicator"></div>
-            
-            <!-- Standard Nav Links -->
             <a href="#hero" class="nav-item active cursor-hover nav-link-route px-3 py-2 text-[10px] sm:px-4 md:px-5 md:py-2.5 md:text-xs">Genesis</a>
-            <a href="#quote" class="nav-item cursor-hover nav-link-route px-3 py-2 text-[10px] sm:px-4 md:px-5 md:py-2.5 md:text-xs">Mantra</a>
             <a href="#about" class="nav-item cursor-hover nav-link-route px-3 py-2 text-[10px] sm:px-4 md:px-5 md:py-2.5 md:text-xs">Memory</a>
             <a href="#experience" class="nav-item cursor-hover nav-link-route px-3 py-2 text-[10px] sm:px-4 md:px-5 md:py-2.5 md:text-xs">Stack</a>
             <a href="#vending" class="nav-item cursor-hover nav-link-route px-3 py-2 text-[10px] sm:px-4 md:px-5 md:py-2.5 md:text-xs">Dispenser</a>
 
-            <!-- The Internal Cinematic Timeline (Hidden until transit) -->
+            <!-- Internal Cinematic Timeline -->
             <div id="nav-timeline-track" class="absolute inset-0 z-0 pointer-events-none opacity-0 flex flex-col justify-center overflow-hidden bg-[var(--blue)]">
                 <div class="w-full h-[1px] bg-[var(--beige)] opacity-40 mb-2"></div>
                 <div class="w-full flex items-center justify-between px-10 relative z-10">
@@ -247,38 +391,40 @@
                     <span class="font-bold text-[10px] text-[var(--beige)] opacity-60 uppercase tracking-widest">VOL.2026</span>
                 </div>
                 <div class="w-full h-[1px] bg-[var(--beige)] opacity-40 mt-2"></div>
-                
-                <!-- Fast scrolling film ticks -->
-                <div id="nav-ticks-container" class="absolute bottom-0 left-0 w-[400vw] flex justify-between px-4 pb-1">
-                    <!-- Javascript populates this with vertical lines -->
-                </div>
-                <!-- Top ticks -->
-                <div id="nav-ticks-top-container" class="absolute top-0 left-0 w-[400vw] flex justify-between px-4 pt-1">
-                    <!-- Javascript populates this with vertical lines -->
-                </div>
+                <div id="nav-ticks-container" class="absolute bottom-0 left-0 w-[400vw] flex justify-between px-4 pb-1"></div>
+                <div id="nav-ticks-top-container" class="absolute top-0 left-0 w-[400vw] flex justify-between px-4 pt-1"></div>
             </div>
         </nav>
     </div>
 
-    <!-- Top Ribbon -->
-    <header id="top-ribbon" class="fixed top-0 left-0 w-full z-40 h-12 flex border-b-[2px] border-[var(--blue)] bg-[var(--beige)] text-[10px] md:text-xs font-extrabold uppercase tracking-widest text-[var(--blue)] opacity-0 pointer-events-none -translate-y-4">
-        <div class="flex items-center justify-center px-8 bg-[var(--blue)] text-[var(--beige)] border-r-[2px] border-[var(--blue)] pointer-events-auto cursor-hover">
-            BAAZ
+    <!-- Top Ribbon System HUD -->
+    <header id="top-ribbon" class="fixed top-0 left-0 w-full z-40 h-10 md:h-12 flex border-b-[2px] border-[#0a0a0a] bg-[var(--beige)] font-['DM_Mono'] text-[10px] opacity-0 pointer-events-none">
+        <div class="flex items-center justify-center px-3 md:px-6 bg-[#0a0a0a] text-white border-r-[2px] border-[#0a0a0a] pointer-events-auto font-bold tracking-[0.1em] whitespace-nowrap">
+            BAJKAMAL SINGH
         </div>
-        <div class="hidden md:flex pointer-events-auto" id="top-nav">
-            <a href="#hero" class="nav-item-top flex items-center justify-center px-6 border-r-[2px] border-[var(--blue)] hover:bg-[rgba(1,44,235,0.05)] transition-colors cursor-hover nav-link-route text-[var(--blue)]">01. Genesis</a>
-            <a href="#quote" class="nav-item-top flex items-center justify-center px-6 border-r-[2px] border-[var(--blue)] hover:bg-[rgba(1,44,235,0.05)] transition-colors cursor-hover nav-link-route">01.5. Mantra</a>
-            <a href="#about" class="nav-item-top flex items-center justify-center px-6 border-r-[2px] border-[var(--blue)] hover:bg-[rgba(1,44,235,0.05)] transition-colors cursor-hover nav-link-route">02. Memory</a>
-            <a href="#experience" class="nav-item-top flex items-center justify-center px-6 border-r-[2px] border-[var(--blue)] hover:bg-[rgba(1,44,235,0.05)] transition-colors cursor-hover nav-link-route">03. Stack</a>
-            <a href="#vending" class="nav-item-top flex items-center justify-center px-6 border-r-[2px] border-[var(--blue)] hover:bg-[rgba(1,44,235,0.05)] transition-colors cursor-hover nav-link-route">04. Dispenser</a>
+        <div class="flex-grow flex items-center justify-start md:justify-center px-4 bg-[var(--beige)] border-r-[2px] border-[#0a0a0a] pointer-events-auto overflow-hidden">
+             <span class="text-[rgba(5,16,36,0.7)] text-[10px] tracking-[0.1em] mr-2 hidden sm:inline uppercase">You've been here</span>
+             <span id="session-timer" class="text-[var(--navy)] text-[13px] font-[900] tabular-nums tracking-[0.06em]">0:00</span>
+             <span id="hinglish-phrase" class="text-[rgba(5,16,36,0.6)] text-[9px] uppercase tracking-[0.12em] ml-2 hidden sm:inline-block">— STILL COUNTING</span>
         </div>
-        <div class="flex-grow pointer-events-auto"></div>
-        <div class="flex items-center justify-center px-6 bg-[var(--beige-dark)] border-l-[2px] border-[var(--blue)] pointer-events-auto">
-            VOL. 2026
+        <div class="hidden lg:flex items-center relative bg-[#f0ede6] border-r-[2px] border-[#0a0a0a] pointer-events-auto w-[240px] xl:w-[280px]">
+            <div id="scroll-progress-bar" class="absolute left-0 top-0 h-full bg-[#0022cc] w-0 transition-all duration-700 ease-out z-0"></div>
+            <div class="relative z-10 flex items-center justify-between w-full px-4 mix-blend-difference text-white">
+                <span class="text-[10px] tracking-[0.1em] opacity-80 uppercase">Explored</span>
+                <span id="scroll-pct" class="text-[11px] tabular-nums font-bold">0%</span>
+            </div>
+        </div>
+        <div class="flex items-center justify-center px-4 lg:px-6 bg-[#0a0a0a] text-white pointer-events-auto gap-2 w-max">
+            <div class="w-1.5 h-1.5 md:w-2 md:h-2 rounded-full bg-[#7effa0] shadow-[0_0_6px_rgba(126,255,160,0.5)] animate-[pulse_2s_ease-in-out_infinite]"></div>
+            <div class="flex items-center gap-1 relative text-[10px] tracking-[0.1em] text-[rgba(255,255,255,0.6)]">
+                <span class="hidden sm:inline">Available ·</span>
+                <strong id="live-ist" class="text-white tabular-nums tracking-[0.1em] ml-1 text-[11px]">--:--:--</strong>
+                <span class="text-[rgba(255,255,255,0.4)] tracking-[0.1em] ml-1">IST</span>
+            </div>
         </div>
     </header>
 
-    <!-- The 3D World Viewport -->
+    <!-- 3D World Viewport -->
     <div id="world-viewport">
         <div id="world-container">
             <main class="pt-0">
@@ -297,124 +443,367 @@
                     </div>
                 </section>
 
-                <!-- 1.5. THE EDGE / QUOTE -->
-                <section id="quote" class="min-h-screen py-32 px-6 md:px-12 flex flex-col items-center justify-center text-center border-b-grid relative z-10 bg-[var(--beige)] transform-style-preserve-3d">
-                    <span class="text-xs font-bold uppercase tracking-widest text-[var(--blue)] block mb-8 border border-[var(--blue)] px-3 py-1 bg-[rgba(1,44,235,0.05)] transform translateZ(20px)">Section 01.5 / The Edge</span>
-                    <h2 class="text-5xl md:text-[7vw] leading-[0.9] font-extrabold text-[var(--navy)] uppercase max-w-6xl mx-auto tracking-tighter transform translateZ(40px)">
-                        Mass Production With<br>Artisanal-Level Quality.
-                    </h2>
-                    <div class="relative mt-20 mb-16 w-[320px] h-[400px] border-[3px] border-[var(--navy)] shadow-[12px_12px_0_var(--blue)] bg-[var(--beige-dark)] group cursor-hover transform translateZ(60px)">
-                        <div class="absolute inset-2 border-[3px] border-[var(--navy)] bg-white z-10 overflow-hidden flex items-center justify-center">
-                            <video autoplay loop muted playsinline class="w-full h-full object-cover opacity-80 mix-blend-multiply filter contrast-125">
-                                <source src="1778536504558493.mp4" type="video/mp4">
-                            </video>
-                        </div>
-                        <canvas id="quote-scratch-canvas" class="absolute inset-2 z-20 touch-none" style="width: calc(100% - 16px); height: calc(100% - 16px);"></canvas>
-                        <div id="coin-dock" class="absolute -right-10 -bottom-10 w-[80px] h-[80px] z-30 flex items-center justify-center pointer-events-auto" style="perspective: 800px;">
-                            <div id="scratch-coin" class="w-full h-full bg-[var(--blue)] border-[3px] border-[var(--navy)] rounded-full flex items-center justify-center shadow-[4px_4px_0px_var(--navy)] cursor-grab active:cursor-grabbing hover:scale-105 transition-transform will-change-transform z-10">
-                                <span class="font-['Dr_Sugiyama'] text-5xl text-[var(--beige)] pt-2 leading-none pointer-events-none" style="font-weight: 400;">B</span>
+                <!-- 2. ABOUT (4-PAGE INTERACTIVE 3D DIARY SPREAD) -->
+                <section id="about" class="relative w-full z-20 border-b-grid bg-[#01040a]">
+                    <div id="about-sticky-wrap" class="sticky top-0 w-full h-screen overflow-hidden flex items-center justify-center book-viewport">
+                        
+                        <!-- 3D Book Spine & Page Wrapper -->
+                        <div id="notebook-container" class="relative w-[95vw] max-w-[1240px] h-[82vh] max-h-[740px] bg-[var(--beige)] rounded-2xl realistic-paper-stack flex overflow-visible transform origin-center will-change-transform opacity-0 scale-90 select-none pointer-events-none book-container">
+                            
+                            <!-- Middle Metallic Spiral Mechanism -->
+                            <div class="hidden md:flex absolute inset-y-0 left-1/2 -translate-x-1/2 w-10 flex-col justify-between py-6 z-50 bg-gradient-to-r from-[#0d1527] via-[#212d46] to-[#0d1527] border-x border-[rgba(255,255,255,0.1)] shadow-[0_0_15px_rgba(0,0,0,0.8)] pointer-events-none rounded-sm">
+                                <div class="absolute inset-0 opacity-15 mix-blend-overlay bg-[url('data:image/svg+xml,%3Csvg viewBox=%220 0 200 200%22 xmlns=%22http://www.w3.org/2000/svg%22%3E%3Cfilter id=%22noise%22%3E%3CfeTurbulence type=%22fractalNoise%22 baseFrequency=%222%22 numOctaves=%223%22 stitchTiles=%22stitch%22/%3E%3C/filter%3E%3Crect width=%22100%25%22 height=%22100%25%22 filter=%22url(%23noise)%22/%3E%3C/svg%3E')]"></div>
+                                <div class="w-full h-full flex flex-col justify-around items-center relative z-10">
+                                    <div class="h-5 w-[140%] bg-gradient-to-b from-[#e6e6e6] via-[#ffffff] to-[#737373] rounded-md border border-[#222] shadow-[0_4px_6px_rgba(0,0,0,0.6)]"></div>
+                                    <div class="h-5 w-[140%] bg-gradient-to-b from-[#e6e6e6] via-[#ffffff] to-[#737373] rounded-md border border-[#222] shadow-[0_4px_6px_rgba(0,0,0,0.6)]"></div>
+                                    <div class="h-5 w-[140%] bg-gradient-to-b from-[#e6e6e6] via-[#ffffff] to-[#737373] rounded-md border border-[#222] shadow-[0_4px_6px_rgba(0,0,0,0.6)]"></div>
+                                    <div class="h-5 w-[140%] bg-gradient-to-b from-[#e6e6e6] via-[#ffffff] to-[#737373] rounded-md border border-[#222] shadow-[0_4px_6px_rgba(0,0,0,0.6)]"></div>
+                                    <div class="h-5 w-[140%] bg-gradient-to-b from-[#e6e6e6] via-[#ffffff] to-[#737373] rounded-md border border-[#222] shadow-[0_4px_6px_rgba(0,0,0,0.6)]"></div>
+                                    <div class="h-5 w-[140%] bg-gradient-to-b from-[#e6e6e6] via-[#ffffff] to-[#737373] rounded-md border border-[#222] shadow-[0_4px_6px_rgba(0,0,0,0.6)]"></div>
+                                </div>
                             </div>
-                        </div>
-                    </div>
-                    <p class="font-bold text-[11px] md:text-[14px] uppercase tracking-[0.05em] text-[var(--navy)] max-w-xl mx-auto leading-[1.8] opacity-90 mt-8 transform translateZ(20px)">
-                        We combine AI technologies with human intuition to create visual content that is both precise and emotional.
-                    </p>
-                </section>
 
-                <!-- 2. ABOUT -->
-                <section id="about" class="relative w-full bg-[var(--beige)] z-20 border-b-grid overflow-hidden">
-                    <div class="h-screen relative overflow-hidden z-10 bg-transparent">
-                        <div class="absolute bottom-0 left-0 w-full bg-[var(--navy)] h-[40px] z-30 flex items-center pointer-events-auto border-t-grid overflow-hidden">
-                            <div class="whitespace-nowrap flex animate-[ticker_15s_linear_infinite] w-max">
-                                <p class="text-[var(--beige)] font-['Inter'] font-bold text-xs md:text-sm uppercase leading-none tracking-widest px-4">EVERY DETAIL MATTERS. YOUR BRAND. OUR PLAYGROUND.</p>
-                                <p class="text-[var(--beige)] font-['Inter'] font-bold text-xs md:text-sm uppercase leading-none tracking-widest px-4 text-[var(--blue)]">///</p>
-                                <p class="text-[var(--beige)] font-['Inter'] font-bold text-xs md:text-sm uppercase leading-none tracking-widest px-4">EVERY DETAIL MATTERS. YOUR BRAND. OUR PLAYGROUND.</p>
-                                <p class="text-[var(--beige)] font-['Inter'] font-bold text-xs md:text-sm uppercase leading-none tracking-widest px-4 text-[var(--blue)]">///</p>
-                            </div>
-                        </div>
+                            <!-- LEFT PAGE: STORY ORIGIN -->
+                            <div class="w-full md:w-1/2 h-full bg-blueprint relative flex flex-col p-6 md:p-10 justify-between pointer-events-auto page-crease-left shadow-[inset_-25px_0_40px_rgba(0,0,0,0.08)] rounded-l-2xl">
+                                <div class="absolute inset-0 paper-texture z-0"></div>
+                                
+                                <div class="relative md:pl-6 z-20 flex flex-col h-full justify-between pointer-events-none">
+                                    <div>
+                                        <!-- Decorative elements -->
+                                        <div class="flex justify-between items-start w-full">
+                                            <div class="flex flex-col items-start w-2/3">
+                                                <div class="text-[var(--blue)] font-['DM_Mono'] uppercase tracking-[0.2em] text-[8px] md:text-[9px] mb-2 font-bold bg-[rgba(1,44,235,0.06)] px-2 py-1 border border-[var(--blue)]">SYSTEM RECORD // VOL. 01</div>
+                                                <h2 class="font-['Bebas_Neue'] text-5xl md:text-7xl text-[var(--navy)] leading-[0.8]">BAAZ</h2>
+                                                <span class="font-['DM_Mono'] text-[8px] md:text-[9px] text-[var(--blue)] uppercase tracking-widest block font-bold border-t border-[var(--navy)] pt-1 mt-2">Strategist & Architect</span>
+                                            </div>
+                                            
+                                            <!-- Realistic Secured ID Portrait -->
+                                            <div class="relative w-24 h-24 md:w-28 md:h-28 bg-[var(--navy)] p-0.5 shadow-[5px_5px_15px_rgba(0,0,0,0.3)] flex-shrink-0 ml-4 pointer-events-auto flex items-center justify-center transform rotate-[-4deg]">
+                                                <!-- Mechanical clip securing card -->
+                                                <div class="absolute -top-6 left-1/2 -translate-x-1/2 z-30 pointer-events-none">
+                                                    <div class="brass-paperclip"></div>
+                                                </div>
+                                                <img src="image_f59fc3.png" alt="ID_01_RAW" class="w-full h-full object-cover" onerror="this.src='https://placehold.co/400x400/012ceb/f4efe6?text=ID_01_RAW'" />
+                                                <div id="scanning-laser" class="absolute left-0 w-full h-[2px] bg-[#00ffcc] shadow-[0_0_8px_#00ffcc] z-10 opacity-70"></div>
+                                            </div>
+                                        </div>
 
-                        <div id="about-horizontal-wrapper" class="flex flex-nowrap w-[200vw] h-full items-center relative z-10 will-change-transform">
-                            <div class="w-[100vw] h-full flex-shrink-0 relative flex justify-center items-end pb-[40px] border-r-grid">
-                                <span class="absolute top-24 left-8 md:left-12 text-xs font-bold uppercase tracking-widest text-[var(--blue)] border border-[var(--blue)] px-3 py-1 bg-[rgba(1,44,235,0.05)] z-40">Section 02 / The Catalyst</span>
-                                <div class="silhouette-anim-container relative h-full w-auto max-w-none origin-bottom opacity-0 flex justify-center items-end" style="transform-style: preserve-3d;">
-                                    <div class="relative w-[80vw] md:w-[40vw] h-[70vh] bg-[var(--blue)] shadow-[12px_12px_0_var(--navy)] border-grid overflow-hidden rounded-t-[500px]">
-                                        <video autoplay loop muted playsinline class="w-full h-full object-cover filter contrast-125 opacity-80 mix-blend-multiply">
-                                            <source src="1778536504558493.mp4" type="video/mp4">
-                                        </video>
-                                        <img src="About-us-image.svg" id="silhouette-img" class="absolute inset-0 w-full h-full object-cover mix-blend-overlay grayscale contrast-125" onerror="this.style.display='none';">
+                                        <!-- Hook Quote -->
+                                        <div class="mt-6 md:mt-8">
+                                            <h3 class="font-['Inter'] font-[900] text-[clamp(20px,2.4vw,28px)] leading-[1.05] tracking-tighter uppercase text-[var(--navy)]" style="text-align: justify; text-align-last: justify;">
+                                                I STARTED MAKING CREATIVE STUFF FOUR YEARS AGO BECAUSE I WANTED TO BUY SOME <span class="text-[var(--blue)]">SNEAKERS</span> ON MY OWN.
+                                            </h3>
+                                        </div>
                                     </div>
-                                    <div class="absolute left-1/2 bottom-[15%] z-30 pointer-events-none transform origin-center -translate-x-1/2">
-                                        <div class="about-title-anim opacity-100 will-change-transform relative w-[300px] h-[200px] md:w-[427px] md:h-[378px]">
-                                            <div id="about-parallax-1" class="absolute top-[-20%] left-[-30%] md:left-[-10%] will-change-transform">
-                                                <div id="about-text-1" class="font-['Dr_Sugiyama'] text-[var(--beige)] w-full h-full flex items-center justify-center will-change-transform drop-shadow-[4px_4px_0_var(--navy)]" style="font-size: clamp(120px, 20vw, 280px); line-height: 1;">About</div>
+
+                                    <!-- Narrative Development (Replaces the flipped pages) -->
+                                    <div class="relative mt-2 mb-2 pointer-events-auto transform rotate-[1deg] group">
+                                        <!-- Realistic Scotch Tape -->
+                                        <div class="absolute -top-3 left-10 w-16 h-5 scotch-tape z-20"></div>
+                                        <div class="absolute -bottom-3 right-8 w-16 h-5 scotch-tape z-20 rotate-[15deg]"></div>
+                                        
+                                        <div class="p-4 md:p-5 border border-[rgba(5,16,36,0.15)] bg-[#ede6d4] relative shadow-[6px_6px_0_rgba(1,44,235,0.15),_inset_1px_1px_0_rgba(255,255,255,0.8)] transition-transform duration-300">
+                                            <p class="font-medium text-[10px] md:text-[12px] text-[var(--navy)] leading-relaxed">
+                                                From designing YouTube thumbnails in 9th grade to architecting GTM campaigns reaching 30,000+ Gen-Z students, the journey wasn't planned—it was iterated.<br><br>
+                                                What started as a creator's hustle naturally evolved into a consultant's framework. I realized I didn't just want to make things that looked good; I wanted to build the infrastructure that <strong class="font-black text-[var(--blue)]">made those things move numbers.</strong>
+                                            </p>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="flex items-center gap-2 font-['DM_Mono'] text-[8px] text-[var(--navy)] opacity-60 uppercase font-bold mt-2">
+                                        <span class="w-1.5 h-1.5 bg-[var(--blue)] rounded-full animate-pulse flex-shrink-0"></span>
+                                        <span>Terminal Origin // GMT +5:30</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- RIGHT PAGE: THE SANDBOX -->
+                            <div class="w-full md:w-1/2 h-full bg-blueprint relative flex flex-col p-6 md:p-10 justify-between pointer-events-auto page-crease-right shadow-[inset_25px_0_40px_rgba(0,0,0,0.08)] rounded-r-2xl">
+                                <div class="absolute inset-0 paper-texture z-0"></div>
+                                
+                                <div class="relative md:pr-6 z-20 flex flex-col h-full justify-between pointer-events-none">
+                                    <div class="flex flex-col">
+                                        <span class="font-['DM_Mono'] text-[var(--blue)] uppercase tracking-widest text-[8px] md:text-[9px] font-bold">Data Sandbox // Root Access</span>
+                                        <h3 class="font-['Bebas_Neue'] text-3xl md:text-5xl text-[var(--navy)] leading-none mt-1 tracking-normal">Archival Shards</h3>
+                                        
+                                        <!-- Instructions prompt -->
+                                        <div class="mt-4 border border-[var(--navy)] bg-[var(--beige-dark)] p-3 shadow-[4px_4px_0_rgba(1,44,235,0.8)] flex items-start gap-3 pointer-events-auto">
+                                            <div class="mt-0.5"><i data-lucide="info" class="w-4 h-4 text-[var(--blue)] animate-pulse"></i></div>
+                                            <div class="flex flex-col">
+                                                <span class="font-['DM_Mono'] text-[8px] text-[var(--blue)] uppercase font-bold tracking-widest mb-0.5">System Prompt</span>
+                                                <span class="font-['Inter'] text-[10px] text-[var(--navy)] font-bold uppercase tracking-tight">Hover over encrypted sectors to decode archival shards.</span>
                                             </div>
-                                            <div id="about-parallax-2" class="absolute bottom-[20%] right-[-30%] md:right-[-20%] will-change-transform">
-                                                <div id="about-text-2" class="font-['Dr_Sugiyama'] text-[var(--blue)] w-full h-full flex items-center justify-center will-change-transform drop-shadow-[4px_4px_0_var(--beige)]" style="font-size: clamp(120px, 20vw, 280px); line-height: 1;">me</div>
+                                        </div>
+                                    </div>
+
+                                    <!-- Architectural Blueprint Grid to structure negative space natively -->
+                                    <div class="absolute inset-0 pt-32 pb-16 pl-6 pr-12 pointer-events-none opacity-40 z-0 hidden md:block">
+                                        <div class="w-full h-full border-[1px] border-[var(--blue)] border-opacity-20 relative">
+                                            <!-- Structural Lines -->
+                                            <div class="absolute top-1/3 left-0 w-full h-[1px] border-t-[1px] border-dashed border-[var(--navy)] opacity-40"></div>
+                                            <div class="absolute top-2/3 left-0 w-full h-[1px] border-t-[1px] border-dashed border-[var(--navy)] opacity-40"></div>
+                                            <div class="absolute top-0 left-[40%] w-[1px] h-full border-l-[1px] border-dashed border-[var(--navy)] opacity-40"></div>
+                                            
+                                            <!-- Data Nodes -->
+                                            <div class="absolute top-1/3 left-[40%] w-2 h-2 -translate-x-1/2 -translate-y-1/2 bg-[var(--blue)] shadow-[0_0_8px_rgba(1,44,235,0.8)]"></div>
+                                            <div class="absolute top-2/3 left-[80%] w-1.5 h-1.5 -translate-x-1/2 -translate-y-1/2 border-[1.5px] border-[var(--navy)] rounded-full"></div>
+                                            <div class="absolute bottom-[10%] left-0 w-10 h-[1px] bg-[var(--blue)]"></div>
+                                            
+                                            <!-- Diagnostics Text -->
+                                            <div class="absolute bottom-3 left-3 font-['DM_Mono'] text-[6px] text-[var(--navy)] opacity-60">
+                                                VAR: ARCHIVE_MODE<br>VAL: TRUE<br>SEQ: 09X-4
                                             </div>
+                                            <div class="absolute top-3 right-3 font-['DM_Mono'] text-[6px] text-[var(--blue)] opacity-60 text-right">
+                                                FRAME: 2026_ORIGIN<br>STATUS: ACTIVE
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <!-- Closing credentials branding -->
+                                    <div class="text-right relative z-20">
+                                        <div class="font-['Inter'] font-[900] text-sm md:text-lg uppercase leading-[1.0] tracking-tighter text-[var(--navy)] opacity-80 border-b-2 border-[var(--blue)] pb-1 inline-block">
+                                            The Marketer's Hands.<br>
+                                            An <span class="text-[var(--blue)]">Aspiring Consultant's</span> Brain.
                                         </div>
                                     </div>
                                 </div>
                             </div>
 
-                            <div class="w-[100vw] h-full flex-shrink-0 relative flex flex-col justify-center pt-[40px] px-[6vw] md:px-[10vw] bg-blueprint">
-                                <div class="w-full max-w-[1400px] bio-interactive-area relative z-10">
-                                    <div class="text-left uppercase font-['Inter'] font-[900] text-[42px] md:text-[64px] lg:text-[80px] leading-[1.05] text-[var(--navy)] scrub-bio-text z-10 relative w-full tracking-tighter">
-                                        WE CRAFT BOLD DESIGN AND CLEAN WORKFLOWS. NO AVERAGE 
-                                        <span id="sneaker-module" class="relative inline-flex items-center justify-center align-baseline whitespace-nowrap cursor-none px-5 mx-2 group bg-[var(--beige)] border-grid shadow-[8px_8px_0px_var(--blue)]" style="top: -0.1em;">
-                                            <span class="sneaker-text-target text-[var(--navy)] font-[900] select-none tracking-tighter transition-transform duration-300 relative z-10 leading-none">PROJECTS</span>
-                                            <canvas id="sneaker-scratch-canvas" class="absolute inset-0 w-full h-full z-20 touch-none"></canvas>
-                                            <div id="about-coin-dock" class="absolute -right-6 -bottom-6 w-[60px] h-[60px] z-30 cursor-none flex items-center justify-center pointer-events-auto">
-                                                <div id="about-resting-coin" class="w-full h-full will-change-[transform,opacity] relative z-10 bg-[var(--blue)] border-[3px] border-[var(--navy)] rounded-full flex items-center justify-center shadow-[4px_4px_0px_var(--navy)] cursor-grab active:cursor-grabbing hover:scale-105 transition-transform">
-                                                    <span class="font-['Dr_Sugiyama'] text-3xl text-[var(--beige)] pt-1 leading-none pointer-events-none font-normal">B</span>
-                                                </div>
+                            <!-- INTERACTIVE HOVER-ONLY ARCHIVE ARTIFACTS -->
+                            <div class="absolute inset-0 z-30 pointer-events-none overflow-hidden" id="interactive-bounds">
+                                
+                                <!-- Artifact 1: Current Coordinates (Dark Log Box - Expandable - Left Page) -->
+                                <div class="absolute top-[12%] left-[8%] w-[160px] md:w-[180px] hover:w-[280px] md:hover:w-[320px] bg-[var(--navy)] text-[var(--beige)] border-[2px] border-[var(--blue)] shadow-[10px_10px_0_rgba(1,44,235,0.6),_0_20px_40px_-5px_rgba(0,0,0,0.5),_inset_1px_1px_0_rgba(255,255,255,0.15)] p-3 rotate-[-3deg] pointer-events-auto cursor-hover transition-all duration-500 ease-[cubic-bezier(0.23,1,0.32,1)] group z-10 hover:z-50 overflow-hidden">
+                                    <div class="sticker-hint absolute -top-6 left-1/2 bg-[#00ffcc] text-[var(--navy)] text-[7px] font-['DM_Mono'] font-bold px-2 py-0.5 rounded-sm opacity-100 group-hover:opacity-0 transition-opacity pointer-events-none whitespace-nowrap uppercase tracking-widest shadow-[4px_4px_0_rgba(5,16,36,0.9)] flex items-center gap-1 z-20">
+                                        <i data-lucide="eye" class="w-2.5 h-2.5"></i> Hover
+                                    </div>
+
+                                    <div class="absolute -top-2 left-1/2 -translate-x-1/2 w-8 h-3 bg-white/20 backdrop-blur-sm border border-white/10 rotate-[2deg]"></div>
+                                    
+                                    <div class="flex items-center justify-between border-b border-transparent group-hover:border-[rgba(244,239,230,0.2)] pb-1 transition-colors">
+                                        <div class="flex items-center gap-2">
+                                            <div class="w-1.5 h-1.5 bg-[#00ffcc] animate-pulse"></div>
+                                            <span class="font-['DM_Mono'] text-[8px] text-[#00ffcc] uppercase tracking-widest font-bold whitespace-nowrap">Log // Present</span>
+                                        </div>
+                                        <div class="flex gap-[3px] opacity-40 group-hover:opacity-100 transition-opacity pl-2">
+                                            <div class="w-1 h-1 rounded-full bg-[#00ffcc]"></div><div class="w-1 h-1 rounded-full bg-[#00ffcc]"></div><div class="w-1 h-1 rounded-full bg-[#00ffcc]"></div>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="grid grid-rows-[0fr] group-hover:grid-rows-[1fr] transition-all duration-500 ease-[cubic-bezier(0.23,1,0.32,1)]">
+                                        <div class="overflow-hidden">
+                                            <div class="pt-3">
+                                                <p class="font-medium text-[10px] md:text-[11px] leading-relaxed">
+                                                    Today I'm a <strong class="text-[#00ffcc] font-black">Brand Marketer and Growth Strategist</strong> at SRCC, Delhi University — where I ranked <strong class="text-[#00ffcc] font-black">DU Rank 1 across 5 subjects</strong> while simultaneously building real businesses on the side.<br><br>I've managed a stand-up artist to <strong class="text-[#00ffcc] font-black">₹4.4L in revenue</strong> in 3 months, engineered campaigns that crossed <strong class="text-[#00ffcc] font-black">186M views</strong>, and led marketing GTM for a Jio Hotstar show across 30,000+ students on 5–7 campuses.
+                                                </p>
                                             </div>
-                                        </span> 
-                                        ALLOWED.
+                                        </div>
                                     </div>
                                 </div>
+
+                                <!-- Artifact 2: History (White Index Card - Expandable - Left Page) -->
+                                <div class="absolute top-[52%] left-[12%] w-[150px] md:w-[170px] hover:w-[260px] md:hover:w-[300px] bg-[#faf9f6] border-[2px] border-[var(--navy)] shadow-[10px_10px_0_rgba(5,16,36,0.8),_0_20px_40px_-5px_rgba(0,0,0,0.3),_inset_1px_1px_0_rgba(255,255,255,1)] p-3 rotate-[2deg] pointer-events-auto cursor-hover transition-all duration-500 ease-[cubic-bezier(0.23,1,0.32,1)] group z-10 hover:z-50 overflow-hidden" style="background-image: linear-gradient(transparent 90%, #e0e0e0 90%); background-size: 100% 16px;">
+                                    <div class="sticker-hint absolute -top-6 left-1/2 bg-[var(--blue)] text-[var(--beige)] text-[7px] font-['DM_Mono'] font-bold px-2 py-0.5 rounded-sm opacity-100 group-hover:opacity-0 transition-opacity pointer-events-none whitespace-nowrap uppercase tracking-widest shadow-[4px_4px_0_rgba(5,16,36,0.9)] flex items-center gap-1 z-20" style="animation-delay: 0.5s;">
+                                        <i data-lucide="eye" class="w-2.5 h-2.5"></i> Hover
+                                    </div>
+                                    
+                                    <div class="w-full h-[4px] bg-[var(--blue)] absolute top-0 left-0"></div>
+                                    
+                                    <div class="flex items-center justify-between pt-1 pb-1">
+                                        <span class="font-['DM_Mono'] text-[8px] text-[var(--navy)] uppercase tracking-widest font-bold whitespace-nowrap">Archive // Trace</span>
+                                        <div class="flex gap-[3px] opacity-30 group-hover:opacity-100 transition-opacity pl-2">
+                                            <div class="w-1 h-1 rounded-full bg-[var(--navy)]"></div><div class="w-1 h-1 rounded-full bg-[var(--navy)]"></div><div class="w-1 h-1 rounded-full bg-[var(--navy)]"></div>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="grid grid-rows-[0fr] group-hover:grid-rows-[1fr] transition-all duration-500 ease-[cubic-bezier(0.23,1,0.32,1)]">
+                                        <div class="overflow-hidden">
+                                            <div class="pt-2 pb-1">
+                                                <p class="font-['Inter'] font-semibold text-[10px] md:text-[11px] text-[var(--navy)] leading-relaxed">
+                                                    I've worked as a <strong class="text-[var(--blue)] font-black">Founding Marketer at RNTL.</strong>, interned at Grimbyte, MusicVerse, and Sinskari, consulted for Frost & Sullivan and Blue Tea — and won <strong class="text-[var(--blue)] font-black">5+ national strategy competitions</strong>.<br><br>I'm also VP of The Dramatics Society, SRCC, where I've secured <strong class="text-[var(--blue)] font-black">₹55L+ in sponsorships</strong> and grown the account to the most-followed college club in DU.
+                                                </p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Artifact 3: Metrics (Redacted Receipt - Hover to Decrypt - Right Page) -->
+                                <div class="absolute top-[48%] left-[54%] w-[160px] md:w-[190px] rotate-[-4deg] pointer-events-auto z-10 hover:z-50 flex flex-col group cursor-hover transition-transform duration-500 hover:scale-105 shadow-[12px_12px_0_rgba(5,16,36,0.95),_0_20px_40px_-5px_rgba(0,0,0,0.4)] bg-[var(--navy)]">
+                                    
+                                    <!-- Redaction Shield -->
+                                    <div class="absolute inset-0 bg-[#051024] z-20 flex flex-col items-center justify-center transition-all duration-[600ms] ease-in-out origin-top group-hover:scale-y-0 group-hover:opacity-0 border-[2px] border-[#00ffcc]">
+                                        <div class="w-6 h-6 border-[2px] border-[#00ffcc] rounded-full flex items-center justify-center mb-2">
+                                            <div class="w-2 h-2 bg-[#00ffcc] rounded-full"></div>
+                                        </div>
+                                        <span class="font-['DM_Mono'] text-[#00ffcc] text-[10px] tracking-widest uppercase font-bold text-center">Classified<br><span class="text-[7px] font-normal opacity-80">Hover to Decrypt</span></span>
+                                        <div class="absolute top-[10%] left-0 w-full h-[1px] bg-[#00ffcc]/30"></div>
+                                        <div class="absolute bottom-[10%] left-0 w-full h-[1px] bg-[#00ffcc]/30"></div>
+                                        <!-- Scanning line -->
+                                        <div class="absolute top-0 left-0 w-full h-[2px] bg-[#00ffcc] shadow-[0_0_10px_#00ffcc] animate-[scan_2s_ease-in-out_infinite]"></div>
+                                    </div>
+
+                                    <!-- Content (Terminal Receipt) -->
+                                    <div class="bg-[var(--blue)] text-[var(--beige)] border-[2px] border-[var(--navy)] p-3 relative h-full">
+                                        <div class="absolute -top-2 left-4 w-8 h-4 bg-white/40 border border-[var(--navy)]/30 rotate-[-5deg] shadow-sm z-30"></div>
+
+                                        <div class="flex items-center justify-between pb-2 border-b border-[#00ffcc]/30 mb-2">
+                                            <span class="font-['DM_Mono'] text-[8px] text-[#00ffcc] uppercase tracking-widest font-bold whitespace-nowrap">Metrics // Verified</span>
+                                            <i data-lucide="bar-chart-2" class="w-3 h-3 text-[#00ffcc]"></i>
+                                        </div>
+                                        
+                                        <div class="grid grid-cols-2 gap-2">
+                                            <div class="flex flex-col bg-[rgba(5,16,36,0.3)] p-1.5 border border-[rgba(244,239,230,0.15)]">
+                                                <div class="flex items-baseline font-['Bebas_Neue'] text-lg md:text-xl text-[var(--beige)] leading-none">
+                                                    <span class="mr-0.5">₹</span><span class="scramble-stat" data-val="4.4">0.0</span><span>L+</span>
+                                                </div>
+                                                <span class="font-['DM_Mono'] text-[5px] text-[#00ffcc] uppercase tracking-widest mt-0.5 font-bold">Freelance Rev</span>
+                                            </div>
+                                            <div class="flex flex-col bg-[rgba(5,16,36,0.3)] p-1.5 border border-[rgba(244,239,230,0.15)]">
+                                                <div class="flex items-baseline font-['Bebas_Neue'] text-lg md:text-xl text-[var(--beige)] leading-none">
+                                                    <span class="scramble-stat" data-val="186">0</span><span>M+</span>
+                                                </div>
+                                                <span class="font-['DM_Mono'] text-[5px] text-[#00ffcc] uppercase tracking-widest mt-0.5 font-bold">Views Driven</span>
+                                            </div>
+                                            <div class="flex flex-col bg-[rgba(5,16,36,0.3)] p-1.5 border border-[rgba(244,239,230,0.15)]">
+                                                <div class="flex items-baseline font-['Bebas_Neue'] text-lg md:text-xl text-[var(--beige)] leading-none">
+                                                    <span class="scramble-stat" data-val="5">0</span><span>+</span>
+                                                </div>
+                                                <span class="font-['DM_Mono'] text-[5px] text-[#00ffcc] uppercase tracking-widest mt-0.5 font-bold">National Wins</span>
+                                            </div>
+                                            <div class="flex flex-col bg-[rgba(5,16,36,0.3)] p-1.5 border border-[rgba(244,239,230,0.15)]">
+                                                <div class="flex items-baseline font-['Bebas_Neue'] text-lg md:text-xl text-[var(--beige)] leading-none">
+                                                    <span class="mr-0.5">₹</span><span class="scramble-stat" data-val="55">0</span><span>L+</span>
+                                                </div>
+                                                <span class="font-['DM_Mono'] text-[5px] text-[#00ffcc] uppercase tracking-widest mt-0.5 font-bold">Sponsorships</span>
+                                            </div>
+                                        </div>
+                                        
+                                        <div class="w-full flex justify-between gap-[2px] mt-3 opacity-60">
+                                            <div class="h-2 w-1 bg-[#00ffcc]"></div><div class="h-2 w-2 bg-[#00ffcc]"></div><div class="h-2 w-1 bg-[#00ffcc]"></div><div class="h-2 w-3 bg-[#00ffcc]"></div><div class="h-2 w-1 bg-[#00ffcc]"></div><div class="h-2 w-2 bg-[#00ffcc]"></div><div class="h-2 w-1 bg-[#00ffcc]"></div><div class="h-2 w-4 bg-[#00ffcc]"></div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Artifact 4: Philosophy (UV Film Note - Hover to illuminate - Right Page) -->
+                                <div class="absolute top-[16%] left-[68%] w-[140px] md:w-[150px] rotate-[5deg] pointer-events-auto z-10 hover:z-50 flex flex-col group cursor-hover transition-all duration-500 bg-[#d8d3c5] border-[1px] border-dashed border-[var(--navy)]/30 p-3 hover:bg-[#FFD700] hover:border-[var(--navy)] hover:border-solid hover:scale-105 shadow-[2px_2px_5px_rgba(0,0,0,0.1)] hover:shadow-[8px_8px_0_rgba(5,16,36,0.9)]">
+                                    <div class="absolute -top-3 left-1/2 -translate-x-1/2 w-12 h-5 scotch-tape z-20 rotate-[-2deg] opacity-70 group-hover:opacity-100 transition-opacity"></div>
+                                    <div class="absolute -bottom-2 right-2 w-8 h-4 scotch-tape z-20 rotate-[10deg] opacity-40 group-hover:opacity-80 transition-opacity"></div>
+
+                                    <span class="font-['DM_Mono'] text-[8px] text-[var(--navy)] uppercase tracking-widest font-black opacity-30 group-hover:opacity-80 mb-2 pb-1 border-b border-[var(--navy)]/20 transition-opacity duration-500">Core Note</span>
+
+                                    <div class="text-[var(--navy)] font-['Inter'] font-extrabold text-[10px] md:text-[11px] uppercase tracking-tight text-left leading-[1.2] opacity-20 group-hover:opacity-100 filter blur-[1px] group-hover:blur-none transition-all duration-500">
+                                        I combine a consultant's frameworks with a creator's instincts. <br><br>I don't just build decks — I build things that move numbers.
+                                    </div>
+
+                                    <!-- Scanning Flash Effect -->
+                                    <div class="absolute inset-0 bg-gradient-to-b from-transparent via-[rgba(255,255,255,0.9)] to-transparent opacity-0 group-hover:opacity-100 group-hover:animate-[scan_1s_ease-in-out_1] pointer-events-none mix-blend-overlay"></div>
+                                </div>
+
                             </div>
-                        </div>
+
+                            <!-- DECORATIVE SCATTERED STICKERS -->
+                            <!-- STICKER: Insta (Top Right Background - Underneath) -->
+                            <div class="absolute -right-6 md:-right-12 -top-6 w-20 h-20 md:w-24 md:h-24 rotate-[18deg] z-[5] pointer-events-auto hover:rotate-[5deg] hover:scale-110 transition-all duration-300 cursor-hover">
+                                <svg viewBox="0 0 100 100" class="w-full h-full drop-shadow-[0_4px_12px_rgba(0,0,0,0.6)]">
+                                    <rect x="5" y="5" width="90" height="90" rx="25" fill="#FAFAFA" stroke="#E5DFC8" stroke-width="1"/>
+                                    <defs>
+                                        <linearGradient id="ig-grad" x1="20" y1="80" x2="80" y2="20" gradientUnits="userSpaceOnUse">
+                                            <stop stop-color="#fd5949" offset="0%"/>
+                                            <stop stop-color="#d6249f" offset="50%"/>
+                                            <stop stop-color="#285AEB" offset="100%"/>
+                                        </linearGradient>
+                                    </defs>
+                                    <rect x="20" y="20" width="60" height="60" rx="16" fill="url(#ig-grad)"/>
+                                    <rect x="26" y="26" width="48" height="48" rx="12" fill="none" stroke="#fff" stroke-width="4.5"/>
+                                    <circle cx="50" cy="50" r="11" fill="none" stroke="#fff" stroke-width="4.5"/>
+                                    <circle cx="65" cy="35" r="3.5" fill="#fff"/>
+                                </svg>
+                            </div>
+
+                            <!-- STICKER: Laptop (Bottom Left Background - Underneath) -->
+                            <div class="absolute -left-10 md:-left-16 -bottom-6 md:-bottom-10 w-28 h-24 md:w-36 md:h-32 rotate-[-12deg] z-[5] pointer-events-auto hover:rotate-[-5deg] hover:scale-110 transition-all duration-300 cursor-hover">
+                                <svg viewBox="0 0 120 100" class="w-full h-full drop-shadow-[0_8px_16px_rgba(0,0,0,0.7)]">
+                                    <rect x="5" y="15" width="110" height="75" rx="8" fill="#FAFAFA" stroke="#E5DFC8" stroke-width="1"/>
+                                    <rect x="15" y="25" width="90" height="52" rx="4" fill="#121212"/>
+                                    <rect x="25" y="35" width="30" height="4" rx="2" fill="#00FFCC"/>
+                                    <rect x="25" y="45" width="60" height="4" rx="2" fill="#00FFCC" opacity="0.6"/>
+                                    <rect x="25" y="55" width="40" height="4" rx="2" fill="#00FFCC" opacity="0.4"/>
+                                    <path d="M 5 80 L 115 80 L 120 90 L 0 90 Z" fill="#D3D3D3"/>
+                                    <rect x="45" y="83" width="30" height="4" rx="2" fill="#A9A9A9"/>
+                                </svg>
+                            </div>
+
+                            <!-- STICKER: Canva (Left Page) -->
+                            <div class="absolute left-[34%] top-[12%] w-12 h-12 md:w-16 md:h-16 rotate-[22deg] z-[40] pointer-events-auto hover:rotate-[10deg] hover:scale-110 transition-all duration-300 cursor-hover">
+                                <svg viewBox="0 0 100 100" class="w-full h-full drop-shadow-[0_3px_6px_rgba(0,0,0,0.4)]">
+                                    <circle cx="50" cy="50" r="45" fill="#FAFAFA" stroke="#E5DFC8" stroke-width="1"/>
+                                    <defs>
+                                        <linearGradient id="canva-grad" x1="15" y1="15" x2="85" y2="85">
+                                            <stop stop-color="#00C4CC" offset="0%"/>
+                                            <stop stop-color="#7D2AE8" offset="100%"/>
+                                        </linearGradient>
+                                    </defs>
+                                    <circle cx="50" cy="50" r="35" fill="url(#canva-grad)"/>
+                                    <path d="M 68 32 C 52 16 28 28 32 50 C 35 72 58 80 70 65" fill="none" stroke="#fff" stroke-width="8" stroke-linecap="round"/>
+                                </svg>
+                            </div>
+
+                            <!-- STICKER: Figma (Right Page) -->
+                            <div class="absolute right-[8%] bottom-[20%] w-10 h-16 md:w-14 md:h-20 rotate-[-15deg] z-[40] pointer-events-auto hover:rotate-[-5deg] hover:scale-110 transition-all duration-300 cursor-hover">
+                                <svg viewBox="0 0 60 80" class="w-full h-full drop-shadow-[0_3px_5px_rgba(0,0,0,0.4)]">
+                                    <rect x="5" y="5" width="50" height="70" rx="25" fill="#FAFAFA" stroke="#E5DFC8" stroke-width="1"/>
+                                    <g transform="translate(15, 15) scale(0.8)">
+                                        <path d="M19 28.5A9.5 9.5 0 1 1 38 28.5A9.5 9.5 0 1 1 19 28.5Z" fill="#1ABCFE"/>
+                                        <path d="M0 47.5A9.5 9.5 0 0 1 9.5 38H19V57H9.5A9.5 9.5 0 0 1 0 47.5Z" fill="#0ACF83"/>
+                                        <path d="M19 0H9.5A9.5 9.5 0 0 0 0 9.5V19H19V0Z" fill="#F24E1E"/>
+                                        <path d="M0 28.5A9.5 9.5 0 0 0 9.5 38H19V19H0V28.5Z" fill="#A259FF"/>
+                                        <path d="M38 9.5A9.5 9.5 0 0 1 28.5 19H19V0H28.5A9.5 9.5 0 0 1 38 9.5Z" fill="#FF7262"/>
+                                    </g>
+                                </svg>
+                            </div>
+
+                            <!-- STICKER: Cola Can (Middle Binder) -->
+                            <div class="absolute left-[47.5%] top-[65%] w-10 h-16 md:w-14 md:h-24 rotate-[8deg] z-[60] pointer-events-auto hover:rotate-[0deg] hover:scale-110 transition-all duration-300 cursor-hover hidden sm:block">
+                                <svg viewBox="0 0 60 110" class="w-full h-full drop-shadow-[0_4px_6px_rgba(0,0,0,0.5)]">
+                                    <rect x="5" y="5" width="50" height="100" rx="12" fill="#FAFAFA" stroke="#E5DFC8" stroke-width="1"/>
+                                    <rect x="10" y="10" width="40" height="90" rx="6" fill="#0033A0"/>
+                                    <path d="M 10 40 Q 30 55 50 35 L 50 16 Q 30 10 10 16 Z" fill="#C9002B"/>
+                                    <path d="M 10 40 Q 30 55 50 35 L 50 50 Q 30 70 10 50 Z" fill="#FFFFFF"/>
+                                    <rect x="8" y="8" width="44" height="6" rx="2" fill="#B0C4DE"/>
+                                    <rect x="8" y="96" width="44" height="6" rx="2" fill="#B0C4DE"/>
+                                </svg>
+                            </div>
+
+                        </div> <!-- End Notebook -->
+                        
                     </div>
+                    
+                    <!-- Adjusted scroll spacer for 2-pager -->
+                    <div id="about-scroll-spacer" class="w-full h-[150vh] pointer-events-none relative z-0"></div>
                 </section>
 
                 <!-- 3. EXPERIENCE -->
-                <section id="experience" class="h-[250vh] w-full relative bg-[var(--beige)] border-b-grid">
-                    <div class="sticky top-16 h-[calc(100vh-64px)] w-full overflow-hidden flex flex-col md:flex-row p-8 gap-8">
-                        <div class="w-full md:w-1/3 flex flex-col justify-between pb-8">
-                            <div>
-                                <span class="text-xs font-bold uppercase tracking-widest text-[var(--blue)] block mb-4">Section 03</span>
-                                <h2 class="text-6xl md:text-8xl font-extrabold uppercase text-[var(--navy)] leading-none tracking-tighter">Stack<br>Trace</h2>
-                            </div>
-                            <p class="font-extrabold text-sm uppercase text-[var(--blue)] max-w-xs mt-8 md:mt-0">Scroll to unstack career history components.</p>
+                <section id="experience" class="w-full relative bg-[var(--beige)] border-b-grid pt-24 pb-32 z-20 overflow-visible">
+                    <div class="max-w-[1400px] mx-auto w-full flex flex-col md:flex-row px-6 md:px-12 gap-12 lg:gap-24 relative z-10">
+                        <div class="w-full md:w-1/3 flex flex-col pt-4">
+                            <span class="text-xs font-bold uppercase tracking-widest text-[var(--blue)] block mb-6 border border-[var(--blue)] px-3 py-1 bg-[rgba(1,44,235,0.05)] w-max transform translateZ(20px)">Section 03</span>
+                            <h2 class="text-6xl md:text-8xl lg:text-[7vw] font-extrabold uppercase text-[var(--navy)] leading-[0.9] tracking-tighter mb-6">Stack<br>Trace</h2>
+                            <p class="font-extrabold text-[11px] md:text-xs uppercase tracking-widest text-[var(--blue)] opacity-80 border-l-[3px] border-[var(--blue)] pl-4">Click any card to expand<br>career history.</p>
                         </div>
-                        <div class="w-full md:w-2/3 h-full relative" id="cards-container">
-                            <div class="exp-card absolute top-[10%] left-0 w-full md:w-[85%] bg-[var(--blue)] text-[var(--beige)] border-grid p-8 shadow-[8px_8px_0px_var(--navy)] rotate-[-1deg]">
-                                <div class="flex justify-between border-b-2 border-[var(--beige)] pb-4 mb-6 font-extrabold text-xs uppercase tracking-widest"><span>Grimbyte</span><span>4 Weeks</span></div>
-                                <h3 class="text-4xl font-extrabold uppercase mb-4 leading-none">Brand Strategy Intern</h3>
-                            </div>
-                            <div class="exp-card absolute top-[20%] left-[5%] w-full md:w-[85%] bg-[var(--beige)] text-[var(--navy)] border-grid p-8 shadow-[8px_8px_0px_var(--blue)] rotate-[1.5deg] opacity-0 translate-y-16">
-                                <div class="flex justify-between border-b-2 border-[var(--blue)] pb-4 mb-6 font-extrabold text-xs uppercase tracking-widest text-[var(--blue)]"><span>Sinskari</span><span>4 Weeks</span></div>
-                                <h3 class="text-4xl font-extrabold uppercase mb-4 leading-none">Strategy Intern</h3>
-                            </div>
-                            <div class="exp-card absolute top-[30%] left-[10%] w-full md:w-[85%] bg-[var(--navy)] text-[var(--beige)] border-grid p-8 shadow-[8px_8px_0px_var(--blue)] rotate-[-0.5deg] opacity-0 translate-y-16">
-                                <div class="flex justify-between border-b-2 border-[var(--blue)] pb-4 mb-6 font-extrabold text-xs uppercase tracking-widest text-[var(--blue)]"><span>MusicVerse</span><span>4 Weeks</span></div>
-                                <h3 class="text-4xl font-extrabold uppercase mb-4 leading-none">Events Intern</h3>
-                            </div>
+                        <div class="w-full md:w-2/3 relative mt-8 md:mt-0 transition-all duration-500 ease-in-out" id="stack-area">
+                            <!-- Cards populated dynamically by JS -->
                         </div>
                     </div>
                 </section>
 
-                <!-- 4. INTERACTIVE DOPAMINE VENDING MACHINE (CINEMATIC ARCHIVE) -->
+                <!-- 4. INTERACTIVE DOPAMINE VENDING MACHINE -->
                 <section id="vending" class="h-[100vh] w-full relative bg-[#010205] flex flex-col overflow-hidden text-[var(--beige)] perspective-[2500px]">
-                    
                     <div class="absolute inset-0 pointer-events-none opacity-[0.05] mix-blend-overlay z-10" style="background-image: url('data:image/svg+xml,%3Csvg viewBox=%220 0 200 200%22 xmlns=%22http://www.w3.org/2000/svg%22%3E%3Cfilter id=%22noiseFilter%22%3E%3CfeTurbulence type=%22fractalNoise%22 baseFrequency=%221.5%22 numOctaves=%223%22 stitchTiles=%22stitch%22/%3E%3C/filter%3E%3Crect width=%22100%25%22 height=%22100%25%22 filter=%22url(%23noiseFilter)%22/%3E%3C/svg%3E');"></div>
                     <div id="vending-ambient-light" class="absolute top-1/4 left-1/2 w-[90vw] max-w-[1200px] h-[800px] bg-[var(--blue)] rounded-full filter blur-[200px] opacity-[0.08] -translate-x-1/2 pointer-events-none z-0 transition-all duration-1000 animate-pulse"></div>
 
                     <!-- TOP 35%: THE MACHINE -->
                     <div id="vending-top" class="h-[38vh] min-h-[320px] w-full flex items-center justify-center px-4 lg:px-8 z-[50] relative mt-16 pb-4">
                         <div class="w-full max-w-[1600px] grid grid-cols-12 gap-4 lg:gap-8 items-center pointer-events-auto h-full">
-                            
-                            <!-- LEFT COLUMN: System Status & Coin -->
                             <div class="col-span-12 lg:col-span-3 flex flex-col justify-center h-full relative">
                                 <div class="opacity-30 mb-4 hidden lg:block">
                                     <span class="text-[8px] font-extrabold uppercase tracking-[0.4em] text-[var(--blue)] block mb-2">Archive Terminal . 04</span>
@@ -428,12 +817,10 @@
                                 </div>
                             </div>
 
-                            <!-- CENTER COLUMN: Machine Chassis -->
                             <div class="col-span-12 lg:col-span-6 xl:col-span-7 h-full flex justify-center items-center relative z-50">
                                 <div id="vending-machine" class="w-full max-w-[900px] flex flex-col p-[2px] rounded-[16px] shadow-[0_40px_100px_rgba(0,0,0,1),_0_10px_30px_rgba(1,44,235,0.05)] bg-gradient-to-br from-[rgba(255,255,255,0.1)] to-[rgba(255,255,255,0.03)] relative">
                                     <div class="absolute inset-0 rounded-[16px] pointer-events-none opacity-[0.03] mix-blend-overlay bg-[url('data:image/svg+xml,%3Csvg viewBox=%220 0 200 200%22 xmlns=%22http://www.w3.org/2000/svg%22%3E%3Cfilter id=%22noise%22%3E%3CfeTurbulence type=%22fractalNoise%22 baseFrequency=%222%22 numOctaves=%223%22 stitchTiles=%22stitch%22/%3E%3C/filter%3E%3Crect width=%22100%25%22 height=%22100%25%22 filter=%22url(%23noise)%22/%3E%3C/svg%3E')]"></div>
                                     <div class="w-full rounded-[14px] flex flex-col p-4 md:p-6 bg-gradient-to-br from-[#121620] to-[#030408] shadow-[inset_1px_1px_2px_rgba(255,255,255,0.1),_inset_-1px_-1px_3px_rgba(0,0,0,1)]">
-                                        
                                         <div class="w-full flex justify-between items-start mb-4 px-2 relative z-10">
                                             <div class="flex flex-col">
                                                 <div class="font-['Dr_Sugiyama'] text-3xl md:text-4xl text-[rgba(244,239,230,0.4)] leading-none drop-shadow-md mb-1">Baaz Analog</div>
@@ -445,7 +832,6 @@
                                             </div>
                                         </div>
 
-                                        <!-- Middle Display Area -->
                                         <div class="flex gap-4 h-[160px] md:h-[180px] mb-4 relative z-10 w-full">
                                             <div id="glass-chamber-container" class="relative flex-grow h-full rounded-xl overflow-hidden bg-[#010204] shadow-[inset_0_40px_80px_rgba(0,0,0,1),_inset_0_0_0_1px_rgba(255,255,255,0.02),_0_5px_15px_rgba(0,0,0,0.5)]">
                                                 <div class="glass-reflection"></div>
@@ -478,7 +864,6 @@
                                             </div>
                                         </div>
 
-                                        <!-- Bottom Token Slot & Extraction Port -->
                                         <div id="activation-chamber" class="w-full h-[60px] md:h-[70px] relative rounded-xl overflow-hidden flex items-center px-4 md:px-8 transition-colors duration-700 bg-[#020305] shadow-[inset_0_20px_40px_rgba(0,0,0,1),_inset_0_0_0_1px_rgba(255,255,255,0.02)]">
                                             <div id="chamber-grid" class="absolute inset-0 opacity-[0.02] transition-opacity duration-700 bg-[url('data:image/svg+xml;utf8,<svg width=%2220%22 height=%2220%22 xmlns=%22http://www.w3.org/2000/svg%22><path d=%22M20 0H0v20h20z%22 fill=%22none%22/><path d=%22M20 1H1v19h19z%22 stroke=%22rgba(1,44,235,0.8)%22 stroke-width=%221%22 fill=%22none%22/></svg>')]"></div>
                                             <div id="chamber-scanline" class="absolute left-0 right-0 h-[2px] bg-[var(--blue)] opacity-0 shadow-[0_0_20px_var(--blue)] z-0"></div>
@@ -502,7 +887,6 @@
                                 </div>
                             </div>
                             
-                            <!-- RIGHT COLUMN: Specs -->
                             <div class="col-span-12 lg:col-span-3 hidden xl:flex flex-col justify-center gap-10 pl-6 opacity-30">
                                 <div class="flex items-start gap-4">
                                     <div class="w-6 h-6 rounded-full border border-[#8e98ac] opacity-30 flex items-center justify-center"><i data-lucide="lock" class="w-3 h-3 text-[#8e98ac]"></i></div>
@@ -512,7 +896,7 @@
                         </div>
                     </div>
 
-                    <!-- BOTTOM 65%: THE 2D/3D ZOOMING BLUR CAROUSEL (Z-40 ensuring no overlap) -->
+                    <!-- BOTTOM 65%: CAROUSEL -->
                     <div id="vending-bottom" class="h-[62vh] min-h-[400px] w-full relative z-[40]">
                         <div id="carousel-viewport" class="absolute inset-0 overflow-hidden touch-pan-y pt-4 lg:pt-8">
                             <div id="carousel-track" class="relative w-full h-full cursor-grab active:cursor-grabbing">
@@ -521,25 +905,6 @@
                         </div>
                     </div>
                 </section>
-
-                <!-- DISSECT MODAL -->
-                <div id="dissect-modal" class="fixed inset-0 z-[10000] hidden flex-col items-center justify-center bg-[#01040a]/95 backdrop-blur-2xl opacity-0 transition-opacity pointer-events-none">
-                    <button id="close-modal-btn" class="absolute top-10 right-10 text-[var(--beige)] hover:text-white transition-colors cursor-pointer pointer-events-auto z-50">
-                        <i data-lucide="x" class="w-12 h-12"></i>
-                    </button>
-                    <div id="dissect-card-container" class="relative w-[90vw] max-w-[600px] h-[80vh] max-h-[850px] rounded-[32px] overflow-hidden shadow-[0_50px_100px_rgba(0,0,0,0.9)] transform scale-90 transition-transform duration-500 border border-black/10 flex flex-col p-12 justify-between pointer-events-auto">
-                        <div class="absolute inset-0 pointer-events-none opacity-[0.08] mix-blend-overlay" style="background-image: url('data:image/svg+xml,%3Csvg viewBox=%220 0 200 200%22 xmlns=%22http://www.w3.org/2000/svg%22%3E%3Cfilter id=%22noise%22%3E%3CfeTurbulence type=%22fractalNoise%22 baseFrequency=%221.5%22 numOctaves=%223%22 stitchTiles=%22stitch%22/%3E%3C/filter%3E%3Crect width=%22100%25%22 height=%22100%25%22 filter=%22url(%23noise)%22/%3E%3C/svg%3E');"></div>
-                        <div class="z-10">
-                            <div class="text-[12px] font-bold uppercase tracking-widest opacity-80 mb-8" id="modal-client">CLIENT: ...</div>
-                            <h3 class="text-6xl md:text-8xl font-[900] uppercase tracking-tighter leading-[0.85] mb-10" id="modal-title">...</h3>
-                            <div class="flex flex-wrap gap-3 items-start" id="modal-tags"></div>
-                        </div>
-                        <div class="z-10">
-                            <div class="text-[12px] font-bold uppercase tracking-widest opacity-80 mb-2">Metrics Generated</div>
-                            <div class="text-5xl md:text-6xl font-[900] uppercase tracking-tighter" id="modal-stat">...</div>
-                        </div>
-                    </div>
-                </div>
 
                 <!-- 5. GRID FOOTER -->
                 <footer class="bg-[var(--beige)] text-[var(--navy)] border-t-[3px] border-[var(--navy)] py-12 px-8 relative grid grid-cols-1 md:grid-cols-3 gap-8 z-40">
@@ -556,21 +921,86 @@
                 </footer>
 
             </main>
-        </div> <!-- End World Container -->
-    </div> <!-- End World Viewport -->
+        </div>
+    </div>
+
+    <!-- DISSECT MODAL -->
+    <div id="dissect-modal" class="fixed inset-0 z-[10000] hidden flex-col items-center justify-center bg-[#01040a]/95 backdrop-blur-2xl opacity-0 transition-opacity pointer-events-none">
+        <button id="close-modal-btn" class="absolute top-6 right-6 md:top-10 md:right-10 text-[var(--beige)] hover:text-white transition-colors cursor-pointer pointer-events-auto z-[10001]">
+            <i data-lucide="x" class="w-10 h-10 md:w-12 md:h-12"></i>
+        </button>
+        <div id="dissect-card-container" class="relative w-[95vw] max-w-[800px] h-[90vh] max-h-[900px] rounded-[24px] overflow-hidden shadow-[0_50px_100px_rgba(0,0,0,0.9)] border-[3px] pointer-events-auto bg-[#01040a]">
+            <div class="absolute inset-0 pointer-events-none opacity-[0.08] mix-blend-overlay z-0" style="background-image: url('data:image/svg+xml,%3Csvg viewBox=%220 0 200 200%22 xmlns=%22http://www.w3.org/2000/svg%22%3E%3Cfilter id=%22noise%22%3E%3CfeTurbulence type=%22fractalNoise%22 baseFrequency=%221.5%22 numOctaves=%223%22 stitchTiles=%22stitch%22/%3E%3C/filter%3E%3Crect width=%22100%25%22 height=%22100%25%22 filter=%22url(%23noise)%22/%3E%3C/svg%3E');"></div>
+            <div class="card-wave z-0 opacity-50 pointer-events-none"></div>
+            <div id="modal-inner-content" class="relative z-10 w-full h-full overflow-y-auto no-scrollbar opacity-0 p-0">
+                <!-- Bespoke HTML injected here dynamically -->
+            </div>
+        </div>
+    </div>
 
     <script>
-        lucide.createIcons();
+        // Define stackData at the very top of the script so it is initialized before renderStack() execution
+        const stackData = [
+            {
+                company: 'Grimbyte Technologies', duration: '4 Weeks', role: 'Brand Strategy Intern',
+                points: [
+                    'Configured <strong class="text-current underline decoration-2 underline-offset-2">GA4, Meta & SEMrush dashboards</strong> for 6+ clients — replaced vanity metrics with performance KPIs to validate marketing spend and optimize budget allocation.',
+                    'Executed <strong class="text-current underline decoration-2 underline-offset-2">SEO & keyword gap analysis</strong> across 6+ clients, identifying high-intent opportunities and structuring long-term content roadmaps targeting Page-1 visibility.'
+                ],
+                stats: [{ num: '6+', label: 'Clients' }, { num: '3', label: 'Tools Mapped' }, { num: 'Page-1', label: 'SEO Target' }]
+            },
+            {
+                company: 'MusicVerse', duration: '4 Weeks', role: 'Brand Partnerships Intern',
+                points: [
+                    'Managed end-to-end logistics for <strong class="text-current underline decoration-2 underline-offset-2">6 corporate shows, 1,500+ attendees</strong> — coordinating 10+ vendors and aligning client, artist, and sponsor communications.',
+                    'Co-executed the <strong class="text-current underline decoration-2 underline-offset-2">MuscleBlaze corporate show</strong> with 3 live brand activations, applying design psychology to strengthen brand recall and audience engagement.'
+                ],
+                stats: [{ num: '6', label: 'Shows executed' }, { num: '1,500+', label: 'Attendees' }, { num: '10+', label: 'Vendors managed' }]
+            },
+            {
+                company: 'Blue Tea', duration: '4 Weeks', role: 'Live Project Associate',
+                points: [
+                    'Managed outreach to <strong class="text-current underline decoration-2 underline-offset-2">90+ creators</strong>, engineering an influencer campaign that achieved ₹0.10 CPV — outperforming industry benchmarks and maximizing ROI.',
+                    'Secured <strong class="text-current underline decoration-2 underline-offset-2">5+ strategic B2B partnerships</strong> via a targeted offline activation strategy, distributing 2,000+ units into high-value customer segments.'
+                ],
+                stats: [{ num: '90+', label: 'Creators outreached' }, { num: '₹0.10', label: 'CPV achieved' }, { num: '2K+', label: 'Units distributed' }]
+            },
+            {
+                company: 'Dr. Water', duration: '8 Weeks', role: 'Project Head',
+                points: [
+                    'Identified <strong class="text-current underline decoration-2 underline-offset-2">6 key customer personas</strong> through primary & secondary research — analyzing 200+ responses and behavioral patterns to frame 360° marketing strategies.',
+                    'Synthesized <strong class="text-current underline decoration-2 underline-offset-2">2,000+ data points</strong> across 18+ hydration brands to define competitive gaps and inform targeted marketing strategies for a US-based global brand.'
+                ],
+                stats: [{ num: '6', label: 'Personas mapped' }, { num: '2K+', label: 'Data points' }, { num: '18+', label: 'Brands benchmarked' }]
+            },
+            {
+                company: 'Frost & Sullivan', duration: '4 Weeks', role: 'Live Project Associate',
+                points: [
+                    'Built a <strong class="text-current underline decoration-2 underline-offset-2">Mobility Innovation Scoring Model</strong> across 12 parameters — evaluating 200+ technologies to surface the top 10 innovations for strategic client focus.',
+                    'Mapped <strong class="text-current underline decoration-2 underline-offset-2">₹42,000 crore+ in combined market opportunity</strong> across 6 mobility domains and 24 technology categories.'
+                ],
+                stats: [{ num: '200+', label: 'Tech ranked' }, { num: '₹42K Cr+', label: 'Market opportunity' }, { num: '12', label: 'Scoring Parameters' }]
+            }
+        ];
+
+        // Safety check around Lucide icon initialization
+        if (typeof lucide !== 'undefined') {
+            lucide.createIcons();
+        }
         gsap.registerPlugin(ScrollTrigger, Draggable);
 
         // --- AUDIO DESIGN (TONE.JS) ---
         let isAudioInit = false;
         
-        const travelSynth = new Tone.NoiseSynth({
-            noise: { type: 'pink' },
-            envelope: { attack: 0.1, decay: 0.5, sustain: 1, release: 1.5 }
-        }).toDestination();
-        travelSynth.volume.value = -12;
+        const uiReverb = new Tone.Reverb({ decay: 4, wet: 0.6 }).toDestination();
+        const dopaminePad = new Tone.PolySynth(Tone.AMSynth, {
+            harmonicity: 2.5,
+            oscillator: { type: "sine" },
+            envelope: { attack: 0.3, decay: 0.5, sustain: 0.6, release: 2.5 },
+            modulation: { type: "sine" },
+            modulationEnvelope: { attack: 0.1, decay: 0.2, sustain: 0.1, release: 0.2 }
+        }).connect(uiReverb);
+        dopaminePad.volume.value = -16;
 
         const lockSynth = new Tone.MembraneSynth({
             pitchDecay: 0.05,
@@ -586,8 +1016,41 @@
         }).toDestination();
         arrivalSynth.volume.value = -12;
 
+        const gearSynth = new Tone.MembraneSynth({
+            pitchDecay: 0.01,
+            octaves: 4,
+            oscillator: { type: 'square' },
+            envelope: { attack: 0.001, decay: 0.1, sustain: 0, release: 0.01 }
+        }).toDestination();
+        gearSynth.volume.value = -18;
 
-        // --- LENIS SCROLL SETUP (Bound to viewport) ---
+        const beepSynth = new Tone.Synth({
+            oscillator: { type: "sine" },
+            envelope: { attack: 0.01, decay: 0.1, sustain: 0, release: 0.1 }
+        }).toDestination();
+        beepSynth.volume.value = -12;
+
+        const travelSynth = new Tone.NoiseSynth({
+            noise: { type: 'pink' },
+            envelope: { attack: 0.1, decay: 0.1, sustain: 0, release: 0.3 }
+        }).toDestination();
+        travelSynth.volume.value = -15;
+
+        // Custom synthesized paper rustle
+        const paperRustleSynth = new Tone.NoiseSynth({
+            noise: { type: 'white' },
+            envelope: { attack: 0.03, decay: 0.12, sustain: 0.1, release: 0.15 }
+        }).toDestination();
+        paperRustleSynth.volume.value = -20;
+
+        // Tactile hover tick sound
+        const hoverTickSynth = new Tone.Synth({
+            oscillator: { type: "sine" },
+            envelope: { attack: 0.001, decay: 0.02, sustain: 0, release: 0.02 }
+        }).toDestination();
+        hoverTickSynth.volume.value = -24;
+
+        // --- LENIS SCROLL SETUP ---
         const worldViewport = document.getElementById('world-viewport');
         const worldContainer = document.getElementById('world-container');
         
@@ -603,21 +1066,20 @@
         ScrollTrigger.defaults({ scroller: worldViewport });
         lenis.on('scroll', ScrollTrigger.update);
 
-
         // --- PRELOADER & HERO REVEAL ---
         const preloaderBg = document.getElementById('preloader-bg');
         const preloaderContent = document.getElementById('preloader-content');
         const gradBox = document.getElementById('grad-box');
         const introThumb = document.getElementById('intro-thumb-container');
-        const heroStage = document.getElementById('hero-stage');
+        const introThumbLighting = document.getElementById('intro-thumb-lighting');
         const heroBgTarget = document.getElementById('hero-bg-target');
         const heroLighting = document.getElementById('hero-lighting');
         const heroText3d = document.getElementById('hero-text-3d');
         
-        gsap.set('#main-nav-container', { opacity: 0, yPercent: -100, pointerEvents: 'none' }); 
-        gsap.set('#top-ribbon', { opacity: 0, y: -20, pointerEvents: 'none' });
+        gsap.set('#main-nav-container', { opacity: 0, y: 30, pointerEvents: 'none' }); 
+        gsap.set('#top-ribbon', { opacity: 0, y: -30, pointerEvents: 'none' });
         gsap.set('#preloader-bg', { opacity: 1 });
-        gsap.set('#hero-badges', { opacity: 0 });
+        gsap.set('#hero-badges', { opacity: 0, y: 15 });
 
         const splitTextToChars = (id) => {
             const el = document.getElementById(id);
@@ -658,34 +1120,44 @@
         introTl.to(allTextChars, { opacity: 0, filter: "blur(12px)", duration: 0.6, stagger: { amount: 0.5, from: "end" }, ease: "power2.inOut" }, "outro");
         introTl.to(gradBox, { opacity: 0, filter: "blur(12px)", duration: 0.6, ease: "power2.inOut" }, "outro+=0.4");
 
+        // Reparenting to body ensures the thumbnail escapes any relative/flexbox coordinate 
+        // wrappers and transitions butter-smooth across the viewport without lag.
         introTl.add(() => {
             const rect = introThumb.getBoundingClientRect();
-            heroBgTarget.appendChild(introThumb);
             gsap.set(introThumb, { 
-                clipPath: "none", position: "absolute", top: rect.top, left: rect.left, 
-                width: rect.width, height: rect.height, margin: 0, zIndex: 1, borderRadius: "0px",
+                position: "fixed", top: rect.top, left: rect.left, 
+                width: rect.width, height: rect.height, margin: 0, 
+                zIndex: 9999, borderRadius: "0px", clipPath: "none",
                 transformOrigin: "center center"
             });
-            preloaderBg.style.display = 'none';
+            document.body.appendChild(introThumb);
+            // Removed abrupt preloaderBg.style.display = 'none' to prevent flash
         }, "expand");
 
-        introTl.to(introThumb, { top: "0px", left: "0px", width: "100%", height: "100%", borderRadius: "0px", duration: 1.5, ease: "expo.inOut" }, "expand");
+        introTl.to(introThumb, { top: "0px", left: "0px", width: "100vw", height: "100vh", borderRadius: "0px", duration: 1.5, ease: "expo.inOut" }, "expand");
         introTl.to('#intro-vid', { opacity: 1, scale: 1.05, duration: 1.5, ease: "expo.inOut" }, "expand");
-        
+        if(introThumbLighting) introTl.to(introThumbLighting, { opacity: 0, duration: 1.0, ease: "power2.inOut" }, "expand+=0.5");
         introTl.to(heroText3d, { opacity: 1, scale: 1, y: 0, duration: 1.5, ease: "expo.inOut" }, "expand");
-        
         introTl.to(heroLighting, { opacity: 1, duration: 1.5, ease: "power2.inOut" }, "expand+=0.5");
         introTl.to('.hero-overlay-text', { opacity: 0.9, duration: 1.0 }, "expand+=1.0");
-        introTl.to('#hero-badges', { opacity: 1, duration: 0.8 }, "expand+=1.0");
-        introTl.to('#preloader-bg', { opacity: 0, duration: 0.8, ease: "power2.inOut" }, "expand+=1.0");
-        introTl.to('#main-nav-container', { opacity: 1, yPercent: 0, duration: 1.0, ease: "power3.out", pointerEvents: 'auto' }, "expand+=1.2");
-        introTl.to('#top-ribbon', { opacity: 1, y: 0, duration: 1.0, ease: "power3.out", pointerEvents: 'auto' }, "expand+=1.2");
+        introTl.to('#preloader-bg', { opacity: 0, duration: 1.2, ease: "power2.inOut" }, "expand+=0.5");
+        
+        // Smoother, staggered entry for nav and badges
+        introTl.to('#hero-badges', { opacity: 1, y: 0, duration: 1.2, ease: "expo.out" }, "expand+=1.0");
+        introTl.to('#main-nav-container', { opacity: 1, y: 0, duration: 1.5, ease: "expo.out", pointerEvents: 'auto' }, "expand+=1.1");
+        introTl.to('#top-ribbon', { opacity: 1, y: 0, duration: 1.5, ease: "expo.out", pointerEvents: 'auto' }, "expand+=1.1");
 
+        // Put the video background firmly into the hero container once the scaling completes
         introTl.add(() => {
+            heroBgTarget.appendChild(introThumb);
+            gsap.set(introThumb, { 
+                position: "absolute", top: "0", left: "0", 
+                width: "100%", height: "100%", zIndex: 1 
+            });
             isPhysicsActive = true;
-            preloaderContent.style.display = 'none'; 
-        }, "expand+=1.5");
-
+            preloaderContent.style.display = 'none';
+            preloaderBg.style.display = 'none'; 
+        }, "expand+=1.6");
 
         // --- BUILD TIMELINE TRACK TICKS ---
         const tickContainer = document.getElementById('nav-ticks-container');
@@ -699,21 +1171,18 @@
         if (tickContainer) tickContainer.innerHTML = tickHTML;
         if (tickTopContainer) tickTopContainer.innerHTML = tickTopHTML;
 
-
         // --- NAVIGATION STATE TRACKER ---
-        let isWarping = false; // Global lock for cinematic transit
-        let currentActiveId = 'hero'; // Tracks the active section for resizes
+        let isWarping = false;
+        let currentActiveId = 'hero';
 
-        const navSections = ['hero', 'quote', 'about', 'experience', 'vending'];
+        const navSections = ['hero', 'about', 'experience', 'vending'];
         const navBottomLinks = document.querySelectorAll('#main-nav a.nav-link-route');
         const navTopLinks = document.querySelectorAll('#top-nav a.nav-item-top');
         const navIndicator = document.getElementById('nav-indicator');
 
         function updateNavState(id, force = false) {
-            // IGNORE ScrollTrigger updates if we are actively in a cinematic transit (unless forced)
             if (isWarping && !force) return;
-
-            currentActiveId = id; // Store for resize recalculations
+            currentActiveId = id;
 
             navBottomLinks.forEach(link => link.classList.remove('active'));
             navTopLinks.forEach(link => link.classList.remove('text-[var(--navy)]', 'font-extrabold'));
@@ -724,46 +1193,37 @@
 
             if(activeBottom) {
                 activeBottom.classList.add('active');
-                
-                // Use offsetLeft instead of bounding client rect to avoid zoom/scale math issues
                 const indicatorLeftOffset = window.innerWidth >= 768 ? 6 : 4;
-                
                 gsap.to(navIndicator, {
                     x: activeBottom.offsetLeft - indicatorLeftOffset,
                     width: activeBottom.offsetWidth,
                     duration: force ? 0 : 0.4, 
                     ease: "power3.out",
-                    overwrite: "auto" // Prevent conflicts if scrolling fast
+                    overwrite: "auto"
                 });
-            }
-            if(activeTop) {
-                activeTop.classList.remove('text-[var(--blue)]');
-                activeTop.classList.add('text-[var(--navy)]', 'font-extrabold');
             }
         }
 
-        // FIX: Re-calculate the indicator offset if the window resizes or fonts shift!
         window.addEventListener('resize', () => {
             if (!isWarping) {
                 updateNavState(currentActiveId, true);
             }
         });
         
-        // Wait for custom fonts to load so widths measure accurately
         if (document.fonts) {
             document.fonts.ready.then(() => updateNavState('hero', true));
         } else {
             setTimeout(() => updateNavState('hero', true), 250);
         }
 
-        // --- CINEMATIC TRACK TRANSIT SYSTEM ---
+        // --- SYSTEM TRANSIT WARP (NAVBAR TRANSITIONS) ---
         const mainNavBrutal = document.getElementById('main-nav');
         
         [...navBottomLinks, ...navTopLinks].forEach(link => {
             link.addEventListener('click', async (e) => {
                 e.preventDefault();
                 if(isWarping) return;
-                isWarping = true; // Lock the nav updater
+                isWarping = true;
                 
                 if(!isAudioInit) {
                     await Tone.start();
@@ -773,27 +1233,21 @@
                 const targetId = link.getAttribute('href');
                 const targetEl = document.querySelector(targetId);
                 const sectionName = link.innerText.replace(/[0-9.]/g, '').trim().toUpperCase();
-                
-                // Capture target position BEFORE any 3D scaling messes up the offset math
                 const targetScroll = worldViewport.scrollTop + targetEl.getBoundingClientRect().top;
 
                 document.body.classList.add('traveling');
-                // Lock user interactions during the automated film scroll
                 document.body.style.pointerEvents = 'none'; 
                 lockSynth.triggerAttackRelease("C2", "8n");
 
-                // Get original dimensions to restore later
                 const origWidth = mainNavBrutal.offsetWidth;
-                
                 const transitTl = gsap.timeline({
                     onComplete: () => {
                         document.body.classList.remove('traveling');
-                        document.body.style.pointerEvents = 'auto'; // Unlock
-                        isWarping = false; // Release the lock
+                        document.body.style.pointerEvents = 'auto';
+                        isWarping = false;
                     }
                 });
 
-                // 1. The Mount: Navbar transforms into the full-screen track
                 transitTl.to('.nav-item, .nav-item-top', { opacity: 0, duration: 0.2 }, 0);
                 transitTl.to(navIndicator, { 
                     width: "100%", x: 0, 
@@ -810,7 +1264,6 @@
                     ease: "power4.inOut"
                 }, 0.1);
 
-                // 2. Camera tracking (Zoom out and Tilt entire viewport to create 3D "Film Reel" frame)
                 transitTl.to(worldViewport, {
                     scale: 0.82, 
                     rotationX: 28, 
@@ -823,13 +1276,12 @@
                     ease: "power3.inOut"
                 }, 0.1);
 
-                // 3. The Reel Scroll (Physical High-Speed Transit)
                 transitTl.add(() => {
                     document.getElementById('timeline-dest-text').innerText = `TARGET: ${sectionName}`;
-                    travelSynth.triggerAttackRelease("1.4s");
-                    
+                    if (isAudioInit) {
+                        dopaminePad.triggerAttackRelease(["E4", "G4", "B4", "D5"], "1m");
+                    }
                     if(targetEl) {
-                        // Smoothly scroll the scaled-down film strip
                         lenis.scrollTo(targetScroll, { 
                             duration: 1.4, 
                             easing: (t) => t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2 
@@ -838,23 +1290,17 @@
                 }, 0.6);
                 
                 transitTl.to('#nav-timeline-track', { opacity: 1, duration: 0.2 }, 0.4);
-                
-                // Slide tick marks rapidly to simulate speed
                 transitTl.fromTo('#nav-ticks-container', { x: "0vw" }, { x: "-200vw", duration: 1.8, ease: "power2.inOut" }, 0.4);
                 transitTl.fromTo('#nav-ticks-top-container', { x: "0vw" }, { x: "-200vw", duration: 1.8, ease: "power2.inOut" }, 0.4);
 
-                // 4. Atmospheric Pass-by Moments
                 const passby = document.getElementById('cinematic-passby');
                 if (passby) {
                     transitTl.to(passby, { opacity: 1, duration: 0.1 }, 0.5);
                     transitTl.to(passby, { opacity: 0, duration: 0.2 }, 1.8);
                 }
 
-                // Hides the tracking overlay before the navbar shrinks back down
                 transitTl.to('#nav-timeline-track', { opacity: 0, duration: 0.3 }, 1.8); 
 
-                // 5. Arrival & De-Mount (After the 1.4s scroll completes)
-                // clearProps ensures it returns to Tailwind's "w-max" natively
                 const isDesktop = window.innerWidth >= 768;
                 transitTl.to(mainNavBrutal, { 
                     width: origWidth, 
@@ -866,14 +1312,12 @@
                     clearProps: "width" 
                 }, 2.0);
                 
-                // Setup target state while the navbar is finishing its resizing
                 transitTl.add(() => {
                     navIndicator.style.backgroundColor = "var(--blue)";
                     arrivalSynth.triggerAttackRelease(["C4", "E4", "G4"], "4n"); 
                     updateNavState(targetId.replace('#', ''), false);
                 }, 2.1);
 
-                // World camera restores (Zoom back into the flat frame)
                 transitTl.to(worldViewport, {
                     scale: 1,
                     rotationX: 0,
@@ -885,54 +1329,129 @@
                 }, 2.0);
 
                 transitTl.to('.nav-item, .nav-item-top', { opacity: 1, duration: 0.4 }, 2.3);
-                
-                // Final hard snap after all CSS padding/width transitions definitively finish
-                transitTl.add(() => {
-                    updateNavState(targetId.replace('#', ''), true);
-                }, 2.8);
+                transitTl.add(() => { updateNavState(targetId.replace('#', ''), true); }, 2.8);
             });
         });
 
-        // --- CAD CURSOR LOGIC ---
-        const lineX = document.getElementById('cad-line-x');
-        const lineY = document.getElementById('cad-line-y');
-        const centerWrap = document.getElementById('cad-center-wrapper');
-        const centerBox = document.getElementById('cad-center-box');
-        const coords = document.getElementById('cad-coords');
+        // --- CURSOR LOGIC ---
+        const cursorCore = document.getElementById('cursor-core');
+        const trailContainer = document.getElementById('cursor-trail-container');
         
         let globalMouseX = window.innerWidth / 2;
         let globalMouseY = window.innerHeight / 2;
+        let isHovering = false;
         let isMagneticLock = false;
+
+        gsap.set(cursorCore, { xPercent: -50, yPercent: -50 });
+
+        const trailCount = 14;
+        const trailElements = [];
+        
+        for (let i = 0; i < trailCount; i++) {
+            const el = document.createElement('div');
+            const size = Math.max(2, 16 - (i * 1.1)); 
+            const opacity = 1 - (i * 0.05); 
+            el.className = 'absolute top-0 left-0 bg-white rounded-full pointer-events-none will-change-transform box-border border-[0px] border-white';
+            gsap.set(el, { width: size, height: size, opacity: opacity, xPercent: -50, yPercent: -50 });
+            trailContainer.appendChild(el);
+            trailElements.push({ el: el, x: globalMouseX, y: globalMouseY, baseSize: size, baseOpacity: opacity });
+        }
 
         window.addEventListener('mousemove', (e) => {
             globalMouseX = e.clientX;
             globalMouseY = e.clientY;
-
-            gsap.set(lineX, { y: e.clientY });
-            gsap.set(lineY, { x: e.clientX });
-            gsap.set(centerWrap, { x: e.clientX, y: e.clientY });
-            
-            if(!document.body.classList.contains('traveling') && !isMagneticLock) {
-                coords.innerText = `X:${Math.round(e.clientX)} Y:${Math.round(e.clientY)}`;
-            }
-            gsap.set(coords, { x: e.clientX + 20, y: e.clientY - 20 });
         });
 
-        if (heroText3d) {
-            heroText3d.addEventListener('mouseenter', () => {
-                if(isPhysicsActive) {
-                    isMagneticLock = true;
-                    coords.innerText = '[ TARGET ACQUIRED ]';
-                    gsap.to(centerBox, { scale: 2.5, borderRadius: "50%", backgroundColor: "var(--beige)", duration: 0.4, ease: "back.out(2)" });
+        window.addEventListener('mousedown', () => {
+            gsap.to(cursorCore, { scale: 0.5, duration: 0.1 });
+            if (isHovering) gsap.to(trailElements[0].el, { scale: 0.85, duration: 0.1 });
+        });
+
+        window.addEventListener('mouseup', () => {
+            gsap.to(cursorCore, { scale: 1, duration: 0.4, ease: "back.out(3)" });
+            if (isHovering) gsap.to(trailElements[0].el, { scale: 1, duration: 0.5, ease: "elastic.out(1, 0.4)" });
+
+            const ripple = document.createElement('div');
+            ripple.className = 'fixed rounded-full border border-white mix-blend-difference pointer-events-none z-[9999]';
+            document.body.appendChild(ripple);
+            gsap.set(ripple, { x: globalMouseX, y: globalMouseY, xPercent: -50, yPercent: -50, width: 20, height: 20, borderWidth: "3px" });
+            gsap.to(ripple, { width: 120, height: 120, opacity: 0, borderWidth: "0px", duration: 0.6, ease: "power2.out", onComplete: () => ripple.remove() });
+        });
+
+        gsap.ticker.add(() => {
+            gsap.set(cursorCore, { x: globalMouseX, y: globalMouseY });
+            let leaderX = globalMouseX;
+            let leaderY = globalMouseY;
+
+            if (isMagneticLock) {
+                for (let i = 0; i < trailCount; i++) {
+                    const pt = trailElements[i];
+                    pt.x += (leaderX - pt.x) * 0.3;
+                    pt.y += (leaderY - pt.y) * 0.3;
+                    gsap.set(pt.el, { x: pt.x, y: pt.y });
                 }
-            });
-            heroText3d.addEventListener('mouseleave', () => {
-                if(isPhysicsActive) {
-                    isMagneticLock = false;
-                    gsap.to(centerBox, { scale: 1, borderRadius: "0%", backgroundColor: "transparent", duration: 0.4, ease: "power2.out" });
+                return;
+            }
+
+            for (let i = 0; i < trailCount; i++) {
+                const pt = trailElements[i];
+                const springStiffness = 0.4; 
+                pt.x += (leaderX - pt.x) * springStiffness;
+                pt.y += (leaderY - pt.y) * springStiffness;
+                gsap.set(pt.el, { x: pt.x, y: pt.y });
+                leaderX = pt.x;
+                leaderY = pt.y;
+            }
+        });
+
+        document.addEventListener('mouseover', (e) => {
+            const target = e.target.closest('a, button, .cursor-pointer, .cursor-hover, .nav-item, .stack-card, .archival-card, .nav-item-top, #vending-coin, .scratch-coin-element, .draggable-sticker');
+            if (target && !isMagneticLock) {
+                isHovering = true;
+                if(isAudioInit) hoverTickSynth.triggerAttackRelease("C5", "64n");
+                gsap.to(cursorCore, { scale: 0, duration: 0.2 });
+                gsap.to(trailElements[0].el, { 
+                    width: 46, height: 46, 
+                    backgroundColor: "transparent", 
+                    borderWidth: "2px", 
+                    borderRadius: "50%",
+                    duration: 0.4, 
+                    ease: "back.out(2)" 
+                });
+                for (let i = 1; i < trailCount; i++) {
+                    gsap.to(trailElements[i].el, { scale: 0, opacity: 0, duration: 0.2, overwrite: "auto" });
                 }
-            });
-        }
+            }
+        });
+        
+        document.addEventListener('mouseout', (e) => {
+            const target = e.target.closest('a, button, .cursor-pointer, .cursor-hover, .nav-item, .stack-card, .archival-card, .nav-item-top, #vending-coin, .scratch-coin-element, .draggable-sticker');
+            if (target && !isMagneticLock) {
+                if (!target.contains(e.relatedTarget)) {
+                    isHovering = false;
+                    gsap.to(cursorCore, { scale: 1, duration: 0.2 });
+                    gsap.to(trailElements[0].el, { 
+                        width: trailElements[0].baseSize, 
+                        height: trailElements[0].baseSize, 
+                        backgroundColor: "white", 
+                        borderWidth: "0px", 
+                        borderRadius: "50%",
+                        duration: 0.3, 
+                        ease: "power2.out" 
+                    });
+                    for (let i = 1; i < trailCount; i++) {
+                        gsap.to(trailElements[i].el, { 
+                            scale: 1, 
+                            opacity: trailElements[i].baseOpacity, 
+                            duration: 0.4, 
+                            delay: i * 0.015, 
+                            ease: "back.out(1.5)",
+                            overwrite: "auto" 
+                        });
+                    }
+                }
+            }
+        });
 
         // --- HERO PARALLAX ---
         let isPhysicsActive = false;
@@ -956,7 +1475,6 @@
             if (heroText3d) {
                 const targetScale = isMagneticLock ? 1.03 : 1;
                 currTextScale += (targetScale - currTextScale) * 0.08;
-
                 gsap.set(heroText3d, { x: normX * 25, y: normY * 25, rotationY: normX * 5, rotationX: normY * -5, scale: currTextScale });
 
                 const shadowMax = 60; 
@@ -982,88 +1500,365 @@
             }
         });
 
-        // --- QUOTE SCRATCH LOGIC ---
-        const quoteCanvas = document.getElementById('quote-scratch-canvas');
-        const quoteCoin = document.getElementById('scratch-coin');
-        
-        if (quoteCanvas && quoteCoin) {
-            const qCtx = quoteCanvas.getContext('2d', { willReadFrequently: true });
-            let isQuoteDrag = false;
-
-            const resQ = () => {
-                quoteCanvas.width = quoteCanvas.offsetWidth; quoteCanvas.height = quoteCanvas.offsetHeight;
-                qCtx.fillStyle = '#051024'; qCtx.fillRect(0, 0, quoteCanvas.width, quoteCanvas.height);
-                qCtx.strokeStyle = '#012CEB'; qCtx.lineWidth = 1;
-                for(let x=0; x<quoteCanvas.width; x+=20) { qCtx.beginPath(); qCtx.moveTo(x,0); qCtx.lineTo(x,quoteCanvas.height); qCtx.stroke(); }
-                for(let y=0; y<quoteCanvas.height; y+=20) { qCtx.beginPath(); qCtx.moveTo(0,y); qCtx.lineTo(quoteCanvas.width,y); qCtx.stroke(); }
-            };
-            resQ(); window.addEventListener('resize', resQ);
-
-            quoteCoin.addEventListener('mousedown', () => isQuoteDrag = true);
-            window.addEventListener('mouseup', () => {
-                isQuoteDrag = false; gsap.to(quoteCoin, { x: 0, y: 0, duration: 0.5 });
-            });
-            window.addEventListener('mousemove', (e) => {
-                if(!isQuoteDrag) return;
-                const r = quoteCanvas.getBoundingClientRect();
-                gsap.set(quoteCoin, { x: e.clientX - r.right + 40, y: e.clientY - r.bottom + 40 });
-                qCtx.globalCompositeOperation = 'destination-out';
-                qCtx.fillRect(e.clientX - r.left - 35, e.clientY - r.top - 35, 70, 70);
-            });
-        }
-
-        // --- ABOUT SCROLL LOGIC ---
+        // --- ABOUT: 3D DIARY SPREAD SCRIPTING (PAGES 1-4) ---
         const aboutSection = document.getElementById('about');
+
         if (aboutSection) {
-            const bioPinTl = gsap.timeline({ scrollTrigger: { trigger: "#about", start: "top top", end: "+=2500", pin: true, scrub: 1, invalidateOnRefresh: true } });
-            bioPinTl.fromTo('.silhouette-anim-container', { opacity: 0, scale: 1.3, y: 150, z: -200, rotationX: 15, filter: "blur(25px)" }, { opacity: 1, scale: 1, y: 0, z: 0, rotationX: 0, filter: "blur(0px)", duration: 2.5, ease: "power3.out" }, 0);
-            bioPinTl.fromTo('#about-parallax-1', { x: 80, y: 40, z: -150, rotationX: 30, rotationY: -20, opacity: 0, filter: "blur(25px)" }, { x: 0, y: 0, z: 0, rotationX: 0, rotationY: 0, opacity: 1, filter: "blur(0px)", duration: 1.5, ease: "power4.out" }, 0);
-            bioPinTl.fromTo('#about-parallax-2', { x: -80, y: -40, z: -150, rotationX: -30, rotationY: 20, opacity: 0, filter: "blur(25px)" }, { x: 0, y: 0, z: 0, rotationX: 0, rotationY: 0, opacity: 1, filter: "blur(0px)", duration: 1.5, ease: "power4.out" }, 0.2);
-            gsap.to(['#about-text-1', '#about-text-2'], { y: "-=15", rotationZ: 1.5, rotationY: 3, duration: 3.5, yoyo: true, repeat: -1, ease: "sine.inOut" });
-            bioPinTl.to("#about-horizontal-wrapper", { x: () => -(window.innerWidth), ease: "power2.inOut", duration: 2.5 }, 3.5);
+            
+            // Scroll-Linked 3D Opening Animation (No Flipping)
+            const aboutTl = gsap.timeline({ 
+                scrollTrigger: { 
+                    trigger: "#about", 
+                    start: "top top", 
+                    end: "bottom bottom", 
+                    scrub: 1, 
+                    invalidateOnRefresh: true 
+                } 
+            });
+            
+            // Phase 1: Notebook opens and swings flat
+            aboutTl.fromTo('#notebook-container', 
+                { opacity: 0, scale: 0.78, rotationX: -30, rotationY: 25, y: 150 },
+                { opacity: 1, scale: 1, rotationX: 0, rotationY: 0, y: 0, pointerEvents: 'auto', duration: 1.2, ease: "power2.out" },
+                0
+            );
+
+            // Trigger the metrics scramble immediately as it lands
+            aboutTl.add(() => {
+                if (isAudioInit) paperRustleSynth.triggerAttackRelease("2n");
+                triggerMetricsCounter();
+            }, 0.8);
+
+            // Hold phase to allow user to play with stickers before scrolling down
+            aboutTl.to('#notebook-container', { duration: 0.8 }, 1.2);
         }
 
-        const aboutScratchContainer = document.getElementById('sneaker-module'); 
-        const aboutCanvas = document.getElementById('sneaker-scratch-canvas');
-        if (aboutCanvas && aboutScratchContainer) {
-            const aCtx = aboutCanvas.getContext('2d', { willReadFrequently: true });
-            let isDrawingAbout = false; let lastX = 0; let lastY = 0;
-            const resizeAboutCanvas = () => {
-                const dpr = window.devicePixelRatio || 1;
-                aboutCanvas.width = aboutScratchContainer.offsetWidth * dpr; aboutCanvas.height = aboutScratchContainer.offsetHeight * dpr;
-                aCtx.scale(dpr, dpr);
-                aCtx.fillStyle = '#012CEB'; aCtx.fillRect(0, 0, aboutScratchContainer.offsetWidth, aboutScratchContainer.offsetHeight); 
-                aCtx.strokeStyle = 'rgba(244, 239, 230, 0.15)'; aCtx.lineWidth = 1;
-                for(let x=0; x<aboutScratchContainer.offsetWidth; x+=10) { aCtx.beginPath(); aCtx.moveTo(x,0); aCtx.lineTo(x,aboutScratchContainer.offsetHeight); aCtx.stroke(); }
-                for(let y=0; y<aboutScratchContainer.offsetHeight; y+=10) { aCtx.beginPath(); aCtx.moveTo(0,y); aCtx.lineTo(aboutScratchContainer.offsetWidth,y); aCtx.stroke(); }
-                aCtx.globalCompositeOperation = 'destination-out';
-            };
-            resizeAboutCanvas(); window.addEventListener('resize', resizeAboutCanvas);
-            const aboutCoin = document.getElementById('about-resting-coin');
-            let aboutCoinDrag = false;
-            aboutCoin.addEventListener('mousedown', () => aboutCoinDrag = true);
-            window.addEventListener('mouseup', () => { aboutCoinDrag = false; isDrawingAbout = false; gsap.to(aboutCoin, {x:0, y:0, duration:0.5}); });
-            window.addEventListener('mousemove', (e) => {
-                if(!aboutCoinDrag) return;
-                const r = aboutCanvas.getBoundingClientRect();
-                gsap.set(aboutCoin, { x: e.clientX - r.right + 30, y: e.clientY - r.bottom + 30 });
-                const x = e.clientX - r.left; const y = e.clientY - r.top;
-                aCtx.globalCompositeOperation = 'destination-out'; aCtx.lineCap = 'round'; aCtx.lineWidth = 40;
-                if (!isDrawingAbout) { aCtx.beginPath(); aCtx.moveTo(x, y); isDrawingAbout = true; } 
-                else { aCtx.lineTo(x, y); aCtx.stroke(); }
-                lastX = x; lastY = y;
+        // --- PROGRESSIVE ODOMETER COUNTER ENGINE ---
+        let countersRan = false;
+        function triggerMetricsCounter() {
+            if (countersRan) return;
+            countersRan = true;
+
+            const elements = document.querySelectorAll('.scramble-stat');
+            elements.forEach(el => {
+                const targetVal = parseFloat(el.getAttribute('data-val'));
+                const isDecimal = targetVal % 1 !== 0;
+                const tracker = { val: 0 };
+                
+                gsap.to(tracker, {
+                    val: targetVal,
+                    duration: 1.8,
+                    ease: "power2.out",
+                    onUpdate: () => {
+                        el.textContent = isDecimal ? tracker.val.toFixed(1) : Math.floor(tracker.val);
+                    }
+                });
             });
         }
 
-        // --- INTERACTIVE DOPAMINE VENDING MACHINE LOGIC ---
-        
+        // --- STACK TRACE LOGIC ---
+        const stackArea = document.getElementById('stack-area');
+        let stackOpenIdx = -1;
+
+        function renderStack() {
+            if(!stackArea) return;
+            stackArea.innerHTML = '';
+            
+            const themes = [
+                { bg: 'bg-[var(--blue)]', text: 'text-[var(--beige)]', border: 'border-[var(--navy)]', shadow: 'shadow-[14px_14px_0_rgba(5,16,36,0.95),_0_30px_60px_-10px_rgba(0,0,0,0.7),_inset_1px_1px_0_rgba(255,255,255,0.4)]', divider: 'bg-[var(--beige)]', dot: 'bg-[var(--beige)]' },
+                { bg: 'bg-[var(--beige)]', text: 'text-[var(--navy)]', border: 'border-[var(--blue)]', shadow: 'shadow-[14px_14px_0_rgba(1,44,235,0.9),_0_30px_60px_-10px_rgba(0,0,0,0.3),_inset_1px_1px_0_rgba(255,255,255,0.8)]', divider: 'bg-[var(--blue)]', dot: 'bg-[var(--blue)]' },
+                { bg: 'bg-[var(--navy)]', text: 'text-[var(--beige)]', border: 'border-[var(--blue)]', shadow: 'shadow-[14px_14px_0_rgba(1,44,235,0.7),_0_30px_60px_-10px_rgba(0,0,0,0.8),_inset_1px_1px_0_rgba(255,255,255,0.15)]', divider: 'bg-[var(--beige)]', dot: 'bg-[var(--beige)]' },
+                { bg: 'bg-[var(--blue)]', text: 'text-[var(--beige)]', border: 'border-[var(--navy)]', shadow: 'shadow-[14px_14px_0_rgba(5,16,36,0.95),_0_30px_60px_-10px_rgba(0,0,0,0.7),_inset_1px_1px_0_rgba(255,255,255,0.4)]', divider: 'bg-[var(--beige)]', dot: 'bg-[var(--beige)]' },
+                { bg: 'bg-[var(--beige)]', text: 'text-[var(--navy)]', border: 'border-[var(--blue)]', shadow: 'shadow-[14px_14px_0_rgba(1,44,235,0.9),_0_30px_60px_-10px_rgba(0,0,0,0.3),_inset_1px_1px_0_rgba(255,255,255,0.8)]', divider: 'bg-[var(--blue)]', dot: 'bg-[var(--blue)]' }
+            ];
+
+            stackData.forEach((c, i) => {
+                const theme = themes[i % themes.length];
+                const card = document.createElement('div');
+                card.className = `stack-card absolute w-full left-0 border-[2px] md:border-[3px] px-5 py-4 md:px-8 md:py-6 cursor-pointer ${theme.bg} ${theme.text} ${theme.border} ${theme.shadow} hover:translate-y-[-8px] overflow-hidden transition-transform duration-300`;
+                card.style.transformOrigin = 'center center';
+                
+                let pointsHtml = c.points.map(p => `
+                    <div class="flex gap-4 items-start mb-4">
+                        <div class="w-1.5 h-1.5 rounded-none mt-1.5 flex-shrink-0 ${theme.dot}"></div>
+                        <div class="text-[11px] md:text-xs font-semibold leading-[1.6] opacity-90">${p}</div>
+                    </div>
+                `).join('');
+
+                let statsHtml = c.stats.map(s => `
+                    <div class="flex flex-col border-l-[2px] ${theme.border} pl-3">
+                        <span class="font-['Inter'] font-[900] text-xl md:text-2xl tracking-tighter leading-none mb-1">${s.num}</span>
+                        <span class="text-[8px] md:text-[9px] uppercase tracking-widest opacity-70 font-bold">${s.label}</span>
+                    </div>
+                `).join('');
+                
+                card.innerHTML = `
+                    <div class="flex justify-between items-center mb-1 font-bold text-[9px] md:text-[10px] uppercase tracking-widest opacity-80">
+                        <span>${c.company}</span>
+                        <span>${c.duration}</span>
+                    </div>
+                    <div class="w-full h-[1px] ${theme.divider} opacity-30 mb-3"></div>
+                    <div class="font-[900] text-xl md:text-3xl uppercase tracking-tighter leading-[1]">${c.role}</div>
+                    
+                    <div class="card-expand mt-0">
+                        <div class="w-full h-[2px] ${theme.divider} opacity-20 mt-6 mb-6"></div>
+                        <div class="flex flex-col mb-4">
+                            ${pointsHtml}
+                        </div>
+                        <div class="w-full h-[1px] ${theme.divider} opacity-20 mb-4"></div>
+                        <div class="flex gap-6 flex-wrap pb-2">
+                            ${statsHtml}
+                        </div>
+                    </div>
+                `;
+                
+                card.addEventListener('click', () => { 
+                    stackOpenIdx = stackOpenIdx === i ? -1 : i; 
+                    updateStack(); 
+                    if (typeof triggerExploration === 'function') triggerExploration(`stack_card_${i}`);
+                });
+                stackArea.appendChild(card);
+            });
+            updateStack();
+        }
+
+        function updateStack() {
+            if(!stackArea) return;
+            const STACK_GAP = window.innerWidth > 768 ? 80 : 70;
+            const els = stackArea.querySelectorAll('.stack-card');
+            
+            const pushAmount = window.innerWidth > 768 ? 240 : 300; 
+            const collapsedCardBaseHeight = window.innerWidth > 768 ? 100 : 85; 
+            
+            els.forEach((el, i) => {
+                const tilt = i % 2 === 0 ? -1.0 : 1.0;
+                const isOpen = stackOpenIdx === i;
+                const pushDown = stackOpenIdx >= 0 && i > stackOpenIdx ? pushAmount : 0;
+                
+                el.style.top = (i * STACK_GAP + pushDown) + 'px';
+                el.style.transform = isOpen ? 'rotate(0deg) scale(1.02)' : `rotate(${tilt}deg) scale(1)`;
+                el.style.zIndex = isOpen ? 20 : i + 1;
+                
+                const exp = el.querySelector('.card-expand');
+                if(isOpen) {
+                    exp.classList.add('open');
+                    exp.style.marginTop = '20px';
+                } else {
+                    exp.classList.remove('open');
+                    exp.style.marginTop = '0px';
+                }
+            });
+            
+            const totalH = ((stackData.length - 1) * STACK_GAP) + collapsedCardBaseHeight + (stackOpenIdx >= 0 ? pushAmount : 0);
+            stackArea.style.height = totalH + 'px';
+        }
+
+        renderStack();
+        window.addEventListener('resize', () => { if(document.getElementById('stack-area')) updateStack(); });
+
         // --- INTERACTIVE VENDING & 3D COVERFLOW LOGIC ---
+        function buildFlow() {
+          const N = {
+            nc:      {x:258,y:8,  w:148,h:34,t:'start', lb:['NEW CUSTOMER']},
+            reg:     {x:258,y:56, w:148,h:34,t:'main',  lb:['Registration / Sign-up']},
+            welcome: {x:232,y:106,w:200,h:58,t:'email', lb:['Welcome Email + Brand Story','T+0 · Segmented by Gender & Age'], nt:'Carousel of models + punchline tagline'},
+            explore: {x:246,y:182,w:172,h:34,t:'main',  lb:['Explored Pages / Products']},
+            leftsite:{x:8,  y:248,w:138,h:40,t:'branch',lb:['Customer left','the site']},
+            noadd:   {x:196,y:248,w:120,h:40,t:'branch',lb:["Didn't add"]},
+            cart:    {x:372,y:248,w:124,h:40,t:'branch',lb:['Added to Cart']},
+            t24:     {x:4,  y:318,w:156,h:56,t:'email', lb:['T+24H · Location-based','"Someone in your city','just bought X product"']},
+            bmood:   {x:178,y:318,w:164,h:70,t:'email', lb:['B · 2H','"You forgot me, but I am','still thinking about you"','+ Moodboard']},
+            bhot:    {x:178,y:410,w:164,h:48,t:'email', lb:['B+24H','· Hot selling/Vibe creative','· Free delivery next 24H']},
+            exitB:   {x:198,y:482,w:126,h:26,t:'exit',  lb:['Campaign Exits']},
+            checkout:{x:360,y:318,w:140,h:36,t:'branch',lb:['Checked Out (D)']},
+            ncout:   {x:548,y:318,w:158,h:36,t:'branch',lb:["Didn't check out (C)"]},
+            d0:      {x:344,y:376,w:176,h:52,t:'email', lb:['D+0','· Elite taste validation','· Receipt + Tracking info']},
+            delivery:{x:384,y:450,w:100,h:30,t:'main',  lb:['Delivery']},
+            e48:     {x:342,y:498,w:180,h:52,t:'email', lb:['E+48H','· Fit Check + Feedback','· Instagram Story push']},
+            e20:     {x:348,y:572,w:168,h:36,t:'email', lb:['E+20D','· Product Recommendation']},
+            e25:     {x:346,y:626,w:172,h:52,t:'email', lb:['E+25D','"10% Off + 50+20 Credits"','· 12-hour countdown']},
+            oldcust: {x:354,y:700,w:156,h:26,t:'exit2', lb:['→ Old Customer Sequence']},
+            c1h:     {x:538,y:376,w:178,h:68,t:'email', lb:['C+1H','"I guess your crush texted','you, that\'s why you left','me on seen"']},
+            c24:     {x:540,y:466,w:174,h:52,t:'email', lb:['C+24H','"10% Off + 50 Credits"','· 12-hour countdown']},
+            c48:     {x:540,y:540,w:174,h:52,t:'email', lb:['C+48H','"Your bag is about to be','stolen" in next 2 hours']},
+            cend1:   {x:530,y:614,w:158,h:26,t:'exit2', lb:['→ Checked out sequence']},
+            cend2:   {x:534,y:652,w:160,h:26,t:'exit',  lb:['Campaign Exits']},
+          };
+
+          const E=[
+            ['nc','reg'],['reg','welcome'],['welcome','explore'],
+            ['explore','leftsite'],['explore','noadd'],['explore','cart'],
+            ['leftsite','t24'],
+            ['noadd','bmood'],['bmood','bhot'],['bhot','exitB'],
+            ['cart','checkout'],['cart','ncout'],
+            ['checkout','d0'],['d0','delivery'],['delivery','e48'],['e48','e20'],['e20','e25'],['e25','oldcust'],
+            ['ncout','c1h'],['c1h','c24'],['c24','c48'],['c48','cend1'],['c48','cend2'],
+          ];
+
+          const TC={
+            start: {f:'#14402a',s:'#5DCAA5',c:'#5DCAA5',fw:'700',fs:'10.5'},
+            main:  {f:'#0c2a1a',s:'#3d8a5c',c:'#9FE1CB',fw:'400',fs:'9.5'},
+            email: {f:'#060f1c',s:'rgba(27,63,255,0.65)',c:'rgba(255,255,255,0.82)',fw:'400',fs:'8.5'},
+            branch:{f:'#1e1b06',s:'rgba(255,200,50,0.55)',c:'rgba(255,210,80,0.92)',fw:'600',fs:'9.5'},
+            exit:  {f:'transparent',s:'#3a3a3a',c:'#545454',fw:'400',fs:'8',d:'4,3'},
+            exit2: {f:'#081608',s:'rgba(93,202,165,0.38)',c:'rgba(93,202,165,0.72)',fw:'400',fs:'8.5'},
+          };
+
+          let eS='', nS='';
+
+          for(const[a,b] of E){
+            const na=N[a],nb=N[b];
+            const x1=na.x+na.w/2,y1=na.y+na.h,x2=nb.x+nb.w/2,y2=nb.y;
+            const my=(y1+y2)/2;
+            eS+=`<path d="M${x1},${y1} C${x1},${my} ${x2},${my} ${x2},${y2}" fill="none" stroke="rgba(93,202,165,0.38)" stroke-width="1.3" marker-end="url(#fa)"/>`;
+          }
+
+          for(const[id,n] of Object.entries(N)){
+            const c=TC[n.t], cx=n.x+n.w/2;
+            const lh=11.5, lines=n.lb;
+            const totalH=(lines.length-1)*lh;
+            const firstY=n.y+n.h/2-totalH/2+3.5;
+
+            nS+=`<rect x="${n.x}" y="${n.y}" width="${n.w}" height="${n.h}" rx="5" fill="${c.f}" stroke="${c.s}" stroke-width="1"${c.d?` stroke-dasharray="${c.d}"`:''}/>`;
+            nS+=`<text text-anchor="middle" font-family="DM Sans,sans-serif" font-size="${c.fs}" font-weight="${c.fw}" fill="${c.c}">`;
+            lines.forEach((l,i)=>{ nS+=`<tspan x="${cx}" y="${firstY+i*lh}">${l}</tspan>`; });
+            nS+=`</text>`;
+            if(n.nt) nS+=`<text x="${cx}" y="${n.y+n.h-4}" text-anchor="middle" font-family="DM Sans,sans-serif" font-size="7" font-style="italic" fill="rgba(255,255,255,0.22)">${n.nt}</text>`;
+          }
+
+          return `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 730 738" width="100%" height="auto" style="display:block; min-width:600px;">
+            <defs>
+              <marker id="fa" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="5" markerHeight="5" orient="auto-start-reverse">
+                <path d="M0,0 L10,5 L0,10 Z" fill="rgba(93,202,165,0.52)"/>
+              </marker>
+            </defs>
+            ${eS}${nS}
+          </svg>`;
+        }
+
         const inventoryData = [
-            { id: 'Wander', client: 'Krishna Shukla', tags: ['Identity Content', 'Comedy Business'], stat: '186M Views', bg: '#012CEB', text: '#F4EFE6', sysId: '01' },
-            { id: 'Kroft', client: 'RNTL.', tags: ['Founding Marketer', 'Gen-Z Fashion'], stat: '4.6X Efficiency Lift', bg: '#FF331F', text: '#F4EFE6', sysId: '02' },
-            { id: 'Funnel Rescue', client: 'SaaS Co.', tags: ['Conversion', 'UX/UI Drop'], stat: '60% Drop Reduced', bg: '#051024', text: '#F4EFE6', sysId: '03' },
-            { id: 'Culture Takeover', client: 'Traction', tags: ['Community', 'Event Design'], stat: '10K+ Gained', bg: '#00E559', text: '#051024', sysId: '04' },
-            { id: 'Metrics to KPIs', client: 'Growth Tech', tags: ['ROAS Strategy', 'Ad Budget'], stat: 'Optimized Budget', bg: '#E5DFC8', text: '#012CEB', sysId: '05' }
+            { 
+                id: 'Wander', client: 'Krishna Shukla', tags: ['Identity Content', 'Comedy Business'], stat: '₹4.4L Revenue', bg: '#1B3FFF', text: '#F4EFE6', sysId: '01',
+                customHTML: `
+                <div class="cs-bespoke-layout l1">
+                    <div class="cs-over">Freelance · Brand & Business Manager</div>
+                    <div class="cs-title">WANDER</div>
+                    <div class="cs-sub">Stand-up artist, Delhi · 130K+ Instagram followers</div>
+                    <div class="cs-tags"><span class="cs-tag">Content Strategy</span><span class="cs-tag">Creator Economy</span><span class="cs-tag">Touring Business</span></div>
+                    <div class="prob-headline">186M views. Zero revenue infrastructure. The attention existed. The business didn't.</div>
+                    <div class="ppills">
+                      <div class="ppill">Stuck in a local echo chamber — viewers watched but never shared or bought tickets.</div>
+                      <div class="ppill">Operations were ad-hoc college gigs with no system, no scale, no repeat revenue.</div>
+                    </div>
+                    <div class="arc-lbl">Strategy & Execution — Content to Commerce Pipeline</div>
+                    <div class="arc">
+                      <div class="arc-step"><div class="arc-si"><div class="arc-n">01</div><div class="arc-t">Identity Pivot</div><div class="arc-b">Shifted to POV-driven identity content to acquire cold audiences aggressively.</div></div></div>
+                      <div class="arc-arr">→</div>
+                      <div class="arc-step"><div class="arc-si"><div class="arc-n">02</div><div class="arc-t">Virality Engine</div><div class="arc-b">Achieved 3x Loop Rate & 1:3 Share-to-Like — turning viewers into distributors.</div></div></div>
+                      <div class="arc-arr">→</div>
+                      <div class="arc-step"><div class="arc-si"><div class="arc-n">03</div><div class="arc-t">Touring IP</div><div class="arc-b">Operationalized 40+ shows across Delhi, Jaipur, Lucknow & Goa with repeatable logistics.</div></div></div>
+                    </div>
+                    <span class="slbl">Impact</span>
+                    <div class="ir">
+                      <div class="imp"><div class="imp-n">₹4.4L+</div><div class="imp-l">Revenue in 3 months</div></div>
+                      <div class="imp"><div class="imp-n">115%</div><div class="imp-l">Follower growth</div></div>
+                      <div class="imp"><div class="imp-n">40+</div><div class="imp-l">Shows pan-India</div></div>
+                      <div class="imp"><div class="imp-n">186M+</div><div class="imp-l">Views monetized</div></div>
+                      <div class="imp"><div class="imp-n">3x</div><div class="imp-l">Loop Rate</div></div>
+                      <div class="imp"><div class="imp-n">1:3</div><div class="imp-l">Share-to-Like</div></div>
+                    </div>
+                </div>`
+            },
+            { 
+                id: 'Drop.', client: 'RNTL.', tags: ['Trust Engineering', 'Paid Social'], stat: '4.6X Lift', bg: '#0D0D0D', text: '#F4EFE6', sysId: '02',
+                customHTML: `
+                <div class="cs-bespoke-layout l2">
+                    <div class="cs-over">Founding Marketer · Core Team</div>
+                    <div class="cs-title">DROP.</div>
+                    <div class="cs-sub">RNTL. — Fashion rental marketplace for Gen-Z · Pre-launch startup</div>
+                    <div class="cs-tags"><span class="cs-tag">Meta Ads</span><span class="cs-tag">Consumer Psychology</span><span class="cs-tag">Brand Launch</span></div>
+                    <div class="duel">
+                      <div class="dfear"><div class="dlbl">Consumer Fear</div><div class="dhl">"Why rent when I can own?"</div><div class="dbd">Renting felt like a sunk cost. No social proof, no category category trust, zero brand history. The "is this brand real?" question came before any purchase intent.</div></div>
+                      <div class="dvs">VS</div>
+                      <div class="dtrust"><div class="dlbl">Our Answer</div><div class="dhl">Borrowed equity. Sell the lifestyle, not the product.</div><div class="dbd">Made credible people endorse renting as a lifestyle — removing the trust deficit before it was even asked.</div></div>
+                    </div>
+                    <div class="spl"><div class="spl-lbl">RNTL. Spotlight Series — 5 Industry Voices, 2M+ Combined Network</div><div class="spl-row"><div class="spill"><div class="spn">Nikita Luther</div><div class="sps">95K · The Traitors India</div></div><div class="spill"><div class="spn">Anya Singh</div><div class="sps">496K · Stree 2</div></div><div class="spill"><div class="spn">Ranjit Bajaj</div><div class="sps">1.1M · Minerva FC</div></div><div class="spill"><div class="spn">Harpriya Bains</div><div class="sps">215K · Stand-up</div></div></div></div>
+                    <span class="slbl">Impact</span>
+                    <div class="ir">
+                      <div class="imp"><div class="imp-n">4.6x</div><div class="imp-l">Ad efficiency lift</div></div>
+                      <div class="imp"><div class="imp-n">35%+</div><div class="imp-l">Hook Rate</div></div>
+                      <div class="imp"><div class="imp-n">₹0.9</div><div class="imp-l">CPC</div></div>
+                      <div class="imp"><div class="imp-n">500+</div><div class="imp-l">Pre-launch waitlist</div></div>
+                      <div class="imp"><div class="imp-n">₹7</div><div class="imp-l">Best CPM</div></div>
+                      <div class="imp"><div class="imp-n">2M+</div><div class="imp-l">Influencer network</div></div>
+                    </div>
+                </div>`
+            },
+            { 
+                id: 'Sins Crew', client: 'Sinskari', tags: ['Email Funnel', 'D2C Strategy'], stat: '25+ Carts Recovered', bg: '#0F2D1F', text: '#F4EFE6', sysId: '03',
+                customHTML: `
+                <div class="cs-bespoke-layout l3">
+                    <div class="cs-over">Strategy Intern · 4 Weeks</div>
+                    <div class="cs-title">SINS CREW</div>
+                    <div class="cs-sub">Sinskari — Growing D2C streetwear brand for Gen-Z India</div>
+                    <div class="cs-tags"><span class="cs-tag">Email Automation</span><span class="cs-tag">CX Journey</span><span class="cs-tag">Retention</span></div>
+                    <div class="prob-strip"><div class="ps-lbl">The Problem</div><div class="ps-txt">No behavioral triggers. No segment logic. No recovery sequences. Revenue was bleeding through abandoned carts daily — with zero infrastructure to catch it.</div></div>
+                    <div class="flow-wrap">${buildFlow()}</div>
+                    <span class="slbl">Impact</span>
+                    <div class="ir">
+                      <div class="imp"><div class="imp-n">25+</div><div class="imp-l">Carts recovered</div></div>
+                      <div class="imp"><div class="imp-n">10%</div><div class="imp-l">Conversion boost</div></div>
+                      <div class="imp"><div class="imp-n">15%</div><div class="imp-l">Traffic increase</div></div>
+                      <div class="imp"><div class="imp-n">15+</div><div class="imp-l">Competitors benchmarked</div></div>
+                      <div class="imp"><div class="imp-n">3</div><div class="imp-l">Market gaps found</div></div>
+                      <div class="imp"><div class="imp-n">10%</div><div class="imp-l">Drop-off reduced</div></div>
+                    </div>
+                </div>`
+            },
+            { 
+                id: 'Histrionica', client: 'Dramsoc SRCC', tags: ['Brand Growth', 'Sponsorships'], stat: '₹55L+ Secured', bg: '#1A0633', text: '#F4EFE6', sysId: '04',
+                customHTML: `
+                <div class="cs-bespoke-layout l4">
+                    <div class="cs-over">Vice President · The Dramatics Society, SRCC</div>
+                    <div class="cs-title">HISTRIONICA</div>
+                    <div class="cs-sub">DU's most-followed college society · Tier-1 flagship annual festival</div>
+                    <div class="cs-tags"><span class="cs-tag">Sponsorships</span><span class="cs-tag">Performance Mktg</span><span class="cs-tag">Creative Direction</span></div>
+                    <div class="mp-lbl">The Problem</div>
+                    <div class="mp-txt">One of DU's oldest societies had no systematic growth engine. Sponsorships were ad-hoc. Digital presence minimal. No playbook for brand partnerships or content at scale.</div>
+                    <div class="bigs"><div><div class="bsn">₹55L+</div><div class="bsl">Sponsorship value</div></div><div><div class="bsn">33M+</div><div class="bsl">Campaign reach</div></div><div><div class="bsn">234%</div><div class="bsl">YoY growth</div></div><div><div class="bsn">12K+</div><div class="bsl">Event footfall</div></div></div>
+                    <div class="chs">
+                      <div class="ch"><div class="ch-lbl">Sponsorship Strategy</div><div class="ch-t">Swiggy, Rapido, McDonald's, Redtape, Zebronics</div><div class="ch-d">Negotiated & closed ₹55L+ in brand deals. Managed 30+ sponsors for JFL.</div></div>
+                      <div class="ch"><div class="ch-lbl">Performance Marketing</div><div class="ch-t">2.2M+ reach in under 3 days</div><div class="ch-d">837K incremental boost. 96.4% ↑ in unique visitors. 283K interactions via adspend.</div></div>
+                      <div class="ch"><div class="ch-lbl">Creative Direction</div><div class="ch-t">A/B tested across 6+ locations</div><div class="ch-d">All visual assets directed to create FOMO and drive engagement at scale.</div></div>
+                      <div class="ch"><div class="ch-lbl">Social Growth</div><div class="ch-t">Most-followed college club, DU</div><div class="ch-d">Grew to 10K+ followers in 6 months. 270%+ engagement boost via data-driven optimization.</div></div>
+                    </div>
+                </div>`
+            },
+            { 
+                id: 'Signal', client: 'Jio Hotstar', tags: ['GTM Strategy', 'Campus Marketing'], stat: '7L+ Impressions', bg: '#001F4D', text: '#F4EFE6', sysId: '05',
+                customHTML: `
+                <div class="cs-bespoke-layout l5">
+                    <div class="cs-over">Marketing & GTM Strategy Lead</div>
+                    <div class="cs-title">SIGNAL</div>
+                    <div class="cs-sub">Jio Hotstar show launch · 5–7 college campuses · 30,000+ Gen-Z target</div>
+                    <div class="cs-tags"><span class="cs-tag">GTM</span><span class="cs-tag">Campus Activation</span><span class="cs-tag">Influencer Network</span><span class="cs-tag">OTT</span></div>
+                    <div class="gp">Gen-Z doesn't show up for ads. They show up for culture. The challenge: make a streaming show launch feel like a campus moment — and then convert it.</div>
+                    <div class="ph-lbl">GTM Execution Phases — 55-member team, 5–7 campuses</div>
+                    <div class="phs">
+                      <div class="ph"><div class="ph-num">01</div><div class="ph-c"><div class="ph-t">Audience Architecture</div><div class="ph-b">Tiered segmentation across 5–7 campuses with hyper-personalized messaging at each touchpoint.</div><div class="ph-bg">30,000+ students reached</div></div></div>
+                      <div class="ph"><div class="ph-num">02</div><div class="ph-c"><div class="ph-t">Micro-Influencer Network</div><div class="ph-b">Built and scaled 25–40 campus influencers to unlock organic reach and compress cost-per-reach vs paid channels.</div><div class="ph-bg">45,000+ incremental organic reach</div></div></div>
+                      <div class="ph"><div class="ph-num">03</div><div class="ph-c"><div class="ph-t">Celebrity Amplification</div><div class="ph-b">Orchestrated campaigns featuring Abhishek Malhan & Khushboo Patani to spike live engagement and drive cultural credibility.</div><div class="ph-bg">2–3x spike in live engagement</div></div></div>
+                      <div class="ph"><div class="ph-num">04</div><div class="ph-c"><div class="ph-t">UGC Conversion Engine</div><div class="ph-b">Converted on-ground attendees into content distributors via social communities — turning footfall into organic amplification.</div><div class="ph-bg">8,000+ peer-to-peer shares · 10+ UGC posts</div></div></div>
+                    </div>
+                    <span class="slbl">Impact</span>
+                    <div class="ir">
+                      <div class="imp"><div class="imp-n">7L+</div><div class="imp-l">Impressions in 72hrs</div></div>
+                      <div class="imp"><div class="imp-n">12–15%</div><div class="imp-l">Conversion rate</div></div>
+                      <div class="imp"><div class="imp-n">40K+</div><div class="imp-l">Engagements</div></div>
+                      <div class="imp"><div class="imp-n">1,300+</div><div class="imp-l">Attendees converted</div></div>
+                    </div>
+                </div>`
+            }
         ];
         
         const railEl = document.getElementById('vending-rail');
@@ -1073,7 +1868,6 @@
         let dispenseCount = 0;
         let targetIndex = 0; 
         
-        // Populate internal reel dynamically with targeted colors
         function buildReel() {
             if (!railEl) return;
             let htmlCards = '';
@@ -1081,11 +1875,25 @@
                 const data = inventoryData[i % inventoryData.length];
                 const finalData = i === (totalItems - 2) ? inventoryData[targetIndex] : data;
                 htmlCards += `
-                    <div class="archival-card absolute top-1/2 -translate-y-1/2 w-[100px] h-[150px] flex flex-col justify-between p-3 rounded-[5px] overflow-hidden transition-colors border border-[rgba(255,255,255,0.1)]" style="background: ${finalData.bg}; color: ${finalData.text}; box-shadow: 0 10px 20px rgba(0,0,0,0.8); left: ${i * cardWidth}px;">
+                    <div class="archival-card absolute top-1/2 -translate-y-1/2 w-[100px] h-[150px] flex flex-col justify-between p-2 rounded-[5px] overflow-hidden transition-colors border border-[rgba(255,255,255,0.1)]" style="background: ${finalData.bg}; color: ${finalData.text}; box-shadow: 0 10px 20px rgba(0,0,0,0.8); left: ${i * cardWidth}px;">
                         <div class="absolute inset-0 pointer-events-none opacity-20 mix-blend-overlay" style="background-image: url('data:image/svg+xml,%3Csvg viewBox=%220 0 200 200%22 xmlns=%22http://www.w3.org/2000/svg%22%3E%3Cfilter id=%22noise%22%3E%3CfeTurbulence type=%22fractalNoise%22 baseFrequency=%221.5%22 numOctaves=%223%22 stitchTiles=%22stitch%22/%3E%3C/filter%3E%3Crect width=%22100%25%22 height=%22100%25%22 filter=%22url(%23noise)%22/%3E%3C/svg%3E');"></div>
                         <div class="card-wave" style="opacity: 0.8;"></div>
-                        <div class="font-[Inter] font-bold text-[6px] tracking-widest uppercase flex justify-between z-10 opacity-70 top-row transition-colors duration-500"><span>[${finalData.sysId}]</span></div>
-                        <div class="z-10 flex flex-col gap-1 mt-auto pb-1"><div class="font-[Inter] font-[900] text-xl uppercase tracking-tighter opacity-90 card-title transition-colors duration-500 leading-none">${finalData.id}</div></div>
+                        
+                        <div class="relative z-10 pointer-events-none w-full">
+                            <div class="text-[4px] font-bold uppercase tracking-widest opacity-80 mb-[6px] flex justify-between items-start">
+                                <span>[${finalData.sysId}]</span>
+                                <span class="truncate ml-1 opacity-70 text-right w-1/2">${finalData.client}</span>
+                            </div>
+                            <h3 class="text-sm font-[900] uppercase tracking-tighter leading-[0.9] mb-[6px]">${finalData.id}</h3>
+                            <div class="flex flex-col gap-[2px] items-start">
+                                ${finalData.tags.map(tag => `<span class="text-[3px] font-extrabold uppercase tracking-[0.05em] px-1 py-[2px] rounded-sm border border-current opacity-80 whitespace-nowrap">${tag}</span>`).join('')}
+                            </div>
+                        </div>
+                        
+                        <div class="relative z-10 pointer-events-none w-full flex flex-col items-start pb-1">
+                            <div class="text-[3px] font-bold uppercase tracking-widest opacity-80 mb-[1px]">Primary Metric</div>
+                            <div class="text-[9px] font-[900] uppercase tracking-tighter leading-none">${finalData.stat}</div>
+                        </div>
                         <div class="card-glow absolute inset-0 mix-blend-screen opacity-0 transition-opacity duration-1000 z-0" style="background: linear-gradient(180deg, rgba(255,255,255,0.3) 0%, transparent 100%);"></div>
                     </div>`;
             }
@@ -1093,12 +1901,11 @@
         }
         buildReel();
         
-        // Machine internal loop
         gsap.ticker.add(() => {
             if(!glassChamber || !railEl) return;
             const chamberCenter = glassChamber.getBoundingClientRect().left + (glassChamber.getBoundingClientRect().width / 2);
             Array.from(railEl.children).forEach((card, i) => {
-                if (card.classList.contains('locked-focus')) return; // Prevent ticker from fighting the extraction animation
+                if (card.classList.contains('locked-focus')) return; 
                 const cardWorldX = railEl.getBoundingClientRect().left + (i * cardWidth + (cardWidth/2));
                 const dist = cardWorldX - chamberCenter;
                 const scale = Math.max(0.6, 1 - (Math.abs(dist) * 0.002));
@@ -1109,7 +1916,6 @@
         });
         if (railEl) gsap.set(railEl, { x: -(cardWidth / 2) });
 
-        // --- BULLETPROOF GSAP DRAGGABLE FOR COIN ---
         const coin = document.getElementById('vending-coin');
         const slot = document.getElementById('vending-slot-target');
         let vendingActive = false;
@@ -1135,7 +1941,6 @@
                             onComplete: () => {
                                 gsap.fromTo(coin, { x: "+=2" }, { x: "-=2", yoyo: true, repeat: 3, duration: 0.04 });
                                 gsap.fromTo('#slot-pulse', { scale: 0.5, opacity: 1 }, { scale: 1.5, opacity: 0, duration: 0.6, ease: "power2.out" });
-                                
                                 if (dispenseCount >= 5) {
                                     initiateEasterEggSequence();
                                 } else {
@@ -1200,16 +2005,42 @@
             document.getElementById('status-text').innerText = "Scanning Archive";
             gsap.set('#chamber-blackout', { scaleX: 1 }); gsap.set(railEl, { filter: "blur(20px) brightness(2.5)" }); gsap.set('#chamber-scanner', { left: "0%", opacity: 1 });
             const stopIndex = totalItems - 2; const finalX = -(stopIndex * cardWidth) - (cardWidth / 2);
+            
+            if (isAudioInit) {
+                let now = Tone.now();
+                beepSynth.triggerAttackRelease("C6", "32n", now);
+                beepSynth.triggerAttackRelease("E6", "32n", now + 0.15);
+                beepSynth.triggerAttackRelease("G6", "16n", now + 0.3);
+                
+                for (let i = 0; i < 20; i++) {
+                    gearSynth.triggerAttackRelease("C1", "64n", now + 0.8 + (i * 0.12) + (i * i * 0.006)); 
+                }
+            }
+
             const seqTl = gsap.timeline();
             seqTl.to('#chamber-scanner', { left: "100%", duration: 1.5, ease: "power2.inOut" }, 0);
             seqTl.to('#chamber-blackout', { scaleX: 0, duration: 1.5, ease: "power2.inOut" }, 0);
             seqTl.to('#chamber-scanner', { opacity: 0, duration: 0.2 }, 1.5);
             seqTl.to(railEl, { filter: "blur(0px) brightness(1)", duration: 1.2, ease: "power2.out" }, 0.8);
+            
+            seqTl.to('#vending-machine', {
+                x: "random(-6, 6)",
+                y: "random(-3, 3)",
+                duration: 0.05,
+                repeat: 75, 
+                yoyo: true,
+                repeatRefresh: true, 
+                ease: "none",
+                clearProps: "x,y"
+            }, 0.8);
+
             seqTl.to(railEl, { x: finalX - 20, duration: 4.0, ease: "power3.out", onComplete: () => {
                 gsap.to(railEl, { x: finalX, duration: 0.4, ease: "back.out(2)" });
                 const winningCardDOM = railEl.children[stopIndex];
-                winningCardDOM.classList.add('locked-focus'); // Lock from ticker override
+                winningCardDOM.classList.add('locked-focus'); 
                 
+                if (isAudioInit) lockSynth.triggerAttackRelease("C1", "8n");
+
                 gsap.to(winningCardDOM.querySelector('.card-glow'), { opacity: 0.9, duration: 0.5 });
                 
                 const focusTl = gsap.timeline();
@@ -1277,23 +2108,25 @@
 
             domCard.addEventListener('click', () => {
                 if (hasDraggedCarousel) return; 
-                const cardIndex = parseInt(domCard.dataset.index);
-                const targetPos = -cardIndex * coverflowSpacing;
-                if (Math.abs(carouselCurrentX - targetPos) > 50) { carouselTargetX = targetPos; } 
-                else { openDissectModal(data, domCard); }
+                openDissectModal(data, domCard); 
+                if (typeof triggerExploration === 'function') triggerExploration(`vending_card_${data.id}`);
             });
 
             domCard.dataset.index = 0;
             carouselTrack.appendChild(domCard); dispensedCards.push(domCard); 
-            if (typeof lucide !== 'undefined') lucide.createIcons({ root: domCard });
+            
+            if (typeof lucide !== 'undefined') {
+                lucide.createIcons({ root: domCard });
+            }
             carouselTargetX = 0;
             
-            gsap.fromTo(domCard, { y: -800 }, { y: 0, duration: 1.6, ease: "expo.out" });
+            gsap.fromTo(domCard, { y: -800 }, { y: 0, duration: 1.6, ease: "expo.out", onStart: () => {
+                if (isAudioInit) arrivalSynth.triggerAttackRelease(["C4", "E4", "G4"], "8n");
+            }});
 
             setTimeout(() => {
                 document.getElementById('status-text').innerText = "Rewinding Archive";
                 
-                // Cinematic Rewind
                 gsap.to(railEl, {
                     x: -(cardWidth / 2),
                     duration: 2.5,
@@ -1305,14 +2138,12 @@
                         
                         targetIndex = dispenseCount < 5 ? dispenseCount : 4;
                         buildReel(); 
-                        
                         gsap.set('#chamber-blackout', { scaleX: 0 }); 
                     }
                 });
             }, 2000);
         }
 
-        // --- EASTER EGG (FREE TIME DESIGN REDIRECT) ---
         function initiateEasterEggSequence() {
             document.getElementById('status-text').innerText = "SYS.BREACH // OVERLOAD";
             
@@ -1322,30 +2153,22 @@
                 statusDot.style.boxShadow = "0 0 15px #FF331F";
             }
             
-            // Machine Glitch Effect
             const tl = gsap.timeline();
             tl.to('#vending-machine', { x: "+=10", yoyo: true, repeat: 5, duration: 0.05 });
             tl.to('#glass-chamber-container', { filter: "invert(1) hue-rotate(90deg)", duration: 0.2, yoyo: true, repeat: 3 }, 0);
             
-            // Easter Egg Audio
             if (isAudioInit && typeof travelSynth !== 'undefined' && typeof arrivalSynth !== 'undefined') {
                 travelSynth.triggerAttackRelease("0.5s");
                 arrivalSynth.triggerAttackRelease(["C5", "E5", "G5", "B5"], "2n");
             }
 
-            // Screen transition
             const glitchBg = document.createElement('div');
             glitchBg.className = 'fixed inset-0 z-[9999] flex flex-col justify-center items-center pointer-events-none opacity-0 bg-[var(--blue)]';
             glitchBg.innerHTML = '<h2 class="font-[\'Inter\'] font-[900] text-5xl md:text-8xl uppercase tracking-tighter text-[var(--beige)] animate-pulse text-center leading-none">Entering<br>Playground</h2><p class="font-bold text-xs uppercase tracking-widest text-[var(--beige)] mt-6 opacity-80 border border-[var(--beige)] px-4 py-2">Diverting to free-time designs...</p>';
             document.body.appendChild(glitchBg);
 
             tl.to(glitchBg, { opacity: 1, duration: 1.0, ease: "power2.inOut", onComplete: () => {
-                
-                // --- REDIRECT HAPPENS HERE ---
-                // Replace this URL with your actual free-time designs link!
                 window.open('https://dribbble.com/', '_blank'); 
-                
-                // Reset machine state so when they close the new tab, it's not locked forever
                 setTimeout(() => {
                     gsap.to(glitchBg, { opacity: 0, duration: 1.0, onComplete: () => glitchBg.remove() });
                     document.getElementById('status-text').innerText = "Archive Depleted";
@@ -1364,37 +2187,169 @@
         const dissectCardContainer = document.getElementById('dissect-card-container');
 
         function openDissectModal(data, sourceCard) {
-            document.getElementById('modal-client').innerText = `CLIENT: ${data.client}`; document.getElementById('modal-title').innerText = data.id;
-            document.getElementById('modal-tags').innerHTML = data.tags.map(tag => `<span class="text-[10px] font-extrabold uppercase tracking-widest px-4 py-2 rounded-full border border-current">${tag}</span>`).join('');
-            document.getElementById('modal-stat').innerText = data.stat;
-            dissectCardContainer.style.background = data.bg; dissectCardContainer.style.color = data.text;
+            if (typeof lenis !== 'undefined') lenis.stop(); 
+            
+            document.getElementById('modal-inner-content').innerHTML = data.customHTML;
+
+            dissectCardContainer.style.background = data.bg; 
+            dissectCardContainer.style.color = data.text;
+            
+            const isDark = (data.bg === '#010204' || data.bg === '#051024' || data.bg === '#0a0a0a' || data.bg === '#0D0D0D' || data.bg === '#1A0633' || data.bg === '#001F4D' || data.bg === '#0F2D1F');
+            dissectCardContainer.style.borderColor = isDark ? 'rgba(255,255,255,0.2)' : 'rgba(0,0,0,0.2)';
+
             dissectModal.classList.remove('hidden'); dissectModal.classList.add('flex');
             
             const rect = sourceCard.getBoundingClientRect();
+            const finalWidth = window.innerWidth > 800 ? 800 : window.innerWidth * 0.95;
+            const finalHeight = window.innerHeight > 900 ? 900 : window.innerHeight * 0.9;
+            
+            gsap.set('#modal-inner-content', { opacity: 0, y: 20 });
+            
             gsap.fromTo(dissectCardContainer, 
-                { scale: 0.6, x: (rect.left + rect.width / 2) - window.innerWidth / 2, y: (rect.top + rect.height / 2) - window.innerHeight / 2, opacity: 0 },
-                { scale: 1, x: 0, y: 0, opacity: 1, duration: 0.6, ease: "power4.out" }
+                { 
+                    width: rect.width,
+                    height: rect.height,
+                    x: (rect.left + rect.width / 2) - (window.innerWidth / 2), 
+                    y: (rect.top + rect.height / 2) - (window.innerHeight / 2), 
+                    borderRadius: "20px",
+                    opacity: 1
+                },
+                { 
+                    width: finalWidth,
+                    height: finalHeight,
+                    x: 0, 
+                    y: 0, 
+                    borderRadius: "24px",
+                    opacity: 1, 
+                    duration: 0.8, 
+                    ease: "expo.inOut",
+                    onComplete: () => {
+                        gsap.set(dissectCardContainer, { clearProps: "width,height" });
+                    }
+                }
             );
+            
+            gsap.to('#modal-inner-content', { opacity: 1, y: 0, duration: 0.6, delay: 0.4, ease: "power3.out" });
             gsap.to(dissectModal, { opacity: 1, duration: 0.4, pointerEvents: 'auto' });
         }
 
         const closeBtn = document.getElementById('close-modal-btn');
         if(closeBtn) {
             closeBtn.addEventListener('click', () => {
-                gsap.to(dissectCardContainer, { scale: 0.8, y: 100, opacity: 0, duration: 0.4, ease: "power2.in" });
-                gsap.to(dissectModal, { opacity: 0, pointerEvents: 'none', duration: 0.4, delay: 0.1, onComplete: () => { dissectModal.classList.add('hidden'); dissectModal.classList.remove('flex'); }});
+                gsap.to('#modal-inner-content', { opacity: 0, y: -20, duration: 0.2 });
+                gsap.to(dissectCardContainer, { 
+                    width: window.innerWidth > 768 ? 320 : 260, 
+                    height: window.innerWidth > 768 ? 480 : 400,
+                    opacity: 0, 
+                    duration: 0.5, 
+                    ease: "power3.inOut",
+                    delay: 0.1
+                });
+                
+                gsap.to(dissectModal, { 
+                    opacity: 0, pointerEvents: 'none', duration: 0.5, delay: 0.3, 
+                    onComplete: () => { 
+                        dissectModal.classList.add('hidden'); 
+                        dissectModal.classList.remove('flex'); 
+                        gsap.set(dissectCardContainer, { clearProps: "all" });
+                        if (typeof lenis !== 'undefined') lenis.start(); 
+                    }
+                });
             });
         }
 
+        // --- TOP RIBBON SYSTEM HUD & FOMO LOGIC ---
+        const exploredMilestones = new Set();
+        const TOTAL_MILESTONES = 12; 
+
+        function triggerExploration(milestone) {
+            if (!exploredMilestones.has(milestone)) {
+                exploredMilestones.add(milestone);
+                
+                const pct = Math.min(100, (exploredMilestones.size / TOTAL_MILESTONES) * 100);
+                
+                const bar = document.getElementById('scroll-progress-bar');
+                const pctText = document.getElementById('scroll-pct');
+                
+                if(bar) bar.style.width = pct + '%';
+                
+                if(pctText) {
+                    let frame = 0;
+                    const target = Math.round(pct);
+                    
+                    const anim = () => {
+                        if (frame > 20) { 
+                            pctText.textContent = target + '%'; 
+                            pctText.style.color = "white"; 
+                            return; 
+                        }
+                        pctText.style.color = "#4a7fff"; 
+                        pctText.textContent = Math.floor(Math.random() * 99) + '%';
+                        frame++;
+                        requestAnimationFrame(anim);
+                    };
+                    anim();
+                }
+            }
+        }
+
+        let sessionSeconds = 0;
+        const timerEl = document.getElementById('session-timer');
+
+        setInterval(() => {
+            sessionSeconds++;
+            const m = Math.floor(sessionSeconds / 60);
+            const s = sessionSeconds % 60;
+            if(timerEl) timerEl.textContent = `${m}:${s < 10 ? '0' : ''}${s}`;
+        }, 1000);
+
+        // --- HINGLISH ROTATOR ---
+        const hinglishPhrases = [
+            "— STILL COUNTING",
+            "— PLS DO THE NEEDFUL",
+            "— CIRCLING BACK ON THIS",
+            "— LET'S TAKE THIS OFFLINE",
+            "— ALIGNING THE BANDWIDTH",
+            "— KINDLY PREPONE",
+            "— REVERTING BACK SOON",
+            "— OUT OF POCKET CURRENTLY",
+            "— JUST FOLLOWING UP"
+        ];
+        let hinglishIdx = 0;
+        const phraseEl = document.getElementById('hinglish-phrase');
+        if (phraseEl) {
+            setInterval(() => {
+                gsap.to(phraseEl, {
+                    y: -10, opacity: 0, duration: 0.3, ease: "power2.in", onComplete: () => {
+                        hinglishIdx = (hinglishIdx + 1) % hinglishPhrases.length;
+                        phraseEl.innerText = hinglishPhrases[hinglishIdx];
+                        gsap.set(phraseEl, { y: 10 });
+                        gsap.to(phraseEl, { y: 0, opacity: 1, duration: 0.3, ease: "power2.out" });
+                    }
+                });
+            }, 3500);
+        }
+
+        const clockEl = document.getElementById('live-ist');
+
+        function updateIST() {
+            const time = new Date().toLocaleTimeString('en-IN', { 
+                timeZone: 'Asia/Kolkata', 
+                hour12: false 
+            }); 
+            if(clockEl) clockEl.textContent = time;
+        }
+
+        updateIST();
+        setInterval(updateIST, 1000);
+
         // --- DEFERRED SCROLLTRIGGERS ---
-        // Initialize nav triggers AFTER all pinning timelines to ensure correct scroll positions.
-        // This prevents the navbar from prematurely highlighting the next section during the horizontal scroll.
         navSections.forEach(id => {
             ScrollTrigger.create({
                 trigger: `#${id}`,
-                start: "top top",
-                end: "bottom top",
-                onEnter: () => updateNavState(id),
+                start: "top 60%",
+                end: "bottom 40%",
+                onEnter: () => { updateNavState(id); triggerExploration(`section_${id}`); },
                 onEnterBack: () => updateNavState(id)
             });
         });
