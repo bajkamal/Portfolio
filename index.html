@@ -22,10 +22,10 @@
     <!-- Tone.js (Cinematic Sound Design) -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/tone/14.8.49/Tone.js"></script>
 
-    <!-- Fonts: Dr Sugiyama + Inter + DM Mono + Bebas Neue -->
+    <!-- Fonts: Dr Sugiyama + Inter + DM Mono + Bebas Neue + DM Sans -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500;700&family=Dr+Sugiyama&family=Inter:wght@400;600;800;900&family=Bebas+Neue&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500;700&family=Dr+Sugiyama&family=Inter:wght@400;600;800;900&family=Bebas+Neue&family=DM+Sans:ital,wght@0,300;0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
 
     <style>
         :root {
@@ -324,6 +324,111 @@
             animation: scan 4s infinite ease-in-out;
             transform-origin: center;
         }
+
+        /* --- CASE STUDY CSS OVERRIDES (INTEGRATED) --- */
+        .cs-bespoke-layout { font-family: 'DM Sans', sans-serif; width: 100%; min-height: 100%; padding: 2rem; box-sizing: border-box; position: relative;}
+        @media (max-width: 768px) { .cs-bespoke-layout { padding: 1.5rem; } }
+        /* L1 */
+        .l1{background:#1B3FFF;color:#fff;}
+        .cs-over{font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:rgba(255,255,255,.5);margin-bottom:4px}
+        .cs-title{font-family:'Bebas Neue',sans-serif;font-size:52px;line-height:1;margin-bottom:4px}
+        .cs-sub{font-size:12px;color:rgba(255,255,255,.55);margin-bottom:1.5rem}
+        .cs-tags{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:2rem}
+        .cs-tag{border:1px solid rgba(255,255,255,.25);border-radius:100px;padding:3px 10px;font-size:10px;text-transform:uppercase;letter-spacing:.06em;color:rgba(255,255,255,.7)}
+        .prob-headline{font-size:20px;font-weight:700;line-height:1.25;margin-bottom:1rem}
+        .ppills{display:flex;flex-direction:column;gap:8px;margin-bottom:2rem}
+        .ppill{background:rgba(0,0,0,.2);border-radius:6px;padding:.7rem 1rem;font-size:13px;color:rgba(255,255,255,.85);line-height:1.5}
+        .arc-lbl{font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:rgba(255,255,255,.45);margin-bottom:1rem}
+        .arc{display:flex;align-items:flex-start;gap:0;margin-bottom:2rem; overflow-x:auto; padding-bottom:1rem;}
+        .arc-step{flex:1;min-width:140px}
+        .arc-si{background:rgba(0,0,0,.15);border-radius:8px;padding:.8rem;margin-right:4px;height:100%}
+        .arc-n{font-family:'Bebas Neue',sans-serif;font-size:30px;color:rgba(255,255,255,.2);line-height:1}
+        .arc-t{font-size:11px;font-weight:600;color:#fff;text-transform:uppercase;letter-spacing:.06em;margin-bottom:4px}
+        .arc-b{font-size:11px;color:rgba(255,255,255,.65);line-height:1.5}
+        .arc-arr{display:flex;align-items:center;padding:0 4px;color:rgba(255,255,255,.3);font-size:18px;margin-top:24px}
+        .ir{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+        @media (max-width: 600px) { .ir { grid-template-columns: repeat(2,1fr); } }
+        .imp{background:rgba(0,0,0,.2);border-radius:8px;padding:.8rem}
+        .imp-n{font-family:'Bebas Neue',sans-serif;font-size:26px;line-height:1;margin-bottom:2px}
+        .imp-l{font-size:10px;color:rgba(255,255,255,.5);text-transform:uppercase;letter-spacing:.08em}
+        /* L2 */
+        .l2{background:#0a0a0a;color:#fff;}
+        .l2 .cs-over{color:rgba(255,255,255,.4)}
+        .l2 .cs-sub{color:rgba(255,255,255,.4)}
+        .l2 .cs-tag{border-color:rgba(255,255,255,.15);color:rgba(255,255,255,.5)}
+        .duel{display:grid;grid-template-columns:1fr auto 1fr;gap:12px;margin-bottom:2rem;align-items:stretch}
+        @media (max-width: 600px) { .duel { grid-template-columns: 1fr; } .dvs { padding: 10px 0; } }
+        .dfear{background:#1a1a1a;border:1px solid #333;border-radius:10px;padding:1.2rem}
+        .dtrust{background:#1B3FFF;border-radius:10px;padding:1.2rem}
+        .dlbl{font-size:9px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;margin-bottom:.8rem}
+        .dfear .dlbl{color:#ff4444}
+        .dtrust .dlbl{color:rgba(255,255,255,.6)}
+        .dhl{font-size:14px;font-weight:700;margin-bottom:.6rem;line-height:1.3}
+        .dbd{font-size:12px;line-height:1.6;color:rgba(255,255,255,.65)}
+        .dtrust .dbd{color:rgba(255,255,255,.8)}
+        .dvs{display:flex;align-items:center;justify-content:center;font-family:'Bebas Neue',sans-serif;font-size:28px;color:rgba(255,255,255,.2)}
+        .spl{margin-bottom:2rem}
+        .spl-lbl{font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:rgba(255,255,255,.3);margin-bottom:.8rem}
+        .spl-row{display:flex;gap:8px;flex-wrap:wrap}
+        .spill{background:#1a1a1a;border:1px solid #333;border-radius:8px;padding:.5rem .8rem;flex:1;min-width:120px;}
+        .spn{font-size:12px;font-weight:600;color:#fff}
+        .sps{font-size:10px;color:rgba(255,255,255,.35)}
+        .l2 .ir{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+        @media (max-width: 600px) { .l2 .ir { grid-template-columns: repeat(2,1fr); } }
+        .l2 .imp{background:#1a1a1a;border:1px solid #222;border-radius:8px;padding:.8rem}
+        .l2 .imp-n{color:#9FE1CB;font-size:24px}
+        .l2 .imp-l{color:rgba(255,255,255,.35)}
+        /* L3 */
+        .l3{background:#061a10;color:#fff;}
+        .l3 .cs-over{color:rgba(255,255,255,.35)}
+        .l3 .cs-sub{color:rgba(255,255,255,.35)}
+        .l3 .cs-tag{border-color:rgba(255,255,255,.15);color:rgba(255,255,255,.5)}
+        .prob-strip{background:rgba(255,68,68,.08);border:1px solid rgba(255,68,68,.2);border-radius:8px;padding:1rem 1.2rem;margin-bottom:1.5rem}
+        .ps-lbl{font-size:9px;letter-spacing:.12em;text-transform:uppercase;color:#ff6b6b;margin-bottom:4px}
+        .ps-txt{font-size:13px;color:rgba(255,255,255,.8);line-height:1.5}
+        .flow-lbl{font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:rgba(255,255,255,.3);margin-bottom:.8rem}
+        .flow-wrap{overflow-x:auto;border-radius:8px;background:rgba(0,0,0,.3);padding:.75rem}
+        .l3 .ir{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:1rem}
+        @media (max-width: 600px) { .l3 .ir { grid-template-columns: repeat(2,1fr); } }
+        .l3 .imp{background:rgba(93,202,165,.08);border:1px solid rgba(93,202,165,.15);border-radius:8px;padding:.8rem}
+        .l3 .imp-n{color:#5DCAA5;font-size:24px}
+        .l3 .imp-l{color:rgba(255,255,255,.35)}
+        /* L4 */
+        .l4{background:#0d0618;color:#fff;}
+        .l4 .cs-over{color:rgba(255,255,255,.35)}
+        .l4 .cs-sub{color:rgba(255,255,255,.35)}
+        .l4 .cs-tag{border-color:rgba(255,255,255,.12);color:rgba(255,255,255,.4)}
+        .mp-lbl{font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:rgba(175,169,236,.5);margin-bottom:.5rem}
+        .mp-txt{font-size:15px;font-weight:600;line-height:1.5;color:rgba(255,255,255,.85);border-left:2px solid #AFA9EC;padding-left:1rem;margin-bottom:2rem}
+        .chs{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:2rem}
+        @media (max-width: 600px) { .chs { grid-template-columns: 1fr; } }
+        .ch{background:rgba(175,169,236,.06);border:1px solid rgba(175,169,236,.15);border-radius:10px;padding:1rem}
+        .ch-lbl{font-size:9px;letter-spacing:.12em;text-transform:uppercase;color:#AFA9EC;margin-bottom:6px}
+        .ch-t{font-size:13px;font-weight:600;color:#fff;margin-bottom:4px}
+        .ch-d{font-size:11px;color:rgba(255,255,255,.5);line-height:1.5}
+        .bigs{display:flex;gap:1.5rem;margin-bottom:2rem;padding:1.2rem;background:rgba(175,169,236,.06);border-radius:10px;flex-wrap:wrap; justify-content:space-between;}
+        .bsn{font-family:'Bebas Neue',sans-serif;font-size:38px;color:#AFA9EC;line-height:1}
+        .bsl{font-size:10px;color:rgba(255,255,255,.35);text-transform:uppercase;letter-spacing:.08em;margin-top:2px}
+        /* L5 */
+        .l5{background:#00102b;color:#fff;}
+        .l5 .cs-over{color:rgba(255,255,255,.35)}
+        .l5 .cs-sub{color:rgba(255,255,255,.35)}
+        .l5 .cs-tag{border-color:rgba(255,255,255,.12);color:rgba(255,255,255,.4)}
+        .gp{font-size:18px;font-weight:700;line-height:1.3;margin-bottom:1.5rem;color:rgba(255,255,255,.9)}
+        .ph-lbl{font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:rgba(0,102,255,.6);margin-bottom:.8rem}
+        .phs{display:flex;flex-direction:column;gap:6px;margin-bottom:2rem}
+        .ph{display:flex;gap:12px;align-items:flex-start}
+        .ph-num{font-family:'Bebas Neue',sans-serif;font-size:40px;color:rgba(0,102,255,.25);line-height:1;width:40px;flex-shrink:0}
+        .ph-c{flex:1;padding:.8rem;background:rgba(0,102,255,.06);border:1px solid rgba(0,102,255,.15);border-radius:8px}
+        .ph-t{font-size:12px;font-weight:700;color:#fff;text-transform:uppercase;letter-spacing:.06em;margin-bottom:4px}
+        .ph-b{font-size:12px;color:rgba(255,255,255,.55);line-height:1.55}
+        .ph-bg{font-size:11px;font-weight:600;color:#4d9fff;margin-top:4px}
+        .l5 .ir{display:grid;grid-template-columns:repeat(4,1fr);gap:6px}
+        @media (max-width: 600px) { .l5 .ir { grid-template-columns: repeat(2,1fr); } }
+        .l5 .imp{background:rgba(0,102,255,.08);border:1px solid rgba(0,102,255,.18);border-radius:8px;padding:.7rem}
+        .l5 .imp-n{color:#4d9fff;font-size:22px}
+        .l5 .imp-l{color:rgba(255,255,255,.3);font-size:9px}
+        .slbl{font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:rgba(255,255,255,.3);margin:1.5rem 0 .6rem;display:block}
     </style>
 </head>
 <body class="selection:bg-[var(--blue)] selection:text-[var(--beige)]">
@@ -405,7 +510,7 @@
         <div class="flex-grow flex items-center justify-start md:justify-center px-4 bg-[var(--beige)] border-r-[2px] border-[#0a0a0a] pointer-events-auto overflow-hidden">
              <span class="text-[rgba(5,16,36,0.7)] text-[10px] tracking-[0.1em] mr-2 hidden sm:inline uppercase">You've been here</span>
              <span id="session-timer" class="text-[var(--navy)] text-[13px] font-[900] tabular-nums tracking-[0.06em]">0:00</span>
-             <span id="hinglish-phrase" class="text-[rgba(5,16,36,0.6)] text-[9px] uppercase tracking-[0.12em] ml-2 hidden sm:inline-block">— STILL COUNTING</span>
+             <span id="hinglish-phrase" class="text-[rgba(5,16,36,0.6)] text-[9px] uppercase tracking-[0.12em] ml-2 hidden sm:inline-block">- STILL COUNTING</span>
         </div>
         <div class="hidden lg:flex items-center relative bg-[#f0ede6] border-r-[2px] border-[#0a0a0a] pointer-events-auto w-[240px] xl:w-[280px]">
             <div id="scroll-progress-bar" class="absolute left-0 top-0 h-full bg-[#0022cc] w-0 transition-all duration-700 ease-out z-0"></div>
@@ -504,7 +609,7 @@
                                         
                                         <div class="p-4 md:p-5 border border-[rgba(5,16,36,0.15)] bg-[#ede6d4] relative shadow-[6px_6px_0_rgba(1,44,235,0.15),_inset_1px_1px_0_rgba(255,255,255,0.8)] transition-transform duration-300">
                                             <p class="font-medium text-[10px] md:text-[12px] text-[var(--navy)] leading-relaxed">
-                                                From designing YouTube thumbnails in 9th grade to architecting GTM campaigns reaching 30,000+ Gen-Z students, the journey wasn't planned—it was iterated.<br><br>
+                                                From designing YouTube thumbnails in 9th grade to architecting GTM campaigns reaching 30,000+ Gen-Z students, the journey wasn't planned - it was iterated.<br><br>
                                                 What started as a creator's hustle naturally evolved into a consultant's framework. I realized I didn't just want to make things that looked good; I wanted to build the infrastructure that <strong class="font-black text-[var(--blue)]">made those things move numbers.</strong>
                                             </p>
                                         </div>
@@ -594,7 +699,7 @@
                                         <div class="overflow-hidden">
                                             <div class="pt-3">
                                                 <p class="font-medium text-[10px] md:text-[11px] leading-relaxed">
-                                                    Today I'm a <strong class="text-[#00ffcc] font-black">Brand Marketer and Growth Strategist</strong> at SRCC, Delhi University — where I ranked <strong class="text-[#00ffcc] font-black">DU Rank 1 across 5 subjects</strong> while simultaneously building real businesses on the side.<br><br>I've managed a stand-up artist to <strong class="text-[#00ffcc] font-black">₹4.4L in revenue</strong> in 3 months, engineered campaigns that crossed <strong class="text-[#00ffcc] font-black">186M views</strong>, and led marketing GTM for a Jio Hotstar show across 30,000+ students on 5–7 campuses.
+                                                    Today I'm a <strong class="text-[#00ffcc] font-black">Brand Marketer and Growth Strategist</strong> at SRCC, Delhi University - where I ranked <strong class="text-[#00ffcc] font-black">DU Rank 1 across 5 subjects</strong> while simultaneously building real businesses on the side.<br><br>I've managed a stand-up artist to <strong class="text-[#00ffcc] font-black">₹4.4L in revenue</strong> in 3 months, engineered campaigns that crossed <strong class="text-[#00ffcc] font-black">186M views</strong>, and led marketing GTM for a Jio Hotstar show across 30,000+ students on 5–7 campuses.
                                                 </p>
                                             </div>
                                         </div>
@@ -692,7 +797,7 @@
                                     <span class="font-['DM_Mono'] text-[8px] text-[var(--navy)] uppercase tracking-widest font-black opacity-30 group-hover:opacity-80 mb-2 pb-1 border-b border-[var(--navy)]/20 transition-opacity duration-500">Core Note</span>
 
                                     <div class="text-[var(--navy)] font-['Inter'] font-extrabold text-[10px] md:text-[11px] uppercase tracking-tight text-left leading-[1.2] opacity-20 group-hover:opacity-100 filter blur-[1px] group-hover:blur-none transition-all duration-500">
-                                        I combine a consultant's frameworks with a creator's instincts. <br><br>I don't just build decks — I build things that move numbers.
+                                        I combine a consultant's frameworks with a creator's instincts. <br><br>I don't just build decks - I build things that move numbers.
                                     </div>
 
                                     <!-- Scanning Flash Effect -->
@@ -944,7 +1049,7 @@
             {
                 company: 'Grimbyte Technologies', duration: '4 Weeks', role: 'Brand Strategy Intern',
                 points: [
-                    'Configured <strong class="text-current underline decoration-2 underline-offset-2">GA4, Meta & SEMrush dashboards</strong> for 6+ clients — replaced vanity metrics with performance KPIs to validate marketing spend and optimize budget allocation.',
+                    'Configured <strong class="text-current underline decoration-2 underline-offset-2">GA4, Meta & SEMrush dashboards</strong> for 6+ clients - replaced vanity metrics with performance KPIs to validate marketing spend and optimize budget allocation.',
                     'Executed <strong class="text-current underline decoration-2 underline-offset-2">SEO & keyword gap analysis</strong> across 6+ clients, identifying high-intent opportunities and structuring long-term content roadmaps targeting Page-1 visibility.'
                 ],
                 stats: [{ num: '6+', label: 'Clients' }, { num: '3', label: 'Tools Mapped' }, { num: 'Page-1', label: 'SEO Target' }]
@@ -952,7 +1057,7 @@
             {
                 company: 'MusicVerse', duration: '4 Weeks', role: 'Brand Partnerships Intern',
                 points: [
-                    'Managed end-to-end logistics for <strong class="text-current underline decoration-2 underline-offset-2">6 corporate shows, 1,500+ attendees</strong> — coordinating 10+ vendors and aligning client, artist, and sponsor communications.',
+                    'Managed end-to-end logistics for <strong class="text-current underline decoration-2 underline-offset-2">6 corporate shows, 1,500+ attendees</strong> - coordinating 10+ vendors and aligning client, artist, and sponsor communications.',
                     'Co-executed the <strong class="text-current underline decoration-2 underline-offset-2">MuscleBlaze corporate show</strong> with 3 live brand activations, applying design psychology to strengthen brand recall and audience engagement.'
                 ],
                 stats: [{ num: '6', label: 'Shows executed' }, { num: '1,500+', label: 'Attendees' }, { num: '10+', label: 'Vendors managed' }]
@@ -960,7 +1065,7 @@
             {
                 company: 'Blue Tea', duration: '4 Weeks', role: 'Live Project Associate',
                 points: [
-                    'Managed outreach to <strong class="text-current underline decoration-2 underline-offset-2">90+ creators</strong>, engineering an influencer campaign that achieved ₹0.10 CPV — outperforming industry benchmarks and maximizing ROI.',
+                    'Managed outreach to <strong class="text-current underline decoration-2 underline-offset-2">90+ creators</strong>, engineering an influencer campaign that achieved ₹0.10 CPV - outperforming industry benchmarks and maximizing ROI.',
                     'Secured <strong class="text-current underline decoration-2 underline-offset-2">5+ strategic B2B partnerships</strong> via a targeted offline activation strategy, distributing 2,000+ units into high-value customer segments.'
                 ],
                 stats: [{ num: '90+', label: 'Creators outreached' }, { num: '₹0.10', label: 'CPV achieved' }, { num: '2K+', label: 'Units distributed' }]
@@ -968,7 +1073,7 @@
             {
                 company: 'Dr. Water', duration: '8 Weeks', role: 'Project Head',
                 points: [
-                    'Identified <strong class="text-current underline decoration-2 underline-offset-2">6 key customer personas</strong> through primary & secondary research — analyzing 200+ responses and behavioral patterns to frame 360° marketing strategies.',
+                    'Identified <strong class="text-current underline decoration-2 underline-offset-2">6 key customer personas</strong> through primary & secondary research - analyzing 200+ responses and behavioral patterns to frame 360° marketing strategies.',
                     'Synthesized <strong class="text-current underline decoration-2 underline-offset-2">2,000+ data points</strong> across 18+ hydration brands to define competitive gaps and inform targeted marketing strategies for a US-based global brand.'
                 ],
                 stats: [{ num: '6', label: 'Personas mapped' }, { num: '2K+', label: 'Data points' }, { num: '18+', label: 'Brands benchmarked' }]
@@ -976,7 +1081,7 @@
             {
                 company: 'Frost & Sullivan', duration: '4 Weeks', role: 'Live Project Associate',
                 points: [
-                    'Built a <strong class="text-current underline decoration-2 underline-offset-2">Mobility Innovation Scoring Model</strong> across 12 parameters — evaluating 200+ technologies to surface the top 10 innovations for strategic client focus.',
+                    'Built a <strong class="text-current underline decoration-2 underline-offset-2">Mobility Innovation Scoring Model</strong> across 12 parameters - evaluating 200+ technologies to surface the top 10 innovations for strategic client focus.',
                     'Mapped <strong class="text-current underline decoration-2 underline-offset-2">₹42,000 crore+ in combined market opportunity</strong> across 6 mobility domains and 24 technology categories.'
                 ],
                 stats: [{ num: '200+', label: 'Tech ranked' }, { num: '₹42K Cr+', label: 'Market opportunity' }, { num: '12', label: 'Scoring Parameters' }]
@@ -1747,14 +1852,14 @@
                     <div class="cs-tags"><span class="cs-tag">Content Strategy</span><span class="cs-tag">Creator Economy</span><span class="cs-tag">Touring Business</span></div>
                     <div class="prob-headline">186M views. Zero revenue infrastructure. The attention existed. The business didn't.</div>
                     <div class="ppills">
-                      <div class="ppill">Stuck in a local echo chamber — viewers watched but never shared or bought tickets.</div>
+                      <div class="ppill">Stuck in a local echo chamber - viewers watched but never shared or bought tickets.</div>
                       <div class="ppill">Operations were ad-hoc college gigs with no system, no scale, no repeat revenue.</div>
                     </div>
-                    <div class="arc-lbl">Strategy & Execution — Content to Commerce Pipeline</div>
+                    <div class="arc-lbl">Strategy & Execution - Content to Commerce Pipeline</div>
                     <div class="arc">
                       <div class="arc-step"><div class="arc-si"><div class="arc-n">01</div><div class="arc-t">Identity Pivot</div><div class="arc-b">Shifted to POV-driven identity content to acquire cold audiences aggressively.</div></div></div>
                       <div class="arc-arr">→</div>
-                      <div class="arc-step"><div class="arc-si"><div class="arc-n">02</div><div class="arc-t">Virality Engine</div><div class="arc-b">Achieved 3x Loop Rate & 1:3 Share-to-Like — turning viewers into distributors.</div></div></div>
+                      <div class="arc-step"><div class="arc-si"><div class="arc-n">02</div><div class="arc-t">Virality Engine</div><div class="arc-b">Achieved 3x Loop Rate & 1:3 Share-to-Like - turning viewers into distributors.</div></div></div>
                       <div class="arc-arr">→</div>
                       <div class="arc-step"><div class="arc-si"><div class="arc-n">03</div><div class="arc-t">Touring IP</div><div class="arc-b">Operationalized 40+ shows across Delhi, Jaipur, Lucknow & Goa with repeatable logistics.</div></div></div>
                     </div>
@@ -1775,14 +1880,14 @@
                 <div class="cs-bespoke-layout l2">
                     <div class="cs-over">Founding Marketer · Core Team</div>
                     <div class="cs-title">DROP.</div>
-                    <div class="cs-sub">RNTL. — Fashion rental marketplace for Gen-Z · Pre-launch startup</div>
+                    <div class="cs-sub">RNTL. - Fashion rental marketplace for Gen-Z · Pre-launch startup</div>
                     <div class="cs-tags"><span class="cs-tag">Meta Ads</span><span class="cs-tag">Consumer Psychology</span><span class="cs-tag">Brand Launch</span></div>
                     <div class="duel">
-                      <div class="dfear"><div class="dlbl">Consumer Fear</div><div class="dhl">"Why rent when I can own?"</div><div class="dbd">Renting felt like a sunk cost. No social proof, no category category trust, zero brand history. The "is this brand real?" question came before any purchase intent.</div></div>
+                      <div class="dfear"><div class="dlbl">Consumer Fear</div><div class="dhl">"Why rent when I can own?"</div><div class="dbd">Renting felt like a sunk cost. No social proof, no category trust, zero brand history. The "is this brand real?" question came before any purchase intent.</div></div>
                       <div class="dvs">VS</div>
-                      <div class="dtrust"><div class="dlbl">Our Answer</div><div class="dhl">Borrowed equity. Sell the lifestyle, not the product.</div><div class="dbd">Made credible people endorse renting as a lifestyle — removing the trust deficit before it was even asked.</div></div>
+                      <div class="dtrust"><div class="dlbl">Our Answer</div><div class="dhl">Borrowed equity. Sell the lifestyle, not the product.</div><div class="dbd">Made credible people endorse renting as a lifestyle - removing the trust deficit before it was even asked.</div></div>
                     </div>
-                    <div class="spl"><div class="spl-lbl">RNTL. Spotlight Series — 5 Industry Voices, 2M+ Combined Network</div><div class="spl-row"><div class="spill"><div class="spn">Nikita Luther</div><div class="sps">95K · The Traitors India</div></div><div class="spill"><div class="spn">Anya Singh</div><div class="sps">496K · Stree 2</div></div><div class="spill"><div class="spn">Ranjit Bajaj</div><div class="sps">1.1M · Minerva FC</div></div><div class="spill"><div class="spn">Harpriya Bains</div><div class="sps">215K · Stand-up</div></div></div></div>
+                    <div class="spl"><div class="spl-lbl">RNTL. Spotlight Series - 5 Industry Voices, 2M+ Combined Network</div><div class="spl-row"><div class="spill"><div class="spn">Nikita Luther</div><div class="sps">95K · The Traitors India</div></div><div class="spill"><div class="spn">Anya Singh</div><div class="sps">496K · Stree 2</div></div><div class="spill"><div class="spn">Ranjit Bajaj</div><div class="sps">1.1M · Minerva FC</div></div><div class="spill"><div class="spn">Harpriya Bains</div><div class="sps">215K · Stand-up</div></div></div></div>
                     <span class="slbl">Impact</span>
                     <div class="ir">
                       <div class="imp"><div class="imp-n">4.6x</div><div class="imp-l">Ad efficiency lift</div></div>
@@ -1800,9 +1905,10 @@
                 <div class="cs-bespoke-layout l3">
                     <div class="cs-over">Strategy Intern · 4 Weeks</div>
                     <div class="cs-title">SINS CREW</div>
-                    <div class="cs-sub">Sinskari — Growing D2C streetwear brand for Gen-Z India</div>
+                    <div class="cs-sub">Sinskari - Growing D2C streetwear brand for Gen-Z India</div>
                     <div class="cs-tags"><span class="cs-tag">Email Automation</span><span class="cs-tag">CX Journey</span><span class="cs-tag">Retention</span></div>
-                    <div class="prob-strip"><div class="ps-lbl">The Problem</div><div class="ps-txt">No behavioral triggers. No segment logic. No recovery sequences. Revenue was bleeding through abandoned carts daily — with zero infrastructure to catch it.</div></div>
+                    <div class="prob-strip"><div class="ps-lbl">The Problem</div><div class="ps-txt">No behavioral triggers. No segment logic. No recovery sequences. Revenue was bleeding through abandoned carts daily - with zero infrastructure to catch it.</div></div>
+                    <div class="flow-lbl">Automated Email Funnel Architecture - Designed from scratch</div>
                     <div class="flow-wrap">${buildFlow()}</div>
                     <span class="slbl">Impact</span>
                     <div class="ir">
@@ -1842,13 +1948,13 @@
                     <div class="cs-title">SIGNAL</div>
                     <div class="cs-sub">Jio Hotstar show launch · 5–7 college campuses · 30,000+ Gen-Z target</div>
                     <div class="cs-tags"><span class="cs-tag">GTM</span><span class="cs-tag">Campus Activation</span><span class="cs-tag">Influencer Network</span><span class="cs-tag">OTT</span></div>
-                    <div class="gp">Gen-Z doesn't show up for ads. They show up for culture. The challenge: make a streaming show launch feel like a campus moment — and then convert it.</div>
-                    <div class="ph-lbl">GTM Execution Phases — 55-member team, 5–7 campuses</div>
+                    <div class="gp">Gen-Z doesn't show up for ads. They show up for culture. The challenge: make a streaming show launch feel like a campus moment - and then convert it.</div>
+                    <div class="ph-lbl">GTM Execution Phases - 55-member team, 5–7 campuses</div>
                     <div class="phs">
                       <div class="ph"><div class="ph-num">01</div><div class="ph-c"><div class="ph-t">Audience Architecture</div><div class="ph-b">Tiered segmentation across 5–7 campuses with hyper-personalized messaging at each touchpoint.</div><div class="ph-bg">30,000+ students reached</div></div></div>
                       <div class="ph"><div class="ph-num">02</div><div class="ph-c"><div class="ph-t">Micro-Influencer Network</div><div class="ph-b">Built and scaled 25–40 campus influencers to unlock organic reach and compress cost-per-reach vs paid channels.</div><div class="ph-bg">45,000+ incremental organic reach</div></div></div>
                       <div class="ph"><div class="ph-num">03</div><div class="ph-c"><div class="ph-t">Celebrity Amplification</div><div class="ph-b">Orchestrated campaigns featuring Abhishek Malhan & Khushboo Patani to spike live engagement and drive cultural credibility.</div><div class="ph-bg">2–3x spike in live engagement</div></div></div>
-                      <div class="ph"><div class="ph-num">04</div><div class="ph-c"><div class="ph-t">UGC Conversion Engine</div><div class="ph-b">Converted on-ground attendees into content distributors via social communities — turning footfall into organic amplification.</div><div class="ph-bg">8,000+ peer-to-peer shares · 10+ UGC posts</div></div></div>
+                      <div class="ph"><div class="ph-num">04</div><div class="ph-c"><div class="ph-t">UGC Conversion Engine</div><div class="ph-b">Converted on-ground attendees into content distributors via social communities - turning footfall into organic amplification.</div><div class="ph-bg">8,000+ peer-to-peer shares · 10+ UGC posts</div></div></div>
                     </div>
                     <span class="slbl">Impact</span>
                     <div class="ir">
@@ -1875,24 +1981,24 @@
                 const data = inventoryData[i % inventoryData.length];
                 const finalData = i === (totalItems - 2) ? inventoryData[targetIndex] : data;
                 htmlCards += `
-                    <div class="archival-card absolute top-1/2 -translate-y-1/2 w-[100px] h-[150px] flex flex-col justify-between p-2 rounded-[5px] overflow-hidden transition-colors border border-[rgba(255,255,255,0.1)]" style="background: ${finalData.bg}; color: ${finalData.text}; box-shadow: 0 10px 20px rgba(0,0,0,0.8); left: ${i * cardWidth}px;">
+                    <div class="archival-card absolute top-1/2 -translate-y-1/2 w-[100px] h-[150px] flex flex-col justify-between p-2 rounded-[6px] overflow-hidden transition-colors border border-[rgba(255,255,255,0.1)] font-['DM_Sans']" style="background: ${finalData.bg}; color: ${finalData.text}; box-shadow: 0 10px 20px rgba(0,0,0,0.8); left: ${i * cardWidth}px;">
                         <div class="absolute inset-0 pointer-events-none opacity-20 mix-blend-overlay" style="background-image: url('data:image/svg+xml,%3Csvg viewBox=%220 0 200 200%22 xmlns=%22http://www.w3.org/2000/svg%22%3E%3Cfilter id=%22noise%22%3E%3CfeTurbulence type=%22fractalNoise%22 baseFrequency=%221.5%22 numOctaves=%223%22 stitchTiles=%22stitch%22/%3E%3C/filter%3E%3Crect width=%22100%25%22 height=%22100%25%22 filter=%22url(%23noise)%22/%3E%3C/svg%3E');"></div>
                         <div class="card-wave" style="opacity: 0.8;"></div>
                         
                         <div class="relative z-10 pointer-events-none w-full">
-                            <div class="text-[4px] font-bold uppercase tracking-widest opacity-80 mb-[6px] flex justify-between items-start">
+                            <div class="text-[4px] font-[500] uppercase tracking-widest opacity-80 mb-[6px] flex justify-between items-start">
                                 <span>[${finalData.sysId}]</span>
-                                <span class="truncate ml-1 opacity-70 text-right w-1/2">${finalData.client}</span>
                             </div>
-                            <h3 class="text-sm font-[900] uppercase tracking-tighter leading-[0.9] mb-[6px]">${finalData.id}</h3>
+                            <div class="text-[3px] font-[500] uppercase tracking-widest text-white/50 mb-[1px]">CLIENT: ${finalData.client}</div>
+                            <h3 class="font-['Bebas_Neue'] text-lg uppercase tracking-normal leading-[0.9] mb-[6px] text-white">${finalData.id}</h3>
                             <div class="flex flex-col gap-[2px] items-start">
-                                ${finalData.tags.map(tag => `<span class="text-[3px] font-extrabold uppercase tracking-[0.05em] px-1 py-[2px] rounded-sm border border-current opacity-80 whitespace-nowrap">${tag}</span>`).join('')}
+                                ${finalData.tags.map(tag => `<span class="text-[3px] font-[500] uppercase tracking-[0.05em] px-1 py-[2px] rounded-sm border border-white/30 text-white/80 whitespace-nowrap">${tag}</span>`).join('')}
                             </div>
                         </div>
                         
                         <div class="relative z-10 pointer-events-none w-full flex flex-col items-start pb-1">
-                            <div class="text-[3px] font-bold uppercase tracking-widest opacity-80 mb-[1px]">Primary Metric</div>
-                            <div class="text-[9px] font-[900] uppercase tracking-tighter leading-none">${finalData.stat}</div>
+                            <div class="text-[3px] font-[500] uppercase tracking-widest text-white/50 mb-[1px]">PRIMARY METRIC</div>
+                            <div class="font-['Bebas_Neue'] text-sm uppercase tracking-normal leading-none text-white">${finalData.stat}</div>
                         </div>
                         <div class="card-glow absolute inset-0 mix-blend-screen opacity-0 transition-opacity duration-1000 z-0" style="background: linear-gradient(180deg, rgba(255,255,255,0.3) 0%, transparent 100%);"></div>
                     </div>`;
@@ -2074,30 +2180,27 @@
             const data = inventoryData[targetIndex];
             const domCard = document.createElement('div');
             
-            domCard.className = `absolute top-[50%] left-[50%] w-[260px] h-[400px] md:w-[320px] md:h-[480px] rounded-[20px] p-6 md:p-8 flex flex-col justify-between shadow-[0_30px_60px_rgba(0,0,0,0.6)] cursor-pointer pointer-events-auto border transition-colors overflow-hidden`;
+            domCard.className = `absolute top-[50%] left-[50%] w-[260px] h-[340px] md:w-[300px] md:h-[400px] rounded-[14px] p-[1.3rem_1.1rem_1.1rem] flex flex-col justify-between shadow-[0_30px_60px_rgba(0,0,0,0.6)] cursor-pointer pointer-events-auto border transition-colors overflow-hidden group`;
             domCard.style.background = data.bg; domCard.style.color = data.text;
             domCard.style.borderColor = data.bg === '#010204' || data.bg === '#051024' ? 'rgba(255,255,255,0.1)' : 'rgba(0,0,0,0.1)';
             
             domCard.innerHTML = `
                 <div class="absolute inset-0 pointer-events-none opacity-[0.15] mix-blend-overlay" style="background-image: url('data:image/svg+xml,%3Csvg viewBox=%220 0 200 200%22 xmlns=%22http://www.w3.org/2000/svg%22%3E%3Cfilter id=%22noise%22%3E%3CfeTurbulence type=%22fractalNoise%22 baseFrequency=%221.5%22 numOctaves=%223%22 stitchTiles=%22stitch%22/%3E%3C/filter%3E%3Crect width=%22100%25%22 height=%22100%25%22 filter=%22url(%23noise)%22/%3E%3C/svg%3E');"></div>
                 <div class="card-wave" style="opacity: 0.9;"></div>
-                <div class="relative z-10 pointer-events-none">
-                    <div class="text-[9px] font-bold uppercase tracking-widest opacity-80 mb-6 flex justify-between"><span>Client: ${data.client}</span></div>
-                    <h3 class="text-4xl md:text-5xl font-[900] uppercase tracking-tighter leading-[0.9] mb-8">${data.id}</h3>
-                    <div class="flex flex-col gap-2 items-start">
-                        ${data.tags.map(tag => `<span class="text-[9px] font-extrabold uppercase tracking-widest px-4 py-[6px] rounded-full border border-current">${tag}</span>`).join('')}
-                    </div>
-                </div>
-                <div class="relative z-10 pointer-events-none flex justify-between items-end">
+                <div class="relative z-10 pointer-events-none w-full h-full flex flex-col justify-between font-['DM_Sans']">
                     <div>
-                        <div class="text-[9px] font-bold uppercase tracking-widest opacity-80 mb-2">Primary Metric</div>
-                        <div class="text-3xl md:text-4xl font-[900] uppercase tracking-tighter">${data.stat}</div>
+                        <div class="text-[9px] font-[500] tracking-[0.12em] uppercase text-white/50 mb-2">CLIENT: ${data.client}</div>
+                        <div class="font-['Bebas_Neue'] text-[36px] md:text-[42px] leading-[1] text-white mb-3">${data.id}</div>
+                        <div class="flex flex-col gap-[5px] items-start">
+                            ${data.tags.map(tag => `<span class="border border-white/30 rounded-[100px] px-[10px] py-[3px] text-[9px] font-[500] tracking-[0.08em] uppercase text-white/80 w-fit">${tag}</span>`).join('')}
+                        </div>
                     </div>
-                    <div class="flex items-center gap-2">
-                        <span class="text-[8px] font-bold uppercase tracking-widest">Open File</span>
-                        <div class="w-8 h-8 rounded-full border border-current flex items-center justify-center"><i data-lucide="arrow-up-right" class="w-3 h-3"></i></div>
+                    <div class="mt-auto pt-[1.2rem]">
+                        <div class="text-[9px] tracking-[0.1em] uppercase text-white/45 mb-[2px]">PRIMARY METRIC</div>
+                        <div class="font-['Bebas_Neue'] text-[36px] md:text-[42px] leading-[1] text-white">${data.stat}</div>
                     </div>
                 </div>
+                <div class="absolute bottom-4 right-4 w-8 h-8 rounded-full border border-white/25 bg-transparent text-white flex items-center justify-center text-sm z-20 group-hover:bg-white/10 transition-colors">↗</div>
             `;
             
             domCard.addEventListener('mouseenter', () => {
@@ -2305,15 +2408,15 @@
 
         // --- HINGLISH ROTATOR ---
         const hinglishPhrases = [
-            "— STILL COUNTING",
-            "— PLS DO THE NEEDFUL",
-            "— CIRCLING BACK ON THIS",
-            "— LET'S TAKE THIS OFFLINE",
-            "— ALIGNING THE BANDWIDTH",
-            "— KINDLY PREPONE",
-            "— REVERTING BACK SOON",
-            "— OUT OF POCKET CURRENTLY",
-            "— JUST FOLLOWING UP"
+            "- STILL COUNTING",
+            "- PLS DO THE NEEDFUL",
+            "- CIRCLING BACK ON THIS",
+            "- LET'S TAKE THIS OFFLINE",
+            "- ALIGNING THE BANDWIDTH",
+            "- KINDLY PREPONE",
+            "- REVERTING BACK SOON",
+            "- OUT OF POCKET CURRENTLY",
+            "- JUST FOLLOWING UP"
         ];
         let hinglishIdx = 0;
         const phraseEl = document.getElementById('hinglish-phrase');
