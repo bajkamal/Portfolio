@@ -1394,201 +1394,177 @@
                     </div>
                 </section>
 
-                <!-- 4. INTERACTIVE DOPAMINE VENDING MACHINE -->
-                <section id="vending" class="h-[100vh] w-full relative bg-[#010205] flex flex-col overflow-hidden text-[var(--beige)] perspective-[2500px]">
+                <!-- 4. CAREER TRANSIT SYSTEM (V1 FOUNDATION) -->
+                <section id="vending" class="w-full relative bg-[var(--beige)] flex flex-col overflow-hidden text-[var(--navy)] min-h-screen pt-20 pb-10 z-20 border-b-[3px] border-[var(--navy)]">
                     
-                    <!-- Cinematic Noise Texture -->
-                    <div class="absolute inset-0 z-0 opacity-[0.15] pointer-events-none mix-blend-overlay" style="background-image: url('data:image/svg+xml,%3Csvg viewBox=%220 0 200 200%22 xmlns=%22http://www.w3.org/2000/svg%22%3E%3Cfilter id=%22noise%22%3E%3CfeTurbulence type=%22fractalNoise%22 baseFrequency=%220.8%22 numOctaves=%223%22 stitchTiles=%22stitch%22/%3E%3C/filter%3E%3Crect width=%22100%25%22 height=%22100%25%22 filter=%22url(%23noise)%22/%3E%3C/svg%3E');"></div>
+                    <!-- Background Grid Pattern -->
+                    <div class="absolute inset-0 z-0 opacity-10 pointer-events-none" style="background-image: radial-gradient(var(--navy) 1px, transparent 1px); background-size: 24px 24px;"></div>
 
-                    <!-- ========================================== -->
-                    <!-- CREATIVE ARCHIVAL WAREHOUSE WALL           -->
-                    <!-- ========================================== -->
-                    <div id="vending-wall-environment" class="absolute inset-0 z-0 pointer-events-none overflow-visible will-change-transform">
-                        
-                        <!-- Structural 3D Wall/Floor Grid -->
-                        <div class="absolute inset-0 opacity-[0.03]" style="background-image: linear-gradient(rgba(244,239,230,0.8) 2px, transparent 2px), linear-gradient(90deg, rgba(244,239,230,0.8) 2px, transparent 2px); background-size: 120px 120px; transform: perspective(800px) rotateX(15deg) scale(1.5); transform-origin: center 20%;"></div>
-                        
-                        <!-- Wall Spotlight -->
-                        <div class="absolute top-[-10%] left-[10%] w-[80%] h-[70%] bg-[var(--beige)] rounded-[100%] filter blur-[150px] opacity-[0.02] pointer-events-none mix-blend-screen"></div>
-                        
-                        <!-- Giant Ghosted Typography -->
-                        <div class="absolute top-[10%] left-[-2%] font-['Bebas_Neue'] text-[28vw] leading-none text-[#F4EFE6] opacity-[0.015] select-none whitespace-nowrap mix-blend-overlay tracking-tight">BAAZ ARCHIVE</div>
-                        <div class="absolute bottom-[28%] right-[-2%] font-['Bebas_Neue'] text-[20vw] leading-none text-[var(--blue)] opacity-[0.02] select-none whitespace-nowrap mix-blend-overlay tracking-tighter">VOL.04</div>
-
-                        <!-- Architectural Print Elements -->
-                        <div class="absolute top-[15%] right-[8%] flex flex-col items-end opacity-20">
-                            <svg width="40" height="40" viewBox="0 0 40 40" fill="none" stroke="currentColor" class="text-[#F4EFE6]"><path d="M20 0v40M0 20h40" stroke-width="1.5"/><circle cx="20" cy="20" r="12" stroke-width="1.5"/></svg>
-                            <span class="font-['DM_Mono'] text-[9px] font-bold tracking-[0.3em] uppercase mt-3">Zone 4A // Secure</span>
-                        </div>
-                        <div class="absolute bottom-[35%] left-[6%] flex flex-col items-start opacity-20">
-                            <svg width="24" height="24" viewBox="0 0 20 20" fill="none" stroke="currentColor" class="text-[var(--blue)]"><path d="M0 0h6v6H0zM14 0h6v6h-6zM0 14h6v6H0zM14 14h6v6h-6z" stroke-width="1.5"/></svg>
-                            <span class="font-['DM_Mono'] text-[9px] font-bold tracking-[0.3em] uppercase mt-3 text-[var(--blue)]">Alignment Locked</span>
-                        </div>
-                        
-                        <!-- Massive Editorial Barcode -->
-                        <div class="absolute top-[35%] left-[8%] opacity-[0.04] rotate-[-90deg] transform origin-left">
-                            <div class="flex gap-[3px] h-[180px] items-end">
-                                <div class="w-[3px] h-full bg-[#F4EFE6]"></div><div class="w-[8px] h-full bg-[#F4EFE6]"></div><div class="w-[2px] h-full bg-[#F4EFE6]"></div><div class="w-[5px] h-full bg-[#F4EFE6]"></div><div class="w-[12px] h-full bg-[#F4EFE6]"></div><div class="w-[3px] h-full bg-[#F4EFE6]"></div><div class="w-[9px] h-full bg-[#F4EFE6]"></div><div class="w-[2px] h-full bg-[#F4EFE6]"></div><div class="w-[6px] h-full bg-[#F4EFE6]"></div>
-                            </div>
-                            <div class="font-['DM_Mono'] font-bold text-2xl tracking-[0.6em] text-[#F4EFE6] mt-4">B-88204-SYS</div>
-                        </div>
-                    </div>
-                    <!-- ========================================== -->
-
-                    <!-- Ambient Glow behind machine -->
-                    <div id="vending-ambient-light" class="absolute top-1/4 left-1/2 w-[90vw] max-w-[1200px] h-[800px] bg-[var(--blue)] rounded-full filter blur-[200px] opacity-[0.08] -translate-x-1/2 pointer-events-none z-0 transition-all duration-1000 animate-pulse"></div>
-
-                    <!-- TOP 35%: THE MACHINE -->
-                    <div id="vending-top" class="h-[38vh] min-h-[320px] w-full flex items-center justify-center px-4 lg:px-8 z-[50] relative mt-16 pb-4">
-                        <div class="w-full max-w-[900px] h-full flex justify-center items-center relative z-50">
-                            
-                            <div id="vending-machine" class="w-full max-w-[900px] flex flex-col p-[2px] rounded-[16px] shadow-[0_40px_100px_rgba(0,0,0,1),_0_10px_30px_rgba(1,44,235,0.05)] bg-gradient-to-br from-[rgba(255,255,255,0.1)] to-[rgba(255,255,255,0.03)] relative">
-                                <div class="absolute inset-0 rounded-[16px] pointer-events-none opacity-[0.03] mix-blend-overlay bg-[url('data:image/svg+xml,%3Csvg viewBox=%220 0 200 200%22 xmlns=%22http://www.w3.org/2000/svg%22%3E%3Cfilter id=%22noise%22%3E%3CfeTurbulence type=%22fractalNoise%22 baseFrequency=%222%22 numOctaves=%223%22 stitchTiles=%22stitch%22/%3E%3C/filter%3E%3Crect width=%22100%25%22 height=%22100%25%22 filter=%22url(%23noise)%22/%3E%3C/svg%3E')]"></div>
-                                <div class="w-full rounded-[14px] flex flex-col p-4 md:p-6 bg-gradient-to-br from-[#121620] to-[#030408] shadow-[inset_1px_1px_2px_rgba(255,255,255,0.1),_inset_-1px_-1px_3px_rgba(0,0,0,1)]">
-                                    <div class="w-full flex justify-between items-start mb-4 px-2 relative z-10">
-                                        <div class="flex flex-col">
-                                            <div class="font-['Schoolbell'] text-4xl md:text-5xl text-[var(--beige)] leading-none drop-shadow-md mb-0 flex items-center gap-2">Baaz CaseFiles</div>
-                                            <div class="text-[9px] md:text-[10px] font-['DM_Sans'] font-bold uppercase tracking-wide text-[#8e98ac] opacity-70">Real project breakdowns</div>
-                                        </div>
-                                        <div class="flex flex-col items-end">
-                                            <div id="vending-status" class="text-[8px] md:text-[9px] font-extrabold uppercase tracking-widest text-[var(--blue)] flex items-center gap-2 transition-colors duration-300 opacity-100 pt-1">
-                                                <span id="status-dot" class="w-2 h-2 rounded-full bg-[var(--blue)] shadow-[0_0_8px_var(--blue)] transition-colors duration-300"></span>
-                                                <span id="status-text">Awaiting Input</span>
-                                            </div>
-                                            <div class="text-[10px] md:text-[12px] font-['DM_Mono'] font-bold uppercase tracking-widest text-white mt-2 bg-[#0a0c12] px-3 py-1.5 rounded border border-white/10 shadow-[inset_0_0_4px_rgba(0,0,0,0.5)]"><span id="global-dispense-counter" class="text-[var(--blue)] text-[14px]">0</span> <span class="opacity-50 ml-1">/ 5 EXTRACTED</span></div>
-                                        </div>
-                                    </div>
-
-                                    <div class="flex gap-3 md:gap-4 h-[220px] md:h-[240px] mb-4 relative z-10 w-full">
-                                        <div id="glass-chamber-container" class="relative flex-grow h-full rounded-xl overflow-hidden bg-[#010204] shadow-[inset_0_40px_80px_rgba(0,0,0,1),_inset_0_0_0_1px_rgba(255,255,255,0.02),_0_5px_15px_rgba(0,0,0,0.5)]">
-                                            <div class="glass-reflection"></div>
-                                            <div class="absolute inset-0 rounded-xl pointer-events-none z-30 shadow-[inset_0_0_60px_20px_#000]"></div>
-                                            <div id="vending-rail" class="absolute top-1/2 -translate-y-1/2 left-1/2 flex items-center z-10 will-change-transform"></div>
-                                            <div id="chamber-blackout" class="absolute inset-0 bg-[#010204] z-[15] pointer-events-none transform origin-right scale-x-0"></div>
-                                            <div id="chamber-scanner" class="absolute top-0 bottom-0 w-[2px] bg-[var(--blue)] shadow-[0_0_20px_5px_rgba(1,44,235,1),_0_0_5px_1px_#FFF] z-[20] opacity-0 pointer-events-none" style="left: 0%;"></div>
-                                            
-                                            <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[120px] h-[160px] z-30 pointer-events-none opacity-40 flex items-center justify-center">
-                                                <div id="target-halo" class="absolute inset-0 rounded-lg bg-[var(--blue)] opacity-0 filter blur-[20px] transition-opacity duration-500"></div>
-                                                <div class="absolute top-0 left-0 w-3 h-3 border-t-[1.5px] border-l-[1.5px] border-[#8e98ac]"></div>
-                                                <div class="absolute top-0 right-0 w-3 h-3 border-t-[1.5px] border-r-[1.5px] border-[#8e98ac]"></div>
-                                                <div class="absolute bottom-0 left-0 w-3 h-3 border-b-[1.5px] border-l-[1.5px] border-[#8e98ac]"></div>
-                                                <div class="absolute bottom-0 right-0 w-3 h-3 border-b-[1.5px] border-r-[1.5px] border-[#8e98ac]"></div>
-                                            </div>
-                                        </div>
-
-                                        <!-- INTEGRATED HARDWARE CONTROL PANEL -->
-                                        <div class="flex w-[80px] md:w-[220px] xl:w-[300px] h-full flex-col bg-[#020306] rounded-xl p-2 md:p-4 border border-[rgba(255,255,255,0.03)] shadow-[inset_0_10px_30px_rgba(0,0,0,1)] relative overflow-hidden flex-shrink-0 items-center md:items-stretch">
-                                            <div class="absolute inset-0 opacity-[0.03] bg-[url('data:image/svg+xml;utf8,<svg width=%2210%22 height=%2210%22 xmlns=%22http://www.w3.org/2000/svg%22><path d=%22M10 0H0v10h10z%22 fill=%22none%22/><path d=%22M10 1H1v9h9z%22 stroke=%22rgba(255,255,255,0.5)%22 stroke-width=%221%22 fill=%22none%22/></svg>')]"></div>
-                                            
-                                            <!-- Monitor (Hidden on mobile to save space for button) -->
-                                            <div class="hidden md:flex flex-col relative z-10 w-full">
-                                                <div class="text-[8px] text-[var(--blue)] font-mono uppercase mb-3 flex justify-between tracking-widest">
-                                                    <span>NEURAL.LINK</span><span class="animate-pulse">STABLE</span>
-                                                </div>
-                                                <div class="text-[7px] md:text-[8px] text-[#8e98ac] font-mono leading-relaxed opacity-80 break-words tracking-widest mt-1 min-h-[70px]">
-                                                    <div id="terminal-typewriter"></div>
-                                                    <span class="hidden" id="monitor-counter">0/5</span>
-                                                    <span class="mt-2 hidden block" id="terminal-awaiting">> <span id="monitor-status" class="text-[var(--blue)] animate-pulse font-bold">AWAITING_EXTRACTION_</span></span>
-                                                </div>
-                                            </div>
-
-                                            <!-- Physical Button Assembly -->
-                                            <div id="button-assembly" class="flex flex-row items-center justify-center z-50 mt-auto pb-1 relative w-full select-none gap-3">
-                                                
-                                                <div class="flex flex-col items-center">
-                                                    <!-- Housing -->
-                                                    <div class="relative w-[76px] h-[76px] md:w-[88px] md:h-[88px] rounded-full flex items-center justify-center shadow-[0_10px_20px_rgba(0,0,0,0.9),_inset_0_2px_4px_rgba(255,255,255,0.1)] bg-gradient-to-br from-[#1a1a2e] to-[#0a0a1a] border border-[#2d2d4e]">
-                                                        <!-- Radar Ping -->
-                                                        <div class="absolute inset-0 rounded-full border-[2px] border-[var(--blue)] animate-ping opacity-30 pointer-events-none"></div>
-                                                        <!-- Recess -->
-                                                        <div class="w-[62px] h-[62px] md:w-[72px] md:h-[72px] rounded-full shadow-[inset_0_4px_10px_rgba(0,0,0,1)] bg-[#030305] flex items-center justify-center">
-                                                            <!-- Pressable Button -->
-                                                            <button id="vending-action-btn" class="relative w-[52px] h-[52px] md:w-[60px] md:h-[60px] rounded-full cursor-pointer transition-colors duration-200 outline-none group will-change-transform" style="background: radial-gradient(circle at 35% 35%, #e0e0e0, #8888aa 40%, #222244 90%); box-shadow: 0 4px 8px rgba(0,0,0,0.9), inset 0 2px 4px rgba(255,255,255,0.8); border: 1px solid rgba(0,0,0,0.8);">
-                                                                <!-- Metallic Sheen -->
-                                                                <div class="absolute inset-[2px] rounded-full pointer-events-none" style="background: linear-gradient(135deg, rgba(255,255,255,0.5) 0%, transparent 40%, rgba(0,0,0,0.5) 100%);"></div>
-                                                                <!-- Baaz Engraving/Glow -->
-                                                                <div class="absolute inset-0 flex items-center justify-center opacity-70 group-hover:opacity-100 transition-opacity">
-                                                                    <span class="font-['Dr_Sugiyama'] text-[32px] text-[var(--blue)] leading-none -rotate-12 mt-1 pointer-events-none select-none" style="text-shadow: 0 0 6px rgba(1,44,235,0.8), -1px -1px 1px rgba(0,0,0,0.5);">B</span>
-                                                                </div>
-                                                            </button>
-                                                        </div>
-                                                    </div>
-                                                    
-                                                    <!-- Indicator Light -->
-                                                    <div id="button-glow" class="w-[12px] h-[3px] md:w-[14px] md:h-[4px] mt-2 rounded-full opacity-30 transition-opacity duration-200" style="background: var(--blue); box-shadow: 0 0 6px var(--blue);"></div>
-                                                </div>
-
-                                                <div id="button-hint" class="flex flex-row items-center gap-2 pointer-events-none select-none opacity-90 hidden md:flex animate-[pulse_2s_cubic-bezier(0.4,0,0.6,1)_infinite]">
-                                                    <svg class="w-4 h-4 text-[var(--beige)] flex-shrink-0 animate-bounce" style="filter: drop-shadow(0px 0px 6px rgba(244,239,230,0.4)); transform: rotate(90deg);" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M19 14l-7 7m0 0l-7-7m7 7V3"></path></svg>
-                                                    <p class="font-['DM_Mono'] text-[8px] md:text-[9px] uppercase tracking-widest text-[var(--beige)] font-bold text-left leading-snug w-[70px]" style="text-shadow: 0 0 10px rgba(244,239,230,0.4);">Press this<br>to dispense</p>
-                                                </div>
-
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    <div id="activation-chamber" class="w-full h-[60px] md:h-[70px] relative rounded-xl overflow-hidden flex items-center px-4 md:px-8 transition-colors duration-700 bg-[#020305] shadow-[inset_0_20px_40px_rgba(0,0,0,1),_inset_0_0_0_1px_rgba(255,255,255,0.02)]">
-                                        <div id="chamber-grid" class="absolute inset-0 opacity-[0.02] transition-opacity duration-700 bg-[url('data:image/svg+xml;utf8,<svg width=%2220%22 height=%2220%22 xmlns=%22http://www.w3.org/2000/svg%22><path d=%22M20 0H0v20h20z%22 fill=%22none%22/><path d=%22M20 1H1v19h19z%22 stroke=%22rgba(1,44,235,0.8)%22 stroke-width=%221%22 fill=%22none%22/></svg>')]"></div>
-                                        <div id="chamber-scanline" class="absolute left-0 right-0 h-[2px] bg-[var(--blue)] opacity-0 shadow-[0_0_20px_var(--blue)] z-0"></div>
-
-                                        <div class="flex-grow h-full flex flex-col items-center justify-end relative mx-6 pb-2 z-20">
-                                            <div class="absolute inset-x-4 bottom-2 h-[16px] bg-[#000] rounded-sm shadow-[inset_0_10px_20px_rgba(0,0,0,1)] border-b border-[rgba(255,255,255,0.05)] border-t border-[rgba(0,0,0,1)] flex justify-center items-center pointer-events-none" id="extraction-port">
-                                                <div class="w-[120px] h-[6px] bg-[#010102] rounded-sm shadow-[inset_0_3px_6px_rgba(0,0,0,1)]"></div>
-                                            </div>
-                                            <span class="absolute top-2 text-[7px] font-extrabold uppercase tracking-[0.3em] text-[var(--blue)] opacity-50">Data Extraction Port</span>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
+                    <!-- Top Header Area (Editorial Layout) -->
+                    <div class="w-full max-w-[1400px] mx-auto px-6 md:px-12 relative z-10 flex flex-col md:flex-row justify-between items-start">
+                        <div class="flex flex-col items-start w-full md:w-auto">
+                            <span class="font-['DM_Mono'] text-[8px] font-bold uppercase tracking-widest text-white bg-[var(--blue)] block mb-3 border-2 border-[var(--navy)] px-3 py-1 shadow-[2px_2px_0_var(--navy)] w-max">SECTION 03</span>
+                            <h2 class="text-4xl md:text-5xl font-['Schoolbell'] text-[var(--navy)] tracking-wider leading-none">
+                                Career Transit System
+                            </h2>
+                            <p class="font-['Caveat'] text-lg text-[var(--blue)] mt-1">Not a realistic metro simulation.</p>
                         </div>
                     </div>
 
-                    <!-- BOTTOM 65%: CAROUSEL -->
-                    <div id="vending-bottom" class="h-[62vh] min-h-[400px] w-full relative flex items-center justify-center">
+                    <!-- TRANSIT MAP VIEW (Fast Scan & Tap-to-Travel) -->
+                    <div id="transit-map-view" class="relative w-full flex-grow flex flex-col justify-center items-center overflow-hidden z-20 mt-12 md:mt-24 h-[65vh] min-h-[500px]">
                         
-                        <!-- Floor/Wall Reflection & Texture -->
-                        <div class="absolute top-0 left-1/2 -translate-x-1/2 w-full max-w-[1100px] h-full pointer-events-none z-0 opacity-80">
-                            <!-- Main light beam/reflection -->
-                            <div class="absolute top-0 left-1/2 -translate-x-1/2 w-[85%] h-[80%] bg-gradient-to-b from-[#4a7fff]/25 via-[#2a4dbf]/10 to-transparent blur-xl"></div>
-                            <!-- Sharp top edge highlight -->
-                            <div class="absolute top-0 left-1/2 -translate-x-1/2 w-[80%] h-[3px] bg-gradient-to-b from-white/30 to-transparent blur-[1px]"></div>
-                            <!-- Subtle vertical panel seams -->
-                            <div class="absolute inset-0 flex justify-center gap-[25%] opacity-40">
-                                <div class="w-px h-full bg-black shadow-[1px_0_0_rgba(255,255,255,0.05)]"></div>
-                                <div class="w-px h-full bg-black shadow-[1px_0_0_rgba(255,255,255,0.05)]"></div>
-                                <div class="w-px h-full bg-black shadow-[1px_0_0_rgba(255,255,255,0.05)]"></div>
+                        <!-- The Moving World (Tracks & Stations pan inside here) -->
+                        <!-- Origin is exactly center screen. We translate X to move the world. -->
+                        <div id="transit-world" class="absolute inset-0 left-1/2 will-change-transform z-40" style="transform: translateX(0px);">
+                            <!-- Stations Container -->
+                            <div id="transit-stations-container" class="relative w-full h-full">
+                                <!-- Station HTML injected via JS -->
                             </div>
                         </div>
 
-                        <!-- Massive Marker Background Heading -->
-                        <div class="absolute inset-0 flex flex-col items-center justify-center pointer-events-none mt-12 px-4 overflow-visible">
-                            <span class="text-xs font-bold uppercase tracking-widest text-[var(--blue)] block mb-6 border-2 border-[var(--blue)] px-4 py-2 bg-[rgba(1,44,235,0.05)] shadow-[0_0_15px_rgba(1,44,235,0.4)]">Section 04</span>
+                        <!-- The Route Backbone (High-Tech Metro Platform) -->
+                        <div class="absolute bottom-[35%] left-0 w-full h-[16px] bg-gradient-to-b from-[#2A2B3D] to-[#1A1A24] border-y-[2px] border-[var(--navy)] z-30 shadow-[0_4px_15px_rgba(42,92,232,0.15)] flex flex-col justify-center">
+                            <div class="w-full h-[2px] bg-gradient-to-r from-transparent via-[#2A5CE8] to-transparent opacity-80 animate-pulse"></div>
+                            <div class="w-full h-[1px] bg-[#4A4B6D] mt-1 opacity-40" style="background-image: repeating-linear-gradient(90deg, transparent, transparent 10px, #4A4B6D 10px, #4A4B6D 20px);"></div>
+                        </div>
+
+                        <!-- The Fixed Train Structure (Sits on the Route) -->
+                        <div class="absolute bottom-[35%] left-1/2 -translate-x-1/2 z-[60] pointer-events-none flex flex-col items-center pb-[12px]">
                             
-                            <!-- Blended Overlay Text on Dark Wall using PNG -->
-                            <div class="w-full mt-4 flex flex-col items-center justify-center opacity-100 mix-blend-overlay px-12 md:px-32 xl:px-48">
-                                <img src="bettterprojects.png" alt="Better Projects" class="w-full max-w-[800px] h-auto object-contain">
-                            </div>
-                            
-                            <!-- Brutalist Helper Sticker for Vending Instructions -->
-                            <div class="mt-8 md:mt-12 flex flex-col bg-[#F4EFE6] border-[3px] border-[var(--navy)] p-3 md:p-4 shadow-[6px_6px_0px_var(--navy)] transform rotate-[2deg] w-[260px] md:w-[300px] relative z-20 pointer-events-auto">
-                                <!-- Tape artifact -->
-                                <div class="absolute -top-3 left-1/2 -translate-x-1/2 w-10 h-5 bg-white/50 backdrop-blur-sm border border-black/10 rotate-[-3deg] opacity-70 mix-blend-overlay"></div>
+                            <!-- Braun Industrial Train Graphic (Premium Design Object) -->
+                            <div id="transit-train" class="flex items-center drop-shadow-[0_20px_30px_rgba(5,16,36,0.5)] will-change-transform z-50">
                                 
-                                <div class="flex items-center justify-between border-b-2 border-dotted border-[var(--navy)]/40 pb-2 mb-2 w-full">
-                                    <span class="font-['DM_Mono'] text-[8px] font-black uppercase tracking-[0.2em] text-[var(--blue)] animate-pulse">Must not miss this</span>
-                                    <i data-lucide="alert-circle" class="w-4 h-4 text-[var(--navy)]"></i>
+                                <!-- Carriage 1: Locomotion -->
+                                <div class="relative w-[180px] md:w-[240px] h-[70px] md:h-[90px] bg-[#E8E9EC] border-[2px] border-[#2A2B3D] rounded-l-3xl rounded-r-sm flex flex-col justify-between overflow-hidden shadow-[inset_0_-4px_10px_rgba(0,0,0,0.1)]">
+                                    <div class="absolute top-0 right-0 w-[40px] h-full bg-[#D1D3D9] border-l border-[#2A2B3D] opacity-50 z-0"></div>
+                                    <div class="flex-1 flex justify-between px-3 pt-2 md:pt-3 relative z-10">
+                                        <!-- Sleek Window Strip -->
+                                        <div class="w-[85%] h-[25px] md:h-[35px] bg-[#111118] border-[2px] border-[#0A0A0F] rounded-l-[18px] rounded-r-md shadow-[inset_0_4px_15px_rgba(255,255,255,0.05)] flex items-center px-4 overflow-hidden relative">
+                                            <div class="absolute top-0 left-0 w-full h-1 bg-gradient-to-b from-white/10 to-transparent"></div>
+                                            <span class="font-['DM_Mono'] text-[8px] md:text-[10px] text-[var(--blue)] tracking-widest font-bold opacity-80">SYS-01 // BJT</span>
+                                        </div>
+                                    </div>
+                                    <!-- Minimalist Typography -->
+                                    <div class="px-4 pb-[2px] flex justify-between items-end">
+                                        <span class="font-['DM_Mono'] text-[6px] text-[#2A2B3D] tracking-[0.2em] font-bold uppercase opacity-60">High Speed Transport</span>
+                                        <span class="font-['DM_Mono'] text-[5px] text-[#2A5CE8] tracking-widest font-bold uppercase">Auth-9</span>
+                                    </div>
+                                    <!-- Metallic Base -->
+                                    <div class="w-full h-[12px] md:h-[16px] bg-gradient-to-b from-[#2A2B3D] to-[#1A1A24] border-t-[2px] border-[#111118] flex items-center justify-around px-4">
+                                        ${Array(8).fill('<div class="w-1 h-1 bg-[#4A4B6D] rounded-full opacity-40"></div>').join('')}
+                                    </div>
+                                    <div class="absolute bottom-[-6px] left-[20%] w-3 h-3 bg-[#0A0A0F] rounded-full z-[-1] border-[2px] border-[#2A2B3D]"></div>
+                                    <div class="absolute bottom-[-6px] right-[15%] w-3 h-3 bg-[#0A0A0F] rounded-full z-[-1] border-[2px] border-[#2A2B3D]"></div>
                                 </div>
-                                <span class="font-['DM_Mono'] text-[9px] md:text-[10px] font-bold text-[var(--navy)]/80 uppercase tracking-widest leading-relaxed">
-                                    > Press button to extract<br>
-                                    > Hover cards to dissect
-                                </span>
+
+                                <!-- Connector -->
+                                <div class="w-[8px] md:w-[12px] h-[30px] bg-[#111118] translate-y-[10px] flex flex-col justify-center gap-1 opacity-80">
+                                    <div class="w-full h-1 bg-[#2A2B3D]"></div><div class="w-full h-1 bg-[#2A2B3D]"></div>
+                                </div>
+
+                                <!-- Carriage 2: Midsection -->
+                                <div class="relative w-[180px] md:w-[240px] h-[70px] md:h-[90px] bg-[#E8E9EC] border-[2px] border-[#2A2B3D] rounded-sm flex flex-col justify-between overflow-hidden shadow-[inset_0_-4px_10px_rgba(0,0,0,0.1)]">
+                                    <div class="absolute top-0 right-0 w-[40px] h-full bg-[#D1D3D9] border-l border-[#2A2B3D] opacity-50 z-0"></div>
+                                    <div class="flex-1 flex justify-between px-3 pt-2 md:pt-3 relative z-10">
+                                        <!-- Sleek Window Strip -->
+                                        <div class="w-[85%] h-[25px] md:h-[35px] bg-[#111118] border-[2px] border-[#0A0A0F] rounded-md shadow-[inset_0_4px_15px_rgba(255,255,255,0.05)] flex items-center justify-center overflow-hidden relative">
+                                            <div class="absolute top-0 left-0 w-full h-1 bg-gradient-to-b from-white/10 to-transparent"></div>
+                                            <span class="font-['DM_Mono'] text-[6px] md:text-[8px] text-white/40 tracking-widest uppercase">PASSENGER / CARGO</span>
+                                        </div>
+                                    </div>
+                                    <div class="px-4 pb-[2px] flex justify-between items-end">
+                                        <span class="font-['DM_Mono'] text-[6px] text-[#2A2B3D] tracking-[0.2em] font-bold uppercase opacity-60">C-02</span>
+                                    </div>
+                                    <!-- Metallic Base -->
+                                    <div class="w-full h-[12px] md:h-[16px] bg-gradient-to-b from-[#2A2B3D] to-[#1A1A24] border-t-[2px] border-[#111118] flex items-center justify-around px-4">
+                                        ${Array(8).fill('<div class="w-1 h-1 bg-[#4A4B6D] rounded-full opacity-40"></div>').join('')}
+                                    </div>
+                                    <div class="absolute bottom-[-6px] left-[15%] w-3 h-3 bg-[#0A0A0F] rounded-full z-[-1] border-[2px] border-[#2A2B3D]"></div>
+                                    <div class="absolute bottom-[-6px] right-[15%] w-3 h-3 bg-[#0A0A0F] rounded-full z-[-1] border-[2px] border-[#2A2B3D]"></div>
+                                </div>
+
+                                <!-- Connector -->
+                                <div class="w-[8px] md:w-[12px] h-[30px] bg-[#111118] translate-y-[10px] flex flex-col justify-center gap-1 opacity-80">
+                                    <div class="w-full h-1 bg-[#2A2B3D]"></div><div class="w-full h-1 bg-[#2A2B3D]"></div>
+                                </div>
+
+                                <!-- Carriage 3: Tail -->
+                                <div class="relative w-[180px] md:w-[240px] h-[70px] md:h-[90px] bg-[#E8E9EC] border-[2px] border-[#2A2B3D] rounded-r-3xl rounded-l-sm flex flex-col justify-between overflow-hidden shadow-[inset_0_-4px_10px_rgba(0,0,0,0.1)]">
+                                    <div class="flex-1 flex justify-end px-3 pt-2 md:pt-3 relative z-10">
+                                        <!-- Sleek Window Strip -->
+                                        <div class="w-[85%] h-[25px] md:h-[35px] bg-[#111118] border-[2px] border-[#0A0A0F] rounded-r-[18px] rounded-l-md shadow-[inset_0_4px_15px_rgba(255,255,255,0.05)] flex items-center px-4 justify-end overflow-hidden relative">
+                                            <div class="absolute top-0 left-0 w-full h-1 bg-gradient-to-b from-white/10 to-transparent"></div>
+                                            <div class="w-2 h-2 bg-red-500 rounded-full animate-pulse shadow-[0_0_10px_red]"></div>
+                                        </div>
+                                    </div>
+                                    <div class="px-4 pb-[2px] flex justify-end items-end">
+                                        <span class="font-['DM_Mono'] text-[6px] text-[#2A2B3D] tracking-[0.2em] font-bold uppercase opacity-60">TAIL // C-03</span>
+                                    </div>
+                                    <!-- Metallic Base -->
+                                    <div class="w-full h-[12px] md:h-[16px] bg-gradient-to-b from-[#2A2B3D] to-[#1A1A24] border-t-[2px] border-[#111118] flex items-center justify-around px-4">
+                                        ${Array(8).fill('<div class="w-1 h-1 bg-[#4A4B6D] rounded-full opacity-40"></div>').join('')}
+                                    </div>
+                                    <div class="absolute bottom-[-6px] left-[15%] w-3 h-3 bg-[#0A0A0F] rounded-full z-[-1] border-[2px] border-[#2A2B3D]"></div>
+                                    <div class="absolute bottom-[-6px] right-[20%] w-3 h-3 bg-[#0A0A0F] rounded-full z-[-1] border-[2px] border-[#2A2B3D]"></div>
+                                </div>
+                                
                             </div>
                         </div>
+                        
+                        <!-- Navigation Arrows -->
+                        <div class="absolute right-0 top-1/2 -translate-y-1/2 z-[70] translate-x-[5px]">
+                            <button id="transit-next-btn" class="bg-[var(--blue)] border-[4px] border-[var(--navy)] p-2 shadow-[-6px_6px_0_var(--navy)] cursor-pointer hover:bg-[#1a4acc] transition-colors group">
+                                <div class="bg-[#1a1a24] p-3 border-[2px] border-[var(--navy)] group-hover:scale-95 transition-transform">
+                                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="3" stroke-linecap="square"><path d="M9 18l6-6-6-6"/></svg>
+                                </div>
+                            </button>
+                        </div>
+                        <div class="absolute left-0 top-1/2 -translate-y-1/2 z-[70] -translate-x-[5px]">
+                            <button id="transit-prev-btn" class="bg-[var(--blue)] border-[4px] border-[var(--navy)] p-2 shadow-[6px_6px_0_var(--navy)] cursor-pointer hover:bg-[#1a4acc] transition-colors group">
+                                <div class="bg-[#1a1a24] p-3 border-[2px] border-[var(--navy)] group-hover:scale-95 transition-transform">
+                                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="3" stroke-linecap="square"><path d="M15 18l-6-6 6-6"/></svg>
+                                </div>
+                            </button>
+                        </div>
+                    </div>
 
-                        <div id="carousel-viewport" class="absolute inset-0 overflow-hidden touch-pan-y pt-4 lg:pt-8 z-[20]">
-                            <div id="carousel-track" class="relative w-full h-full cursor-grab active:cursor-grabbing">
-                                <!-- Dispensed Cards injected here -->
+                    <!-- CASE STUDY EXPANDED VIEW (Step Out Mode) -->
+                    <div id="transit-case-study-view" class="w-full max-w-[1400px] mx-auto px-4 md:px-12 relative z-30 hidden opacity-0 pb-16">
+                        
+                        <!-- Action Bar -->
+                        <div class="sticky top-6 z-[9999] mb-8 flex justify-between items-center w-full">
+                            <button id="back-to-transit-btn" class="flex items-center gap-2 md:gap-3 bg-white text-[var(--navy)] font-['DM_Mono'] text-[10px] md:text-xs font-bold uppercase tracking-widest px-4 md:px-5 py-2.5 md:py-3 border-[3px] border-[var(--navy)] shadow-[4px_4px_0_rgba(5,16,36,1)] hover:translate-y-1 hover:shadow-[2px_2px_0_rgba(5,16,36,1)] transition-all cursor-pointer">
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="square"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+                                Back to Transit
+                            </button>
+                            <div class="font-['DM_Mono'] text-[10px] text-[var(--navy)] font-bold tracking-widest uppercase bg-[var(--beige)] px-3 py-1.5 border-2 border-[var(--navy)] shadow-[2px_2px_0_var(--navy)] hidden md:block">Case Study Active</div>
+                        </div>
+                        
+                        <!-- Injected Deep Dive Content (Uses existing customHTML) -->
+                        <div id="transit-cs-content" class="w-full bg-[var(--beige)] rounded-none shadow-[16px_16px_0px_var(--navy)] border-[4px] border-[var(--navy)] p-0 overflow-hidden transform-gpu">
+                            <!-- Custom HTML Injected Here -->
+                        </div>
+                    </div>
+
+                    <!-- Bottom HUD / Journey Progress -->
+                    <div class="w-full max-w-[1400px] mx-auto px-6 md:px-12 mt-auto relative z-10 flex justify-between items-end pb-4 border-t-2 border-[var(--navy)] pt-4 border-dashed opacity-80">
+                        <div class="flex flex-col gap-2">
+                            <span class="font-['DM_Mono'] text-[9px] font-bold text-[var(--navy)] uppercase tracking-widest">Journey Progress</span>
+                            <div class="flex items-center gap-3 font-['Bebas_Neue'] text-2xl md:text-3xl text-[var(--navy)] tracking-wide">
+                                <span id="transit-progress-text">01 / 06</span>
+                                <span class="text-sm font-['DM_Mono'] font-bold tracking-widest uppercase mt-1">Stations Explored</span>
                             </div>
+                            <!-- Visual Dots -->
+                            <div class="flex gap-1.5 mt-1" id="transit-progress-dots">
+                                <!-- Injected via JS -->
+                            </div>
+                        </div>
+                        
+                        <div class="hidden md:flex flex-col items-end gap-1 font-['DM_Mono'] text-[9px] font-bold text-[var(--navy)] uppercase tracking-widest text-right">
+                            <span>Passenger: Visitor</span>
+                            <span>Ticket No. 000001</span>
+                            <div class="font-['Bebas_Neue'] text-4xl text-[var(--blue)] mt-2 tracking-widest">BAAZ</div>
                         </div>
                     </div>
                 </section>
@@ -1863,9 +1839,9 @@
             <div class="absolute inset-0 pointer-events-none opacity-[0.08] mix-blend-overlay z-0" style="background-image: url('data:image/svg+xml,%3Csvg viewBox=%220 0 200 200%22 xmlns=%22http://www.w3.org/2000/svg%22%3E%3Cfilter id=%22noise%22%3E%3CfeTurbulence type=%22fractalNoise%22 baseFrequency=%221.5%22 numOctaves=%223%22 stitchTiles=%22stitch%22/%3E%3C/filter%3E%3Crect width=%22100%25%22 height=%22100%25%22 filter=%22url(%23noise)%22/%3E%3C/svg%3E');"></div>
             <div id="modal-inner-content" class="relative z-10 w-full h-full overflow-y-auto no-scrollbar opacity-0 p-0 pt-[16px]">
                 <!-- Bespoke HTML injected here dynamically -->
-            </div>
-        </div>
-    </div>
+    <div id="preloader-bg" class="fixed inset-0 bg-[var(--blue)] z-[9999] pointer-events-none will-change-opacity"></div>
+    
+    <!-- (REMOVED DISSECT MODAL HTML - Functionality now handled inline by Transit System) -->
 
     <script>
         // Define stackData at the very top of the script so it is initialized before renderStack() execution
@@ -4244,548 +4220,432 @@
             }
         ];
         
-        const railEl = document.getElementById('vending-rail');
-        const glassChamber = document.getElementById('glass-chamber-container');
-        const cardWidth = 110; const totalItems = 35; 
+        // --- 4. CAREER TRANSIT SYSTEM LOGIC ---
+        // Dynamically add summaries to the inventoryData array to avoid touching existing HTML
+        if (inventoryData[0]) inventoryData[0].summary = "Built creator growth systems generating massive reach & revenue.";
+        if (inventoryData[1]) inventoryData[1].summary = "Validated acquisition channels for Gen Z fashion rentals.";
+        if (inventoryData[2]) inventoryData[2].summary = "Designed automated email funnels to recover abandoned carts.";
+        if (inventoryData[3]) inventoryData[3].summary = "Secured sponsorships and scaled digital presence for flagship fest.";
+        if (inventoryData[4]) inventoryData[4].summary = "Orchestrated campus launch generating massive organic reach.";
+
+        const transitWorld = document.getElementById('transit-world');
+        const transitStationsContainer = document.getElementById('transit-stations-container');
+        const transitTrackSvg = document.getElementById('transit-track-svg-container');
+        const transitMapView = document.getElementById('transit-map-view');
+        const transitCsView = document.getElementById('transit-case-study-view');
+        const transitCsContent = document.getElementById('transit-cs-content');
+        const backToTransitBtn = document.getElementById('back-to-transit-btn');
+        const progressText = document.getElementById('transit-progress-text');
+        const progressDots = document.getElementById('transit-progress-dots');
         
-        let dispenseCount = 0;
-        let targetIndex = 0; 
+        let exploredTransit = new Set();
         
-        function buildReel() {
-            if (!railEl) return;
-            let htmlCards = '';
-            for(let i=0; i<totalItems; i++) {
-                const data = inventoryData[i % inventoryData.length];
-                const finalData = i === (totalItems - 2) ? inventoryData[targetIndex] : data;
-                htmlCards += `
-                    <div class="archival-card absolute top-1/2 -translate-y-1/2 w-[100px] h-[150px] flex flex-col justify-between p-2 rounded-[6px] overflow-hidden transition-colors border border-[rgba(255,255,255,0.1)] font-['DM_Sans']" style="background: ${finalData.bg}; color: ${finalData.text}; box-shadow: 0 10px 20px rgba(0,0,0,0.8); left: ${i * cardWidth}px;">
-                        <div class="absolute inset-0 pointer-events-none opacity-20 mix-blend-overlay" style="background-image: url('data:image/svg+xml,%3Csvg viewBox=%220 0 200 200%22 xmlns=%22http://www.w3.org/2000/svg%22%3E%3Cfilter id=%22noise%22%3E%3CfeTurbulence type=%22fractalNoise%22 baseFrequency=%221.5%22 numOctaves=%223%22 stitchTiles=%22stitch%22/%3E%3C/filter%3E%3Crect width=%22100%25%22 height=%22100%25%22 filter=%22url(%23noise)%22/%3E%3C/svg%3E');"></div>
-                        <div class="card-wave" style="opacity: 0.8;"></div>
-                        
-                        <div class="relative z-10 pointer-events-none w-full">
-                            <div class="text-[4px] font-[500] uppercase tracking-widest opacity-80 mb-[6px] flex justify-between items-start">
-                                <span>[${finalData.sysId}]</span>
-                            </div>
-                            <div class="text-[3px] font-[500] uppercase tracking-widest opacity-50 mb-[1px] flex items-center gap-[3px]">CLIENT: ${finalData.client} ${finalData.logo ? `<img src="./${finalData.logo}" class="h-[4px] w-auto opacity-80 object-contain ${finalData.logoClass || ''}" />` : ''}</div>
-                            <h3 class="font-['Bebas_Neue'] text-lg uppercase tracking-normal leading-[0.9] mb-[6px] text-current">${finalData.id}</h3>
-                            <div class="flex flex-col gap-[2px] items-start">
-                                ${finalData.tags.map(tag => `<span class="text-[3px] font-[500] uppercase tracking-[0.05em] px-1 py-[2px] rounded-sm border border-current opacity-80 whitespace-nowrap">${tag}</span>`).join('')}
-                            </div>
-                        </div>
-                        
-                        <div class="relative z-10 pointer-events-none w-full flex flex-col items-start pb-2">
-                            <div class="text-[3px] font-[500] uppercase tracking-widest opacity-50 mb-[1px]">PRIMARY METRIC</div>
-                            <div class="font-['Bebas_Neue'] text-sm uppercase tracking-normal leading-[0.9] text-current">${finalData.stat}</div>
-                        </div>
-                        <div class="card-glow absolute inset-0 mix-blend-screen opacity-0 transition-opacity duration-1000 z-0" style="background: linear-gradient(180deg, rgba(255,255,255,0.3) 0%, transparent 100%);"></div>
-                    </div>`;
-            }
-            railEl.innerHTML = htmlCards;
-        }
-        buildReel();
-        
-        gsap.ticker.add(() => {
-            if(!glassChamber || !railEl) return;
-            const chamberCenter = glassChamber.getBoundingClientRect().left + (glassChamber.getBoundingClientRect().width / 2);
-            Array.from(railEl.children).forEach((card, i) => {
-                if (card.classList.contains('locked-focus')) return; 
-                const cardWorldX = railEl.getBoundingClientRect().left + (i * cardWidth + (cardWidth/2));
-                const dist = cardWorldX - chamberCenter;
-                const scale = Math.max(0.6, 1 - (Math.abs(dist) * 0.002));
-                const opacity = Math.max(0, 1 - (Math.abs(dist) * 0.005));
-                const blur = Math.min(10, Math.abs(dist) * 0.05);
-                gsap.set(card, { scale: scale, opacity: opacity, filter: `blur(${blur}px)` });
-            });
-        });
-        if (railEl) gsap.set(railEl, { x: -(cardWidth / 2) });
+        const transitStations = [
+            { isOrigin: true, name: "NORTH CAMPUS", stat: "Origin", summary: "Where it all began." },
+            ...inventoryData
+        ];
 
-        const coin = document.getElementById('vending-coin');
-        const slot = document.getElementById('vending-slot-target');
-        let vendingActive = false;
+        // Fixed spacing between stations (Exactly 1 station per screen)
+        const STATION_SPACING = window.innerWidth;
+        let activeStationIdx = 0;
 
-        // Function to trigger the vending activation sequence
-        function triggerVendingSequence() {
-            if (vendingActive) return;
-            vendingActive = true;
-            initiateVendingSequence();
-        }
-
-        // Initialize the metallic button press interactions
-        (function initButton() {
-            const btn = document.getElementById('vending-action-btn');
-            const hint = document.getElementById('button-hint');
-            const glow = document.getElementById('button-glow');
-            const machine = document.getElementById('vending-machine');
-
-            if (!btn) return;
-
-            const handlePress = () => {
-                if (vendingActive) return;
-                
-                // Visual depress (Physical button pushed in)
-                gsap.to(btn, { 
-                    scale: 0.94,
-                    boxShadow: "0 1px 2px rgba(0,0,0,0.9), inset 0 4px 8px rgba(0,0,0,0.8)",
-                    duration: 0.1 
-                });
-
-                // Fade out hint text
-                if (hint) gsap.to(hint, { opacity: 0, duration: 0.2 });
-                
-                // Audio tick for press
-                if (typeof isAudioInit !== 'undefined' && isAudioInit && typeof hoverTickSynth !== 'undefined') {
-                    hoverTickSynth.triggerAttackRelease("C5", "64n");
-                }
-            };
-
-            const handleRelease = () => {
-                if (vendingActive) return; // Prevent double-trigger
-                
-                // Button pops back up
-                gsap.to(btn, { 
-                    scale: 1, 
-                    boxShadow: "0 4px 8px rgba(0,0,0,0.9), inset 0 2px 4px rgba(255,255,255,0.8)",
-                    duration: 0.3, 
-                    ease: "elastic.out(1.5, 0.5)" 
-                });
-
-                // Haptic Machine Shake (Micro-vibration)
-                gsap.to(machine, {
-                    x: -3, duration: 0.04, yoyo: true, repeat: 5, ease: "none",
-                    onComplete: () => gsap.set(machine, { x: 0 })
-                });
-
-                // Light Activation
-                if (glow) {
-                    gsap.to(glow, { 
-                        opacity: 1, 
-                        boxShadow: "0 0 15px var(--blue)", 
-                        duration: 0.1, 
-                        yoyo: true, 
-                        repeat: 1, 
-                        onComplete: () => gsap.to(glow, { opacity: 0.3, duration: 0.3 }) 
-                    });
-                }
-
-                // Audio tick for release
-                if (typeof isAudioInit !== 'undefined' && isAudioInit && typeof hoverTickSynth !== 'undefined') {
-                    hoverTickSynth.triggerAttackRelease("E6", "32n");
-                }
-
-                // Execute Dispense Sequence
-                triggerVendingSequence();
-            };
-
-            // Desktop Mouse Events
-            btn.addEventListener('mousedown', handlePress);
-            btn.addEventListener('mouseup', handleRelease);
-            btn.addEventListener('mouseleave', () => {
-                if(!vendingActive) {
-                    gsap.to(btn, { scale: 1, boxShadow: "0 4px 8px rgba(0,0,0,0.9), inset 0 2px 4px rgba(255,255,255,0.8)", duration: 0.2 });
-                    if (hint) gsap.to(hint, { opacity: 0.8, duration: 0.3 });
-                }
-            });
-
-            // Mobile Touch Events
-            btn.addEventListener('touchstart', (e) => { e.preventDefault(); handlePress(); }, {passive: false});
-            btn.addEventListener('touchend', (e) => { e.preventDefault(); handleRelease(); }, {passive: false});
-        })();
-
-        // --- COVERFLOW CAROUSEL ENGINE ---
-        const carouselTrack = document.getElementById('carousel-track');
-        let dispensedCards = [];
-        let carouselTargetX = 0; let carouselCurrentX = 0;
-        let globalCardCount = 0; 
-        const coverflowSpacing = window.innerWidth > 768 ? 420 : 320; 
-        
-        let isCarouselDragging = false; let hasDraggedCarousel = false; let carStartX = 0; let carInitialTargetX = 0;
-
-        window.addEventListener('pointerdown', (e) => {
-            if(dispensedCards.length <= 1 || e.target.closest('#vending-top')) return;
-            isCarouselDragging = true; hasDraggedCarousel = false; carStartX = e.clientX; carInitialTargetX = carouselTargetX;
-        });
-        window.addEventListener('pointermove', (e) => {
-            if(!isCarouselDragging) return;
-            if(Math.abs(e.clientX - carStartX) > 5) hasDraggedCarousel = true; 
-            carouselTargetX = carInitialTargetX + ((e.clientX - carStartX) * 1.5); 
-        });
-        window.addEventListener('pointerup', () => {
-            if(!isCarouselDragging || dispensedCards.length === 0) { isCarouselDragging = false; return; }
-            isCarouselDragging = false;
-            let index = Math.round(-carouselTargetX / coverflowSpacing);
-            index = Math.max(-2, Math.min(index, 2));
-            carouselTargetX = -index * coverflowSpacing;
-        });
-
-        gsap.ticker.add(() => {
-            if(dispensedCards.length === 0) return;
-            carouselCurrentX += (carouselTargetX - carouselCurrentX) * 0.08;
+        function buildTransitSystem() {
+            if (!transitStationsContainer) return;
+            let html = '';
             
-            dispensedCards.forEach((card) => {
-                const targetSlot = parseInt(card.dataset.index);
-                if (card._currentSlot === undefined) card._currentSlot = targetSlot;
-                card._currentSlot += (targetSlot - card._currentSlot) * 0.08;
-                
-                const cardOffset = (card._currentSlot * coverflowSpacing) + carouselCurrentX;
-                const absOffset = Math.abs(cardOffset);
-                const ratio = Math.min(1, absOffset / coverflowSpacing); 
-                
-                const scale = 1 - (ratio * 0.15); 
-                const blur = ratio * 12; 
-                const brightness = 1 - (ratio * 0.5); 
-                const zTranslate = -ratio * 50; 
-                
-                gsap.set(card, { x: cardOffset, xPercent: -50, yPercent: -50, scale: scale, opacity: 1, filter: `blur(${blur}px) brightness(${brightness})`, z: zTranslate, zIndex: 30 - Math.floor(absOffset/100) });
-            });
-        });
-
-        function initiateVendingSequence() {
-            document.getElementById('status-text').innerText = "Scanning Archive";
-            gsap.set('#chamber-blackout', { scaleX: 1 }); gsap.set(railEl, { filter: "blur(20px) brightness(2.5)" }); gsap.set('#chamber-scanner', { left: "0%", opacity: 1 });
-            const stopIndex = totalItems - 2; const finalX = -(stopIndex * cardWidth) - (cardWidth / 2);
-            
-            if (isAudioInit) {
-                let now = Tone.now();
-                beepSynth.triggerAttackRelease("C6", "32n", now);
-                beepSynth.triggerAttackRelease("E6", "32n", now + 0.15);
-                beepSynth.triggerAttackRelease("G6", "16n", now + 0.3);
-                
-                for (let i = 0; i < 20; i++) {
-                    gearSynth.triggerAttackRelease("C1", "64n", now + 0.8 + (i * 0.12) + (i * i * 0.006)); 
-                }
-            }
-
-            const seqTl = gsap.timeline();
-            seqTl.to('#chamber-scanner', { left: "100%", duration: 1.5, ease: "power2.inOut" }, 0);
-            seqTl.to('#chamber-blackout', { scaleX: 0, duration: 1.5, ease: "power2.inOut" }, 0);
-            seqTl.to('#chamber-scanner', { opacity: 0, duration: 0.2 }, 1.5);
-            seqTl.to(railEl, { filter: "blur(0px) brightness(1)", duration: 1.2, ease: "power2.out" }, 0.8);
-            
-            seqTl.to('#vending-machine', {
-                x: "random(-6, 6)",
-                y: "random(-3, 3)",
-                duration: 0.05,
-                repeat: 75, 
-                yoyo: true,
-                repeatRefresh: true, 
-                ease: "none",
-                clearProps: "x,y"
-            }, 0.8);
-
-            seqTl.to(railEl, { x: finalX - 20, duration: 4.0, ease: "power3.out", onComplete: () => {
-                gsap.to(railEl, { x: finalX, duration: 0.4, ease: "back.out(2)" });
-                const winningCardDOM = railEl.children[stopIndex];
-                winningCardDOM.classList.add('locked-focus'); 
-                
-                if (isAudioInit) lockSynth.triggerAttackRelease("C1", "8n");
-
-                gsap.to(winningCardDOM.querySelector('.card-glow'), { opacity: 0.9, duration: 0.5 });
-                
-                const focusTl = gsap.timeline();
-                focusTl.to('#target-halo', { opacity: 0.6, duration: 0.5 }, 0);
-                focusTl.to(winningCardDOM, { scale: 1.15, duration: 0.6, ease: "back.out(1.5)" }, 0);
-                focusTl.add(() => { document.getElementById('status-text').innerText = "Extracting Fragment"; }, "-=1.0");
-                
-                focusTl.to(winningCardDOM, { y: 180, scale: 0.5, opacity: 0, duration: 0.5, ease: "power2.in", delay: 0.6 });
-                focusTl.to('#target-halo', { opacity: 0, duration: 0.4 }, "-=0.4");
-                focusTl.add(() => { dispenseToCarousel(); });
-            }}, 0.5);
-        }
-
-        function dispenseToCarousel() {
-            dispenseCount++;
-            globalCardCount++;
-            
-            // Update Vending Counters
-            const globalCounter = document.getElementById('global-dispense-counter');
-            if (globalCounter) globalCounter.innerText = Math.min(dispenseCount, 5);
-            
-            const monitorCounter = document.getElementById('monitor-counter');
-            if (monitorCounter) monitorCounter.innerText = `${Math.min(dispenseCount, 5)}/5`;
-            
-            if (dispenseCount >= 5) {
-                const monitorStatus = document.getElementById('monitor-status');
-                if (monitorStatus) {
-                    monitorStatus.innerText = "ARCHIVE_DEPLETED_";
-                    monitorStatus.classList.remove('text-[var(--blue)]');
-                    monitorStatus.classList.add('text-[#FF331F]');
-                }
-            }
-
-            const isEven = globalCardCount % 2 === 0;
-
-            dispensedCards.forEach(card => {
-                let currentIndex = parseInt(card.dataset.index);
-                if (isEven && currentIndex <= 0) { card.dataset.index = currentIndex - 1; } 
-                else if (!isEven && currentIndex >= 0) { card.dataset.index = currentIndex + 1; }
-            });
-
-            dispensedCards = dispensedCards.filter(card => {
-                let idx = parseInt(card.dataset.index);
-                if (Math.abs(idx) > 2) { gsap.to(card, { scale: 0.4, opacity: 0, duration: 0.8, ease: "power2.in", onComplete: () => card.remove() }); return false; }
-                return true;
-            });
-
-            const data = inventoryData[targetIndex];
-            const domCard = document.createElement('div');
-            
-            domCard.className = `absolute top-[50%] left-[50%] w-[260px] h-[380px] md:w-[300px] md:h-[440px] rounded-[14px] p-[1.5rem] flex flex-col justify-between shadow-[0_30px_60px_rgba(0,0,0,0.6)] cursor-pointer pointer-events-auto border transition-colors overflow-hidden group`;
-            domCard.style.background = data.bg; domCard.style.color = data.text;
-            domCard.style.borderColor = data.bg === '#010204' || data.bg === '#051024' ? 'rgba(255,255,255,0.1)' : 'rgba(0,0,0,0.1)';
-            
-            domCard.innerHTML = `
-                <div class="absolute inset-0 pointer-events-none opacity-[0.15] mix-blend-overlay" style="background-image: url('data:image/svg+xml,%3Csvg viewBox=%220 0 200 200%22 xmlns=%22http://www.w3.org/2000/svg%22%3E%3Cfilter id=%22noise%22%3E%3CfeTurbulence type=%22fractalNoise%22 baseFrequency=%221.5%22 numOctaves=%223%22 stitchTiles=%22stitch%22/%3E%3C/filter%3E%3Crect width=%22100%25%22 height=%22100%25%22 filter=%22url(%23noise)%22/%3E%3C/svg%3E');"></div>
-                <div class="card-wave" style="opacity: 0.9;"></div>
-                
-                <div class="relative z-10 pointer-events-none w-full h-full flex flex-col justify-between font-['DM_Sans']">
-                    <div>
-                        <div class="text-[12px] md:text-[14px] font-[500] uppercase tracking-widest opacity-80 mb-[16px] flex justify-between items-start">
-                            <span>[${data.sysId}]</span>
-                        </div>
-                        <div class="text-[9px] md:text-[10px] font-[500] uppercase tracking-widest opacity-50 mb-[4px] flex items-center gap-2">CLIENT: ${data.client} ${data.logo ? `<img src="./${data.logo}" class="h-[12px] w-auto opacity-80 object-contain ${data.logoClass || ''}" />` : ''}</div>
-                        <h3 class="font-['Bebas_Neue'] text-[40px] md:text-[48px] uppercase tracking-normal leading-[0.9] mb-[12px] text-current">${data.id}</h3>
-                        <div class="flex flex-col gap-[6px] items-start">
-                            ${data.tags.map(tag => `<span class="text-[10px] md:text-[12px] font-[500] uppercase tracking-[0.05em] px-3 py-[4px] rounded-sm border border-current opacity-80 whitespace-nowrap">${tag}</span>`).join('')}
-                        </div>
-                    </div>
-                    
-                    <div class="w-full flex flex-col items-start pb-2 md:pb-4">
-                        <div class="text-[10px] md:text-[11px] font-[500] uppercase tracking-widest opacity-50 mb-[2px]">PRIMARY METRIC</div>
-                        <div class="font-['Bebas_Neue'] text-[36px] md:text-[42px] uppercase tracking-normal leading-[0.85] text-current">${data.stat}</div>
-                    </div>
-                </div>
-                <div class="absolute bottom-4 right-4 w-10 h-10 rounded-full border border-current opacity-50 bg-transparent flex items-center justify-center text-lg z-20 group-hover:opacity-100 transition-opacity">↗</div>
-            `;
-            
-            domCard.addEventListener('mouseenter', () => {
-                if (isCarouselDragging) return;
-                const cardIndex = parseInt(domCard.dataset.index);
-                carouselTargetX = -cardIndex * coverflowSpacing;
-            });
-
-            domCard.addEventListener('click', () => { 
-                if (isAudioInit) boingSynth.triggerAttackRelease("E4", "8n");
-                if (hasDraggedCarousel) return; 
-                openDissectModal(data, domCard); 
-                if (typeof triggerExploration === 'function') triggerExploration(`vending_card_${data.id}`);
-            });
-
-            domCard.dataset.index = 0;
-            carouselTrack.appendChild(domCard); dispensedCards.push(domCard); 
-            
-            if (typeof lucide !== 'undefined') {
-                lucide.createIcons({ root: domCard });
-            }
-            carouselTargetX = 0;
-            
-            gsap.fromTo(domCard, { y: -800 }, { y: 0, duration: 1.6, ease: "expo.out", onStart: () => {
-                if (isAudioInit) arrivalSynth.triggerAttackRelease(["C4", "E4", "G4"], "8n");
-            }});
-
-            setTimeout(() => {
-                document.getElementById('status-text').innerText = "Rewinding Archive";
-                
-                gsap.to(railEl, {
-                    x: -(cardWidth / 2),
-                    duration: 2.5,
-                    ease: "power3.inOut",
-                    onComplete: () => {
-                        document.getElementById('status-text').innerText = dispenseCount >= 5 ? "System Maxed / Freeplay Ready" : "Awaiting Input";
-                        vendingActive = false;
-                        
-                        const btnHint = document.getElementById('button-hint');
-                        if (btnHint) gsap.to(btnHint, { opacity: 0.8, duration: 0.5, delay: 0.3 });
-                        
-                        targetIndex = dispenseCount < 5 ? dispenseCount : 4;
-                        buildReel(); 
-                        gsap.set('#chamber-blackout', { scaleX: 0 }); 
-                    }
-                });
-            }, 2000);
-        }
-
-        function initiateEasterEggSequence() {
-            document.getElementById('status-text').innerText = "SYS.BREACH // OVERLOAD";
-            
-            const statusDot = document.getElementById('status-dot');
-            if (statusDot) {
-                statusDot.style.backgroundColor = "#FF331F";
-                statusDot.style.boxShadow = "0 0 15px #FF331F";
-            }
-            
-            const tl = gsap.timeline();
-            tl.to('#vending-machine', { x: "+=10", yoyo: true, repeat: 5, duration: 0.05 });
-            tl.to('#glass-chamber-container', { filter: "invert(1) hue-rotate(90deg)", duration: 0.2, yoyo: true, repeat: 3 }, 0);
-            
-            if (isAudioInit && typeof travelSynth !== 'undefined' && typeof arrivalSynth !== 'undefined') {
-                travelSynth.triggerAttackRelease("0.5s");
-                arrivalSynth.triggerAttackRelease(["C5", "E5", "G5", "B5"], "2n");
-            }
-
-            const glitchBg = document.createElement('div');
-            glitchBg.className = 'fixed inset-0 z-[9999] flex flex-col justify-center items-center pointer-events-none opacity-0 bg-[var(--blue)]';
-            glitchBg.innerHTML = '<h2 class="font-[\'Inter\'] font-[900] text-5xl md:text-8xl uppercase tracking-tighter text-[var(--beige)] animate-pulse text-center leading-none">Entering<br>Playground</h2><p class="font-bold text-xs uppercase tracking-widest text-[var(--beige)] mt-6 opacity-80 border border-[var(--beige)] px-4 py-2">Diverting to free-time designs...</p>';
-            document.body.appendChild(glitchBg);
-
-            tl.to(glitchBg, { opacity: 1, duration: 1.0, ease: "power2.inOut", onComplete: () => {
-                window.open('https://dribbble.com/', '_blank'); 
-                setTimeout(() => {
-                    gsap.to(glitchBg, { opacity: 0, duration: 1.0, onComplete: () => glitchBg.remove() });
-                    document.getElementById('status-text').innerText = "Archive Depleted";
-                    vendingActive = false;
-                    gsap.set(coin, { x: 0, y: 0, scale: 1, opacity: 1 });
-                    if (statusDot) {
-                        statusDot.style.backgroundColor = "var(--blue)";
-                        statusDot.style.boxShadow = "0 0 8px var(--blue)";
-                    }
-                }, 1500);
-            }}, "+=0.5");
-        }
-
-        // --- FULL SCREEN DISSECT MODAL ---
-        const dissectModal = document.getElementById('dissect-modal');
-        const dissectCardContainer = document.getElementById('dissect-card-container');
-
-        const modalContentNode = document.getElementById('modal-inner-content');
-        const modalScrollTracker = document.getElementById('modal-scroll-tracker');
-
-        if (modalContentNode && modalScrollTracker) {
-            modalContentNode.addEventListener('scroll', () => {
-                const scrollTop = modalContentNode.scrollTop;
-                const scrollHeight = modalContentNode.scrollHeight - modalContentNode.clientHeight;
-                const scrollPercent = scrollHeight > 0 ? (scrollTop / scrollHeight) * 100 : 0;
-                modalScrollTracker.style.width = scrollPercent + '%';
-            });
-        }
-
-        function openDissectModal(data, sourceCard) {
-            if (typeof lenis !== 'undefined') lenis.stop(); 
-            
-            document.getElementById('modal-inner-content').innerHTML = data.customHTML;
-            if (modalScrollTracker) modalScrollTracker.style.width = '0%';
-
-            dissectCardContainer.style.background = data.bg; 
-            dissectCardContainer.style.color = data.text;
-            
-            const isDark = (data.bg === '#010204' || data.bg === '#051024' || data.bg === '#0a0a0a' || data.bg === '#0D0D0D' || data.bg === '#1A0633' || data.bg === '#001F4D' || data.bg === '#0F2D1F' || data.bg === '#111111');
-            dissectCardContainer.style.borderColor = isDark ? 'rgba(255,255,255,1)' : 'rgba(0,0,0,1)';
-
-            dissectModal.classList.remove('hidden'); dissectModal.classList.add('flex');
-            
-            const rect = sourceCard.getBoundingClientRect();
-            const finalWidth = window.innerWidth > 1400 ? 1400 : window.innerWidth * 0.95;
-            const finalHeight = window.innerHeight > 900 ? 900 : window.innerHeight * 0.95;
-            
-            gsap.set('#modal-inner-content', { opacity: 0, y: 20 });
-            
-            gsap.fromTo(dissectCardContainer, 
-                { 
-                    width: rect.width,
-                    height: rect.height,
-                    x: (rect.left + rect.width / 2) - (window.innerWidth / 2), 
-                    y: (rect.top + rect.height / 2) - (window.innerHeight / 2), 
-                    borderRadius: "0px",
-                    opacity: 1
+            // Environmental Ecosystem Configurations
+            const envConfigs = [
+                {
+                    stationStr: "STATION 00",
+                    district: "NORTH CAMPUS",
+                    billboardStat: "DU RANK 1",
+                    year: "2021",
+                    signage: "",
+                    bgElements: ``
                 },
-                { 
-                    width: finalWidth,
-                    height: finalHeight,
-                    x: 0, 
-                    y: 0, 
-                    borderRadius: "0px",
-                    opacity: 1, 
-                    duration: 0.8, 
-                    ease: "expo.inOut",
-                    onComplete: () => {
-                        gsap.set(dissectCardContainer, { clearProps: "width,height" });
+                {
+                    stationStr: "STATION 01",
+                    district: "CREATOR DISTRICT",
+                    billboardStat: "186M+ VIEWS",
+                    year: "2022",
+                    signage: "",
+                    bgElements: ``
+                },
+                {
+                    stationStr: "STATION 02",
+                    district: "GROWTH DISTRICT",
+                    billboardStat: "FIRST CLIENT",
+                    year: "2023",
+                    signage: "NEXT: CYBER HUB",
+                    bgElements: ``
+                },
+                {
+                    stationStr: "STATION 03",
+                    district: "BRAND STUDIO",
+                    billboardStat: "₹4.4L REVENUE",
+                    year: "2024",
+                    signage: "",
+                    bgElements: ``
+                },
+                {
+                    stationStr: "STATION 04",
+                    district: "CAMPAIGN OFFICE",
+                    billboardStat: "FIRST INTERNSHIP",
+                    year: "2025",
+                    signage: "← NEHRU PLACE",
+                    bgElements: ``
+                },
+                {
+                    stationStr: "STATION 05",
+                    district: "STRATEGY BLOCK",
+                    billboardStat: "BAAZ HQ",
+                    year: "2026",
+                    signage: "→ OKHLA",
+                    bgElements: ``
+                }
+            ];
+
+            // Deep Background Blueprint Gridlines
+            html += `
+                <div class="absolute inset-0 z-[-20] pointer-events-none opacity-5" style="background-image: linear-gradient(var(--navy) 1px, transparent 1px), linear-gradient(90deg, var(--navy) 1px, transparent 1px); background-size: 50px 50px; width: ${transitStations.length * STATION_SPACING}px;"></div>
+                <div class="absolute inset-0 z-[-20] pointer-events-none opacity-[0.02]" style="background-image: linear-gradient(var(--blue) 1px, transparent 1px), linear-gradient(90deg, var(--blue) 1px, transparent 1px); background-size: 10px 10px; width: ${transitStations.length * STATION_SPACING}px;"></div>
+            `;
+
+            // Layer 2: Complex Branching Route, Skyline & Parallax Graphics
+            html += `
+                    ${Array(150).fill(0).map(() => {
+                        const h = 20 + Math.random() * 120;
+                        const w = 15 + Math.random() * 50;
+                        const hasAntenna = Math.random() > 0.8;
+                        const isSloped = Math.random() > 0.85;
+                        return `<div class="bg-[var(--navy)] flex-shrink-0 flex flex-col items-center ${isSloped ? 'rounded-tl-lg' : ''}" style="width: ${w}px; height: ${h}px; margin-right: ${Math.random() * 8}px;">
+                            ${hasAntenna ? '<div class="w-[2px] h-6 bg-[var(--navy)] mt-[-24px]"></div>' : ''}
+                        </div>`;
+                    }).join('')}
+                </div>
+
+                <!-- UNDER-BRIDGE STREETSCAPE -->
+                <div class="absolute bottom-0 left-0 h-[35%] z-[-2] pointer-events-none overflow-hidden" style="width: ${transitStations.length * STATION_SPACING}px;">
+                    
+                    <div class="absolute bottom-0 w-full h-[60%] flex items-end opacity-30 border-b-[4px] border-[#1A1A24]">
+                        ${Array(Math.floor(transitStations.length * 8)).fill(0).map((_, i) => {
+                            const type = Math.floor(Math.random() * 5);
+                            const names = ['ABANDONED IDEAS', 'MINISTRY OF CURIOSITY', 'CREATIVE REPAIRS', 'V1', 'V2', 'THE IDEA STORE', 'GROWTH', 'STRATEGY', 'CAFE', 'PRINT'];
+                            const randomName = names[Math.floor(Math.random() * names.length)];
+                            
+                            if (type === 0) { 
+                                return `<div class="w-[120px] h-[80%] bg-[#1A1A24] border-[2px] border-[var(--navy)] flex flex-col items-center pt-2 relative mx-1 shrink-0">
+                                    <div class="font-['DM_Mono'] text-[6px] text-white/50 bg-[#2A2B3D] px-2">${randomName}</div>
+                                    <div class="w-[80%] h-[60px] border-[2px] border-[var(--navy)] mt-auto rounded-t-lg bg-[#0A0A0F] flex flex-col justify-between p-1">
+                                        ${Array(4).fill('<div class="w-full h-1 bg-[#2A2B3D]"></div>').join('')}
+                                    </div>
+                                    <div class="absolute top-2 left-2 w-3 h-3 bg-[var(--blue)] flex items-center justify-center text-[5px] text-white font-bold">P</div>
+                                </div>`;
+                            } else if (type === 1) { 
+                                return `<div class="w-[90px] h-[60%] bg-[#2A2B3D] border-[2px] border-[var(--navy)] flex flex-col relative mx-1 shrink-0">
+                                    <div class="w-[110%] h-[10px] bg-[var(--blue)] border-[2px] border-[var(--navy)] absolute top-[15px] left-[-5%] skew-x-[-10deg] opacity-80 shadow-md"></div>
+                                    <div class="font-['DM_Mono'] text-[5px] text-white/80 absolute top-1 left-2">${randomName}</div>
+                                    <div class="w-full h-full flex justify-around items-end pb-1 pt-8">
+                                        <div class="w-[30%] h-[20px] border border-[var(--navy)] bg-[#1A1A24]"></div>
+                                        <div class="w-[30%] h-[30px] border border-[var(--navy)] bg-[#1A1A24] rounded-t"></div>
+                                    </div>
+                                </div>`;
+                            } else if (type === 2) { 
+                                return `<div class="w-[50px] h-[100%] bg-[#1A1A24] border-[2px] border-[var(--navy)] flex flex-col items-center py-2 mx-1 gap-2 shrink-0">
+                                    ${Array(4).fill('<div class="w-[60%] h-[15px] border border-[var(--navy)] bg-[#2A2B3D]"></div>').join('')}
+                                </div>`;
+                            } else if (type === 3) { 
+                                return `<div class="w-[150px] h-[70%] bg-[#1A1A24] border-[2px] border-[var(--navy)] relative mx-1 overflow-hidden shrink-0">
+                                    <div class="absolute inset-0 opacity-20" style="background-image: repeating-linear-gradient(0deg, transparent, transparent 10px, [var(--navy)] 10px, [var(--navy)] 12px);"></div>
+                                    <div class="absolute top-4 left-1/2 -translate-x-1/2 font-['Bebas_Neue'] text-xl text-[var(--navy)] whitespace-nowrap">${randomName}</div>
+                                    <div class="absolute bottom-0 left-[10px] w-[40px] h-[30px] bg-[#0A0A0F] border-[2px] border-b-0 border-[var(--navy)] rounded-t-sm"></div>
+                                    <div class="absolute bottom-0 right-[10px] w-[40px] h-[30px] bg-[#0A0A0F] border-[2px] border-b-0 border-[var(--navy)] rounded-t-sm"></div>
+                                </div>`;
+                            } else {
+                                return `<div class="w-[40px] h-[20%] bg-[#0A0A0F] mx-2 border-t-[4px] border-[var(--navy)] self-end shrink-0"></div>`;
+                            }
+                        }).join('')}
+                    </div>
+
+                    <!-- Concrete Support Pillars -->
+                    ${Array(transitStations.length * 2).fill(0).map((_, i) => `
+                        <div class="absolute top-0 w-[160px] h-[100%] flex flex-col items-center z-[5] opacity-60" style="left: ${(i + 0.3) * (STATION_SPACING * 0.5)}px;">
+                            <div class="w-full h-[50px] bg-[#1A1A24] border-x-[4px] border-b-[4px] border-[var(--navy)] rounded-b-[60px] shadow-[inset_0_-15px_30px_rgba(0,0,0,0.6)] relative">
+                                <div class="absolute inset-0 border-[2px] border-[var(--blue)]/10 rounded-b-[58px] m-1"></div>
+                            </div>
+                            <div class="w-[80px] flex-1 bg-[#1A1A24] border-x-[4px] border-[var(--navy)] relative shadow-[inset_0_0_20px_rgba(0,0,0,0.5)]">
+                                <div class="absolute left-[15px] w-[4px] h-full bg-[#2A2B3D]"></div>
+                                <div class="absolute right-[15px] w-[4px] h-full bg-[#2A2B3D]"></div>
+                                ${Math.random() > 0.5 ? `<div class="absolute top-[30%] left-1/2 -translate-x-1/2 font-['Caveat'] text-white/20 text-[8px] transform -rotate-90 whitespace-nowrap">GROWTH > LUCK</div>` : ''}
+                            </div>
+                            <div class="w-[120px] h-[30px] bg-[#2A2B3D] border-[4px] border-[var(--navy)] rounded-t-xl z-10 flex items-center justify-center">
+                                <div class="w-[80%] h-1 bg-[var(--navy)]/30"></div>
+                            </div>
+                        </div>
+                    `).join('')}
+                </div>
+
+                <!-- Complex Background Route Grid (Layer 2) -->
+                <div class="absolute bottom-[35%] left-0 pointer-events-none z-[-5] overflow-visible" style="width: ${transitStations.length * STATION_SPACING}px; height: 400px;">
+                    <!-- Massive SVG drawing the branches -->
+                    <svg class="absolute bottom-0 left-0 w-full h-full overflow-visible" preserveAspectRatio="none">
+                        <!-- Curved branches diverging from main track -->
+                        <path d="M 0 400 Q ${STATION_SPACING * 0.5} 400, ${STATION_SPACING * 0.8} 300 T ${STATION_SPACING * 2} 400" fill="none" stroke="#2A2B3D" stroke-width="4" stroke-dasharray="10 5" opacity="0.3"></path>
+                        <path d="M ${STATION_SPACING * 1.2} 400 Q ${STATION_SPACING * 1.5} 400, ${STATION_SPACING * 1.8} 200 T ${STATION_SPACING * 3} 400" fill="none" stroke="var(--blue)" stroke-width="2" opacity="0.2"></path>
+                        <path d="M ${STATION_SPACING * 2.8} 400 L ${STATION_SPACING * 3.2} 150 L ${STATION_SPACING * 4} 400" fill="none" stroke="#2A2B3D" stroke-width="8" opacity="0.2"></path>
+                        <path d="M ${STATION_SPACING * 4.2} 400 Q ${STATION_SPACING * 4.8} 400, ${STATION_SPACING * 5} 250 T ${STATION_SPACING * 6} 400" fill="none" stroke="#2A5CE8" stroke-width="2" stroke-dasharray="20 10" opacity="0.4"></path>
+                        
+                        <!-- Route nodes & junctions -->
+                        <circle cx="${STATION_SPACING * 0.8}" cy="300" r="4" fill="var(--blue)" opacity="0.4"></circle>
+                        <circle cx="${STATION_SPACING * 1.8}" cy="200" r="4" fill="var(--blue)" opacity="0.4"></circle>
+                        <circle cx="${STATION_SPACING * 3.2}" cy="150" r="6" fill="#1A1A24" stroke="var(--blue)" stroke-width="2" opacity="0.5"></circle>
+                        <circle cx="${STATION_SPACING * 5}" cy="250" r="4" fill="var(--blue)" opacity="0.4"></circle>
+                    </svg>
+                </div>
+                
+                <!-- Layer 1: Foreground Parallax (Blurry passing poles) -->
+                <div class="absolute bottom-0 left-0 h-full pointer-events-none z-[70] flex justify-between overflow-visible" style="width: ${transitStations.length * STATION_SPACING}px;">
+                    ${Array(transitStations.length * 2).fill(0).map((_, i) => `
+                        <div class="absolute bottom-[-50px] w-[6px] md:w-[10px] h-[400px] bg-[#0A0A0F] blur-[3px] opacity-60 flex flex-col items-center pt-20" style="left: ${(i + 0.3) * (STATION_SPACING * 0.5)}px;">
+                            <div class="w-[16px] h-[16px] bg-red-600 rounded-full blur-[4px] animate-pulse shadow-[0_0_15px_red]"></div>
+                            <div class="w-[4px] h-[4px] bg-white rounded-full mt-[-10px]"></div>
+                        </div>
+                    `).join('')}
+                </div>
+            `;
+
+            // Loop through and build the station nodes
+            transitStations.forEach((st, i) => {
+                const xPos = i * STATION_SPACING;
+                const config = envConfigs[i] || envConfigs[envConfigs.length - 1]; // Fallback
+                
+                const projectName = st.name || st.stat;
+                const summary = st.summary;
+
+                const clickHandler = i === 0 ? '' : `onclick="stepOutToCaseStudy(event, ${i - 1})"`;
+                
+                html += `
+                    <!-- Station Node -->
+                    <div class="absolute bottom-0 h-full flex flex-col items-center pointer-events-none z-40" 
+                         style="left: ${xPos}px; width: 300px; margin-left: -150px;" 
+                         data-index="${i}">
+                        
+                        <!-- Environment Parallax Elements -->
+                        <div class="absolute inset-0 w-full h-full pointer-events-none transit-bg-layer z-[-1]" style="transform: translateX(0px);">
+                            ${config.bgElements}
+                            
+                            <!-- Concrete Track Support Pillar -->
+                            <div class="absolute bottom-0 left-1/2 -translate-x-1/2 w-[60px] h-[20%] bg-[#2a2a35] border-x-[4px] border-[#1a1a24] opacity-20 z-[-2] flex flex-col items-center pt-2">
+                                <div class="w-[40px] h-[2px] bg-black/40 mb-1"></div>
+                                <div class="w-[40px] h-[2px] bg-black/40 mb-1"></div>
+                                <span class="font-['DM_Mono'] text-[6px] text-white/30 font-bold mt-2">P-${i}</span>
+                            </div>
+                        </div>
+                        
+                        <!-- Data Text (Above the line) -->
+                        <div class="absolute bottom-[35%] flex flex-col items-center text-center w-[280px] md:w-[400px] pointer-events-auto cursor-pointer group" ${clickHandler}>
+                            <div class="opacity-0 group-hover:opacity-100 transition-opacity absolute -top-12 left-1/2 -translate-x-1/2 bg-[var(--blue)] text-white font-['DM_Mono'] text-[8px] px-2 py-1 uppercase tracking-widest whitespace-nowrap z-50">Step Out</div>
+                            
+                            <!-- Street/Direction Sign -->
+                            <div class="bg-[var(--navy)] text-white font-['DM_Mono'] text-[8px] font-bold px-2 py-1 mb-2 transform rotate-[-2deg] shadow-[2px_2px_0_var(--blue)] uppercase flex gap-2">
+                                <span class="text-[#f0ca57]">${config.district}</span> // <span>${config.signage}</span>
+                            </div>
+
+                            <!-- Billboard -->
+                            <div class="relative bg-[#F4EFE6] border-[4px] border-[var(--navy)] px-4 py-4 shadow-[8px_8px_0px_var(--navy)] flex flex-col items-center min-w-[260px] max-w-[300px] z-20 group-hover:shadow-[4px_4px_0px_var(--navy)] group-hover:translate-x-[4px] group-hover:translate-y-[4px] transition-all duration-300">
+                                <!-- Tape -->
+                                <div class="absolute -top-3 left-1/2 -translate-x-1/2 w-10 h-5 bg-white/50 backdrop-blur-sm border border-black/10 rotate-[-2deg] opacity-70 mix-blend-multiply z-10"></div>
+                                
+                                <div class="flex justify-between w-full mb-2 border-b border-black/10 pb-1">
+                                    <span class="font-['DM_Mono'] text-[9px] font-bold text-[var(--navy)] tracking-widest uppercase">${config.stationStr}</span>
+                                    <span class="font-['DM_Mono'] text-[9px] font-bold text-[var(--blue)] tracking-widest uppercase">${config.year}</span>
+                                </div>
+                                <h3 class="font-['Bebas_Neue'] text-3xl md:text-4xl text-[var(--navy)] tracking-wide leading-none uppercase group-hover:text-[var(--blue)] transition-colors text-center w-full">${projectName}</h3>
+                                
+                                <div class="w-12 h-[3px] bg-[var(--navy)] my-3"></div>
+                                <span class="font-['Bebas_Neue'] text-2xl md:text-3xl text-[var(--blue)] leading-none mb-2 uppercase">${config.billboardStat}</span>
+                                <p class="font-['DM_Sans'] text-[10px] md:text-[11px] text-[var(--navy)]/80 leading-tight text-center">${summary}</p>
+                            </div>
+                            
+                            <!-- Thick Pole to Platform -->
+                            <div class="w-[12px] h-[160px] bg-[var(--navy)] z-10 shadow-[inset_-3px_0_0_rgba(0,0,0,0.3)]"></div>
+                        </div>
+
+                        <!-- The High-Tech Platform Node (Track Level) -->
+                        <div class="absolute bottom-[35%] translate-y-[10px] w-[140px] md:w-[180px] h-[16px] md:h-[20px] bg-gradient-to-b from-[#3A3B4A] to-[#2A2B3D] border-t-[2px] border-[#5A5B6A] rounded-t-[16px] shadow-[0_-4px_10px_rgba(0,0,0,0.3)] z-40 transition-all duration-300 flex justify-center ${i === 0 ? 'border-[var(--blue)]' : ''}" id="route-node-${i}">
+                            <!-- Platform Edge Highlights -->
+                            <div class="absolute top-[2px] w-[80%] h-[2px] bg-gradient-to-r from-transparent via-white/20 to-transparent"></div>
+                            <!-- Platform base shadow -->
+                            <div class="absolute bottom-0 w-full h-[4px] bg-[#1A1A24]/80"></div>
+                        </div>
+                    </div>
+                `;
+            });
+            
+            // Inject HTML
+            transitStationsContainer.innerHTML = html;
+            
+            // Explicitly Set container width to allow full panning
+            transitWorld.style.width = `${(transitStations.length - 1) * STATION_SPACING}px`;
+
+            // Start at origin
+            setTimeout(() => { navigateTransit(0); }, 500);
+        }
+
+        // Navigation Actions
+        const nextBtn = document.getElementById('transit-next-btn');
+        const prevBtn = document.getElementById('transit-prev-btn');
+
+        if(nextBtn) {
+            nextBtn.addEventListener('click', () => {
+                if(activeStationIdx < transitStations.length - 1) {
+                    navigateTransit(activeStationIdx + 1);
+                }
+            });
+        }
+        if(prevBtn) {
+            prevBtn.addEventListener('click', () => {
+                if(activeStationIdx > 0) {
+                    navigateTransit(activeStationIdx - 1);
+                }
+            });
+        }
+
+        function navigateTransit(index) {
+            activeStationIdx = index;
+            const targetX = index * STATION_SPACING;
+            
+            if (isAudioInit && typeof travelSynth !== 'undefined' && index !== 0) travelSynth.triggerAttackRelease("0.6s");
+
+            // Indicator lights & Bounce on Train
+            gsap.to('#transit-train', { y: -6, duration: 0.15, yoyo: true, repeat: 5, ease: "sine.inOut" });
+
+            // Pan the world (Stations Container)
+            gsap.to(transitWorld, {
+                x: -targetX,
+                duration: 0.8,
+                ease: "power3.inOut",
+                onComplete: () => {
+                    gsap.set('#transit-train', { y: 0 }); 
+                    
+                    // Update active nodes
+                    for(let i=0; i<transitStations.length; i++) {
+                        const node = document.getElementById(`route-node-${i}`);
+                        if (node) {
+                            if (i === index) {
+                                node.classList.remove('border-[#5A5B6A]');
+                                node.classList.add('border-[var(--blue)]', 'shadow-[0_-4px_15px_rgba(42,92,232,0.4)]');
+                                node.classList.remove('shadow-[0_-4px_10px_rgba(0,0,0,0.3)]');
+                            } else {
+                                node.classList.add('border-[#5A5B6A]', 'shadow-[0_-4px_10px_rgba(0,0,0,0.3)]');
+                                node.classList.remove('border-[var(--blue)]', 'shadow-[0_-4px_15px_rgba(42,92,232,0.4)]');
+                            }
+                        }
                     }
                 }
-            );
-            
-            gsap.to('#modal-inner-content', { opacity: 1, y: 0, duration: 0.6, delay: 0.4, ease: "power3.out" });
-            gsap.to(dissectModal, { opacity: 1, duration: 0.4, pointerEvents: 'auto' });
-            
-            // Award-winning Scroll Reveal Logic
-            setTimeout(() => {
-                // Kill any lingering modal scroll triggers
-                ScrollTrigger.getAll().filter(st => st.vars.scroller === "#modal-inner-content").forEach(st => st.kill());
-                
-                // GSAP initial fade for headers
-                const headers = document.querySelectorAll('#modal-inner-content .cs-title, #modal-inner-content .cs-sub, #modal-inner-content .cs-tags');
-                headers.forEach((el, i) => {
-                    gsap.fromTo(el, 
-                        { opacity: 0, y: 30 },
-                        { opacity: 1, y: 0, duration: 1.0, ease: "expo.out", delay: i * 0.1 }
-                    );
-                });
-                
-                // Trigger CSS reveal classes for highly aesthetic text animations
-                const revealElements = document.querySelectorAll('#modal-inner-content .reveal-text, #modal-inner-content .reveal-blur');
-                revealElements.forEach((el) => {
-                    ScrollTrigger.create({
-                        trigger: el,
-                        scroller: "#modal-inner-content",
-                        start: "top 95%",
-                        toggleClass: "is-visible",
-                        once: false
-                    });
-                });
+            });
 
-                // Trigger for Mockup Scene spreading (85% visible)
-                const mockupScenes = document.querySelectorAll('#modal-inner-content .mockup-scene');
-                mockupScenes.forEach((el) => {
-                    ScrollTrigger.create({
-                        trigger: el,
-                        scroller: "#modal-inner-content",
-                        start: "top 85%",
-                        toggleClass: "is-visible",
-                        once: false
-                    });
-                });
-            }, 800);
+            // Parallax the background grid slightly for depth
+            gsap.to('#vending .opacity-10', {
+                backgroundPositionX: `-=${STATION_SPACING * 0.1}px`,
+                duration: 0.8,
+                ease: "power3.inOut"
+            });
         }
 
-        // Extracted close logic to a reusable function
-        function closeDissectModal() {
-            if (isAudioInit && typeof popSynth !== 'undefined') popSynth.triggerAttackRelease("C4", "8n");
+
+        window.stepOutToCaseStudy = function(event, dataIndex) {
+            if (event) event.stopPropagation();
+            if (typeof lenis !== 'undefined') lenis.stop(); 
+            if (isAudioInit && typeof arrivalSynth !== 'undefined') arrivalSynth.triggerAttackRelease(["E4", "G4", "C5"], "8n");
             
-            // Clean up modal scroll triggers to prevent leaks
-            ScrollTrigger.getAll().filter(st => st.vars.scroller === "#modal-inner-content").forEach(st => st.kill());
+            const data = inventoryData[dataIndex];
             
-            gsap.to('#modal-inner-content', { opacity: 0, y: -20, duration: 0.2 });
-            gsap.to(dissectCardContainer, { 
-                width: window.innerWidth > 768 ? 320 : 260, 
-                height: window.innerWidth > 768 ? 480 : 400,
-                opacity: 0, 
-                duration: 0.5, 
+            // Inject preserved custom HTML. 
+            transitCsContent.innerHTML = data.customHTML;
+            
+            // Show the square card overlay coming from the bottom
+            const overlay = document.createElement('div');
+            overlay.id = 'step-out-overlay';
+            overlay.className = 'fixed inset-0 bg-[#F4EFE6] z-[9998] transform translate-y-full';
+            document.body.appendChild(overlay);
+
+            gsap.to(overlay, { 
+                y: "0%", 
+                duration: 0.6, 
                 ease: "power3.inOut",
-                delay: 0.1
+                onComplete: () => {
+                    // Instantly swap visibility while covered
+                    gsap.set(transitMapView, { height: 0, opacity: 0 });
+                    transitMapView.classList.add('hidden');
+                    transitCsView.classList.remove('hidden');
+                    
+                    // Fade case study up slightly as overlay reveals it
+                    gsap.fromTo(transitCsView, 
+                        { opacity: 0, y: 30 }, 
+                        { opacity: 1, y: 0, duration: 0.5, ease: "power3.out", onComplete: () => {
+                            if (typeof ScrollTrigger !== 'undefined') {
+                                ScrollTrigger.refresh();
+                                const revealElements = transitCsContent.querySelectorAll('.reveal-text, .reveal-blur, .mockup-scene');
+                                revealElements.forEach((el) => {
+                                    ScrollTrigger.create({
+                                        trigger: el,
+                                        start: "top 90%",
+                                        toggleClass: "is-visible",
+                                        once: false
+                                    });
+                                });
+                            }
+                            if (typeof lenis !== 'undefined') lenis.start(); 
+                        }}
+                    );
+                    
+                    // Slide overlay out to top (or just fade it)
+                    gsap.to(overlay, { opacity: 0, duration: 0.3, onComplete: () => overlay.remove() });
+                }
             });
             
-            gsap.to(dissectModal, { 
-                opacity: 0, pointerEvents: 'none', duration: 0.5, delay: 0.3, 
-                onComplete: () => { 
-                    dissectModal.classList.add('hidden'); 
-                    dissectModal.classList.remove('flex'); 
-                    gsap.set(dissectCardContainer, { clearProps: "all" });
-                    if (typeof lenis !== 'undefined') lenis.start(); 
+            if (typeof triggerExploration === 'function') triggerExploration(`transit_project_${data.id}`);
+        };
+
+        if (backToTransitBtn) {
+            backToTransitBtn.addEventListener('click', () => {
+                if (isAudioInit && typeof popSynth !== 'undefined') popSynth.triggerAttackRelease("C4", "8n");
+                
+                // Clear dynamic triggers
+                if (typeof ScrollTrigger !== 'undefined') {
+                    ScrollTrigger.getAll().forEach(st => {
+                        if (transitCsContent.contains(st.trigger)) st.kill();
+                    });
                 }
+
+                // Create overlay to cover again
+                const overlay = document.createElement('div');
+                overlay.id = 'step-out-overlay';
+                overlay.className = 'fixed inset-0 bg-[#F4EFE6] z-[9998] transform translate-y-full opacity-0';
+                document.body.appendChild(overlay);
+
+                gsap.to(overlay, { 
+                    y: "0%", opacity: 1, duration: 0.4, ease: "power3.inOut",
+                    onComplete: () => {
+                        transitCsView.classList.add('hidden');
+                        transitCsContent.innerHTML = '';
+                        
+                        transitMapView.classList.remove('hidden');
+                        gsap.set(transitMapView, { height: window.innerWidth > 768 ? '65vh' : '500px', opacity: 1 });
+                        
+                        gsap.to(overlay, { y: "100%", duration: 0.5, ease: "power3.inOut", onComplete: () => {
+                            overlay.remove();
+                            if (typeof ScrollTrigger !== 'undefined') ScrollTrigger.refresh();
+                        }});
+                    }
+                });
             });
         }
 
-        const closeBtn = document.getElementById('close-modal-btn');
-        if(closeBtn) {
-            closeBtn.addEventListener('click', closeDissectModal);
-        }
-
-        // Close modal when clicking on the outside backdrop
-        if (dissectModal) {
-            dissectModal.addEventListener('click', (e) => {
-                if (e.target === dissectModal) {
-                    closeDissectModal();
-                }
-            });
-        }
+        // Initialize Transit System
+        buildTransitSystem();
+        // --- END CAREER TRANSIT SYSTEM LOGIC ---
 
         // --- TOP RIBBON SYSTEM HUD & FOMO LOGIC ---
         const exploredMilestones = new Set();
