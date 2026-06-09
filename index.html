@@ -797,14 +797,12 @@
             Bajkamal Singh
         </div>
         <div class="flex-grow flex items-center justify-start md:justify-center px-4 bg-[var(--beige)] border-r-[2px] border-[#0a0a0a] pointer-events-auto overflow-hidden">
-             <span class="text-[rgba(5,16,36,0.7)] text-[12px] tracking-[0.1em] mr-2 hidden sm:inline">You've been here</span>
-             <span id="session-timer" class="text-[var(--navy)] text-[15px] font-[900] tabular-nums tracking-[0.06em] font-['Gloria_Hallelujah']">0:00</span>
-             <span id="hinglish-phrase" aria-hidden="true" class="text-[rgba(5,16,36,0.6)] text-[10px] tracking-[0.12em] ml-2 hidden sm:inline-block">- Still counting</span>
+             <span id="hinglish-phrase" aria-hidden="true" class="text-[rgba(5,16,36,0.8)] text-[13px] md:text-[14px] tracking-wide font-['Schoolbell'] font-bold hidden sm:inline-block">Built this site myself. Blame me for the bugs.</span>
         </div>
         <div class="hidden lg:flex items-center relative bg-[#f0ede6] border-r-[2px] border-[#0a0a0a] pointer-events-auto w-[240px] xl:w-full max-w-[280px]">
             <div id="scroll-progress-bar" class="absolute left-0 top-0 h-full bg-[#0022cc] w-0 transition-all duration-700 ease-out z-0"></div>
             <div class="relative z-10 flex items-center justify-between w-full px-4 mix-blend-difference text-white">
-                <span class="text-[12px] tracking-[0.1em] opacity-80">Explored</span>
+                <span class="text-[12px] tracking-[0.1em] opacity-80">You've seen</span>
                 <span id="scroll-pct" class="text-[14px] tabular-nums font-bold font-['Gloria_Hallelujah']">0%</span>
             </div>
         </div>
@@ -841,26 +839,41 @@
 
                     
                     
-                    <!-- Top Right: Creative Midnight Pinned Note -->
-                    <div id="hero-quote-block" class="hero-overlay-text absolute top-[12%] md:top-[18%] right-[5%] md:right-[10%] z-[9999] opacity-0 pointer-events-none transform rotate-1">
-                        <div class="relative flex flex-col p-2 max-w-[280px]">
-                            <!-- Red Pushpin -->
-                            <div class="absolute -top-2 left-1/2 -translate-x-1/2 z-30">
-                                <div class="w-2.5 h-2.5 rounded-full bg-red-600 shadow-[1px_2px_4px_rgba(0,0,0,0.5)] border border-red-800"></div>
-                                <div class="w-0.5 h-2 bg-neutral-400 mx-auto -mt-0.5 shadow-sm"></div>
+                    <!-- Top Right: Creative Midnight Graph Note -->
+                    <div id="hero-quote-block" class="hero-overlay-text absolute top-[12%] md:top-[18%] right-[5%] md:right-[8%] z-[9999] opacity-0 pointer-events-auto">
+                        <div class="relative flex flex-col md:flex-row items-end md:items-center p-2 max-w-[500px]">
+                            <!-- Text Left -->
+                            <div class="flex flex-col items-end">
+                                <div class="font-['Open_Sauce_One'] text-[13px] md:text-[15px] text-[#D1D1D1] font-bold tracking-tight mb-1 pr-1">Creative by night,</div>
+                                <div class="font-['Schoolbell'] text-[38px] md:text-[46px] text-white leading-[0.85] mb-2 font-bold drop-shadow-sm">more creative</div>
+                                <div class="font-['Schoolbell'] text-[38px] md:text-[46px] text-white leading-[0.85] flex items-center font-bold drop-shadow-sm">
+                                    by
+                                    <div class="relative ml-3">
+                                        <div class="absolute inset-0 bg-[#0F35FF] translate-x-[4px] translate-y-[5px]"></div>
+                                        <div class="relative bg-[#ECE8E1] text-[#0B0B0B] px-3 py-0.5 transform -rotate-[2deg] shadow-sm">
+                                            midnight.
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
-
-                            <div class="font-['DM_Mono'] text-[10px] md:text-[11px] text-[var(--beige)] opacity-50 tracking-wider mb-2 text-center pointer-events-auto">
-                                Creative by night,
-                            </div>
-                            <div class="relative text-center pointer-events-auto cursor-hover">
-                                <span class="font-['Schoolbell'] text-[22px] md:text-[26px] text-[var(--beige)] leading-[1] drop-shadow-sm font-bold relative inline-block">
-                                    more creative by midnight.
-                                    <!-- Hand-drawn SVG Underline -->
-                                    <svg class="absolute -bottom-1.5 left-0 w-full h-[6px] text-[#FF3333] opacity-80 pointer-events-none" viewBox="0 0 100 10" preserveAspectRatio="none">
-                                        <path d="M 2,5 Q 50,8 98,3" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/>
-                                    </svg>
-                                </span>
+                            
+                            <!-- Graph Right -->
+                            <div class="relative w-[130px] h-[90px] ml-6 flex-shrink-0 mt-6 md:mt-4 hidden md:block">
+                                <svg class="absolute inset-0 w-full h-full overflow-visible" viewBox="0 0 130 90">
+                                    <!-- Axes -->
+                                    <path d="M 0 0 L 0 65 L 80 65" fill="none" stroke="#ECE8E1" stroke-width="2"/>
+                                    <!-- Curve -->
+                                    <path d="M 0 52 C 40 52, 80 40, 120 10" fill="none" stroke="#ECE8E1" stroke-width="3.5" stroke-linecap="round"/>
+                                    <!-- 15% Blue segment of the Curve -->
+                                    <path d="M 0 52 C 40 52, 80 40, 120 10" fill="none" stroke="#0F35FF" stroke-width="3.5" stroke-linecap="round" pathLength="100" stroke-dasharray="15 100" />
+                                    <!-- Dots -->
+                                    <circle cx="0" cy="52" r="4" fill="#0F35FF" />
+                                    <circle cx="120" cy="10" r="4" fill="#ECE8E1" />
+                                    <circle cx="120" cy="10" r="8" fill="#ECE8E1" opacity="0.3" />
+                                </svg>
+                                <!-- Labels -->
+                                <div class="absolute top-[72px] left-[0px] font-['DM_Mono'] text-[11px] text-[#0F35FF] font-bold tracking-wider drop-shadow-md">20:00</div>
+                                <div class="absolute top-[72px] left-[105px] font-['DM_Mono'] text-[11px] text-[#ECE8E1] font-bold tracking-wider drop-shadow-md">00:00</div>
                             </div>
                         </div>
                     </div>
@@ -871,7 +884,7 @@
                             
                             <!-- Stage 1 -->
                             <div class="relative flex flex-col">
-                                <span aria-hidden="true" class="font-['Open_Sauce_One'] text-[10px] md:text-[11px] uppercase tracking-tight text-[var(--beige)] opacity-60 font-bold mb-1">Started As</span>
+                                <span aria-hidden="true" class="font-['Open_Sauce_One'] text-[11px] md:text-[12px] tracking-tight text-[var(--beige)] opacity-60 font-bold mb-1">Started As</span>
                                 <span class="font-['Schoolbell'] text-[20px] md:text-[24px] text-[var(--beige)] opacity-90 leading-none hover:opacity-100 transition-opacity drop-shadow-sm cursor-hover pointer-events-auto">Designer</span>
                                 <!-- Connecting Line -->
                                 <div class="absolute left-[10px] top-[36px] md:top-[40px] w-[1px] h-4 md:h-6 border-l border-dashed border-[var(--beige)] opacity-20"></div>
@@ -879,7 +892,7 @@
 
                             <!-- Stage 2 -->
                             <div class="relative flex flex-col">
-                                <span aria-hidden="true" class="font-['Open_Sauce_One'] text-[10px] md:text-[11px] uppercase tracking-tight text-[var(--beige)] opacity-60 font-bold mb-1">Became</span>
+                                <span aria-hidden="true" class="font-['Open_Sauce_One'] text-[11px] md:text-[12px] tracking-tight text-[var(--beige)] opacity-60 font-bold mb-1">Became</span>
                                 <span class="font-['Schoolbell'] text-[20px] md:text-[24px] text-[var(--beige)] opacity-90 leading-none hover:opacity-100 transition-opacity drop-shadow-sm cursor-hover pointer-events-auto">Artist Manager</span>
                                 <!-- Connecting Line -->
                                 <div class="absolute left-[10px] top-[36px] md:top-[40px] w-[1px] h-4 md:h-6 border-l border-dashed border-[var(--beige)] opacity-20"></div>
@@ -887,7 +900,7 @@
 
                             <!-- Stage 3 -->
                             <div class="relative flex flex-col">
-                                <span aria-hidden="true" class="font-['Open_Sauce_One'] text-[10px] md:text-[11px] uppercase tracking-tight text-[var(--beige)] opacity-60 font-bold mb-1">Currently</span>
+                                <span aria-hidden="true" class="font-['Open_Sauce_One'] text-[11px] md:text-[12px] tracking-tight text-[var(--beige)] opacity-60 font-bold mb-1">Currently</span>
                                 <span class="font-['Schoolbell'] text-[24px] md:text-[28px] text-[var(--beige)] leading-none drop-shadow-md cursor-hover pointer-events-auto">Creative Director</span>
                             </div>
 
@@ -903,8 +916,9 @@
 
                             <div style="transform: translateZ(10px);" class="flex flex-col gap-0.5">
                                 <span aria-hidden="true" class="font-['Schoolbell'] text-[8px] uppercase tracking-[0.25em] text-black/40 font-bold block">Institution Log</span>
-                                <div class="flex items-center gap-1.5">
-                                    <span aria-hidden="true" class="font-['DM_Mono'] text-[10px] font-bold text-[var(--navy)] uppercase tracking-[0.2em]">SRCC '27</span>
+                                <div class="flex flex-col">
+                                    <span aria-hidden="true" class="font-['DM_Mono'] text-[10px] font-bold text-[var(--navy)] uppercase tracking-[0.2em] leading-tight">Delhi, India</span>
+                                    <span aria-hidden="true" class="font-['DM_Mono'] text-[10px] font-bold text-[var(--navy)] uppercase tracking-[0.2em] leading-tight">SRCC '27</span>
                                 </div>
                             </div>
                         </div>
@@ -1429,11 +1443,11 @@
                                 <div class="absolute -top-3 left-1/2 -translate-x-1/2 w-12 h-6 bg-white/50 backdrop-blur-sm border border-black/10 rotate-[-4deg] opacity-70 mix-blend-overlay"></div>
                                 
                                 <div class="flex items-center justify-between border-b-2 border-dotted border-[var(--navy)]/40 pb-3 mb-3">
-                                    <span aria-hidden="true" class="font-['Schoolbell'] text-[9px] font-black uppercase tracking-[0.2em] text-[var(--blue)] animate-pulse">Action Req.</span>
+                                    <span aria-hidden="true" class="font-['Schoolbell'] text-[11px] font-black uppercase tracking-[0.2em] text-[var(--blue)]">A QUICK NOTE</span>
                                     <i data-lucide="mouse-pointer-click" class="w-4 h-4 text-[var(--navy)]"></i>
                                 </div>
-                                <span class="font-extrabold text-2xl uppercase tracking-tighter text-[var(--navy)] leading-none mb-2 block">Click to Expand</span>
-                                <span class="font-['Schoolbell'] text-base md:text-lg font-bold text-[var(--navy)]/70 tracking-wide leading-relaxed">These college projects built my foundation. However, my absolute best work is in the next section—so if you're short on time, feel free to skip right past these!</span>
+                                <span class="font-['Schoolbell'] text-xl md:text-2xl font-bold text-[var(--navy)] leading-snug mb-2 block">Worth a look.</span>
+                                <span class="font-['Schoolbell'] text-base md:text-lg font-bold text-[var(--navy)]/70 tracking-wide leading-relaxed">But If you're short on time,<br>jump straight to next section (Best Work).</span>
                             </div>
                         </div>
 
@@ -1460,8 +1474,8 @@
 
                         <!-- Top Header Area ("Better Projects") -->
                         <div class="absolute top-10 left-10 md:top-16 md:left-16 z-50 pointer-events-none flex flex-col items-start leading-none">
-                            <span class="font-['Schoolbell'] text-7xl md:text-[100px] text-[#0B0B0B] -mb-6 md:-mb-8 rotate-[2deg] inline-block font-bold">Better</span>
-                            <span class="font-['Schoolbell'] text-8xl md:text-[120px] text-[#0F35FF] -rotate-[2deg] inline-block font-bold">Projects</span>
+                            <span class="font-['Schoolbell'] text-7xl md:text-[100px] text-[#0B0B0B] -mb-6 md:-mb-8 rotate-[2deg] inline-block font-bold" style="text-shadow: 4px 4px 0px rgba(11,11,11,0.15);">Better</span>
+                            <span class="font-['Schoolbell'] text-8xl md:text-[120px] text-[#0F35FF] -rotate-[2deg] inline-block font-bold" style="text-shadow: 4px 4px 0px rgba(11,11,11,0.15);">Projects</span>
                         </div>
 
                         <!-- METRO ROUTE MAP BOARD -->
@@ -1760,42 +1774,46 @@
                                     img.src = src;
                                     
                                     const baseWidth = window.innerWidth < 768 ? 160 : 280;
-                                    const scale = 0.7 + Math.random() * 0.6; // 0.7x to 1.3x scale
-                                    const rot = (Math.random() - 0.5) * 10; // -5 to 5 degrees
+                                    const scale = 0.7 + Math.random() * 0.4; // 0.7x to 1.1x scale
+                                    const rot = (Math.random() - 0.5) * 15; // More varied rotation
+                                    const offsetX = (Math.random() - 0.5) * 200; // Imperfect placement
+                                    const offsetY = (Math.random() - 0.5) * 200;
                                     
                                     img.className = "absolute origin-center rounded-xl shadow-[0_10px_40px_rgba(0,0,0,0.5)] pointer-events-none will-change-transform";
                                     img.style.width = `${baseWidth}px`;
-                                    img.style.left = `${x}px`;
-                                    img.style.top = `${y}px`;
-                                    // Use transform for centering to ensure exact placement under cursor
-                                    img.style.transform = `translate(-50%, -50%) scale(0) rotate(${rot}deg)`;
+                                    img.style.left = `${x + offsetX}px`;
+                                    img.style.top = `${y + offsetY}px`;
+                                    img.style.transform = `translate(-50%, -50%) scale(0.9) rotate(${rot - 5}deg)`;
                                     img.style.opacity = "0";
 
                                     canvas.appendChild(img);
                                     activeImages.push(img);
 
+                                    // Appear slowly with a pause (delay) matching the vibe
                                     gsap.to(img, {
                                         opacity: 1,
                                         scale: scale,
-                                        duration: 0.8,
-                                        ease: "back.out(1.2)",
+                                        rotation: rot,
+                                        duration: 1.5,
+                                        delay: Math.random() * 0.3 + 0.1, // bit pause
+                                        ease: "power2.out",
                                         overwrite: "auto"
                                     });
 
-                                    // Enforce max 8-10 images
-                                    if (activeImages.length > 9) {
+                                    // Enforce a higher max images to allow a tiled look
+                                    if (activeImages.length > 15) {
                                         const oldImg = activeImages.shift();
                                         removeImage(oldImg);
                                     }
 
-                                    // Auto fade out
+                                    // Auto fade out (longer duration so they tile up)
                                     setTimeout(() => {
                                         if (activeImages.includes(img)) {
                                             const idx = activeImages.indexOf(img);
                                             if (idx > -1) activeImages.splice(idx, 1);
                                             removeImage(img);
                                         }
-                                    }, 1500);
+                                    }, 3500);
                                 }
 
                                 function removeImage(img) {
@@ -3292,18 +3310,26 @@
                 `).join('');
                 
                 card.innerHTML = `
-                    <div aria-hidden="true" class="flex justify-between items-center mb-1 font-bold text-[9px] md:text-[10px] uppercase tracking-widest opacity-80 group">
+                    <!-- Dossier Background Elements -->
+                    <div class="absolute inset-0 opacity-[0.05] pointer-events-none mix-blend-multiply bg-[url('data:image/svg+xml,%3Csvg viewBox=%220 0 200 200%22 xmlns=%22http://www.w3.org/2000/svg%22%3E%3Cfilter id=%22noiseFilter%22%3E%3CfeTurbulence type=%22fractalNoise%22 baseFrequency=%220.85%22 numOctaves=%223%22 stitchTiles=%22stitch%22/%3E%3C/filter%3E%3Crect width=%22100%25%22 height=%22100%25%22 filter=%22url(%23noiseFilter)%22/%3E%3C/svg%3E')]"></div>
+                    <div class="absolute top-4 right-4 md:top-6 md:right-6 pointer-events-none flex items-center gap-3 relative z-20">
+                        <span class="font-['DM_Mono'] text-[14px] md:text-[16px] tracking-[-0.1em] font-bold opacity-30 hidden sm:block">||||| | ||| ||</span>
+                        <span class="expand-icon font-['Schoolbell'] text-[10px] md:text-[12px] uppercase tracking-widest border border-current/30 px-2 py-1 opacity-80 group-hover:opacity-100 transition-opacity pointer-events-auto">EXPAND +</span>
+                    </div>
+                    
+                    <div aria-hidden="true" class="flex justify-between items-center mb-1 font-bold text-[9px] md:text-[10px] uppercase tracking-widest opacity-80 group relative z-10 w-[60%] sm:w-[70%]">
                         <div class="flex gap-3 md:gap-4 items-center">
                             <span>${c.company}</span>
                             <span class="opacity-50">|</span>
                             <span>${c.duration}</span>
                         </div>
-                        <span class="expand-icon text-xs md:text-sm font-['Schoolbell'] transition-colors duration-300 opacity-60 group-hover:opacity-100">[ + ]</span>
                     </div>
-                    <div class="w-full h-[1px] ${theme.divider} opacity-30 mb-3 mt-2"></div>
-                    <div class="font-['Schoolbell'] text-5xl md:text-6xl leading-[1.2] text-current mb-4 mt-2 capitalize transform -rotate-[1deg]">${c.role}</div>
+                    <div class="w-full h-[1px] ${theme.divider} opacity-30 mb-3 mt-2 relative z-10"></div>
+                    <div class="font-['Schoolbell'] text-5xl md:text-6xl leading-[1.2] text-current mb-4 mt-2 capitalize transform -rotate-[1deg] relative z-10">${c.role}</div>
                     
-                    <div class="card-expand mt-0">
+                    <div class="card-expand mt-0 relative z-10">
+                        <!-- Status Stamp -->
+                        <div class="absolute bottom-6 right-2 md:right-6 font-['Schoolbell'] text-[30px] md:text-[40px] text-current opacity-[0.15] transform -rotate-[15deg] uppercase border-[3px] border-current px-4 py-1 leading-none pointer-events-none mix-blend-overlay font-bold">Archived</div>
                         <div class="w-full h-[2px] ${theme.divider} opacity-20 mt-6 mb-8"></div>
                         <div class="flex flex-col mb-6">
                             ${pointsHtml}
@@ -3320,12 +3346,19 @@
                     </div>
                 `;
                 
-                // Add GSAP hover state to replace the removed CSS class
+                // Dynamic GSAP hover state for physical dossier feel
                 card.addEventListener('mouseenter', () => {
-                    if (stackOpenIdx !== i) gsap.to(card, { y: -8, duration: 0.3, ease: "power2.out", overwrite: "auto" });
+                    if (stackOpenIdx !== i) gsap.to(card, { y: -8, scale: 1.02, duration: 0.3, ease: "power2.out", overwrite: "auto" });
+                });
+                card.addEventListener('mousemove', (e) => {
+                    if (stackOpenIdx === i) return;
+                    const rect = card.getBoundingClientRect();
+                    const x = e.clientX - rect.left - rect.width/2;
+                    const y = e.clientY - rect.top - rect.height/2;
+                    gsap.to(card, { rotationY: x * 0.05, rotationX: -y * 0.05, duration: 0.2, ease: "power1.out", overwrite: "auto" });
                 });
                 card.addEventListener('mouseleave', () => {
-                    if (stackOpenIdx !== i) gsap.to(card, { y: 0, duration: 0.3, ease: "power2.out", overwrite: "auto" });
+                    if (stackOpenIdx !== i) gsap.to(card, { y: 0, scale: 1, rotationX: 0, rotationY: 0, duration: 0.3, ease: "power2.out", overwrite: "auto" });
                 });
 
                 card.addEventListener('click', () => { 
@@ -3372,11 +3405,11 @@
                 if(isOpen) {
                     exp.classList.add('open');
                     exp.style.marginTop = '20px';
-                    if (icon) icon.innerText = '[ - ]';
+                    if (icon) icon.innerText = 'COLLAPSE -';
                 } else {
                     exp.classList.remove('open');
                     exp.style.marginTop = '0px';
-                    if (icon) icon.innerText = '[ + ]';
+                    if (icon) icon.innerText = 'EXPAND +';
                 }
             });
             
@@ -4544,14 +4577,19 @@
                                 
                                 <!-- Left Panel (Dynamic Background) -->
                                 <div class="w-full md:w-[45%] flex flex-col justify-center items-center border-b-[6px] md:border-b-0 md:border-r-[6px] md:border-r-[8px] border-[#0B0B0B] relative overflow-hidden py-4 md:py-6" style="background-color: ${st.bg || '#0F35FF'};">
+                                    <!-- CRT Scanline Overlay -->
+                                    <div class="absolute inset-0 pointer-events-none opacity-[0.25] mix-blend-multiply z-[5]" style="background-image: repeating-linear-gradient(transparent, transparent 2px, rgba(0,0,0,0.8) 2px, rgba(0,0,0,0.8) 4px); background-size: 100% 4px;"></div>
                                     <!-- Print Noise Overlay -->
-                                    <div class="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI0IiBoZWlnaHQ9IjQiPjxyZWN0IHdpZHRoPSI0IiBoZWlnaHQ9IjQiIGZpbGw9IiNmZmYiIGZpbGwtb3BhY2l0eT0iMC4wNSIvPjwvc3ZnPg==')] opacity-50 mix-blend-overlay pointer-events-none"></div>
+                                    <div class="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI0IiBoZWlnaHQ9IjQiPjxyZWN0IHdpZHRoPSI0IiBoZWlnaHQ9IjQiIGZpbGw9IiNmZmYiIGZpbGwtb3BhY2l0eT0iMC4wNSIvPjwvc3ZnPg==')] opacity-50 mix-blend-overlay pointer-events-none z-[6]"></div>
                                     <!-- Massive Handwritten Project Name -->
                                     <h3 class="font-['Schoolbell'] text-[70px] md:text-[90px] leading-[0.8] relative z-10 -rotate-[4deg] drop-shadow-[4px_4px_0_rgba(11,11,11,0.3)] px-6 text-center" style="color: ${st.text || '#FFFFFF'};">${projectName}</h3>
                                 </div>
 
                                 <!-- Right Panel (Solid Black) -->
-                                <div class="w-full md:w-[55%] flex flex-col justify-between bg-[#0B0B0B] text-white p-4 md:p-6 relative h-full">
+                                <div class="w-full md:w-[55%] flex flex-col justify-between bg-[#0B0B0B] text-white p-4 md:p-6 relative h-full overflow-hidden group/panel">
+                                    <!-- Glitch Accents -->
+                                    <div class="absolute top-3 right-3 w-[4px] h-[18px] bg-[#0F35FF] shadow-[2px_2px_0_rgba(255,42,42,0.9),-2px_-2px_0_rgba(255,176,0,0.9)] opacity-80 group-hover/panel:opacity-100 group-hover/panel:translate-x-[2px] transition-all duration-75"></div>
+                                    <div class="absolute bottom-3 right-3 w-[24px] h-[4px] bg-[#FF2A2A] shadow-[2px_-2px_0_rgba(15,53,255,0.9)] opacity-80 group-hover/panel:opacity-100 group-hover/panel:-translate-y-[2px] transition-all duration-75"></div>
                                     <!-- Top: Campaign Description & Key Points -->
                                     <div class="flex flex-col gap-2">
                                         <p class="font-['Open_Sauce_One'] font-bold text-[13px] md:text-[15px] leading-[1.4] text-white w-[95%] uppercase tracking-[-0.02em]">
@@ -4612,7 +4650,7 @@
                                 
                                 <!-- Top Left Aligned Step Out Button -->
                                 ${i !== 0 ? `
-                                <button id="step-out-btn-${i}" class="focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#0F35FF] step-out-btn attention-pulse absolute -top-5 md:-top-7 -left-4 md:-left-8 bg-[#D4A017] text-[#0B0B0B] font-['Open_Sauce_One'] text-[12px] md:text-[14px] font-bold tracking-wide leading-tight uppercase px-5 md:px-8 py-2 md:py-3 border-[4px] border-[#0B0B0B] shadow-[8px_8px_0_rgba(11,11,11,1)] flex items-center gap-3 hover:translate-y-[2px] hover:shadow-[4px_4px_0_rgba(11,11,11,1)] transition-all cursor-pointer z-[60] w-max opacity-0 pointer-events-none group text-left" ${clickHandler}>
+                                <button id="step-out-btn-${i}" class="focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#0F35FF] step-out-btn attention-pulse absolute -top-5 md:-top-7 -left-4 md:-left-8 bg-[#D4A017] hover:bg-[#FF2A2A] text-[#0B0B0B] hover:text-white font-['Open_Sauce_One'] text-[12px] md:text-[14px] font-bold tracking-wide leading-tight uppercase px-5 md:px-8 py-2 md:py-3 border-[4px] border-[#0B0B0B] shadow-[8px_8px_0_rgba(11,11,11,1)] flex items-center gap-3 hover:translate-y-[2px] hover:shadow-[4px_4px_0_rgba(11,11,11,1)] transition-all cursor-pointer z-[60] w-max opacity-0 pointer-events-none group text-left" style="background-image: repeating-linear-gradient(-45deg, transparent, transparent 10px, rgba(11,11,11,0.15) 10px, rgba(11,11,11,0.15) 20px);" ${clickHandler}>
                                     <div class="flex flex-col">
                                         <span>STEP OUT FOR</span>
                                         <span>DISSECTION</span>
@@ -4963,17 +5001,14 @@
             if(timerEl) timerEl.textContent = `${m}:${s < 10 ? '0' : ''}${s}`;
         }, 1000);
 
-        // --- HINGLISH ROTATOR ---
+        // --- HUMANLY HONEST QUOTES ROTATOR ---
         const hinglishPhrases = [
-            "- STILL COUNTING",
-            "- PLS DO THE NEEDFUL",
-            "- CIRCLING BACK ON THIS",
-            "- LET'S TAKE THIS OFFLINE",
-            "- ALIGNING THE BANDWIDTH",
-            "- KINDLY PREPONE",
-            "- REVERTING BACK SOON",
-            "- OUT OF POCKET CURRENTLY",
-            "- JUST FOLLOWING UP"
+            "Built this site myself. Blame me for the bugs.",
+            "Started as a designer. Ended up leading creative teams.",
+            "Fastest way to know me: Best Work → Contact.",
+            "The blue stayed. Everything else changed.",
+            "This website exists because a PDF felt boring.",
+            "Most proud of the projects in \"Best Work\"."
         ];
         let hinglishIdx = 0;
         const phraseEl = document.getElementById('hinglish-phrase');
@@ -4987,7 +5022,7 @@
                         gsap.to(phraseEl, { y: 0, opacity: 1, duration: 0.3, ease: "power2.out" });
                     }
                 });
-            }, 3500);
+            }, 8000);
         }
 
         const clockEl = document.getElementById('live-ist');
