@@ -1720,8 +1720,8 @@
                                     // Slight chaotic rotation
                                     const rotZ = (Math.random() - 0.5) * 15;
 
-                                    // URL encode the space in 'Insomniac Work'
-                                    const img = `./Insomniac%20Work/${insomniacImages[i]}`;
+                                    // URL encode the space in 'Insomniac Work' (Not needed since images are in root)
+                                    const img = `./${insomniacImages[i]}`;
                                     
                                     html += `
                                         <div class="tunnel-card absolute top-1/2 left-1/2 rounded-xl overflow-hidden border border-black/10 shadow-lg cursor-crosshair z-[25] pointer-events-auto" 
