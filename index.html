@@ -1681,75 +1681,82 @@
                             </div>
                         </div>
 
-                        <!-- The 3D Tunnel Container -->
-                        <div id="tunnel-container" class="relative w-full h-full z-[20]" style="transform-style: preserve-3d;">
-                            <!-- JS injects 25 absolute-positioned spiral cards here -->
+                        <!-- The Parallax Columns Container -->
+                        <div id="parallax-container" class="relative w-full h-[100vh] z-[20] flex gap-4 md:gap-8 justify-center items-start px-4 md:px-8 overflow-hidden pointer-events-auto">
+                            <!-- JS injects flex columns here -->
                         </div>
                     </div>
                     
-                    <!-- Scroll spacer for the deep-z flight -->
-                    <div id="gallery-scroll-spacer" class="w-full pointer-events-none" style="height: 500vh;"></div>
+                    <!-- Scroll spacer for the vertical scroll -->
+                    <div id="gallery-scroll-spacer" class="w-full pointer-events-none" style="height: 400vh;"></div>
                     
                     <script>
                         document.addEventListener("DOMContentLoaded", () => {
                             if (typeof gsap !== 'undefined' && typeof ScrollTrigger !== 'undefined') {
                                 const insomniacImages = ["mischiefmanagediidraft1.png", "8.debunkingmyths.png", "safarnama.png", "5.mumbai-colorgrading.png", "de57b5f1-9795-4d6d-a063-062ef8a4ee59.jpeg", "d95bb0c2-546c-494c-b40f-0e47506f1a4c.jpeg", "valentinespecialpost.png", "fukcaverageposter.jpg", "1dad6dae-ed67-4d04-86a3-b5cfa019f38f.jpeg", "7.3.dusummervacation.png", "e69df499-dd26-4d02-9eb8-9b7bd40e0505.jpeg", "47a7f269-a9af-4309-a72e-d0120a24d8ea.jpeg", "4031e24f-8d86-4a19-840d-a57f91107b10_1_201_a.jpeg", "2.beyondthehypei3-tiler.png", "2(2).jpg", "ammm.png", "5.histrionicajudges.png", "1.charades.png", "1(1).png", "7.jpeg", "1.1.prajaktakoliibooklaunch(1).png", "12.png", "9.invitationithefinalhand.png", "2e3cb980-6afb-49e3-9f5d-7cea9943c17a.jpeg", "7.2.dusummervacation.png", "1.mschficarousel.png", "1.stillrollin’.png", "7.1.dusummervacation.png", "7.4.dusummervacation.png", "3.evocusidramsoc.png", "1.1.priyanshumodiistandeeihistrionica.png", "20.jpg", "1(2).png", "22.png", "4.sharktankpanelibizstreet.png", "rntl..png", "23.jpg", "f64a91b4-1d10-4ea2-b8fd-6b5ca2825475_1_105_c.jpeg", "13.1.giveaway(1).jpg", "64740a27-7c2f-4e74-a84a-6717f5918fe9_1_105_c.jpeg", "24fb5243-7a38-45aa-88ff-e6742ee477bc.jpeg", "2.playstationicrossroads.png", "19.jpg", "xkmnk.png", "093b1d12-3f48-4208-a33c-0d3f9adfb345.jpeg", "262daae1-dd64-4200-9d3a-26310da58f34_1_105_c.jpeg", "2.raahwarga.png", "chance.jpg", "lalalalalala.png", "7.festiveseasonibrandsicarousel.png", "2.png", "5d27e539-02e0-4930-be55-030e03e58d27.jpeg", "1.jpg", "1.png", "13.2.giveaway.jpg", "3.zomatoiassignmentpost.png"];
                                 
-                                const tunnel = document.getElementById("tunnel-container");
-                                const numItems = insomniacImages.length;
-                                const depthStep = 600; // Z-axis distance between cards
-                                const maxDepth = numItems * depthStep;
-
+                                const container = document.getElementById("parallax-container");
+                                const numCols = window.innerWidth < 768 ? 3 : 4;
+                                
+                                // Create column arrays
+                                const cols = Array.from({ length: numCols }, () => []);
+                                
+                                // Distribute images evenly into columns
+                                insomniacImages.forEach((img, i) => {
+                                    cols[i % numCols].push(img);
+                                });
+                                
+                                // Generate HTML
                                 let html = '';
-                                for(let i=0; i<numItems; i++) {
-                                    // Golden ratio spiral math for an organic but structured placement
-                                    const angle = i * 2.4; 
-                                    const radius = 300 + (i * 15); // Slightly widening spiral as you go deeper
+                                cols.forEach((colImages, colIndex) => {
+                                    html += `<div class="flex flex-col gap-4 md:gap-8 w-1/3 md:w-1/4 parallax-column" data-col="${colIndex}" style="will-change: transform;">`;
                                     
-                                    // Responsive constraints so mobile doesn't push them too far off-screen
-                                    const rMultiplier = window.innerWidth < 768 ? 0.6 : 1;
+                                    colImages.forEach(img => {
+                                        const src = `./${img}`;
+                                        html += `
+                                            <div class="parallax-card relative rounded-xl overflow-hidden cursor-crosshair group transition-opacity duration-500 ease-out" style="opacity: 0.95;">
+                                                <img src="${src}" class="w-full h-auto object-cover transition-transform duration-700 ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:scale-105" />
+                                                <div class="absolute inset-0 border-2 border-transparent transition-colors duration-400 group-hover:border-[var(--blue)] z-20 pointer-events-none rounded-xl"></div>
+                                            </div>
+                                        `;
+                                    });
+                                    html += `</div>`;
+                                });
+                                container.innerHTML = html;
+                                
+                                // Setup GSAP ScrollTrigger for Parallax
+                                const columns = document.querySelectorAll('.parallax-column');
+                                
+                                columns.forEach((col, index) => {
+                                    let yStart, yEnd;
                                     
-                                    const x = Math.cos(angle) * (radius * rMultiplier);
-                                    const y = Math.sin(angle) * (radius * rMultiplier);
-                                    const z = -(i * depthStep) - 1000; // Start deep behind screen
-                                    
-                                    // Varied sizes for an editorial, non-uniform look (Only width is fixed, height scales naturally)
-                                    const baseW = window.innerWidth < 768 ? 160 : 280;
-                                    const w = baseW + Math.random() * 120;
-                                    
-                                    // Slight chaotic rotation
-                                    const rotZ = (Math.random() - 0.5) * 15;
-
-                                    // URL encode the space in 'Insomniac Work' (Not needed since images are in root)
-                                    const img = `./${insomniacImages[i]}`;
-                                    
-                                    html += `
-                                        <div class="tunnel-card absolute top-1/2 left-1/2 rounded-xl overflow-hidden border border-black/10 shadow-lg cursor-crosshair z-[25] pointer-events-auto" 
-                                             style="width: ${w}px; transform: translate3d(-50%, -50%, 0) translate3d(${x}px, ${y}px, ${z}px) rotateZ(${rotZ}deg); opacity: 0.5; transition: opacity 0.4s ease, border-color 0.4s ease;"
-                                             data-z="${z}">
-                                            <img src="${img}" class="w-full h-auto block relative z-10" />
-                                        </div>
-                                    `;
-                                }
-                                tunnel.innerHTML = html;
-
-                                // Reversed Deep-Z Flythrough ScrollTrigger (Starts past the cards, moves away from the camera)
-                                gsap.fromTo(tunnel, 
-                                    { z: maxDepth + 2000 }, // Start deep inside the tunnel (past the last card)
-                                    {
-                                        z: -500, // Move backwards so cards fly away into the void
-                                        ease: "none",
-                                        scrollTrigger: {
-                                            trigger: "#gallery",
-                                            start: "top top",
-                                            end: "bottom bottom",
-                                            scrub: 1.5, // Buttery smooth lag physics
-                                        }
+                                    if (index % 2 === 0) {
+                                        // Scroll UP: Starts slightly pushed down, ends high up
+                                        yStart = "10%";
+                                        yEnd = index === 0 ? "-60%" : "-80%";
+                                    } else {
+                                        // Scroll DOWN: Starts high up, ends pushed down
+                                        yStart = index === 1 ? "-60%" : "-80%";
+                                        yEnd = "10%";
                                     }
-                                );
+                                    
+                                    gsap.fromTo(col, 
+                                        { y: yStart },
+                                        {
+                                            y: yEnd,
+                                            ease: "none",
+                                            scrollTrigger: {
+                                                trigger: "#gallery",
+                                                start: "top top",
+                                                end: "bottom bottom",
+                                                scrub: 1, // Smooth scrub
+                                            }
+                                        }
+                                    );
+                                });
 
                                 // Magnetic Hover States (Focus one, dim the rest)
-                                const cards = document.querySelectorAll('.tunnel-card');
+                                const cards = document.querySelectorAll('.parallax-card');
                                 const dimmer = document.getElementById('gallery-dimmer');
                                 
                                 cards.forEach(card => {
@@ -1758,62 +1765,26 @@
                                         
                                         // Dim background/other cards
                                         dimmer.style.opacity = '0.85';
+                                        cards.forEach(c => {
+                                            if (c !== card) c.style.opacity = '0.3';
+                                        });
                                         
                                         // Snap hovered card to full focus
                                         card.style.opacity = '1';
-                                        card.style.borderColor = 'var(--blue)';
+                                        card.style.zIndex = '50';
                                         card.style.boxShadow = '0 0 30px rgba(1, 44, 235, 0.4)';
-                                        card.style.zIndex = '30';
                                         
-                                        // Scale up via GSAP to not break the complex transform matrix
-                                        gsap.to(card, { scale: 1.15, duration: 0.4, ease: "back.out(2)", overwrite: "auto" });
+                                        gsap.to(card, { scale: 1.03, duration: 0.4, ease: "back.out(2)", overwrite: "auto" });
                                     });
                                     
                                     card.addEventListener('mouseleave', () => {
                                         dimmer.style.opacity = '0';
-                                        card.style.opacity = '0.5';
-                                        card.style.borderColor = 'rgba(0,0,0,0.1)';
+                                        cards.forEach(c => {
+                                            c.style.opacity = '0.95';
+                                        });
+                                        card.style.zIndex = '1';
                                         card.style.boxShadow = 'none';
-                                        card.style.zIndex = '25';
                                         gsap.to(card, { scale: 1.0, duration: 0.4, ease: "power2.out", overwrite: "auto" });
-                                    });
-                                });
-
-                                // Mouse-driven structural Parallax for the entire 3D void
-                                let targetRotX = 0, targetRotY = 0, currentRotX = 0, currentRotY = 0;
-                                const galleryWrap = document.getElementById('gallery-sticky-wrap');
-                                
-                                // Performance optimized parallax logic
-                                let galleryRect = galleryWrap.getBoundingClientRect();
-                                window.addEventListener('resize', () => { galleryRect = galleryWrap.getBoundingClientRect(); });
-                                window.addEventListener('scroll', () => { galleryRect = galleryWrap.getBoundingClientRect(); });
-                                
-                                galleryWrap.addEventListener('mousemove', (e) => {
-                                    const x = e.clientX - galleryRect.left;
-                                    const y = e.clientY - galleryRect.top;
-                                    const centerX = galleryRect.width / 2;
-                                    const centerY = galleryRect.height / 2;
-                                    
-                                    // Max structural tilt of 10 degrees based on mouse position
-                                    targetRotX = ((y - centerY) / centerY) * -10;
-                                    targetRotY = ((x - centerX) / centerX) * 10;
-                                });
-                                
-                                galleryWrap.addEventListener('mouseleave', () => {
-                                    targetRotX = 0; targetRotY = 0;
-                                });
-
-                                gsap.ticker.add(() => {
-                                    // Avoid layout thrashing. Only process if there's a difference to animate
-                                    if (Math.abs(targetRotX - currentRotX) < 0.01 && Math.abs(targetRotY - currentRotY) < 0.01) return;
-
-                                    currentRotX += (targetRotX - currentRotX) * 0.05;
-                                    currentRotY += (targetRotY - currentRotY) * 0.05;
-                                    
-                                    gsap.set(tunnel, {
-                                        rotationX: currentRotX,
-                                        rotationY: currentRotY,
-                                        transformOrigin: "center center 0"
                                     });
                                 });
                             }
