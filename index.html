@@ -1725,11 +1725,9 @@
                                     
                                     html += `
                                         <div class="tunnel-card absolute top-1/2 left-1/2 rounded-xl overflow-hidden border border-black/10 shadow-lg cursor-crosshair z-[25] pointer-events-auto" 
-                                             style="width: ${w}px; transform: translate3d(-50%, -50%, 0) translate3d(${x}px, ${y}px, ${z}px) rotateZ(${rotZ}deg); transition: filter 0.4s ease, border-color 0.4s ease;"
+                                             style="width: ${w}px; transform: translate3d(-50%, -50%, 0) translate3d(${x}px, ${y}px, ${z}px) rotateZ(${rotZ}deg); opacity: 0.5; transition: opacity 0.4s ease, border-color 0.4s ease;"
                                              data-z="${z}">
-                                            <img src="${img}" class="w-full h-auto block relative z-10 transition-transform duration-700 hover:scale-[1.03]" />
-                                            <!-- Inner neon glow div on hover -->
-                                            <div class="absolute inset-0 ring-2 ring-transparent transition-colors duration-400 hover:ring-[var(--blue)] z-20 pointer-events-none"></div>
+                                            <img src="${img}" class="w-full h-auto block relative z-10" />
                                         </div>
                                     `;
                                 }
@@ -1762,19 +1760,21 @@
                                         dimmer.style.opacity = '0.85';
                                         
                                         // Snap hovered card to full focus
-                                        card.style.filter = 'grayscale(0) brightness(1.1) contrast(1.05)';
+                                        card.style.opacity = '1';
                                         card.style.borderColor = 'var(--blue)';
-                                        card.style.boxShadow = '0 0 50px rgba(1, 44, 235, 0.5)';
+                                        card.style.boxShadow = '0 0 30px rgba(1, 44, 235, 0.4)';
+                                        card.style.zIndex = '30';
                                         
                                         // Scale up via GSAP to not break the complex transform matrix
-                                        gsap.to(card, { scale: 1.2, duration: 0.4, ease: "back.out(2)", overwrite: "auto" });
+                                        gsap.to(card, { scale: 1.15, duration: 0.4, ease: "back.out(2)", overwrite: "auto" });
                                     });
                                     
                                     card.addEventListener('mouseleave', () => {
                                         dimmer.style.opacity = '0';
-                                        card.style.filter = 'grayscale(1) brightness(0.6) contrast(1.2)';
+                                        card.style.opacity = '0.5';
                                         card.style.borderColor = 'rgba(0,0,0,0.1)';
                                         card.style.boxShadow = 'none';
+                                        card.style.zIndex = '25';
                                         gsap.to(card, { scale: 1.0, duration: 0.4, ease: "power2.out", overwrite: "auto" });
                                     });
                                 });
@@ -1783,12 +1783,16 @@
                                 let targetRotX = 0, targetRotY = 0, currentRotX = 0, currentRotY = 0;
                                 const galleryWrap = document.getElementById('gallery-sticky-wrap');
                                 
+                                // Performance optimized parallax logic
+                                let galleryRect = galleryWrap.getBoundingClientRect();
+                                window.addEventListener('resize', () => { galleryRect = galleryWrap.getBoundingClientRect(); });
+                                window.addEventListener('scroll', () => { galleryRect = galleryWrap.getBoundingClientRect(); });
+                                
                                 galleryWrap.addEventListener('mousemove', (e) => {
-                                    const rect = galleryWrap.getBoundingClientRect();
-                                    const x = e.clientX - rect.left;
-                                    const y = e.clientY - rect.top;
-                                    const centerX = rect.width / 2;
-                                    const centerY = rect.height / 2;
+                                    const x = e.clientX - galleryRect.left;
+                                    const y = e.clientY - galleryRect.top;
+                                    const centerX = galleryRect.width / 2;
+                                    const centerY = galleryRect.height / 2;
                                     
                                     // Max structural tilt of 10 degrees based on mouse position
                                     targetRotX = ((y - centerY) / centerY) * -10;
@@ -1800,9 +1804,8 @@
                                 });
 
                                 gsap.ticker.add(() => {
-                                    // Optimization: Only run math if gallery is in view
-                                    const rect = document.getElementById('gallery').getBoundingClientRect();
-                                    if (rect.bottom < 0 || rect.top > window.innerHeight) return;
+                                    // Avoid layout thrashing. Only process if there's a difference to animate
+                                    if (Math.abs(targetRotX - currentRotX) < 0.01 && Math.abs(targetRotY - currentRotY) < 0.01) return;
 
                                     currentRotX += (targetRotX - currentRotX) * 0.05;
                                     currentRotY += (targetRotY - currentRotY) * 0.05;
