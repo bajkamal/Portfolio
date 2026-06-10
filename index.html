@@ -4479,20 +4479,36 @@
         const backToTransitBtn = document.getElementById('back-to-transit-btn');
         const progressText = document.getElementById('transit-progress-text');
         
-        // Close case study when clicking outside the content card
+        // --- GUARD: prevents double-open and close-during-open ---
+        let _caseStudyOpen = false;
+
+        // Close case study when clicking the background overlay (not the card)
         if (transitCsView && backToTransitBtn) {
             transitCsView.addEventListener('click', (e) => {
-                // If the user clicked exactly on the background overlay, not inside the card
-                if (e.target === transitCsView) {
+                if (e.target === transitCsView && !_caseStudyOpen) {
                     backToTransitBtn.click();
                 }
             });
         }
         
         window.stepOutToCaseStudy = function(event, dataIndex) {
+            // BUG 4 FIX: Prevent re-entrant / double-click invocation
+            if (_caseStudyOpen) return;
+            _caseStudyOpen = true;
+
             if (event) {
                 event.preventDefault();
                 event.stopPropagation();
+            }
+
+            // BUG 1 FIX (PART A): Kill ALL ScrollTriggers using transitCsView as
+            // their scroller BEFORE injecting new content.
+            if (typeof ScrollTrigger !== 'undefined') {
+                ScrollTrigger.getAll().forEach(st => {
+                    if (st.vars && st.vars.scroller === transitCsView) {
+                        st.kill();
+                    }
+                });
             }
 
             try {
@@ -4507,76 +4523,93 @@
                 if (isAudioInit && typeof arrivalSynth !== 'undefined') {
                     arrivalSynth.triggerAttackRelease(["E4", "G4", "C5"], "8n");
                 }
-            } catch(e) {
-                console.error("Audio playback error:", e);
-            }
+            } catch(e) {}
             
             const data = inventoryData[dataIndex];
             const bgHex = data.bg || '#F4EFE6';
             const textHex = data.text || '#051024';
             
-            // Inject preserved custom HTML. 
-            transitCsContent.innerHTML = data.customHTML;
+            // BUG 5 FIX: Clear old content first so the injection happens into
+            // an empty container, preventing a double-render of old+new DOM.
+            transitCsContent.innerHTML = '';
             transitCsContent.style.backgroundColor = bgHex;
             transitCsContent.style.borderColor = textHex;
             transitCsContent.style.boxShadow = `16px 16px 0px ${textHex}`;
-            
-            transitCsView.classList.remove('hidden');
-            
-            // Fast, smooth fade + scale up
-            gsap.fromTo(transitCsView, 
-                { opacity: 0, scale: 0.96, y: 20 }, 
-                { opacity: 1, scale: 1, y: 0, duration: 0.4, ease: "power2.out", onComplete: () => {
-                    // Hide map behind it once fully visible
-                    gsap.set(transitMapView, { height: 0, opacity: 0 });
-                    transitMapView.classList.add('hidden');
-                    
-                    if (typeof ScrollTrigger !== 'undefined') {
-                        ScrollTrigger.refresh();
-                        const revealElements = transitCsContent.querySelectorAll('.reveal-text, .reveal-blur, .mockup-scene');
-                        revealElements.forEach((el) => {
-                            ScrollTrigger.create({
-                                trigger: el,
-                                scroller: transitCsView,
-                                start: "top 90%",
-                                toggleClass: "is-visible",
-                                once: false
-                            });
-                        });
+
+            // BUG 5 FIX (cont.): Defer the HTML injection by one animation frame.
+            requestAnimationFrame(() => {
+                transitCsContent.innerHTML = data.customHTML;
+                
+                transitCsView.classList.remove('hidden');
+                
+                gsap.fromTo(transitCsView, 
+                    { opacity: 0, scale: 0.96, y: 20 }, 
+                    { 
+                        opacity: 1, scale: 1, y: 0, duration: 0.4, ease: "power2.out",
+                        onComplete: () => {
+                            // Release the double-click guard now that open is complete
+                            _caseStudyOpen = false;
+
+                            gsap.set(transitMapView, { height: 0, opacity: 0 });
+                            transitMapView.classList.add('hidden');
+                            
+                            if (typeof ScrollTrigger !== 'undefined') {
+                                const revealElements = transitCsContent.querySelectorAll(
+                                    '.reveal-text, .reveal-blur, .mockup-scene, .brutal-grid-3, .brutal-grid-2, .brutal-stat-card'
+                                );
+                                revealElements.forEach((el) => {
+                                    ScrollTrigger.create({
+                                        trigger: el,
+                                        scroller: transitCsView,
+                                        start: "top 90%",
+                                        toggleClass: "is-visible",
+                                        once: true  // WAS: once: false — stops constant GPU thrashing
+                                    });
+                                });
+                            }
+                        }
                     }
-                }}
-            );
+                );
+            });
             
-            if (typeof triggerExploration === 'function') triggerExploration(`transit_project_${data.id}`);
+            if (typeof triggerExploration === 'function') {
+                triggerExploration(`transit_project_${data.id}`);
+            }
         };
 
         if (backToTransitBtn) {
             backToTransitBtn.addEventListener('click', () => {
+                // Don't allow closing while the open animation is still running
+                if (_caseStudyOpen) return;
+
                 if (typeof lenis !== 'undefined') lenis.start();
                 document.body.style.overflow = '';
                 document.documentElement.style.overflow = '';
                 document.body.style.touchAction = '';
-                if (isAudioInit && typeof popSynth !== 'undefined') popSynth.triggerAttackRelease("C4", "8n");
+
+                if (isAudioInit && typeof popSynth !== 'undefined') {
+                    popSynth.triggerAttackRelease("C4", "8n");
+                }
                 
-                // Clear dynamic triggers
+                // BUG 1 FIX (PART B): Kill by scroller BEFORE clearing innerHTML.
                 if (typeof ScrollTrigger !== 'undefined') {
                     ScrollTrigger.getAll().forEach(st => {
-                        if (st.trigger && transitCsContent.contains(st.trigger)) st.kill();
+                        if (st.vars && st.vars.scroller === transitCsView) {
+                            st.kill();
+                        }
                     });
                 }
 
                 transitMapView.classList.remove('hidden');
                 gsap.set(transitMapView, { height: '100%', opacity: 1, scale: 0.90 });
-                
-                // Animate map view back up slightly
                 gsap.to(transitMapView, { scale: 0.95, duration: 0.4, ease: "power2.out" });
                 
-                // Swiftly fade out the case study
                 gsap.to(transitCsView, { 
-                    opacity: 0, scale: 0.98, y: 15, duration: 0.3, ease: "power2.in", onComplete: () => {
+                    opacity: 0, scale: 0.98, y: 15, duration: 0.3, ease: "power2.in",
+                    onComplete: () => {
                         transitCsView.classList.add('hidden');
                         transitCsContent.innerHTML = '';
-                        if (typeof ScrollTrigger !== 'undefined') ScrollTrigger.refresh();
+                        // BUG 3 FIX: Removed ScrollTrigger.refresh() here to prevent stale DOM checks
                     }
                 });
             });
