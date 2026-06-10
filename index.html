@@ -2194,50 +2194,10 @@
             });
         }
 
-        // Rapid Image Montage inside preloader-montage
+        // Removed Rapid Image Montage
         const preloaderMontage = document.getElementById('preloader-montage');
         if (preloaderMontage) {
-            const montageImages = [
-                './catalog_grid.jpg',
-                './polaroidimg.PNG',
-                './rntlspotlightseries.png',
-                './ksm3.png',
-                './hs1.jpg',
-                './personality_grid.jpg'
-            ];
-            
-            const imgElements = montageImages.map(src => {
-                const img = new Image();
-                img.src = src;
-                img.className = "absolute max-w-[80vw] max-h-[80vh] object-contain opacity-0 scale-95 transform-gpu transition-none";
-                img.style.filter = "grayscale(100%) contrast(1.2)";
-                preloaderMontage.appendChild(img);
-                return img;
-            });
-
-            let currentImgIdx = 0;
-            window.preloaderMontageInterval = setInterval(() => {
-                if (imgElements.length === 0) return;
-                imgElements.forEach(img => gsap.set(img, { opacity: 0, scale: 0.95 }));
-                
-                let nextIdx = Math.floor(Math.random() * imgElements.length);
-                if (nextIdx === currentImgIdx && imgElements.length > 1) {
-                    nextIdx = (nextIdx + 1) % imgElements.length;
-                }
-                currentImgIdx = nextIdx;
-                
-                const rot = (Math.random() - 0.5) * 8;
-                const tx = (Math.random() - 0.5) * 50;
-                const ty = (Math.random() - 0.5) * 50;
-                
-                gsap.set(imgElements[currentImgIdx], { 
-                    opacity: 1, 
-                    scale: 1,
-                    rotation: rot,
-                    x: tx,
-                    y: ty
-                });
-            }, 180); // flash every 180ms
+            preloaderMontage.remove();
         }
 
         introTl.to(charI, { opacity: 1, filter: "blur(0px)", duration: charDur, stagger: stg, ease: "power2.out" })
