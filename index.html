@@ -710,7 +710,7 @@
 
     </style>
 </head>
-<body class="overflow-x-hidden selection:bg-[var(--blue)] selection:text-[var(--beige)]">
+<body class="overflow-hidden selection:bg-[var(--blue)] selection:text-[var(--beige)]">
 
     <!-- Cinematic HUD / Overlays -->
     <div id="cinematic-vignette"></div>
@@ -721,13 +721,19 @@
     </div>
 
     <!-- Preloader Layers -->
-    <div id="preloader-bg" class="fixed inset-0 bg-[var(--blue)] z-[9999] pointer-events-none will-change-opacity"></div>
+    <div id="preloader-bg" class="fixed inset-0 bg-[var(--blue)] z-[9999] pointer-events-none will-change-opacity overflow-hidden flex items-center justify-center">
+        <!-- Rapid Image Montage Container -->
+        <div id="preloader-montage" class="absolute inset-0 w-full h-full flex items-center justify-center opacity-30 mix-blend-screen pointer-events-none"></div>
+    </div>
     <div id="preloader-content" class="fixed inset-0 flex flex-col justify-center items-center z-[10000] pointer-events-none w-full max-w-[1500px] mx-auto px-4 sm:px-8 lg:px-12 overflow-hidden">
         <!-- Architectural Brutalist Loader -->
         <div id="loader-container" class="absolute bottom-6 left-6 md:bottom-12 md:left-12 z-[10001] flex flex-col items-start border-l-[4px] border-[var(--beige)] pl-4 md:pl-6">
             <div class="flex items-baseline gap-3">
                 <div class="font-['Teko'] text-[var(--beige)] text-6xl md:text-[100px] leading-[0.75] font-bold tabular-nums tracking-wide" id="loading-progress">00%</div>
-                <div class="w-3 h-3 bg-[#FF3333] mb-2 animate-pulse shadow-[0_0_10px_rgba(255,51,51,0.8)]"></div>
+                <div id="loading-dot" class="w-3 h-3 bg-[#FF3333] mb-2 animate-pulse shadow-[0_0_10px_rgba(255,51,51,0.8)] transition-colors duration-300"></div>
+            </div>
+            <div class="w-[140px] md:w-[180px] h-[16px] md:h-[20px] border-[2px] border-[var(--beige)] mt-3 md:mt-4 p-[2px] relative flex shrink-0">
+                <div id="loading-bar" class="h-full bg-[var(--beige)] w-0"></div>
             </div>
         </div>
 
@@ -753,7 +759,7 @@
     </div>
 
     <div id="skip-btn" class="fixed bottom-[48px] right-[5%] md:right-[8%] z-[10001] opacity-0 pointer-events-none">
-        <button id="skip-btn-inner" aria-hidden="true" class="focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#0F35FF] group flex items-center gap-2 bg-[var(--navy)] text-[var(--beige)] font-['Schoolbell'] font-bold text-sm md:text-base uppercase tracking-[0.15em] px-6 py-3 md:px-8 md:py-4 border border-[rgba(244,239,230,0.2)] hover:bg-[var(--blue)] hover:border-[var(--blue)] transition-all duration-300" style="box-shadow: 4px 4px 0px rgba(244,239,230,0.15);">
+        <button id="skip-btn-inner" aria-hidden="true" class="focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#0F35FF] group flex items-center gap-2 bg-[var(--navy)] text-[var(--beige)] font-['Schoolbell'] font-bold text-[15px] md:text-[17px] uppercase tracking-[0.15em] px-6 py-3 md:px-8 md:py-4 border border-[rgba(244,239,230,0.2)] hover:bg-[var(--blue)] hover:border-[var(--blue)] transition-all duration-300" style="box-shadow: 4px 4px 0px rgba(244,239,230,0.15);">
             <span>Skip Animation</span>
             <svg width="12" height="10" viewBox="0 0 12 10" fill="none" class="transition-transform duration-300 group-hover:translate-x-1">
                 <path d="M7 1L11 5L7 9M1 5H11" stroke="currentColor" stroke-width="1.5" stroke-linecap="square"/>
@@ -774,7 +780,7 @@
             <a href="#experience" class="focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#0F35FF] nav-item cursor-hover nav-link-route px-3 py-2 text-[12px] sm:px-4 md:px-5 md:py-2.5 md:text-[14px] font-['Gloria_Hallelujah']">Projects</a>
             <a href="#vending" class="focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#0F35FF] nav-item cursor-hover nav-link-route px-3 py-2 text-[12px] sm:px-4 md:px-5 md:py-2.5 md:text-[14px] font-['Schoolbell']">Best Work</a>
             <a href="#gallery" class="focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#0F35FF] nav-item cursor-hover nav-link-route px-3 py-2 text-[12px] sm:px-4 md:px-5 md:py-2.5 md:text-[14px] font-['Gloria_Hallelujah']">Visuals</a>
-            <a href="#contact" class="focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#0F35FF] nav-item cursor-hover nav-link-route px-3 py-2 text-[12px] sm:px-4 md:px-5 md:py-2.5 md:text-[14px] font-['Schoolbell']">Contact</a>
+            <a href="#contact" class="focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#0F35FF] nav-item cursor-hover nav-link-route px-3 py-2 text-[12px] sm:px-4 md:px-5 md:py-2.5 md:text-[14px] font-['Schoolbell']">Let's talk</a>
 
             <!-- Internal Cinematic Timeline -->
             <div id="nav-timeline-track" class="absolute inset-0 z-0 pointer-events-none opacity-0 flex flex-col justify-center overflow-hidden bg-[var(--blue)]">
@@ -793,25 +799,17 @@
 
     <!-- Top Ribbon System HUD -->
     <header id="top-ribbon" class="fixed top-0 left-0 w-full z-40 h-10 md:h-12 flex border-b-[2px] border-[#0a0a0a] bg-[var(--beige)] font-['Schoolbell'] text-[12px] opacity-0 pointer-events-none">
-        <div class="flex items-center justify-center px-3 md:px-6 bg-[#0a0a0a] text-white border-r-[2px] border-[#0a0a0a] pointer-events-auto font-bold tracking-[0.1em] whitespace-nowrap font-['Gloria_Hallelujah'] text-[13px]">
-            Bajkamal Singh
+        <div class="flex items-center justify-center px-6 md:px-12 bg-[#0a0a0a] text-white border-r-[2px] border-[#0a0a0a] pointer-events-auto font-bold tracking-[0.1em] whitespace-nowrap font-['Gloria_Hallelujah'] text-[13px]">
+            Bajkamal Singh AKA Baaz
         </div>
         <div class="flex-grow flex items-center justify-start md:justify-center px-4 bg-[var(--beige)] border-r-[2px] border-[#0a0a0a] pointer-events-auto overflow-hidden">
              <span id="hinglish-phrase" aria-hidden="true" class="text-[rgba(5,16,36,0.8)] text-[13px] md:text-[14px] tracking-wide font-['Schoolbell'] font-bold hidden sm:inline-block">Built this site myself. Blame me for the bugs.</span>
         </div>
-        <div class="hidden lg:flex items-center relative bg-[#f0ede6] border-r-[2px] border-[#0a0a0a] pointer-events-auto w-[240px] xl:w-full max-w-[280px]">
+        <div class="hidden lg:flex items-center relative bg-[#f0ede6] pointer-events-auto w-[240px] xl:w-[350px]">
             <div id="scroll-progress-bar" class="absolute left-0 top-0 h-full bg-[#0022cc] w-0 transition-all duration-700 ease-out z-0"></div>
-            <div class="relative z-10 flex items-center justify-between w-full px-4 mix-blend-difference text-white">
+            <div class="relative z-10 flex items-center justify-between w-full px-4 md:px-6 mix-blend-difference text-white">
                 <span class="text-[12px] tracking-[0.1em] opacity-80">You've seen</span>
                 <span id="scroll-pct" class="text-[14px] tabular-nums font-bold font-['Gloria_Hallelujah']">0%</span>
-            </div>
-        </div>
-        <div class="flex items-center justify-center px-4 lg:px-6 bg-[#0a0a0a] text-white pointer-events-auto gap-2 w-max">
-            <div class="w-1.5 h-1.5 md:w-2 md:h-2 rounded-full bg-[#7effa0] shadow-[0_0_6px_rgba(126,255,160,0.5)] animate-[pulse_2s_ease-in-out_infinite]"></div>
-            <div class="flex items-center gap-1 relative text-[12px] tracking-[0.1em] text-[rgba(255,255,255,0.6)]">
-                <span class="hidden sm:inline">Available ·</span>
-                <strong id="live-ist" class="text-white tabular-nums tracking-[0.1em] ml-1 text-[13px] font-['Gloria_Hallelujah']">--:--:--</strong>
-                <span class="text-[rgba(255,255,255,0.4)] tracking-[0.1em] ml-1">IST</span>
             </div>
         </div>
     </header>
@@ -832,7 +830,7 @@
                     <div id="hero-lighting" class="absolute inset-0 w-full h-full pointer-events-none opacity-0 mix-blend-multiply z-10 will-change-[background]" style="background: radial-gradient(circle 1100px at 50% 50%, rgba(244, 239, 230, 0) 0%, rgba(5, 16, 36, 0.65) 100%);"></div>
                     
                     <div id="hero-text-wrapper" class="absolute inset-0 flex flex-col justify-center items-center z-20 pointer-events-none transform-style: preserve-3d;">
-                        <h1 id="hero-text-3d" class="relative font-['Dr_Sugiyama'] text-[var(--beige)] leading-none flex items-baseline pointer-events-auto cursor-hover opacity-0 will-change-transform transition-shadow duration-300" style="font-size: clamp(150px, 29.375vw, 564px); letter-spacing: -0.019em; transform: rotate(-4deg) scale(0.12) translateY(-114px); font-weight: 400; transform-origin: center center;">
+                        <h1 id="hero-text-3d" class="relative font-['Dr_Sugiyama'] text-[var(--beige)] leading-none flex items-baseline pointer-events-auto opacity-0 will-change-transform transition-shadow duration-300" style="font-size: clamp(150px, 29.375vw, 564px); letter-spacing: -0.019em; transform: rotate(-4deg) scale(0.12) translateY(-114px); font-weight: 400; transform-origin: center center;">
                             baa<span style="display: inline-block; transform: translateY(-17px);">z</span>
                         </h1>
                     </div>
@@ -872,7 +870,7 @@
                                     <circle cx="120" cy="10" r="8" fill="#ECE8E1" opacity="0.3" />
                                 </svg>
                                 <!-- Labels -->
-                                <div class="absolute top-[72px] left-[0px] font-['DM_Mono'] text-[11px] text-[#0F35FF] font-bold tracking-wider drop-shadow-md">20:00</div>
+                                <div class="absolute top-[72px] left-[0px] font-['DM_Mono'] text-[11px] text-[#ECE8E1] font-bold tracking-wider drop-shadow-md">20:00</div>
                                 <div class="absolute top-[72px] left-[105px] font-['DM_Mono'] text-[11px] text-[#ECE8E1] font-bold tracking-wider drop-shadow-md">00:00</div>
                             </div>
                         </div>
@@ -885,7 +883,7 @@
                             <!-- Stage 1 -->
                             <div class="relative flex flex-col">
                                 <span aria-hidden="true" class="font-['Open_Sauce_One'] text-[11px] md:text-[12px] tracking-tight text-[var(--beige)] opacity-60 font-bold mb-1">Started As</span>
-                                <span class="font-['Schoolbell'] text-[20px] md:text-[24px] text-[var(--beige)] opacity-90 leading-none hover:opacity-100 transition-opacity drop-shadow-sm cursor-hover pointer-events-auto">Designer</span>
+                                <span class="font-['Schoolbell'] text-[20px] md:text-[24px] text-[var(--beige)] opacity-90 leading-none hover:opacity-100 transition-opacity drop-shadow-sm pointer-events-auto">Designer</span>
                                 <!-- Connecting Line -->
                                 <div class="absolute left-[10px] top-[36px] md:top-[40px] w-[1px] h-4 md:h-6 border-l border-dashed border-[var(--beige)] opacity-20"></div>
                             </div>
@@ -893,7 +891,7 @@
                             <!-- Stage 2 -->
                             <div class="relative flex flex-col">
                                 <span aria-hidden="true" class="font-['Open_Sauce_One'] text-[11px] md:text-[12px] tracking-tight text-[var(--beige)] opacity-60 font-bold mb-1">Became</span>
-                                <span class="font-['Schoolbell'] text-[20px] md:text-[24px] text-[var(--beige)] opacity-90 leading-none hover:opacity-100 transition-opacity drop-shadow-sm cursor-hover pointer-events-auto">Artist Manager</span>
+                                <span class="font-['Schoolbell'] text-[20px] md:text-[24px] text-[var(--beige)] opacity-90 leading-none hover:opacity-100 transition-opacity drop-shadow-sm pointer-events-auto">Artist Manager</span>
                                 <!-- Connecting Line -->
                                 <div class="absolute left-[10px] top-[36px] md:top-[40px] w-[1px] h-4 md:h-6 border-l border-dashed border-[var(--beige)] opacity-20"></div>
                             </div>
@@ -901,24 +899,35 @@
                             <!-- Stage 3 -->
                             <div class="relative flex flex-col">
                                 <span aria-hidden="true" class="font-['Open_Sauce_One'] text-[11px] md:text-[12px] tracking-tight text-[var(--beige)] opacity-60 font-bold mb-1">Currently</span>
-                                <span class="font-['Schoolbell'] text-[24px] md:text-[28px] text-[var(--beige)] leading-none drop-shadow-md cursor-hover pointer-events-auto">Creative Director</span>
+                                <span class="font-['Schoolbell'] text-[24px] md:text-[28px] text-[var(--beige)] leading-none drop-shadow-md pointer-events-auto">Creative Director</span>
                             </div>
 
                         </div>
                     </div>
 
-                    <!-- Top Left Badge: SRCC'27 transformed into a delicate vintage library ticket -->
+                    <!-- Top Left Badge: SRCC'27 transformed into an industrial/archival spec tag -->
                     <div id="hero-badges" class="hero-overlay-text absolute top-24 left-8 md:left-12 z-[9999] opacity-0 hidden sm:block pointer-events-auto" style="perspective: 1000px;">
-                        <div class="js-tilt-card cursor-hover relative bg-[#FAF8F5] border border-black/10 px-4 py-2.5 shadow-[0_8px_24px_rgba(5,16,36,0.08)] rounded-[3px] group will-change-transform" data-orig-rot="-2" data-orig-shadow="0 8px 24px rgba(5,16,36,0.08)" style="transform-style: preserve-3d;">
+                        <div class="js-tilt-card relative bg-[#ECE8E1] border-[2px] border-[#051024] p-3 shadow-[4px_4px_0_#012CEB] group will-change-transform" data-orig-rot="-4" data-orig-shadow="4px 4px 0 #012CEB" style="transform-style: preserve-3d; transform: rotate(-4deg);">
                             
-                            <!-- Little paper stamp edge -->
-                            <div class="absolute inset-x-0 top-0 h-[3px] bg-gradient-to-r from-[var(--blue)] via-[#FF3333] to-[var(--blue)] opacity-60"></div>
+                            <!-- Scotch tape physical element -->
+                            <div class="absolute -top-3 left-1/2 -translate-x-1/2 w-10 h-5 bg-white/40 border border-white/20 transform rotate-[4deg] shadow-sm z-30 mix-blend-overlay" style="backdrop-filter: blur(2px);"></div>
 
-                            <div style="transform: translateZ(10px);" class="flex flex-col gap-0.5">
-                                <span aria-hidden="true" class="font-['Schoolbell'] text-[8px] uppercase tracking-[0.25em] text-black/40 font-bold block">Institution Log</span>
-                                <div class="flex flex-col">
-                                    <span aria-hidden="true" class="font-['DM_Mono'] text-[10px] font-bold text-[var(--navy)] uppercase tracking-[0.2em] leading-tight">Delhi, India</span>
-                                    <span aria-hidden="true" class="font-['DM_Mono'] text-[10px] font-bold text-[var(--navy)] uppercase tracking-[0.2em] leading-tight">SRCC '27</span>
+                            <div style="transform: translateZ(10px);" class="flex flex-col relative z-10">
+                                <div class="flex flex-col mt-0.5">
+                                    <span class="font-['Open_Sauce_One'] text-[15px] font-black text-[#012CEB] tracking-tight leading-none uppercase">SRCC '27</span>
+                                    <span class="font-['Open_Sauce_One'] text-[11px] font-bold text-[#051024]/80 tracking-tight mt-1">Delhi, India</span>
+                                </div>
+
+                                <!-- Aesthetic Barcode Accent -->
+                                <div class="mt-2.5 flex gap-[2px] opacity-70">
+                                    <div class="w-[2px] h-3 bg-[#051024]"></div>
+                                    <div class="w-[1px] h-3 bg-[#051024]"></div>
+                                    <div class="w-[3px] h-3 bg-[#051024]"></div>
+                                    <div class="w-[1px] h-3 bg-[#051024]"></div>
+                                    <div class="w-[2px] h-3 bg-[#051024]"></div>
+                                    <div class="w-[4px] h-3 bg-[#051024]"></div>
+                                    <div class="w-[1px] h-3 bg-[#051024]"></div>
+                                    <div class="w-[2px] h-3 bg-[#051024]"></div>
                                 </div>
                             </div>
                         </div>
@@ -927,7 +936,7 @@
                     <!-- Bottom Scroll Indicator (Physical Hand-drawn UX Hint) -->
                     <div class="hero-overlay-text absolute bottom-16 md:bottom-20 left-1/2 -translate-x-1/2 flex flex-col items-center justify-center opacity-0 z-[9999] pointer-events-none">
                         <div aria-hidden="true" class="bg-[var(--navy)] border-[2px] border-[var(--beige)] text-[var(--beige)] px-4 py-2 font-['Schoolbell'] font-bold uppercase tracking-[0.2em] text-[10px] md:text-[12px] shadow-[4px_4px_0_var(--blue)] transform -rotate-1 mb-3">
-                            Scroll to Explore
+                            Go on, scroll down
                         </div>
                         <svg class="w-6 h-8 text-[var(--beige)] animate-[bounce_2s_infinite]" viewBox="0 0 24 32" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="filter: drop-shadow(0px 2px 2px rgba(0,0,0,0.5));">
                             <path d="M12 2v26M6 22l6 6-6-6"/>
@@ -943,13 +952,13 @@
                         <div id="void-grain" class="absolute inset-0 z-[5] pointer-events-none opacity-0" style="background-image: url('data:image/svg+xml,%3Csvg viewBox=%220 0 200 200%22 xmlns=%22http://www.w3.org/2000/svg%22%3E%3Cfilter id=%22noiseFilter%22%3E%3CfeTurbulence type=%22fractalNoise%22 baseFrequency=%221.8%22 numOctaves=%223%22 stitchTiles=%22stitch%22/%3E%3C/filter%3E%3Crect width=%22100%25%22 height=%22100%25%22 filter=%22url(%23noiseFilter)%22/%3E%3C/svg%3E'); mix-blend-mode: overlay;"></div>
 
                         <!-- Epilogue Quote -->
-                        <div id="epilogue-quote" aria-hidden="true" class="absolute top-[65%] left-1/2 -translate-x-1/2 text-center font-['DM_Sans'] font-semibold text-[10px] md:text-[12px] uppercase text-[var(--beige)] opacity-0 z-[100] tracking-widest pointer-events-none w-full max-w-[600px] leading-[2.2]">
+                        <div id="epilogue-quote" aria-hidden="true" class="absolute top-[65%] left-1/2 -translate-x-1/2 text-center font-['Schoolbell'] text-[16px] md:text-[20px] text-[var(--beige)] opacity-0 z-[100] pointer-events-none w-full max-w-[600px] leading-relaxed">
                             "If I ever write a book on how I see creativity,<br>it will have infinite pages.<br>And I'll still be figuring it out."
                         </div>
 
                         <!-- Diary UX Helper -->
                         <div aria-hidden="true" class="absolute top-[8%] md:top-[12%] left-1/2 -translate-x-1/2 px-4 py-2 bg-black/40 backdrop-blur-md text-[var(--beige)] text-[8px] sm:text-[9px] font-['Schoolbell'] uppercase tracking-[0.2em] font-bold rounded-full border border-white/10 shadow-2xl z-[9999] pointer-events-none animate-pulse">
-                            Scroll to explore
+                            Go on, scroll down
                         </div>
 
                         <!-- 3D Book Spine & Page Wrapper -->
@@ -1109,7 +1118,7 @@
                                     
                                     <!-- Page Index Header -->
                                     <div aria-hidden="true" class="flex justify-between items-center opacity-40 font-['Schoolbell'] text-[9px] uppercase tracking-[0.2em] font-bold">
-                                        <span>02 -- EVOLUTION</span>
+                                        <span>02 -- ONE THING LED TO ANOTHER</span>
                                         <span>SYSTEM & IMPACT ARCHIVE</span>
                                     </div>
 
@@ -1148,14 +1157,14 @@
                                             </div>
                                             
                                             <!-- Hand-drawn Arrow & Note -->
-                                            <div class="absolute -bottom-10 -left-6 font-['Caveat'] font-medium text-[24px] text-[var(--blue)] tracking-tight -rotate-[8deg] w-max opacity-90" style="letter-spacing: -0.05em;">
-                                                <svg class="absolute -right-5 -top-1 w-8 h-8 opacity-90 mix-blend-multiply" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M4 18 C12 16 16 11 18 5 M13 7 L18 5 L19 11" stroke-linejoin="round"/></svg>
-                                                this one scaled.
+                                            <div class="absolute -bottom-[70px] left-[15px] font-['Gloria_Hallelujah'] font-medium text-[15px] leading-tight text-[var(--blue)] tracking-tight -rotate-[5deg] w-[180px] opacity-90 z-20" style="letter-spacing: -0.05em;">
+                                                <svg class="absolute -right-6 top-0 w-6 h-6 opacity-90 mix-blend-multiply" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M4 18 C12 16 16 11 18 5 M13 7 L18 5 L19 11" stroke-linejoin="round"/></svg>
+                                                crazy what happens when you just make weirdly relatable stuff.
                                             </div>
                                         </div>
 
                                         <!-- CLUSTER 2: Mid Right (Philosophy Print Cutout) -->
-                                        <div id="art-terminal" class="relative md:absolute md:top-[12%] md:left-[8%] w-[90%] max-w-[240px] bg-[#fdfbf7] p-4 transform -rotate-[2deg] origin-center focus-lift-target z-20" style="box-shadow: 0 2px 5px rgba(0,0,0,0.1), inset 0 0 40px rgba(0,0,0,0.02); border: 1px solid rgba(0,0,0,0.05); border-left: 3px dashed rgba(0,0,0,0.15); filter: contrast(0.95);">
+                                        <div id="art-terminal" class="relative md:absolute md:top-[12%] md:left-[8%] w-[90%] max-w-[280px] bg-[#fdfbf7] p-4 transform -rotate-[2deg] origin-center focus-lift-target z-20" style="box-shadow: 0 2px 5px rgba(0,0,0,0.1), inset 0 0 40px rgba(0,0,0,0.02); border: 1px solid rgba(0,0,0,0.05); border-left: 3px dashed rgba(0,0,0,0.15); filter: contrast(0.95);">
                                             <div class="absolute inset-0 opacity-[0.03] pointer-events-none" style="background-image: url('data:image/svg+xml,%3Csvg viewBox=%220 0 200 200%22 xmlns=%22http://www.w3.org/2000/svg%22%3E%3Cfilter id=%22noiseFilter%22%3E%3CfeTurbulence type=%22fractalNoise%22 baseFrequency=%220.8%22 numOctaves=%223%22 stitchTiles=%22stitch%22/%3E%3C/filter%3E%3Crect width=%22100%25%22 height=%22100%25%22 filter=%22url(%23noiseFilter)%22/%3E%3C/svg%3E'); mix-blend-mode: multiply;"></div>
                                             <!-- Masking tape holding the cutout -->
                                             <div class="absolute -top-3 left-6 w-8 h-4 bg-white/70 border border-white/30 transform -rotate-[5deg] shadow-[0_2px_4px_rgba(0,0,0,0.15)] z-30" style="backdrop-filter: blur(1px);"></div>
@@ -1163,12 +1172,12 @@
                                             <div class="flex items-center gap-1.5 opacity-60 mb-2 relative z-10">
                                                 <div aria-hidden="true" class="font-['Schoolbell'] text-[7px] uppercase tracking-[0.2em] font-bold text-black">CORE PHILOSOPHY</div>
                                             </div>
-                                            <h4 class="font-['Inter'] font-[900] text-[17px] leading-[1.1] mb-1 tracking-tighter text-black uppercase relative z-10">I DON'T JUST BUILD DECKS.</h4>
-                                            <p class="font-['DM_Sans'] text-[11px] text-black/70 leading-snug relative z-10">I build things that move numbers.</p>
+                                            <h4 class="font-['Schoolbell'] font-bold text-[22px] leading-[1.1] mb-1 tracking-tight text-black uppercase relative z-10">ART WITH A PURPOSE.</h4>
+                                            <p class="font-['Schoolbell'] text-[14px] text-black/80 leading-snug relative z-10">I am an artist at heart. I obsess over aesthetics, but I love it even more when my art actually makes people feel something and take action.</p>
                                             
                                             <!-- Handwritten caption -->
-                                            <div class="absolute -bottom-6 right-2 font-['Caveat'] font-medium text-[20px] text-[#222]/90 tracking-tight rotate-[4deg]">
-                                                wrote this later.
+                                            <div class="absolute -bottom-6 right-2 font-['Gloria_Hallelujah'] font-medium text-[13px] text-[#222]/90 tracking-tight rotate-[4deg] w-max">
+                                                beautiful design that actually works.
                                             </div>
                                         </div>
 
@@ -1177,11 +1186,10 @@
                                             <!-- Masking tape holding the block -->
                                             <div class="absolute -top-2 -left-2 w-8 h-4 bg-white/30 transform -rotate-6 shadow-sm"></div>
 
-                                            <div aria-hidden="true" class="text-[9px] font-bold text-[var(--navy)] tracking-wider mb-2 uppercase opacity-60">// ARCHIVE.EXP</div>
+                                            <div aria-hidden="true" class="text-[9px] font-bold text-[var(--navy)] tracking-wider mb-2 uppercase opacity-60">// PLACES I'VE HUSTLED AT</div>
                                             <p class="font-bold text-[12px] text-black mb-1">Founding Marketer at RNTL.</p>
-                                            <p class="text-black/60 mb-2">Interned at <span class="border-b border-[#222]/30">Grimbyte</span>, <span class="border-b border-[#222]/30">MusicVerse</span>, <span class="border-b border-[#222]/30">Sinskari</span>.</p>
-                                            <p class="font-semibold text-black mb-1">Led GTM for Jio Hotstar show</p>
-                                            <p class="text-black/60">across <span class="font-bold text-[var(--navy)]">30K+ students</span> on 5–7 campuses.</p>
+                                            <p class="text-black/60 mb-2">Interned at <span class="border-b border-[#222]/30">Grimbyte</span>, <span class="border-b border-[#222]/30">MusicVerse</span>, <span class="border-b border-[#222]/30">Sinskari</span>, <span class="border-b border-[#222]/30">Frost & Sullivan</span> & <span class="border-b border-[#222]/30">Blue Tea</span>.</p>
+                                            <p class="text-black/60 mb-2">Grew an artist's community from scratch to <span class="font-bold text-[var(--navy)]">200K+ followers</span>, and pulled off a wild campus launch for a <span class="font-bold text-[var(--navy)]">Jio Hotstar show</span>.</p>
                                             
                                             <!-- Red Stamp overlapping the text -->
                                             <div aria-hidden="true" class="absolute bottom-[-15px] right-[10%] border-[2px] border-red-600 text-red-600 font-['Schoolbell'] text-[10px] font-bold uppercase tracking-widest p-1 transform rotate-[-15deg] opacity-70 mix-blend-multiply rounded-sm">
@@ -1189,31 +1197,30 @@
                                             </div>
                                             
                                             <!-- Scribble note -->
-                                            <div class="absolute top-[20%] right-[-25%] font-['Caveat'] font-medium text-[20px] text-[var(--blue)] tracking-tight rotate-[10deg] w-max">
-                                                random exp.
+                                            <div class="absolute top-[20%] right-[-25%] font-['Gloria_Hallelujah'] font-medium text-[13px] leading-tight text-[var(--blue)] tracking-tight rotate-[10deg]">
+                                                learned a lot<br><span class="pl-2">here</span>
                                             </div>
                                         </div>
 
                                         <!-- METRICS SYSTEM (Clustered Evidence Stamps) -->
                                         <div id="metrics-stamps-group" class="relative md:absolute md:bottom-[18%] md:left-[8%] w-full max-w-[300px] md:max-w-none md:w-[84%] flex justify-between items-start gap-4 z-20">
                                             
-                                            <!-- Red Stamp (₹4.4L+) -->
+                                            <!-- Red Stamp (33M+) -->
                                             <div class="evidence-stamp-red flex-1 p-3 flex flex-col justify-between h-[115px] focus-lift-target">
                                                 <div>
-                                                    <span class="font-['Bebas_Neue'] text-[32px] block leading-none tracking-tight mb-1">₹4.4L+</span>
-                                                    <span aria-hidden="true" class="font-['Schoolbell'] font-bold text-[8px] leading-tight block uppercase">Freelance Revenue</span>
-                                                    <span aria-hidden="true" class="font-['Schoolbell'] text-[7px] block opacity-70 mt-0.5">(3 Months)</span>
+                                                    <span class="font-['Bebas_Neue'] text-[32px] block leading-none tracking-tight mb-1">33M+</span>
+                                                    <span aria-hidden="true" class="font-['Schoolbell'] font-bold text-[8px] leading-tight block uppercase">Campaign Reach</span>
                                                 </div>
-                                                <span class="font-['Caveat'] font-medium text-[15px] text-red-800/80 tracking-tight block text-right mt-1">creator monetization.</span>
+                                                <span class="font-['Gloria_Hallelujah'] font-medium text-[15px] text-red-800/80 tracking-tight block text-right mt-1 leading-tight">for flagship brand events.</span>
                                             </div>
 
-                                            <!-- Yellow Dotted Stamp (5+) -->
+                                            <!-- Yellow Dotted Stamp (200K+) -->
                                             <div class="evidence-stamp-yellow flex-1 p-3 flex flex-col justify-between h-[115px] focus-lift-target">
                                                 <div>
-                                                    <span class="font-['Bebas_Neue'] text-[32px] block leading-none tracking-tight mb-1">5+</span>
-                                                    <span aria-hidden="true" class="font-['Schoolbell'] font-bold text-[8px] leading-tight block uppercase">National Comp Wins</span>
+                                                    <span class="font-['Bebas_Neue'] text-[32px] block leading-none tracking-tight mb-1">40+</span>
+                                                    <span aria-hidden="true" class="font-['Schoolbell'] font-bold text-[8px] leading-tight block uppercase">Live standup Shows</span>
                                                 </div>
-                                                <span class="font-['Caveat'] font-medium text-[15px] text-yellow-800/80 tracking-tight block text-right mt-1">strategy recognition.</span>
+                                                <span class="font-['Gloria_Hallelujah'] font-medium text-[12px] leading-tight text-yellow-800/80 tracking-tight block text-right mt-1">Scaled & executed nationwide in 3 months</span>
                                             </div>
 
                                             <!-- Blue Stamp (DU Rank 1) -->
@@ -1222,7 +1229,7 @@
                                                     <span class="font-['Bebas_Neue'] text-[32px] block leading-none tracking-tight mb-1">DU Rank 1</span>
                                                     <span aria-hidden="true" class="font-['Schoolbell'] font-bold text-[8px] leading-tight block uppercase">5 Subjects</span>
                                                 </div>
-                                                <span class="font-['Caveat'] font-medium text-[15px] text-[var(--blue)]/80 tracking-tight block text-right mt-1">academic consistency.</span>
+                                                <span class="font-['Gloria_Hallelujah'] font-medium text-[15px] text-[var(--blue)]/80 tracking-tight block text-right mt-1">gotta keep parents happy.</span>
                                             </div>
 
                                         </div>
@@ -1230,26 +1237,23 @@
                                         <!-- torn look signature sheet (Moved here to align with end of SVG line) -->
                                         <div id="torn-signature-paper" class="relative md:absolute md:bottom-[-8%] md:left-[30%] bg-white/95 p-3 px-6 shadow-[2px_4px_8px_rgba(0,0,0,0.1)] border-t border-dashed border-gray-300 transform -rotate-2 focus-lift-target z-20">
                                             <div class="absolute -top-1 left-4 w-6 h-2 bg-yellow-200/50 mix-blend-multiply opacity-50 shadow-sm"></div>
-                                            <div class="font-['Caveat'] font-medium text-[30px] text-[var(--blue)] leading-none">
-                                                still learning systems.
+                                            <div class="font-['Gloria_Hallelujah'] font-medium text-[30px] text-[var(--blue)] leading-none">
+                                                still figuring things out.
                                             </div>
                                         </div>
                                         
-                                        <!-- OTHER HIGHLIGHTS FOOTNOTE BLOCK -->
-                                        <div id="other-highlights-block" aria-hidden="true" class="relative md:absolute md:bottom-[2%] md:left-[8%] w-[90%] max-w-[250px] text-left font-['Schoolbell'] text-[8px] text-[#222]/60 focus-lift-target leading-relaxed z-10">
-                                            <span aria-hidden="true" class="font-bold text-[var(--blue)] block uppercase text-[7px] mb-1">// OTHER HIGHLIGHTS</span>
-                                            <p>&bull; Consulted for Frost & Sullivan and Blue Tea.</p>
-                                            <p>&bull; VP, The Dramatics Society, SRCC. ₹55L+ sponsorships secured.</p>
-                                            <p>&bull; I combine a <span class="text-[var(--blue)] font-bold border-b border-[var(--blue)]/30">consultant's frameworks</span> with a <span class="text-[var(--blue)] font-bold border-b border-[var(--blue)]/30">creator's instincts</span>.</p>
+                                        <!-- CLOSER FOOTNOTE BLOCK -->
+                                        <div id="other-highlights-block" aria-hidden="true" class="relative md:absolute md:bottom-[2%] md:left-[8%] w-[90%] max-w-[250px] text-left font-['Schoolbell'] text-[10px] text-[#222]/80 focus-lift-target leading-relaxed z-10">
+                                            <p><span class="font-bold">PS//</span> The goal is simple: find artists and brands making incredible things, and help them grow using our respective arts.</p>
                                         </div>
 
                                     </div>
 
                                     <!-- Bottom Right Footer (Torn Paper Note & Exit Status) -->
                                     <div class="flex justify-between items-end relative z-[70] h-[80px] w-full">
-                                        <div aria-hidden="true" class="flex flex-col items-start gap-1 font-['Schoolbell'] text-[7px] opacity-40 font-bold mt-auto pb-2">
-                                            <span>TRACE COMPLETE // SYS.LNKD</span>
-                                            <span>VOL.2026</span>
+                                        <div aria-hidden="true" class="flex flex-col items-start gap-1 font-['Schoolbell'] text-[12px] md:text-[14px] text-[#222]/80 font-bold mt-auto pb-2">
+                                            <span>END OF PAGE</span>
+                                            <span>KEEP SCROLLING</span>
                                         </div>
                                         
                                         <!-- OTHER HIGHLIGHTS MOVED TO MAP LAYER -->
@@ -1280,10 +1284,10 @@
 
                                         <!-- Typewriter Text -->
                                         <div class="relative z-10 pl-3">
-                                            <p class="font-['Schoolbell'] text-[12px] text-[#222]/90 leading-[24px] tracking-tight">
+                                            <p class="font-['Schoolbell'] text-[15px] text-[#222]/90 leading-[24px] tracking-tight">
                                                 I'm an open book.
                                                 <br>
-                                                <span class="text-[11px] text-black/70">This is the short version of how creativity started making sense to me.</span>
+                                                <span class="text-[14px] text-black/70">Here is the unfiltered timeline of how<br>I figured things out.</span>
                                             </p>
                                         </div>
                                     </div>
@@ -1301,8 +1305,8 @@
                                         <div class="relative flex-grow mt-6 mb-4 flex flex-col md:block items-center gap-8 md:gap-0 overflow-y-auto md:overflow-visible">
                                             
                                             <!-- Handwritten Tag entry -->
-                                            <div id="frag-origin-cursive" class="absolute top-[-2%] left-[4%] font-['Caveat'] font-medium text-[24px] text-[var(--blue)] -rotate-3 focus-lift-target z-20">
-                                                first signal.
+                                            <div id="frag-origin-cursive" class="absolute top-[-2%] left-[4%] font-['Gloria_Hallelujah'] font-medium text-[28px] text-[var(--blue)] -rotate-3 focus-lift-target z-20">
+                                                how it all started.
                                             </div>
 
                                             <!-- Broke-Rhythm Headline Block -->
@@ -1318,23 +1322,40 @@
                                                 <span class="inline-block mt-1 relative text-[var(--blue)] py-1 px-3 z-30 font-black tracking-normal">
                                                     SNEAKERS
                                                     <!-- Circle drawing around Sneakers (Triggered by GSAP) -->
-                                                    <svg class="absolute inset-0 w-full h-full pointer-events-none scale-y-110 scale-x-105" viewBox="0 0 100 40" preserveAspectRatio="none">
-                                                        <path id="sneaker-circle-path" class="glowing-circle-path" d="M 5,20 C 5,5 95,5 95,20 C 95,35 5,35 5,20 Z" />
+                                                    <svg class="absolute inset-0 w-full h-full pointer-events-none scale-[1.15] -rotate-[3deg]" viewBox="0 0 100 40" preserveAspectRatio="none">
+                                                        <path id="sneaker-circle-path" class="glowing-circle-path" d="M 10,25 C -5,10 40,-2 90,14 C 105,28 60,42 10,28 C -2,22 4,16 12,12" />
                                                     </svg>
                                                 </span> 
                                                 <span class="text-black/95">ON MY OWN.</span>
                                             </div>
 
                                             <!-- Micro Story (Faded editorial ink block) -->
-                                            <div id="origin-micro-story" aria-hidden="true" class="absolute top-[48%] left-[4%] w-[65%] font-['Schoolbell'] text-[10px] md:text-[11px] text-[#222]/85 leading-relaxed focus-lift-target z-20">
-                                                <p class="mb-3">What started as a side hustle in 9th grade turned into constant experimentation -- YouTube thumbnails, YouTube growth, random freelance briefs.</p>
-                                                <p>I didn't know what a "value proposition" was. I just knew I wanted to make things that worked.</p>
+                                            <div id="origin-micro-story" aria-hidden="true" class="absolute top-[48%] left-[4%] w-[65%] font-['Schoolbell'] text-[13px] md:text-[15px] text-[#222]/85 leading-relaxed focus-lift-target z-20">
+                                                <p class="mb-3">I had no idea what a 'marketing strategy' was in 9th grade. I was just making YouTube thumbnails and taking whatever freelance gigs I could find through Insta & Discord...</p>
+                                                <p>I didn't know what a "value proposition" was. I kept making things because I liked seeing them work.</p>
+                                            </div>
+                                            
+                                            <!-- Tiny Receipt pinned -->
+                                            <div id="origin-receipt" class="absolute top-[38%] md:top-[42%] right-[5%] md:right-[15%] w-[90px] md:w-[120px] bg-[#f8f9fa] shadow-[2px_6px_12px_rgba(0,0,0,0.15)] rotate-[8deg] p-2 md:p-3 flex flex-col font-['DM_Mono'] text-[7px] md:text-[9px] text-[#222] z-30 focus-lift-target will-change-transform border-t border-l border-white" style="clip-path: polygon(0 0, 100% 0, 100% 96%, 95% 100%, 90% 96%, 85% 100%, 80% 96%, 75% 100%, 70% 96%, 65% 100%, 60% 96%, 55% 100%, 50% 96%, 45% 100%, 40% 96%, 35% 100%, 30% 96%, 25% 100%, 20% 96%, 15% 100%, 10% 96%, 5% 100%, 0 96%);">
+                                                <!-- Push Pin -->
+                                                <div class="absolute -top-1 md:-top-1.5 left-1/2 -translate-x-1/2 w-3 h-3 md:w-4 md:h-4 bg-red-600 rounded-full shadow-[1px_2px_3px_rgba(0,0,0,0.4)] z-40 border border-red-800">
+                                                    <div class="absolute top-[1px] left-[2px] w-1 h-1 bg-white/50 rounded-full"></div>
+                                                </div>
+                                                <div class="text-center font-bold mb-1 border-b border-gray-300/60 pb-1 uppercase tracking-widest text-[6px] md:text-[7px]">RECEIPT</div>
+                                                <div class="flex justify-between mt-1 leading-[1.2] opacity-90">
+                                                    <span class="w-[45px] md:w-[65px] break-words">Nike Air Jordans</span>
+                                                    <span class="font-bold">₹2,999</span>
+                                                </div>
+                                                <div class="mt-2 border-t border-dashed border-gray-400/50 pt-1 text-center opacity-50 tracking-widest text-[5px] md:text-[6px]">
+                                                    PAID
+                                                </div>
                                             </div>
 
                                             <!-- Transition Strategy Note (Floating Annotation) -->
-                                            <div id="frag-strategy-annot" class="absolute top-[75%] left-[2%] font-['Caveat'] font-medium text-[24px] text-[var(--blue)] -rotate-6 focus-lift-target z-20">
-                                                Eventually, a way of thinking.<br>
-                                                <span class="text-[28px] pl-6">Strategy came later.</span>
+                                            <div id="frag-strategy-annot" class="absolute top-[75%] left-[2%] font-['Gloria_Hallelujah'] font-bold text-[14px] md:text-[16px] text-[var(--blue)] leading-tight -rotate-6 focus-lift-target z-20">
+                                                It started as making things.<br>
+                                                <span class="pl-4">Then it became a way of thinking.</span><br>
+                                                <span class="text-[16px] md:text-[18px] pl-8">Strategy came later.</span>
                                             </div>
 
                                             <!-- Cutout Portrait with Blueprint Circle Overlay -->
@@ -1365,7 +1386,7 @@
                                                 </div>
                                                 <!-- Description -->
                                                 <div class="mt-2.5 flex flex-col items-start gap-0.5">
-                                                    <div aria-hidden="true" class="font-['Schoolbell'] text-[8px] font-bold text-black/80 uppercase">first signal.</div>
+                                                    <div aria-hidden="true" class="font-['Schoolbell'] text-[8px] font-bold text-black/80 uppercase">how it all started.</div>
                                                     <div aria-hidden="true" class="font-['Schoolbell'] text-[7px] text-black/50 leading-tight">initial viral spike.</div>
                                                 </div>
                                             </div>
@@ -1388,7 +1409,7 @@
                 </section>
 
                 <!-- 3. EXPERIENCE -->
-                <section id="experience" class="w-full h-screen min-h-[800px] relative bg-[#f6f3eb] border-b-grid z-20 overflow-hidden flex flex-col justify-center">
+                <section id="experience" class="w-full h-screen min-h-[800px] relative bg-[#0F35FF] border-b-grid z-20 overflow-hidden flex flex-col justify-center">
                     
                     <!-- Creative Architectural & Editorial Background -->
                     <div class="absolute inset-0 pointer-events-none z-0 overflow-hidden">
@@ -1396,30 +1417,30 @@
                         <div class="absolute inset-0 opacity-[0.1]" style="background-image: url('data:image/svg+xml,%3Csvg viewBox=%220 0 200 200%22 xmlns=%22http://www.w3.org/2000/svg%22%3E%3Cfilter id=%22noiseFilter%22%3E%3CfeTurbulence type=%22fractalNoise%22 baseFrequency=%220.85%22 numOctaves=%223%22 stitchTiles=%22stitch%22/%3E%3C/filter%3E%3Crect width=%22100%25%22 height=%22100%25%22 filter=%22url(%23noiseFilter)%22/%3E%3C/svg%3E'); mix-blend-mode: multiply;"></div>
                         
                         <!-- Blueprint Grid Lines (Primary & Secondary) -->
-                        <div class="absolute inset-0 opacity-[0.06]" style="background-size: 40px 40px; background-image: linear-gradient(to right, var(--blue) 1px, transparent 1px), linear-gradient(to bottom, var(--blue) 1px, transparent 1px);"></div>
-                        <div class="absolute inset-0 opacity-[0.03]" style="background-size: 10px 10px; background-image: linear-gradient(to right, var(--navy) 1px, transparent 1px), linear-gradient(to bottom, var(--navy) 1px, transparent 1px);"></div>
+                        <div class="absolute inset-0 opacity-[0.1]" style="background-size: 40px 40px; background-image: linear-gradient(to right, white 1px, transparent 1px), linear-gradient(to bottom, white 1px, transparent 1px);"></div>
+                        <div class="absolute inset-0 opacity-[0.05]" style="background-size: 10px 10px; background-image: linear-gradient(to right, white 1px, transparent 1px), linear-gradient(to bottom, white 1px, transparent 1px);"></div>
 
                         <!-- Giant Ghost Typography Marquees -->
-                        <div class="absolute top-[5%] left-0 w-[200vw] font-['Bebas_Neue'] text-[20vw] leading-[0.8] text-[var(--navy)] opacity-[0.02] tracking-tighter select-none pointer-events-none flex whitespace-nowrap animate-marquee-left mix-blend-multiply">
+                        <div class="absolute top-[5%] left-0 w-[200vw] font-['Bebas_Neue'] text-[20vw] leading-[0.8] text-white opacity-[0.04] tracking-tighter select-none pointer-events-none flex whitespace-nowrap animate-marquee-left mix-blend-overlay">
                             FOUNDATION WORK · CREATIVE ORIGINS · EARLY PROJECTS · FOUNDATION WORK · CREATIVE ORIGINS · EARLY PROJECTS · 
                         </div>
-                        <div class="absolute bottom-[5%] left-0 w-[200vw] font-['Bebas_Neue'] text-[20vw] leading-[0.8] text-[var(--navy)] opacity-[0.02] tracking-tighter select-none pointer-events-none flex whitespace-nowrap animate-marquee-right mix-blend-multiply">
+                        <div class="absolute bottom-[5%] left-0 w-[200vw] font-['Bebas_Neue'] text-[20vw] leading-[0.8] text-white opacity-[0.04] tracking-tighter select-none pointer-events-none flex whitespace-nowrap animate-marquee-right mix-blend-overlay">
                             SYSTEMS BUILT · LOG NO. 03 · ITERATIONS · SYSTEMS BUILT · LOG NO. 03 · ITERATIONS · 
                         </div>
 
                         <!-- Architectural Registration Marks (Corners) -->
-                        <div class="absolute top-8 left-8 w-12 h-12 border-t-[3px] border-l-[3px] border-[var(--blue)] opacity-40"></div>
-                        <div class="absolute top-8 right-8 w-12 h-12 border-t-[3px] border-r-[3px] border-[var(--blue)] opacity-40"></div>
-                        <div class="absolute bottom-8 left-8 w-12 h-12 border-b-[3px] border-l-[3px] border-[var(--blue)] opacity-40"></div>
-                        <div class="absolute bottom-8 right-8 w-12 h-12 border-b-[3px] border-r-[3px] border-[var(--blue)] opacity-40"></div>
+                        <div class="absolute top-8 left-8 w-12 h-12 border-t-[3px] border-l-[3px] border-[var(--beige)] opacity-50"></div>
+                        <div class="absolute top-8 right-8 w-12 h-12 border-t-[3px] border-r-[3px] border-[var(--beige)] opacity-50"></div>
+                        <div class="absolute bottom-8 left-8 w-12 h-12 border-b-[3px] border-l-[3px] border-[var(--beige)] opacity-50"></div>
+                        <div class="absolute bottom-8 right-8 w-12 h-12 border-b-[3px] border-r-[3px] border-[var(--beige)] opacity-50"></div>
 
                         <!-- Technical Overlays (Text) -->
-                        <div aria-hidden="true" class="absolute top-10 left-24 font-['DM_Mono'] text-[10px] tracking-[0.2em] uppercase text-[var(--blue)] opacity-50 font-bold rotate-90 origin-left">Sector 03 / Alpha</div>
-                        <div aria-hidden="true" class="absolute bottom-10 right-24 font-['DM_Mono'] text-[10px] tracking-[0.2em] uppercase text-[var(--blue)] opacity-50 font-bold -rotate-90 origin-right">System_Active</div>
+
+                        <div aria-hidden="true" class="absolute bottom-10 right-24 font-['DM_Mono'] text-[10px] tracking-[0.2em] uppercase text-[var(--beige)] opacity-60 font-bold -rotate-90 origin-right">System_Active</div>
 
                         <!-- Central Axis Crosshairs -->
-                        <div class="absolute top-0 bottom-0 left-1/2 w-[1px] bg-gradient-to-b from-transparent via-[var(--blue)] to-transparent opacity-20"></div>
-                        <div class="absolute left-0 right-0 top-1/2 h-[1px] bg-gradient-to-r from-transparent via-[var(--blue)] to-transparent opacity-20"></div>
+                        <div class="absolute top-0 bottom-0 left-1/2 w-[1px] bg-gradient-to-b from-transparent via-white to-transparent opacity-30"></div>
+                        <div class="absolute left-0 right-0 top-1/2 h-[1px] bg-gradient-to-r from-transparent via-white to-transparent opacity-30"></div>
                     </div>
 
                     <!-- Subtle Edge Burn / Vignette -->
@@ -1430,15 +1451,29 @@
                         <!-- Top Header Area -->
                         <div class="w-full flex flex-col md:flex-row justify-between items-start md:items-end mb-8 md:mb-12 gap-8">
                             <div class="flex flex-col">
-                                <span id="proj-section-badge" class="text-xs font-bold uppercase tracking-widest text-[var(--blue)] block mb-6 md:mb-8 border-2 border-[var(--blue)] px-4 py-2 bg-[rgba(1,44,235,0.05)] w-max shadow-[4px_4px_0_var(--blue)]">Section 03</span>
-                                <h2 class="text-7xl md:text-[10vw] lg:text-[11vw] font-['Schoolbell'] leading-[1.1] flex gap-1 overflow-visible py-2 pb-2">
-                                    <span id="proj-title-word1" class="text-[var(--blue)] block inline-block will-change-transform">Pro</span>
-                                    <span id="proj-title-word2" class="text-[#222] block inline-block will-change-transform">jects</span>
+                                <span id="proj-section-badge" class="text-xs font-bold uppercase tracking-widest text-[var(--beige)] block mb-6 md:mb-8 border-2 border-[var(--beige)] px-4 py-2 bg-[rgba(255,255,255,0.05)] w-max shadow-[4px_4px_0_var(--beige)]">Section 03</span>
+                                <h2 class="text-7xl md:text-[10vw] lg:text-[11vw] font-['Schoolbell'] leading-[1.1] relative inline-block py-4 pl-4 md:pl-8 pb-6 group cursor-pointer z-10 overflow-visible">
+                                    
+                                    <!-- The Tilted Box (Placed absolutely behind the text) -->
+                                    <div class="absolute top-1 bottom-4 left-0 w-[46%] md:w-[44%] bg-[#F4EFE6] border-[4px] border-[#0A0A0A] shadow-[-8px_8px_0_#0A0A0A] transform -rotate-[4deg] group-hover:-rotate-[1deg] group-hover:scale-105 transition-all duration-300 z-0 origin-center pointer-events-none">
+                                        <!-- Masking tape holding it -->
+                                        <span class="absolute -top-3 left-[30%] w-10 h-4 bg-white/80 border border-black/10 rotate-[4deg] shadow-sm mix-blend-normal z-20"></span>
+                                        
+                                        <!-- Pop Star Sticker Element -->
+                                        <svg class="absolute -bottom-4 -right-4 w-8 h-8 md:w-10 md:h-10 text-[#8DE254] drop-shadow-[2px_2px_0_#0A0A0A] z-30 transition-transform duration-500 group-hover:rotate-180" viewBox="0 0 24 24" fill="currentColor" stroke="#0A0A0A" stroke-width="2" stroke-linejoin="round">
+                                            <path d="M12 2l2.4 7.4L22 9.6l-6 4.8 2.3 7.6-6.3-4.6-6.3 4.6 2.3-7.6-6-4.8 7.6-.2L12 2z"/>
+                                        </svg>
+                                    </div>
+
+                                    <!-- The cohesive text flow -->
+                                    <span class="relative z-10 whitespace-nowrap">
+                                        <span id="proj-title-word1" class="inline-block text-[#0A0A0A]">Pro</span><span id="proj-title-word2" class="inline-block text-white drop-shadow-[0_4px_12px_rgba(0,0,0,0.15)]">jects</span>
+                                    </span>
                                 </h2>
                             </div>
                             
                             <!-- Brutalist Helper Sticker -->
-                            <div id="proj-helper-sticker" class="flex flex-col bg-[#F4EFE6] border-[3px] border-[var(--navy)] p-4 md:p-5 shadow-[6px_6px_0px_var(--navy)] transform md:rotate-[-2deg] md:w-[450px] max-w-full shrink-0 hover:rotate-0 transition-all duration-300 relative group z-20">
+                            <div id="proj-helper-sticker" class="flex flex-col bg-[#F4EFE6] border-[3px] border-[#0A0A0A] p-4 md:p-5 shadow-[6px_6px_0px_#0A0A0A] transform md:rotate-[-2deg] md:w-[450px] max-w-full shrink-0 hover:rotate-0 transition-all duration-300 relative group z-20">
                                 <!-- Tape artifact -->
                                 <div class="absolute -top-3 left-1/2 -translate-x-1/2 w-12 h-6 bg-white/50 backdrop-blur-sm border border-black/10 rotate-[-4deg] opacity-70 mix-blend-overlay"></div>
                                 
@@ -1579,7 +1614,7 @@
                                     </div>
 
                                     <!-- Connector -->
-                                    <div class="w-[4vw] md:w-[3vw] h-[60%] bg-[#080808] border-[2px] border-[#111] flex flex-col justify-evenly opacity-95 z-0 flex-shrink-0 self-center">
+                                    <div class="w-[2.4vw] md:w-[1.8vw] h-[60%] bg-[#080808] border-[2px] border-[#111] flex flex-col justify-evenly opacity-95 z-0 flex-shrink-0 self-center">
                                         <div class="w-full h-[4px] bg-[#1a1a1a]"></div>
                                         <div class="w-full h-[4px] bg-[#1a1a1a]"></div>
                                         <div class="w-full h-[4px] bg-[#1a1a1a]"></div>
@@ -1656,7 +1691,7 @@
                                     <div class="w-full h-[8px] mt-1 relative z-10" style="background-image: radial-gradient(#0B0B0B 30%, transparent 30%); background-size: 8px 8px; background-position: 0 0; opacity: 0.15;"></div>
                                     
                                     <!-- Platform Easter Eggs -->
-                                    <div class="flex justify-between items-center px-8 md:px-16 mt-3 mb-2 relative z-10">
+                                    <div class="flex justify-between items-center px-12 md:px-24 mt-3 mb-2 relative z-10">
                                         <div aria-hidden="true" class="font-['Schoolbell'] text-[12px] md:text-[14px] text-[#0B0B0B] opacity-80">
                                             built in new delhi <span class="hidden md:inline opacity-40 mx-2">///</span> <span class="hidden md:inline">powered by caffeine</span>
                                         </div>
@@ -1681,7 +1716,7 @@
                     </div>
 
                     <!-- CASE STUDY EXPANDED VIEW (Step Out Mode) -->
-                    <div id="transit-case-study-view" data-lenis-prevent="true" class="absolute inset-0 w-full h-full overflow-y-auto px-4 md:px-12 pt-24 z-[100] hidden opacity-0 bg-[#ECE8E1] pointer-events-auto">
+                    <div id="transit-case-study-view" data-lenis-prevent="true" class="fixed top-0 left-0 w-full h-[100dvh] overflow-y-auto px-4 md:px-12 pt-24 z-[9999] hidden opacity-0 bg-[#ECE8E1] pointer-events-auto overscroll-contain">
                         <!-- Action Bar -->
                         <div class="sticky top-6 z-[9999] mb-8 flex justify-between items-center w-full max-w-[1400px] mx-auto">
                             <button id="back-to-transit-btn" aria-label="Back to Transit Map" aria-hidden="true" class="focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#0F35FF] flex items-center gap-2 md:gap-3 bg-white text-[#0B0B0B] font-['Inter'] text-[10px] md:text-xs font-semibold uppercase tracking-widest px-5 py-3 border-[1.5px] border-[#0B0B0B] rounded-full hover:bg-[#0F35FF] hover:text-white hover:border-[#0F35FF] shadow-[0_4px_12px_rgba(11,11,11,0.05)] transition-all cursor-pointer">
@@ -1839,8 +1874,8 @@
                     <div class="flex flex-col gap-2 max-w-2xl mb-12 md:mb-0 relative z-10 w-full md:w-1/2">
                         <!-- Headline -->
                         <h2 class="contact-stagger font-['Schoolbell'] leading-[0.7] select-none flex flex-col items-start md:items-start mb-6">
-                            <span class="text-[32vw] md:text-[18vw] xl:text-[14vw] text-[var(--blue)]">contact</span>
-                            <span class="text-[32vw] md:text-[18vw] xl:text-[14vw] text-[#f4efe6] -mt-[6vw] md:-mt-[4vw] ml-8 md:ml-12">Me</span>
+                            <span class="text-[28vw] md:text-[16vw] xl:text-[13vw] text-[var(--blue)] tracking-tight">let's</span>
+                            <span class="text-[28vw] md:text-[16vw] xl:text-[13vw] text-[#f4efe6] -mt-[4vw] md:-mt-[2vw] ml-8 md:ml-12 tracking-tight">talk</span>
                         </h2>
                         <!-- Subtext -->
                         <p class="contact-stagger font-['Schoolbell'] text-xl md:text-2xl text-white/65 max-w-md leading-relaxed mt-4">
@@ -1866,40 +1901,34 @@
                         </div>
 
                         <!-- Social Links -->
-                        <div class="contact-stagger flex gap-8 mt-4">
+                        <div class="contact-stagger flex flex-wrap gap-6 md:gap-8 mt-6">
                             <a href="https://www.instagram.com/bajkamal07/" target="_blank" rel="noopener noreferrer" 
-                               class="focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#0F35FF] relative text-white/50 font-['Schoolbell'] text-sm md:text-base uppercase tracking-widest hover:text-[var(--blue)] transition-all duration-300 hover:scale-[1.03] group">
-                                INSTAGRAM
-                                <span class="absolute -bottom-1 left-0 w-0 h-[1px] bg-[var(--blue)] transition-all duration-300 group-hover:w-full"></span>
-                                <!-- Optional thin line extension (blueprint feel) -->
-                                <span class="absolute top-1/2 -left-3 w-2 h-[1px] bg-white/20 group-hover:bg-[var(--blue)] transition-colors"></span>
+                               class="focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#0F35FF] relative text-[var(--beige)] font-['Schoolbell'] text-xl md:text-2xl uppercase tracking-widest hover:text-[var(--blue)] transition-all duration-300 hover:scale-[1.03] group">
+                                - INSTAGRAM
+                                <span class="absolute -bottom-1 left-0 w-0 h-[2px] bg-[var(--blue)] transition-all duration-300 group-hover:w-full"></span>
                             </a>
                             <a href="https://www.linkedin.com/in/bajkamalsingh/" target="_blank" rel="noopener noreferrer" 
-                               class="focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#0F35FF] relative text-white/50 font-['Schoolbell'] text-sm md:text-base uppercase tracking-widest hover:text-[var(--blue)] transition-all duration-300 hover:scale-[1.03] group">
-                                LINKEDIN
-                                <span class="absolute -bottom-1 left-0 w-0 h-[1px] bg-[var(--blue)] transition-all duration-300 group-hover:w-full"></span>
-                                <span class="absolute top-1/2 -left-3 w-2 h-[1px] bg-white/20 group-hover:bg-[var(--blue)] transition-colors"></span>
+                               class="focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#0F35FF] relative text-[var(--beige)] font-['Schoolbell'] text-xl md:text-2xl uppercase tracking-widest hover:text-[var(--blue)] transition-all duration-300 hover:scale-[1.03] group">
+                                - LINKEDIN
+                                <span class="absolute -bottom-1 left-0 w-0 h-[2px] bg-[var(--blue)] transition-all duration-300 group-hover:w-full"></span>
                             </a>
                             <a href="mailto:bajkamalsingh1@gmail.com?subject=Internship%3F%20You're%20hired.%20(Almost.)&body=Hey%20Bajkamal,%0A%0ACame%20here%20to%20check%20a%20portfolio.%0ALeft%20with%20a%20mild%20urge%20to%20hire%20you.%0A%0ALet%E2%80%99s%20talk%20before%20someone%20else%20hires%20you." 
-                               class="focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#0F35FF] relative text-white/50 font-['Schoolbell'] text-sm md:text-base uppercase tracking-widest hover:text-[var(--blue)] transition-all duration-300 hover:scale-[1.03] group">
-                                MAIL
-                                <span class="absolute -bottom-1 left-0 w-0 h-[1px] bg-[var(--blue)] transition-all duration-300 group-hover:w-full"></span>
-                                <span class="absolute top-1/2 -left-3 w-2 h-[1px] bg-white/20 group-hover:bg-[var(--blue)] transition-colors"></span>
+                               class="focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#0F35FF] relative text-[var(--beige)] font-['Schoolbell'] text-xl md:text-2xl uppercase tracking-widest hover:text-[var(--blue)] transition-all duration-300 hover:scale-[1.03] group">
+                                - MAIL
+                                <span class="absolute -bottom-1 left-0 w-0 h-[2px] bg-[var(--blue)] transition-all duration-300 group-hover:w-full"></span>
                             </a>
                         </div>
                     </div>
                 </section>
-                <!-- 5. GRID FOOTER -->
-                <footer id="contact" class="bg-[var(--beige)] text-[var(--navy)] border-t-[3px] border-[var(--navy)] py-12 px-8 relative grid grid-cols-1 md:grid-cols-3 gap-8 z-40">
-                    <div class="font-bold text-3xl uppercase tracking-tighter text-[var(--blue)] flex items-center">
-                        Baaz.
+                <footer id="contact" class="bg-[var(--beige)] text-[var(--navy)] border-t-[3px] border-[var(--navy)] py-12 px-8 md:px-12 relative flex flex-col md:flex-row justify-between items-start md:items-center gap-12 md:gap-8 z-40">
+                    <div class="font-['Open_Sauce_One'] font-bold text-[15px] md:text-[18px] leading-tight tracking-tight flex flex-col justify-center gap-0.5 opacity-80 max-w-lg">
+                        <span>Bye, have a great day at your job.</span>
+                        <span>Hoping you get more creative portfolios to look at.</span>
                     </div>
-                    <div class="font-bold text-xs tracking-widest uppercase flex flex-col justify-center gap-2">
-                        <span>Designed for structure.</span>
-                        <span>Built for impact.</span>
-                    </div>
-                    <div class="font-bold text-xs tracking-widest uppercase flex items-center md:justify-end">
-                        <span class="bg-[var(--blue)] text-[var(--beige)] px-4 py-2">&copy; 2026 / SYS.END</span>
+                    
+                    <div class="flex flex-col items-start md:items-end md:text-right">
+                        <span class="font-['Gloria_Hallelujah'] text-4xl md:text-[50px] text-[var(--navy)] leading-none transform -rotate-[2deg]">Bajkamal Singh</span>
+                        <span class="font-['Gloria_Hallelujah'] text-4xl md:text-[50px] text-[var(--blue)] leading-none transform -rotate-[2deg] mt-1 md:mt-2">(Baaz)</span>
                     </div>
                 </footer>
 
@@ -2100,6 +2129,7 @@
 
         ScrollTrigger.defaults({ scroller: worldViewport });
         lenis.on('scroll', ScrollTrigger.update);
+        lenis.stop(); // Lock scrolling during intro
 
         // --- PRELOADER & HERO REVEAL ---
         const preloaderBg = document.getElementById('preloader-bg');
@@ -2138,20 +2168,76 @@
         const charIntentionalEnd = splitTextToChars('intentional-end');
 
         const introTl = gsap.timeline();
+        introTl.timeScale(1.45); // Speeds up the entire text timeline to finish around 3.5s
+
         const charDur = 1.0; const stg = 0.025; 
 
         // Loading Percentage Animation
         const loadingProgress = document.getElementById('loading-progress');
+        const loadingBar = document.getElementById('loading-bar');
+        const loadingDot = document.getElementById('loading-dot');
         if(loadingProgress) {
             gsap.to({ val: 0 }, {
                 val: 100,
-                duration: 4.9,
+                duration: 3.3, // Matches the new sped-up timeline
                 ease: "power1.inOut",
                 onUpdate: function() {
-                    const percent = Math.floor(this.targets()[0].val).toString().padStart(2, '0');
+                    const rawVal = Math.floor(this.targets()[0].val);
+                    const percent = rawVal.toString().padStart(2, '0');
                     loadingProgress.innerText = `${percent}%`;
+                    if (loadingBar) loadingBar.style.width = `${rawVal}%`;
+                    if (rawVal === 100 && loadingDot) {
+                        loadingDot.classList.remove('bg-[#FF3333]', 'shadow-[0_0_10px_rgba(255,51,51,0.8)]', 'animate-pulse');
+                        loadingDot.classList.add('bg-[#10B981]', 'shadow-[0_0_10px_rgba(16,185,129,0.8)]');
+                    }
                 }
             });
+        }
+
+        // Rapid Image Montage inside preloader-montage
+        const preloaderMontage = document.getElementById('preloader-montage');
+        if (preloaderMontage) {
+            const montageImages = [
+                './catalog_grid.jpg',
+                './polaroidimg.PNG',
+                './rntlspotlightseries.png',
+                './ksm3.png',
+                './hs1.jpg',
+                './personality_grid.jpg'
+            ];
+            
+            const imgElements = montageImages.map(src => {
+                const img = new Image();
+                img.src = src;
+                img.className = "absolute max-w-[80vw] max-h-[80vh] object-contain opacity-0 scale-95 transform-gpu transition-none";
+                img.style.filter = "grayscale(100%) contrast(1.2)";
+                preloaderMontage.appendChild(img);
+                return img;
+            });
+
+            let currentImgIdx = 0;
+            window.preloaderMontageInterval = setInterval(() => {
+                if (imgElements.length === 0) return;
+                imgElements.forEach(img => gsap.set(img, { opacity: 0, scale: 0.95 }));
+                
+                let nextIdx = Math.floor(Math.random() * imgElements.length);
+                if (nextIdx === currentImgIdx && imgElements.length > 1) {
+                    nextIdx = (nextIdx + 1) % imgElements.length;
+                }
+                currentImgIdx = nextIdx;
+                
+                const rot = (Math.random() - 0.5) * 8;
+                const tx = (Math.random() - 0.5) * 50;
+                const ty = (Math.random() - 0.5) * 50;
+                
+                gsap.set(imgElements[currentImgIdx], { 
+                    opacity: 1, 
+                    scale: 1,
+                    rotation: rot,
+                    x: tx,
+                    y: ty
+                });
+            }, 180); // flash every 180ms
         }
 
         introTl.to(charI, { opacity: 1, filter: "blur(0px)", duration: charDur, stagger: stg, ease: "power2.out" })
@@ -2195,6 +2281,12 @@
         function revealHero(speed = 1.0) {
             if (revealHeroHasRun) return;
             revealHeroHasRun = true;
+            
+            if (window.preloaderMontageInterval) {
+                clearInterval(window.preloaderMontageInterval);
+                const montage = document.getElementById('preloader-montage');
+                if(montage) gsap.to(montage, {opacity: 0, duration: 0.3});
+            }
 
             const d = 1.5 * speed; // slightly longer for the spatial feel
 
@@ -2210,6 +2302,9 @@
                     preloaderContent.style.display = 'none';
                     preloaderBg.style.display = 'none';
                     gsap.set(['#main-nav-container', '#top-ribbon'], { clearProps: "filter" });
+                    document.body.classList.remove('overflow-hidden');
+                    document.body.classList.add('overflow-x-hidden');
+                    if (typeof lenis !== 'undefined') lenis.start();
                 }
             });
 
@@ -3129,7 +3224,7 @@
             // -------------------------------------------------------------------------
             const tEpilogue = 31.5;
             aboutTl.to('#epilogue-quote', {
-                opacity: 0.4,
+                opacity: 0.9,
                 duration: 1.0,
                 ease: "power2.out"
             }, tEpilogue);
@@ -3275,6 +3370,14 @@
         const stackArea = document.getElementById('stack-area');
         let stackOpenIdx = -1;
 
+        // Close card if clicking outside of any stack-card
+        document.addEventListener('click', (e) => {
+            if (stackOpenIdx !== -1 && !e.target.closest('.stack-card')) {
+                stackOpenIdx = -1;
+                updateStack(false);
+            }
+        });
+
         function renderStack() {
             if(!stackArea) return;
             stackArea.innerHTML = '';
@@ -3295,53 +3398,68 @@
                 card.style.transformOrigin = 'center center';
                 card.style.transform = `rotate(${initialTilt}deg)`;
                 
-                let pointsHtml = c.points.map(p => `
+                let pointsHtml = c.points.map(p => {
+                    const styledP = p.replace(/<strong class="[^"]*">/g, '<strong class="font-bold underline decoration-[1.5px] underline-offset-4 tracking-wide text-[105%]">');
+                    return `
                     <div class="flex gap-4 md:gap-5 items-start mb-5 md:mb-6">
-                        <div class="w-2 h-2 rounded-none mt-1.5 flex-shrink-0 ${theme.dot} shadow-sm border border-black/10"></div>
-                        <div class="font-['DM_Sans'] text-[13px] md:text-[15px] font-[500] leading-[1.7] opacity-100 max-w-[90%] md:max-w-[85%] text-current drop-shadow-sm">${p}</div>
+                        <div class="w-[5px] h-[5px] rounded-none mt-2.5 flex-shrink-0 bg-current opacity-60"></div>
+                        <div class="font-['DM_Sans'] text-[14px] md:text-[15px] font-[500] leading-[1.8] text-justify opacity-100 w-full pr-4 md:pr-8 text-current drop-shadow-sm">${styledP}</div>
                     </div>
-                `).join('');
+                `}).join('');
 
                 let statsHtml = c.stats.map(s => `
-                    <div class="flex flex-col border-l-[3px] ${theme.border} pl-4 md:pl-5">
-                        <span class="font-['Bebas_Neue'] text-3xl md:text-5xl tracking-wide leading-none mb-1 mt-1 drop-shadow-sm">${s.num}</span>
-                        <span aria-hidden="true" class="font-['Schoolbell'] text-[9px] md:text-[10px] uppercase tracking-widest opacity-80 font-bold">${s.label}</span>
+                    <div class="flex flex-col border-l-[2px] ${theme.border} pl-4 md:pl-5 mb-6">
+                        <span class="font-['Bebas_Neue'] text-4xl md:text-5xl tracking-wide leading-none mb-1 mt-0 drop-shadow-sm">${s.num}</span>
+                        <span aria-hidden="true" class="font-['Schoolbell'] text-[10px] md:text-[11px] uppercase tracking-widest opacity-80 font-bold">${s.label}</span>
                     </div>
                 `).join('');
                 
                 card.innerHTML = `
                     <!-- Dossier Background Elements -->
                     <div class="absolute inset-0 opacity-[0.05] pointer-events-none mix-blend-multiply bg-[url('data:image/svg+xml,%3Csvg viewBox=%220 0 200 200%22 xmlns=%22http://www.w3.org/2000/svg%22%3E%3Cfilter id=%22noiseFilter%22%3E%3CfeTurbulence type=%22fractalNoise%22 baseFrequency=%220.85%22 numOctaves=%223%22 stitchTiles=%22stitch%22/%3E%3C/filter%3E%3Crect width=%22100%25%22 height=%22100%25%22 filter=%22url(%23noiseFilter)%22/%3E%3C/svg%3E')]"></div>
-                    <div class="absolute top-4 right-4 md:top-6 md:right-6 pointer-events-none flex items-center gap-3 relative z-20">
-                        <span class="font-['DM_Mono'] text-[14px] md:text-[16px] tracking-[-0.1em] font-bold opacity-30 hidden sm:block">||||| | ||| ||</span>
-                        <span class="expand-icon font-['Schoolbell'] text-[10px] md:text-[12px] uppercase tracking-widest border border-current/30 px-2 py-1 opacity-80 group-hover:opacity-100 transition-opacity pointer-events-auto">EXPAND +</span>
-                    </div>
                     
-                    <div aria-hidden="true" class="flex justify-between items-center mb-1 font-bold text-[9px] md:text-[10px] uppercase tracking-widest opacity-80 group relative z-10 w-[60%] sm:w-[70%]">
-                        <div class="flex gap-3 md:gap-4 items-center">
-                            <span>${c.company}</span>
-                            <span class="opacity-50">|</span>
-                            <span>${c.duration}</span>
+                    <div class="flex justify-between items-start w-full relative z-20 gap-4 mb-2 pr-2 md:pr-4">
+                        <div aria-hidden="true" class="font-['Bebas_Neue'] text-xl md:text-2xl uppercase tracking-wider opacity-90">
+                            ${c.company}
+                        </div>
+                        
+                        <div class="flex items-center gap-3 shrink-0 pointer-events-none">
+                            <span class="font-['DM_Mono'] text-[12px] md:text-[14px] tracking-widest font-bold opacity-30 hidden md:block mt-1">||||| | ||| ||</span>
+                            <div class="w-8 md:w-12 h-3 md:h-4 bg-current opacity-80"></div>
                         </div>
                     </div>
-                    <div class="w-full h-[1px] ${theme.divider} opacity-30 mb-3 mt-2 relative z-10"></div>
-                    <div class="font-['Schoolbell'] text-5xl md:text-6xl leading-[1.2] text-current mb-4 mt-2 capitalize transform -rotate-[1deg] relative z-10">${c.role}</div>
+                    
+                    <div class="w-full h-[1px] ${theme.divider} opacity-20 mb-3 mt-1 relative z-10"></div>
+                    
+                    <div class="flex justify-between items-end w-full relative z-20 mb-4 pr-2 md:pr-4">
+                        <div class="font-['Schoolbell'] text-5xl md:text-6xl leading-[1.1] text-current capitalize transform -rotate-[1deg]">${c.role}</div>
+                        <div class="font-['DM_Sans'] text-[11px] md:text-[13px] font-bold uppercase tracking-normal opacity-60 mb-2 pl-2">// ${c.duration}</div>
+                    </div>
                     
                     <div class="card-expand mt-0 relative z-10">
-                        <!-- Status Stamp -->
-                        <div class="absolute bottom-6 right-2 md:right-6 font-['Schoolbell'] text-[30px] md:text-[40px] text-current opacity-[0.15] transform -rotate-[15deg] uppercase border-[3px] border-current px-4 py-1 leading-none pointer-events-none mix-blend-overlay font-bold">Archived</div>
-                        <div class="w-full h-[2px] ${theme.divider} opacity-20 mt-6 mb-8"></div>
-                        <div class="flex flex-col mb-6">
-                            ${pointsHtml}
-                        </div>
-                        <div class="w-full h-[1px] ${theme.divider} opacity-20 mb-6"></div>
-                        <div class="flex gap-8 flex-wrap pb-4">
-                            ${statsHtml}
-                        </div>
-                        <div class="w-full flex justify-center mt-2 pb-2">
-                            <span aria-hidden="true" class="font-['Schoolbell'] text-[9px] md:text-[10px] font-bold uppercase tracking-widest opacity-50 border-b border-current/30 pb-1 hover:opacity-100 transition-opacity">
-                                [ Click anywhere to close ]
-                            </span>
+                        <div class="w-full h-[1px] ${theme.divider} opacity-20 mt-2 mb-6 md:mb-8"></div>
+                        
+                        <div class="flex flex-col md:flex-row gap-8 md:gap-12 w-full relative z-10">
+                            <!-- Left Column: Points -->
+                            <div class="flex flex-col flex-[2] md:w-[65%] pr-0 md:pr-4">
+                                ${pointsHtml}
+                                
+                                <div class="w-full flex justify-center mt-4 pb-2">
+                                    <span aria-hidden="true" class="font-['Schoolbell'] text-[9px] md:text-[10px] font-bold uppercase tracking-widest opacity-50 border-b border-current/30 pb-1 hover:opacity-100 transition-opacity">
+                                        [ CLICK ANYWHERE TO CLOSE ]
+                                    </span>
+                                </div>
+                            </div>
+                            
+                            <!-- Right Column: Stats -->
+                            <div class="flex flex-col flex-[1] md:w-[35%] pt-2 relative">
+                                <!-- Status Stamp -->
+                                <div class="absolute bottom-4 right-0 font-['Schoolbell'] text-[40px] md:text-[50px] text-current opacity-[0.12] transform -rotate-[15deg] uppercase border-[4px] border-current px-4 py-1 leading-none pointer-events-none mix-blend-overlay font-bold z-0">Archived</div>
+                                
+                                <div class="relative z-10">
+                                    ${statsHtml}
+                                </div>
+                            </div>
                         </div>
                     </div>
                 `;
@@ -3597,7 +3715,7 @@
                         </div>
 
                         <!-- Right Context Handwritten Note -->
-                        <div class="hidden xl:block absolute right-[5%] bottom-[25%] font-['Caveat'] text-[32px] text-[#051024] rotate-3 z-30 leading-tight">
+                        <div class="hidden xl:block absolute right-[5%] bottom-[25%] font-['Gloria_Hallelujah'] text-[32px] text-[#051024] rotate-3 z-30 leading-tight">
                             <svg class="absolute -left-16 -top-2 w-16 h-16 text-[#051024] -rotate-[160deg] opacity-50" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><path d="M22 12H2"/><path d="M14 20l8-8-8-8"/></svg>
                             <span class="bg-yellow-200/60 mix-blend-multiply px-2 py-1">Engagement shifted.</span><br>
                             Followers went from <br>passive to active distributors.
@@ -3704,26 +3822,26 @@
                     <div class="relative w-full max-w-4xl mx-auto mt-32 mb-40 reveal-blur" style="transition-delay: 0.4s;">
                         <!-- Top Left Annotation (Points to Card 1) -->
                         <div class="hidden lg:flex absolute -top-24 left-0 w-48 flex-col items-center gap-1 z-40 transform -translate-x-8">
-                            <p class="font-['Caveat'] text-2xl text-[#051024] leading-tight text-center font-semibold">Positioned RNTL as a legitimate industry player from Day 1.</p>
+                            <p class="font-['Gloria_Hallelujah'] text-2xl text-[#051024] leading-tight text-center font-semibold">Positioned RNTL as a legitimate industry player from Day 1.</p>
                             <svg class="w-8 h-10 text-[#051024] mt-1" viewBox="0 0 24 32" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2 C 8 12, 16 22, 12 30" /><path d="M6 24 L 12 30 L 18 24" /></svg>
                         </div>
                         
                         <!-- Top Right Annotation (Points to Card 5) -->
                         <div class="hidden lg:flex absolute -top-24 right-0 w-48 flex-col items-center gap-1 z-40 transform translate-x-8">
-                            <p class="font-['Caveat'] text-2xl text-[#051024] leading-tight text-center font-semibold">Defined flow & interaction convo for narrative consistency.</p>
+                            <p class="font-['Gloria_Hallelujah'] text-2xl text-[#051024] leading-tight text-center font-semibold">Defined flow & interaction convo for narrative consistency.</p>
                             <svg class="w-8 h-10 text-[#051024] mt-1" viewBox="0 0 24 32" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2 C 16 12, 8 22, 12 30" /><path d="M6 24 L 12 30 L 18 24" /></svg>
                         </div>
 
                         <!-- Bottom Left Annotation (Points to Card 2) -->
                         <div class="hidden lg:flex absolute -bottom-28 left-[20%] w-56 flex-col items-center gap-1 z-40 transform -translate-x-4">
                             <svg class="w-8 h-10 text-[#051024] mb-1" viewBox="0 0 24 32" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 30 C 8 20, 16 10, 12 2" /><path d="M6 8 L 12 2 L 18 8" /></svg>
-                            <p class="font-['Caveat'] text-2xl text-[#051024] leading-tight text-center font-semibold">Removed consumer fear of "is this brand trustable?" via borrowed equity.</p>
+                            <p class="font-['Gloria_Hallelujah'] text-2xl text-[#051024] leading-tight text-center font-semibold">Removed consumer fear of "is this brand trustable?" via borrowed equity.</p>
                         </div>
 
                         <!-- Bottom Right Annotation (Points to Card 4) -->
                         <div class="hidden lg:flex absolute -bottom-28 right-[20%] w-56 flex-col items-center gap-1 z-40 transform translate-x-4">
                             <svg class="w-8 h-10 text-[#051024] mb-1" viewBox="0 0 24 32" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 30 C 16 20, 8 10, 12 2" /><path d="M6 8 L 12 2 L 18 8" /></svg>
-                            <p class="font-['Caveat'] text-2xl text-[#051024] leading-tight text-center font-semibold">Planned Q&A and SKU integration to endorse renting.</p>
+                            <p class="font-['Gloria_Hallelujah'] text-2xl text-[#051024] leading-tight text-center font-semibold">Planned Q&A and SKU integration to endorse renting.</p>
                         </div>
 
                         <!-- Interactive Circle on the right (from screenshot) -->
@@ -3880,7 +3998,7 @@
                         </div>
                         
                         <!-- Handwritten Annotation floating outside -->
-                        <div class="absolute bottom-8 left-[10%] hidden xl:block font-['Caveat'] font-medium text-[32px] text-[#F4EFE6] -rotate-6 z-30 opacity-90 drop-shadow-lg pointer-events-none">
+                        <div class="absolute bottom-8 left-[10%] hidden xl:block font-['Gloria_Hallelujah'] font-medium text-[32px] text-[#F4EFE6] -rotate-6 z-30 opacity-90 drop-shadow-lg pointer-events-none">
                             Social proof scaled the conversion.
                             <svg class="absolute -top-8 right-[-50px] w-16 h-16 text-[#F4EFE6] opacity-80" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="M12 5l7 7-7 7"/></svg>
                         </div>
@@ -4409,6 +4527,16 @@
         const backToTransitBtn = document.getElementById('back-to-transit-btn');
         const progressText = document.getElementById('transit-progress-text');
         
+        // Close case study when clicking outside the content card
+        if (transitCsView && backToTransitBtn) {
+            transitCsView.addEventListener('click', (e) => {
+                // If the user clicked exactly on the background overlay, not inside the card
+                if (e.target === transitCsView) {
+                    backToTransitBtn.click();
+                }
+            });
+        }
+        
         let exploredTransit = new Set();
         
         const dmrcStations = ["NORTH CAMPUS", "GTB NAGAR", "VISHWAVIDYALAYA", "KASHMERE GATE", "RAJIV CHOWK", "RNTL TERMINAL"];
@@ -4857,6 +4985,8 @@
 
             if (typeof lenis !== 'undefined') lenis.stop();
             document.body.style.overflow = 'hidden';
+            document.documentElement.style.overflow = 'hidden';
+            document.body.style.touchAction = 'none';
 
             if (isAudioInit && typeof arrivalSynth !== 'undefined') arrivalSynth.triggerAttackRelease(["E4", "G4", "C5"], "8n");
             
@@ -4870,47 +5000,31 @@
             transitCsContent.style.borderColor = textHex;
             transitCsContent.style.boxShadow = `16px 16px 0px ${textHex}`;
             
-            // Show the square card overlay coming from the bottom
-            const overlay = document.createElement('div');
-            overlay.id = 'step-out-overlay';
-            overlay.className = 'fixed inset-0 z-[9998] transform translate-y-full';
-            overlay.style.backgroundColor = bgHex;
-            document.body.appendChild(overlay);
-
-            gsap.to(overlay, { 
-                y: "0%", 
-                duration: 0.6, 
-                ease: "power3.inOut",
-                onComplete: () => {
-                    // Instantly swap visibility while covered
+            transitCsView.classList.remove('hidden');
+            
+            // Fast, smooth fade + scale up
+            gsap.fromTo(transitCsView, 
+                { opacity: 0, scale: 0.96, y: 20 }, 
+                { opacity: 1, scale: 1, y: 0, duration: 0.4, ease: "power2.out", onComplete: () => {
+                    // Hide map behind it once fully visible
                     gsap.set(transitMapView, { height: 0, opacity: 0 });
                     transitMapView.classList.add('hidden');
-                    transitCsView.classList.remove('hidden');
                     
-                    // Fade case study up slightly as overlay reveals it
-                    gsap.fromTo(transitCsView, 
-                        { opacity: 0, y: 30 }, 
-                        { opacity: 1, y: 0, duration: 0.5, ease: "power3.out", onComplete: () => {
-                            if (typeof ScrollTrigger !== 'undefined') {
-                                ScrollTrigger.refresh();
-                                const revealElements = transitCsContent.querySelectorAll('.reveal-text, .reveal-blur, .mockup-scene');
-                                revealElements.forEach((el) => {
-                                    ScrollTrigger.create({
-                                        trigger: el,
-                                        scroller: transitCsView,
-                                        start: "top 90%",
-                                        toggleClass: "is-visible",
-                                        once: false
-                                    });
-                                });
-                            }
-                        }}
-                    );
-                    
-                    // Slide overlay out to top (or just fade it)
-                    gsap.to(overlay, { opacity: 0, duration: 0.3, onComplete: () => overlay.remove() });
-                }
-            });
+                    if (typeof ScrollTrigger !== 'undefined') {
+                        ScrollTrigger.refresh();
+                        const revealElements = transitCsContent.querySelectorAll('.reveal-text, .reveal-blur, .mockup-scene');
+                        revealElements.forEach((el) => {
+                            ScrollTrigger.create({
+                                trigger: el,
+                                scroller: transitCsView,
+                                start: "top 90%",
+                                toggleClass: "is-visible",
+                                once: false
+                            });
+                        });
+                    }
+                }}
+            );
             
             if (typeof triggerExploration === 'function') triggerExploration(`transit_project_${data.id}`);
         };
@@ -4919,6 +5033,8 @@
             backToTransitBtn.addEventListener('click', () => {
                 if (typeof lenis !== 'undefined') lenis.start();
                 document.body.style.overflow = '';
+                document.documentElement.style.overflow = '';
+                document.body.style.touchAction = '';
                 if (isAudioInit && typeof popSynth !== 'undefined') popSynth.triggerAttackRelease("C4", "8n");
                 
                 // Clear dynamic triggers
@@ -4928,25 +5044,18 @@
                     });
                 }
 
-                // Create overlay to cover again
-                const overlay = document.createElement('div');
-                overlay.id = 'step-out-overlay';
-                overlay.className = 'fixed inset-0 bg-[#F4EFE6] z-[9998] transform translate-y-full opacity-0';
-                document.body.appendChild(overlay);
-
-                gsap.to(overlay, { 
-                    y: "0%", opacity: 1, duration: 0.4, ease: "power3.inOut",
-                    onComplete: () => {
+                transitMapView.classList.remove('hidden');
+                gsap.set(transitMapView, { height: '100%', opacity: 1, scale: 0.98 });
+                
+                // Animate map view back up slightly
+                gsap.to(transitMapView, { scale: 1, duration: 0.4, ease: "power2.out" });
+                
+                // Swiftly fade out the case study
+                gsap.to(transitCsView, { 
+                    opacity: 0, scale: 0.98, y: 15, duration: 0.3, ease: "power2.in", onComplete: () => {
                         transitCsView.classList.add('hidden');
                         transitCsContent.innerHTML = '';
-                        
-                        transitMapView.classList.remove('hidden');
-                        gsap.set(transitMapView, { height: '100%', opacity: 1 });
-                        
-                        gsap.to(overlay, { y: "100%", duration: 0.5, ease: "power3.inOut", onComplete: () => {
-                            overlay.remove();
-                            if (typeof ScrollTrigger !== 'undefined') ScrollTrigger.refresh();
-                        }});
+                        if (typeof ScrollTrigger !== 'undefined') ScrollTrigger.refresh();
                     }
                 });
             });
