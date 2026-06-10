@@ -29,6 +29,31 @@
     <link href="https://fonts.cdnfonts.com/css/open-sauce-one" rel="stylesheet">
 
     <style>
+        /* === RESIZE SAFETY: OVERFLOW GUARD === */
+        html, body {
+            overflow-x: hidden;
+            max-width: 100vw;
+        }
+        #world-viewport {
+            overflow-x: hidden !important;
+        }
+        #world-container {
+            overflow-x: hidden;
+            max-width: 100%;
+            min-width: 1024px;
+        }
+        section {
+            overflow-x: hidden;
+        }
+
+        /* === TYPOGRAPHY RESIZE CLAMPS === */
+        #gallery-sticky-wrap h2 span { font-size: clamp(120px, 20vw, 360px) !important; }
+        #contact h2 span { font-size: clamp(80px, 13vw, 220px) !important; }
+        #vending .absolute.top-10 span:first-child { font-size: clamp(48px, 7vw, 100px) !important; }
+        #vending .absolute.top-10 span:last-child { font-size: clamp(56px, 8vw, 120px) !important; }
+        .font-\[\'Schoolbell\'\].text-\[70px\] { font-size: clamp(48px, 6vw, 90px) !important; }
+        #experience h2 { font-size: clamp(72px, 10vw, 180px) !important; }
+
         /* Accessibility: Reduced Motion */
         @media (prefers-reduced-motion: reduce) {
             *, ::before, ::after {
@@ -566,7 +591,7 @@
         .brutal-tag { font-family: 'Schoolbell', cursive; font-size: 12px; font-weight: 800; letter-spacing: 0.1em; text-transform: uppercase; border: 4px solid var(--text-color); padding: 6px 12px; background: transparent; color: var(--text-color); }
         .brutal-hook { font-family: 'Inter', sans-serif; font-weight: 900; font-size: clamp(24px, 4vw, 36px); line-height: 1.1; letter-spacing: -0.04em; border-left: 12px solid var(--text-color); padding-left: 2rem; margin: 3rem 0; color: var(--text-color); }
         
-        .brutal-split { display: grid; grid-template-columns: 1fr 1fr; border: 8px solid var(--text-color); margin: 3rem 0; }
+        .brutal-split { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); border: 8px solid var(--text-color); margin: 3rem 0; }
         @media (max-width: 768px) { .brutal-split { grid-template-columns: 1fr; } }
         .brutal-split-left, .brutal-split-right { padding: 3rem; display: flex; flex-direction: column; }
         .brutal-split-left { border-right: 8px solid var(--text-color); background: var(--bg-color); color: var(--text-color); }
@@ -575,7 +600,7 @@
         .brutal-split-title { font-family: 'Schoolbell', cursive; font-size: 16px; font-weight: 800; text-transform: uppercase; border-bottom: 4px solid currentColor; padding-bottom: 8px; margin-bottom: 1.5rem; letter-spacing: 0.1em; }
         .brutal-split-body { font-family: 'Inter', sans-serif; font-weight: 900; font-size: 24px; line-height: 1.2; letter-spacing: -0.02em; }
         
-        .brutal-grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); border: 8px solid var(--text-color); margin: 2rem 0; }
+        .brutal-grid-3 { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); border: 8px solid var(--text-color); margin: 2rem 0; }
         .brutal-grid-2 { display: grid; grid-template-columns: repeat(2, 1fr); border: 8px solid var(--text-color); margin: 2rem 0; }
         @media (max-width: 768px) { .brutal-grid-3, .brutal-grid-2 { grid-template-columns: 1fr; } }
         .brutal-grid-item { padding: 2rem; border-right: 8px solid var(--text-color); border-bottom: 8px solid var(--text-color); display: flex; flex-direction: column; color: var(--text-color); }
@@ -1532,7 +1557,7 @@
                         </div>
 
                         <!-- TRANSIT IMMERSIVE WORLD -->
-                        <div id="transit-map-view" class="absolute top-0 bottom-0 -left-[3vw] w-[106vw] h-full z-20 overflow-hidden pointer-events-auto scale-[0.95] origin-bottom">
+                        <div id="transit-map-view" class="absolute top-0 bottom-0 left-0 w-full h-full z-20 overflow-hidden pointer-events-auto origin-bottom" style="transform: scale(0.95) translateX(-1.5%); width: 103%; left: -1.5%;">
                             
                             <!-- Route Map moved to Billboard Structure -->
 
@@ -2404,11 +2429,7 @@
             }
         }
 
-        window.addEventListener('resize', () => {
-            if (!isWarping) {
-                updateNavState(currentActiveId, true);
-            }
-        });
+        // Old resize listener removed (moved to central manager)
         
         if (document.fonts) {
             document.fonts.ready.then(() => updateNavState('hero', true));
@@ -2906,7 +2927,7 @@
                 rotationX: 8,       
                 rotationY: -3,      
                 rotationZ: 0, 
-                scale: window.innerWidth > 768 ? 1.35 : 1.15, 
+                scale: () => window.innerWidth > 1024 ? 1.35 : (window.innerWidth > 768 ? 1.25 : 1.15), 
                 yPercent: 16,       // Camera focuses UP to the note
                 xPercent: 5,        // Camera focuses LEFT to the note
                 duration: 2.5, ease: "power2.inOut"
@@ -2929,14 +2950,14 @@
             aboutTl.to('.map-line-path', { strokeDashoffset: 0, duration: 21.0, ease: "none" }, 2.5);
 
             // Constant tight zoom for smooth documentary tracking
-            const steadyZoom = window.innerWidth > 768 ? 1.65 : 1.40;
-            const page2Zoom = window.innerWidth > 768 ? 1.80 : 1.50;
+            const getSteadyZoom = () => window.innerWidth > 1024 ? 1.65 : (window.innerWidth > 768 ? 1.55 : 1.40);
+            const getPage2Zoom = () => window.innerWidth > 1024 ? 1.80 : (window.innerWidth > 768 ? 1.65 : 1.50);
             
             // Smoothly push in to the steady zoom right as the blueprint begins
-            aboutTl.to('#notebook-container', { scale: steadyZoom, duration: 2.5, ease: "power2.inOut" }, 1.5);
+            aboutTl.to('#notebook-container', { scale: getSteadyZoom, duration: 2.5, ease: "power2.inOut" }, 1.5);
             
             // Push in even further for an intimate view when transitioning to the 2nd page
-            aboutTl.to('#notebook-container', { scale: page2Zoom, duration: 3.5, ease: "power2.inOut" }, 10.0);
+            aboutTl.to('#notebook-container', { scale: getPage2Zoom, duration: 3.5, ease: "power2.inOut" }, 10.0);
 
             // -------------------------------------------------------------------------
             // THE JOURNEY TIMELINE (Synchronized perfectly with the drawn line tip)
@@ -3108,7 +3129,7 @@
 
             // The Camera: cinematically pulls back and pans to absolute center (0, 0)
             aboutTl.to('#notebook-container', {
-                scale: window.innerWidth > 768 ? 1.0 : 0.8, // Centered framing scale
+                scale: () => window.innerWidth > 1024 ? 1.0 : (window.innerWidth > 768 ? 0.9 : 0.8), // Centered framing scale
                 xPercent: 0,
                 yPercent: 0,
                 rotationX: 0,
@@ -3444,12 +3465,14 @@
 
         function updateStack(immediate = false) {
             if(!stackArea) return;
-            const STACK_GAP = window.innerWidth > 768 ? 95 : 75;
-            const els = stackArea.querySelectorAll('.stack-card');
             
-            // Increased push amount to make room for the much larger typography
-            const pushAmount = window.innerWidth > 768 ? 320 : 380; 
-            const collapsedCardBaseHeight = window.innerWidth > 768 ? 160 : 140; 
+            // Fluid stack values — scale proportionally with viewport
+            const vw = window.innerWidth;
+            const STACK_GAP = Math.round(75 + Math.max(0, Math.min(1, (vw - 768) / (1920 - 768))) * 20);   // 75 at 768px → 95 at 1920px
+            const pushAmount = Math.round(380 + Math.max(0, Math.min(1, (vw - 768) / (1920 - 768))) * -60); // 380 at 768px → 320 at 1920px
+            const collapsedCardBaseHeight = Math.round(140 + Math.max(0, Math.min(1, (vw - 768) / (1920 - 768))) * 20); // 140→160
+            
+            const els = stackArea.querySelectorAll('.stack-card');
             
             els.forEach((el, i) => {
                 const tilt = i % 2 === 0 ? -2.0 : 2.0;
@@ -3492,7 +3515,7 @@
         }
 
         renderStack();
-        window.addEventListener('resize', () => { if(document.getElementById('stack-area')) updateStack(true); });
+        // Old resize listener removed (moved to central manager)
 
         // --- INTERACTIVE VENDING & 3D COVERFLOW LOGIC ---
         function buildFlow() {
@@ -4566,10 +4589,10 @@
                 }
 
                 transitMapView.classList.remove('hidden');
-                gsap.set(transitMapView, { height: '100%', opacity: 1, scale: 0.98 });
+                gsap.set(transitMapView, { height: '100%', opacity: 1, scale: 0.90 });
                 
                 // Animate map view back up slightly
-                gsap.to(transitMapView, { scale: 1, duration: 0.4, ease: "power2.out" });
+                gsap.to(transitMapView, { scale: 0.95, duration: 0.4, ease: "power2.out" });
                 
                 // Swiftly fade out the case study
                 gsap.to(transitCsView, { 
@@ -4720,10 +4743,10 @@
                         </div>
 
                         <!-- THE MOUNTED BILLBOARD ASSEMBLY -->
-                        <div class="relative flex flex-col items-center w-[95%] md:w-[1035px] max-w-[95%] z-[50] group mb-2 md:mb-4 -translate-y-[25px]">
+                        <div class="relative flex flex-col items-center w-[95%] md:w-[min(1035px,85%)] max-w-[1100px] z-[50] group mb-2 md:mb-4 -translate-y-[25px]">
                             
                             <!-- Delhi Metro LED Display Board -->
-                            <div class="w-[90%] md:w-[700px] h-[30px] md:h-[40px] bg-[#0A0A0A] border-[3px] border-[#222] border-b-0 rounded-t-[8px] z-[55] flex items-center justify-center overflow-hidden px-4 shadow-[inset_0_4px_15px_rgba(0,0,0,1)] relative self-end mr-[2%] md:mr-[5%]">
+                            <div class="w-[90%] md:w-[min(700px,65%)] h-[30px] md:h-[40px] bg-[#0A0A0A] border-[3px] border-[#222] border-b-0 rounded-t-[8px] z-[55] flex items-center justify-center overflow-hidden px-4 shadow-[inset_0_4px_15px_rgba(0,0,0,1)] relative self-end mr-[2%] md:mr-[5%]">
                                 <!-- Subtle reflection on LED glass -->
                                 <div class="absolute inset-0 bg-gradient-to-b from-white/10 to-transparent pointer-events-none"></div>
                                 <div class="text-[#FFB000] font-['DM_Mono'] text-[9px] md:text-[13px] font-bold tracking-widest uppercase w-full text-center whitespace-nowrap" style="text-shadow: 0 0 8px rgba(255,176,0,0.9);">
@@ -5199,6 +5222,61 @@
         }, { threshold: 0.8 });
         
         document.querySelectorAll('.spread-deck, .spread-reels').forEach(el => spreadObserver.observe(el));
+
+        // =====================================================
+        // RESIZE SAFETY MANAGER
+        // =====================================================
+        (function initResizeSafetyManager() {
+            let resizeTimer = null;
+            const DEBOUNCE_MS = 150; // Wait for resize to settle
+
+            function onResizeSettled() {
+                const vw = window.innerWidth;
+
+                // 1. Refresh ALL ScrollTrigger instances
+                if (typeof ScrollTrigger !== 'undefined') {
+                    ScrollTrigger.refresh();
+                }
+
+                // 2. Recalculate stack cards with new viewport
+                const stackArea = document.getElementById('stack-area');
+                if (stackArea && typeof updateStack === 'function') {
+                    updateStack(true);
+                }
+
+                // 3. Recalculate nav indicator position
+                if (typeof updateNavState === 'function' && typeof currentActiveId !== 'undefined' && typeof isWarping !== 'undefined' && !isWarping) {
+                    updateNavState(currentActiveId, true);
+                }
+
+                // 4. Force-reset transit map scale on resize
+                const transitMapView = document.getElementById('transit-map-view');
+                if (transitMapView && typeof gsap !== 'undefined') {
+                    gsap.set(transitMapView, { scale: 0.95, clearProps: 'none' });
+                }
+
+                // 5. Clamp gallery image positions to new viewport
+                const galleryImages = document.querySelectorAll('#cursor-trail-canvas img');
+                galleryImages.forEach(img => {
+                    const currentLeft = parseFloat(img.style.left);
+                    const currentTop = parseFloat(img.style.top);
+                    if (currentLeft > vw || currentTop > window.innerHeight) {
+                        img.style.opacity = '0';
+                    }
+                });
+            }
+
+            window.addEventListener('resize', () => {
+                clearTimeout(resizeTimer);
+                resizeTimer = setTimeout(onResizeSettled, DEBOUNCE_MS);
+            });
+
+            document.addEventListener('visibilitychange', () => {
+                if (document.visibilityState === 'visible') {
+                    setTimeout(onResizeSettled, 100);
+                }
+            });
+        })();
     </script>
 </body>
 </html>
