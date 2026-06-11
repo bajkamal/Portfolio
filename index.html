@@ -90,11 +90,12 @@
             .nav-indicator { top: 6px; bottom: 6px; left: 6px; }
         }
         
-        .nav-item { 
-            position: relative; z-index: 1; font-weight: 800; 
-            letter-spacing: 0.1em; color: var(--navy); 
-            transition: color 0.3s ease; text-decoration: none; white-space: nowrap; 
+        .nav-item {
+            position: relative; z-index: 1; font-weight: 800;
+            letter-spacing: 0.1em; color: var(--navy);
+            transition: color 0.3s ease; text-decoration: none; white-space: nowrap;
             flex-shrink: 0;
+            text-shadow: 0 0 0.5px currentColor, 0 0 0.5px currentColor;
         }
         .nav-item.active { color: var(--beige); }
 
@@ -186,9 +187,6 @@
         .animate-rumble {
             animation: rumble 0.15s ease-in-out infinite;
         }
-            transform: scale(1) translateY(0);
-            opacity: 1;
-        }
 
         /* --- DECK & REELS SPREAD ON SCROLL --- */
         @media (min-width: 768px) {
@@ -273,18 +271,51 @@
         }
 
         /* --- STACK TRACE ACCORDION --- */
-        .stack-card { 
+        .stack-card {
             will-change: transform, top;
         }
-        .card-expand { 
+
+        /* Stack card cursor label */
+        #stack-cursor-label {
+            position: fixed;
+            pointer-events: none;
+            z-index: 10003;
+            transform: translate(18px, -50%);
+            opacity: 0;
+            transition: opacity 0.18s ease;
+            will-change: transform, opacity;
+            white-space: nowrap;
+            background: #0a0a0a;
+            color: #ECE8E1;
+            font-family: 'Schoolbell', cursive;
+            font-size: 11px;
+            font-weight: 700;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            padding: 5px 10px;
+            border: 1.5px solid #ECE8E1;
+            box-shadow: 3px 3px 0 #ECE8E1;
+            line-height: 1;
+        }
+        #stack-cursor-label.visible { opacity: 1; }
+
+        @media (hover: none), (max-width: 767px) {
+            #stack-cursor-label { display: none !important; }
+        }
+
+        .card-expand {
             max-height: 0; 
             overflow: hidden; 
             transition: max-height 0.5s cubic-bezier(0.23,1,0.32,1), opacity 0.4s ease, margin-top 0.4s ease; 
             opacity: 0; 
         }
-        .card-expand.open { 
-            max-height: 800px; /* Increased to accommodate much larger typography */
-            opacity: 1; 
+        .card-expand.open {
+            max-height: 1000px;
+            opacity: 1;
+        }
+
+        @media (max-width: 767px) {
+            .card-expand.open { max-height: 1400px; }
         }
 
         /* --- DIARY REALISM STYLES --- */
@@ -708,9 +739,88 @@
         .splayed-deck.is-visible .splayed-card:nth-child(4):hover { transform: translateX(160px) rotate(3deg) translateY(-10px) scale(1) !important; filter: drop-shadow(0 30px 60px rgba(0,0,0,0.8)) saturate(1.1) brightness(1) contrast(1.05) !important; opacity: 1 !important; z-index: 20 !important; }
         .splayed-deck.is-visible .splayed-card:nth-child(5):hover { transform: translateX(320px) rotate(6deg) translateY(-10px) scale(1) !important; filter: drop-shadow(0 30px 60px rgba(0,0,0,0.8)) saturate(1.1) brightness(1) contrast(1.05) !important; opacity: 1 !important; z-index: 20 !important; }
 
+        /* --- PROJECTS BG GLORIA DRIFT --- */
+        @keyframes proj-gloria-drift {
+            0%   { transform: translateX(5vw)  translateY(3vh); }
+            50%  { transform: translateX(-48vw) translateY(-2vh); }
+            100% { transform: translateX(-92vw) translateY(4vh); }
+        }
+
+        /* --- BILLBOARD STATION NAME FLOAT --- */
+        @keyframes billboard-hover {
+            0%   { transform: rotate(-4deg) translateY(0px); }
+            50%  { transform: rotate(-4deg) translateY(-7px); }
+            100% { transform: rotate(-4deg) translateY(0px); }
+        }
+        .billboard-float {
+            animation: billboard-hover 3.8s ease-in-out infinite;
+            will-change: transform;
+        }
+
+        /* ============================================================
+           RESPONSIVE FOUNDATION & DESKTOP/LAPTOP FIDELITY LAYER
+           Added in audit: non-overlapping min-width tiers, fluid type,
+           overflow containment, and geometry-preserving widget scaling.
+           Kept additive so the GSAP/ScrollTrigger pixel choreography is
+           never desynchronised.
+           ============================================================ */
+
+        /* 1. Box model — reaffirm border-box for any non-Tailwind custom DOM. */
+        *, *::before, *::after { box-sizing: border-box; }
+
+        /* 2. Horizontal-overflow containment. Strategic, not a blanket fix:
+           the scroll surface (#world-viewport) already clips X; we reinforce
+           the document root + main flow so transformed/absolute children can
+           never spawn a rogue horizontal scrollbar at any width. */
+        html, body { max-width: 100%; overflow-x: clip; }
+        #world-container { max-width: 100vw; overflow-x: clip; }
+
+        /* 3. Fluid typography for the brutalist case-study section.
+           These were hard px and stopped scaling on laptop/desktop widths,
+           causing undersized display type on large monitors. */
+        .brutal-sub        { font-size: clamp(14px, 1.05vw, 18px); }
+        .brutal-split-body { font-size: clamp(20px, 1.7vw, 30px); }
+        .brutal-num        { font-size: clamp(64px, 6vw, 104px); }
+        .brutal-item-title { font-size: clamp(20px, 1.5vw, 28px); }
+        .brutal-item-desc  { font-size: clamp(13px, 0.95vw, 16px); }
+        .brutal-stat-sub   { font-size: clamp(13px, 0.95vw, 16px); }
+
+        /* 4. Desktop / laptop tiers — clean, non-overlapping min-width ranges.
+           Widgets are scaled at the CONTAINER level so the internal widget +
+           its spread transforms stay geometrically locked together (mirrors
+           the existing mobile scale() pattern). */
+
+        /* 4a. Small laptops / landscape tablets: 1024–1280px.
+           Tighten the spread-heavy widgets so ±300px card throws stay on
+           screen and bounding boxes don't clip the section edges. */
+        @media (min-width: 1024px) and (max-width: 1280px) {
+            .mockup-scene  { transform: scale(0.88); }
+            .splayed-deck  { transform: scale(0.86); }
+        }
+
+        /* 4b. Standard laptops: 1281–1440px — design baseline, no scaling. */
+
+        /* 4c. Large desktops / monitors: 1441–1920px.
+           Scale the standalone widgets up so they read proportionally on
+           bigger canvases instead of floating small in a sea of whitespace. */
+        @media (min-width: 1441px) and (max-width: 1920px) {
+            .mockup-scene  { transform: scale(1.12); }
+            .splayed-deck  { transform: scale(1.12); }
+            .nav-item      { font-size: 0.95rem; }
+        }
+
+        /* 4d. Ultra-wide optimisation: 1921px and up.
+           Cap fluid blow-out and push widget scaling a touch further. */
+        @media (min-width: 1921px) {
+            .mockup-scene  { transform: scale(1.28); }
+            .splayed-deck  { transform: scale(1.28); }
+            .nav-item      { font-size: 1rem; }
+            .brutal-wrap   { max-width: 1800px; margin-inline: auto; }
+        }
+
     </style>
 </head>
-<body class="overflow-hidden selection:bg-[var(--blue)] selection:text-[var(--beige)]">
+<body class="overflow-x-hidden selection:bg-[var(--blue)] selection:text-[var(--beige)]">
 
     <!-- Cinematic HUD / Overlays -->
     <div id="cinematic-vignette"></div>
@@ -722,7 +832,6 @@
 
     <!-- Preloader Layers -->
     <div id="preloader-bg" class="fixed inset-0 bg-[var(--blue)] z-[9999] pointer-events-none will-change-opacity overflow-hidden flex items-center justify-center">
-        <!-- Rapid Image Montage Container -->
         <div id="preloader-montage" class="absolute inset-0 w-full h-full flex items-center justify-center opacity-30 mix-blend-screen pointer-events-none"></div>
     </div>
     <div id="preloader-content" class="fixed inset-0 flex flex-col justify-center items-center z-[10000] pointer-events-none w-full max-w-[1500px] mx-auto px-4 sm:px-8 lg:px-12 overflow-hidden">
@@ -730,10 +839,11 @@
         <div id="loader-container" class="absolute bottom-6 left-6 md:bottom-12 md:left-12 z-[10001] flex flex-col items-start border-l-[4px] border-[var(--beige)] pl-4 md:pl-6">
             <div class="flex items-baseline gap-3">
                 <div class="font-['Teko'] text-[var(--beige)] text-6xl md:text-[100px] leading-[0.75] font-bold tabular-nums tracking-wide" id="loading-progress">00%</div>
-                <div id="loading-dot" class="w-3 h-3 bg-[#FF3333] mb-2 animate-pulse shadow-[0_0_10px_rgba(255,51,51,0.8)] transition-colors duration-300"></div>
+                <div id="loader-dot" class="w-3 h-3 bg-[#FF3333] mb-2 animate-pulse shadow-[0_0_10px_rgba(255,51,51,0.8)] transition-all duration-500"></div>
             </div>
+            <!-- Loading Bar -->
             <div class="w-[140px] md:w-[180px] h-[16px] md:h-[20px] border-[2px] border-[var(--beige)] mt-3 md:mt-4 p-[2px] relative flex shrink-0">
-                <div id="loading-bar" class="h-full bg-[var(--beige)] w-0"></div>
+                <div id="loader-bar" class="h-full bg-[var(--beige)] w-0"></div>
             </div>
         </div>
 
@@ -770,17 +880,18 @@
     <!-- Cursor Elements -->
     <div id="cursor-core" class="fixed top-0 left-0 w-2 h-2 bg-white rounded-full pointer-events-none z-[10002] mix-blend-difference will-change-transform"></div>
     <div id="cursor-trail-container" class="fixed top-0 left-0 w-full h-full pointer-events-none z-[10001] mix-blend-difference overflow-visible"></div>
+    <div id="stack-cursor-label">Click to expand</div>
 
     <!-- Floating Brutalist Nav -->
     <div class="fixed bottom-8 left-1/2 -translate-x-1/2 z-50 pointer-events-none opacity-0 flex justify-center w-full" id="main-nav-container">
         <nav class="nav-brutal pointer-events-auto w-max" id="main-nav">
             <div class="nav-indicator" id="nav-indicator"></div>
-            <a href="#hero" class="focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#0F35FF] nav-item active cursor-hover nav-link-route px-3 py-2 text-[12px] sm:px-4 md:px-5 md:py-2.5 md:text-[14px] font-bold font-['Gloria_Hallelujah']">Home</a>
-            <a href="#about" class="focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#0F35FF] nav-item cursor-hover nav-link-route px-3 py-2 text-[12px] sm:px-4 md:px-5 md:py-2.5 md:text-[14px] font-bold font-['Schoolbell']">Origin</a>
-            <a href="#experience" class="focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#0F35FF] nav-item cursor-hover nav-link-route px-3 py-2 text-[12px] sm:px-4 md:px-5 md:py-2.5 md:text-[14px] font-bold font-['Gloria_Hallelujah']">Projects</a>
-            <a href="#vending" class="focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#0F35FF] nav-item cursor-hover nav-link-route px-3 py-2 text-[12px] sm:px-4 md:px-5 md:py-2.5 md:text-[14px] font-bold font-['Schoolbell']">Best Work</a>
-            <a href="#gallery" class="focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#0F35FF] nav-item cursor-hover nav-link-route px-3 py-2 text-[12px] sm:px-4 md:px-5 md:py-2.5 md:text-[14px] font-bold font-['Gloria_Hallelujah']">Visuals</a>
-            <a href="#contact" class="focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#0F35FF] nav-item cursor-hover nav-link-route px-3 py-2 text-[12px] sm:px-4 md:px-5 md:py-2.5 md:text-[14px] font-bold font-['Schoolbell']">Let's talk</a>
+            <a href="#hero" class="focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#0F35FF] nav-item active cursor-hover nav-link-route px-3 py-2 text-[12px] sm:px-4 md:px-5 md:py-2.5 md:text-[14px] font-['Gloria_Hallelujah']">Home</a>
+            <a href="#about" class="focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#0F35FF] nav-item cursor-hover nav-link-route px-3 py-2 text-[12px] sm:px-4 md:px-5 md:py-2.5 md:text-[14px] font-['Schoolbell']">Origin</a>
+            <a href="#experience" class="focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#0F35FF] nav-item cursor-hover nav-link-route px-3 py-2 text-[12px] sm:px-4 md:px-5 md:py-2.5 md:text-[14px] font-['Gloria_Hallelujah']">Projects</a>
+            <a href="#vending" class="focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#0F35FF] nav-item cursor-hover nav-link-route px-3 py-2 text-[12px] sm:px-4 md:px-5 md:py-2.5 md:text-[14px] font-['Schoolbell']">Best Work</a>
+            <a href="#gallery" class="focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#0F35FF] nav-item cursor-hover nav-link-route px-3 py-2 text-[12px] sm:px-4 md:px-5 md:py-2.5 md:text-[14px] font-['Gloria_Hallelujah']">Visuals</a>
+            <a href="#contact" class="focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#0F35FF] nav-item cursor-hover nav-link-route px-3 py-2 text-[12px] sm:px-4 md:px-5 md:py-2.5 md:text-[14px] font-['Schoolbell']">Contact</a>
 
             <!-- Internal Cinematic Timeline -->
             <div id="nav-timeline-track" class="absolute inset-0 z-0 pointer-events-none opacity-0 flex flex-col justify-center overflow-hidden bg-[var(--blue)]">
@@ -799,12 +910,18 @@
 
     <!-- Top Ribbon System HUD -->
     <header id="top-ribbon" class="fixed top-0 left-0 w-full z-40 h-10 md:h-12 flex border-b-[2px] border-[#0a0a0a] bg-[var(--beige)] font-['Schoolbell'] text-[12px] opacity-0 pointer-events-none">
+
+        <!-- Left: Name -->
         <div class="flex items-center justify-center px-6 md:px-12 bg-[#0a0a0a] text-white border-r-[2px] border-[#0a0a0a] pointer-events-auto font-bold tracking-[0.1em] whitespace-nowrap font-['Gloria_Hallelujah'] text-[13px]">
             Bajkamal Singh AKA Baaz
         </div>
+
+        <!-- Center: Rotating Quotes -->
         <div class="flex-grow flex items-center justify-start md:justify-center px-4 bg-[var(--beige)] border-r-[2px] border-[#0a0a0a] pointer-events-auto overflow-hidden">
-             <span id="hinglish-phrase" aria-hidden="true" class="text-[rgba(5,16,36,0.8)] text-[13px] md:text-[14px] tracking-wide font-['Schoolbell'] font-bold hidden sm:inline-block">Built this site myself. Blame me for the bugs.</span>
+            <span id="hinglish-phrase" aria-hidden="true" class="text-[rgba(5,16,36,0.8)] text-[13px] md:text-[14px] tracking-wide font-['Schoolbell'] font-bold hidden sm:inline-block">Started as a designer. Ended up leading creative teams.</span>
         </div>
+
+        <!-- Right: Scroll Progress -->
         <div class="hidden lg:flex items-center relative bg-[#f0ede6] pointer-events-auto w-[240px] xl:w-[350px]">
             <div id="scroll-progress-bar" class="absolute left-0 top-0 h-full bg-[#0022cc] w-0 transition-all duration-700 ease-out z-0"></div>
             <div class="relative z-10 flex items-center justify-between w-full px-4 md:px-6 mix-blend-difference text-white">
@@ -812,6 +929,9 @@
                 <span id="scroll-pct" class="text-[14px] tabular-nums font-bold font-['Gloria_Hallelujah']">0%</span>
             </div>
         </div>
+
+        <!-- Hidden IST (kept for JS compat) -->
+        <strong id="live-ist" class="hidden">--:--:--</strong>
     </header>
 
     <!-- 3D World Viewport -->
@@ -823,14 +943,14 @@
                 <section id="hero" class="h-screen w-full relative overflow-hidden flex flex-col justify-center items-center border-b-grid bg-[#01040a] cursor-none" style="transform-style: preserve-3d; perspective: 1200px;">
                     <div id="hero-bg-target" class="absolute inset-0 w-full h-full will-change-transform flex items-center justify-center scale-105">
                         <div id="intro-thumb-container" class="absolute inset-0 w-full h-full will-change-transform">
-                            <video src="./1778536504558493.mp4" id="intro-vid" class="w-full h-full object-cover block pointer-events-none" style="object-position: 50% 50%;" muted loop playsinline autoplay></video>
+                            <video src="1778536504558493.mp4" id="intro-vid" class="w-full h-full object-cover block pointer-events-none" style="object-position: 50% 50%;" muted loop playsinline autoplay></video>
                             <div id="intro-thumb-lighting" class="absolute inset-0 w-full h-full mix-blend-multiply pointer-events-none z-[5]" style="background: radial-gradient(circle at center, rgba(244,239,230,0) 0%, rgba(5,16,36,0.7) 100%);"></div>
                         </div>
                     </div>
                     <div id="hero-lighting" class="absolute inset-0 w-full h-full pointer-events-none opacity-0 mix-blend-multiply z-10 will-change-[background]" style="background: radial-gradient(circle 1100px at 50% 50%, rgba(244, 239, 230, 0) 0%, rgba(5, 16, 36, 0.65) 100%);"></div>
                     
                     <div id="hero-text-wrapper" class="absolute inset-0 flex flex-col justify-center items-center z-20 pointer-events-none transform-style: preserve-3d;">
-                        <h1 id="hero-text-3d" class="relative font-['Dr_Sugiyama'] text-[var(--beige)] leading-none flex items-baseline pointer-events-auto opacity-0 will-change-transform transition-shadow duration-300" style="font-size: clamp(150px, 29.375vw, 564px); letter-spacing: -0.019em; transform: rotate(-4deg) scale(0.12) translateY(-114px); font-weight: 400; transform-origin: center center;">
+                        <h1 id="hero-text-3d" class="relative font-['Dr_Sugiyama'] text-[var(--beige)] leading-none flex items-baseline pointer-events-auto cursor-hover opacity-0 will-change-transform transition-shadow duration-300" style="font-size: clamp(150px, 29.375vw, 564px); letter-spacing: -0.019em; transform: rotate(-4deg) scale(0.12) translateY(-114px); font-weight: 400; transform-origin: center center;">
                             baa<span style="display: inline-block; transform: translateY(-17px);">z</span>
                         </h1>
                     </div>
@@ -870,7 +990,7 @@
                                     <circle cx="120" cy="10" r="8" fill="#ECE8E1" opacity="0.3" />
                                 </svg>
                                 <!-- Labels -->
-                                <div class="absolute top-[72px] left-[0px] font-['DM_Mono'] text-[11px] text-[#ECE8E1] font-bold tracking-wider drop-shadow-md">20:00</div>
+                                <div class="absolute top-[72px] left-[0px] font-['DM_Mono'] text-[11px] text-[#0F35FF] font-bold tracking-wider drop-shadow-md">20:00</div>
                                 <div class="absolute top-[72px] left-[105px] font-['DM_Mono'] text-[11px] text-[#ECE8E1] font-bold tracking-wider drop-shadow-md">00:00</div>
                             </div>
                         </div>
@@ -883,7 +1003,7 @@
                             <!-- Stage 1 -->
                             <div class="relative flex flex-col">
                                 <span aria-hidden="true" class="font-['Open_Sauce_One'] text-[11px] md:text-[12px] tracking-tight text-[var(--beige)] opacity-60 font-bold mb-1">Started As</span>
-                                <span class="font-['Schoolbell'] text-[20px] md:text-[24px] text-[var(--beige)] opacity-90 leading-none hover:opacity-100 transition-opacity drop-shadow-sm pointer-events-auto">Designer</span>
+                                <span class="font-['Schoolbell'] text-[20px] md:text-[24px] text-[var(--beige)] opacity-90 leading-none hover:opacity-100 transition-opacity drop-shadow-sm cursor-hover pointer-events-auto">Designer</span>
                                 <!-- Connecting Line -->
                                 <div class="absolute left-[10px] top-[36px] md:top-[40px] w-[1px] h-4 md:h-6 border-l border-dashed border-[var(--beige)] opacity-20"></div>
                             </div>
@@ -891,7 +1011,7 @@
                             <!-- Stage 2 -->
                             <div class="relative flex flex-col">
                                 <span aria-hidden="true" class="font-['Open_Sauce_One'] text-[11px] md:text-[12px] tracking-tight text-[var(--beige)] opacity-60 font-bold mb-1">Became</span>
-                                <span class="font-['Schoolbell'] text-[20px] md:text-[24px] text-[var(--beige)] opacity-90 leading-none hover:opacity-100 transition-opacity drop-shadow-sm pointer-events-auto">Artist Manager</span>
+                                <span class="font-['Schoolbell'] text-[20px] md:text-[24px] text-[var(--beige)] opacity-90 leading-none hover:opacity-100 transition-opacity drop-shadow-sm cursor-hover pointer-events-auto">Artist Manager</span>
                                 <!-- Connecting Line -->
                                 <div class="absolute left-[10px] top-[36px] md:top-[40px] w-[1px] h-4 md:h-6 border-l border-dashed border-[var(--beige)] opacity-20"></div>
                             </div>
@@ -899,16 +1019,15 @@
                             <!-- Stage 3 -->
                             <div class="relative flex flex-col">
                                 <span aria-hidden="true" class="font-['Open_Sauce_One'] text-[11px] md:text-[12px] tracking-tight text-[var(--beige)] opacity-60 font-bold mb-1">Currently</span>
-                                <span class="font-['Schoolbell'] text-[24px] md:text-[28px] text-[var(--beige)] leading-none drop-shadow-md pointer-events-auto">Creative Director</span>
+                                <span class="font-['Schoolbell'] text-[24px] md:text-[28px] text-[var(--beige)] leading-none drop-shadow-md cursor-hover pointer-events-auto">Creative Director</span>
                             </div>
 
                         </div>
                     </div>
 
-                    <!-- Top Left Badge: SRCC'27 transformed into an industrial/archival spec tag -->
+                    <!-- Top Left Badge: SRCC'27 transformed into a delicate vintage library ticket -->
                     <div id="hero-badges" class="hero-overlay-text absolute top-24 left-8 md:left-12 z-[9999] opacity-0 hidden sm:block pointer-events-auto" style="perspective: 1000px;">
-                        <div class="js-tilt-card relative bg-[#ECE8E1] border-[2px] border-[#051024] p-3 shadow-[4px_4px_0_#012CEB] group will-change-transform" data-orig-rot="-4" data-orig-shadow="4px 4px 0 #012CEB" style="transform-style: preserve-3d; transform: rotate(-4deg);">
-                            
+                        <div class="js-tilt-card cursor-hover relative bg-[#ECE8E1] border-[2px] border-[#051024] p-3 shadow-[4px_4px_0_#012CEB] group will-change-transform" data-orig-rot="-4" data-orig-shadow="4px 4px 0 #012CEB" style="transform-style: preserve-3d; transform: rotate(-4deg);">
                             <!-- Scotch tape physical element -->
                             <div class="absolute -top-3 left-1/2 -translate-x-1/2 w-10 h-5 bg-white/40 border border-white/20 transform rotate-[4deg] shadow-sm z-30 mix-blend-overlay" style="backdrop-filter: blur(2px);"></div>
 
@@ -917,8 +1036,6 @@
                                     <span class="font-['Open_Sauce_One'] text-[15px] font-black text-[#012CEB] tracking-tight leading-none uppercase">SRCC '27</span>
                                     <span class="font-['Open_Sauce_One'] text-[11px] font-bold text-[#051024]/80 tracking-tight mt-1">Delhi, India</span>
                                 </div>
-
-
                             </div>
                         </div>
                     </div>
@@ -926,7 +1043,7 @@
                     <!-- Bottom Scroll Indicator (Physical Hand-drawn UX Hint) -->
                     <div class="hero-overlay-text absolute bottom-16 md:bottom-20 left-1/2 -translate-x-1/2 flex flex-col items-center justify-center opacity-0 z-[9999] pointer-events-none">
                         <div aria-hidden="true" class="bg-[var(--navy)] border-[2px] border-[var(--beige)] text-[var(--beige)] px-4 py-2 font-['Schoolbell'] font-bold uppercase tracking-[0.2em] text-[10px] md:text-[12px] shadow-[4px_4px_0_var(--blue)] transform -rotate-1 mb-3">
-                            Go on, scroll down
+                            Scroll to Explore
                         </div>
                         <svg class="w-6 h-8 text-[var(--beige)] animate-[bounce_2s_infinite]" viewBox="0 0 24 32" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="filter: drop-shadow(0px 2px 2px rgba(0,0,0,0.5));">
                             <path d="M12 2v26M6 22l6 6-6-6"/>
@@ -942,7 +1059,7 @@
                         <div id="void-grain" class="absolute inset-0 z-[5] pointer-events-none opacity-0" style="background-image: url('data:image/svg+xml,%3Csvg viewBox=%220 0 200 200%22 xmlns=%22http://www.w3.org/2000/svg%22%3E%3Cfilter id=%22noiseFilter%22%3E%3CfeTurbulence type=%22fractalNoise%22 baseFrequency=%221.8%22 numOctaves=%223%22 stitchTiles=%22stitch%22/%3E%3C/filter%3E%3Crect width=%22100%25%22 height=%22100%25%22 filter=%22url(%23noiseFilter)%22/%3E%3C/svg%3E'); mix-blend-mode: overlay;"></div>
 
                         <!-- Epilogue Quote -->
-                        <div id="epilogue-quote" aria-hidden="true" class="absolute top-[65%] left-1/2 -translate-x-1/2 text-center font-['Schoolbell'] text-[16px] md:text-[20px] text-[var(--beige)] opacity-0 z-[100] pointer-events-none w-full max-w-[600px] leading-relaxed">
+                        <div id="epilogue-quote" aria-hidden="true" class="absolute top-[65%] left-1/2 -translate-x-1/2 text-center font-['DM_Sans'] font-semibold text-[10px] md:text-[12px] uppercase text-[var(--beige)] opacity-0 z-[100] tracking-widest pointer-events-none w-full max-w-[600px] leading-[2.2]">
                             "If I ever write a book on how I see creativity,<br>it will have infinite pages.<br>And I'll still be figuring it out."
                         </div>
 
@@ -1147,14 +1264,14 @@
                                             </div>
                                             
                                             <!-- Hand-drawn Arrow & Note -->
-                                            <div class="absolute -bottom-[70px] left-[15px] font-['Gloria_Hallelujah'] font-medium text-[15px] leading-tight text-[var(--blue)] tracking-tight -rotate-[5deg] w-[180px] opacity-90 z-20" style="letter-spacing: -0.05em;">
-                                                <svg class="absolute -right-6 top-0 w-6 h-6 opacity-90 mix-blend-multiply" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M4 18 C12 16 16 11 18 5 M13 7 L18 5 L19 11" stroke-linejoin="round"/></svg>
+                                            <div class="absolute -bottom-10 -left-6 font-['Caveat'] font-medium text-[24px] text-[var(--blue)] tracking-tight -rotate-[8deg] w-max opacity-90" style="letter-spacing: -0.05em;">
+                                                <svg class="absolute -right-5 -top-1 w-8 h-8 opacity-90 mix-blend-multiply" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M4 18 C12 16 16 11 18 5 M13 7 L18 5 L19 11" stroke-linejoin="round"/></svg>
                                                 crazy what happens when you just make weirdly relatable stuff.
                                             </div>
                                         </div>
 
                                         <!-- CLUSTER 2: Mid Right (Philosophy Print Cutout) -->
-                                        <div id="art-terminal" class="relative md:absolute md:top-[12%] md:left-[8%] w-[90%] max-w-[280px] bg-[#fdfbf7] p-4 transform -rotate-[2deg] origin-center focus-lift-target z-20" style="box-shadow: 0 2px 5px rgba(0,0,0,0.1), inset 0 0 40px rgba(0,0,0,0.02); border: 1px solid rgba(0,0,0,0.05); border-left: 3px dashed rgba(0,0,0,0.15); filter: contrast(0.95);">
+                                        <div id="art-terminal" class="relative md:absolute md:top-[12%] md:left-[8%] w-[90%] max-w-[240px] bg-[#fdfbf7] p-4 transform -rotate-[2deg] origin-center focus-lift-target z-20" style="box-shadow: 0 2px 5px rgba(0,0,0,0.1), inset 0 0 40px rgba(0,0,0,0.02); border: 1px solid rgba(0,0,0,0.05); border-left: 3px dashed rgba(0,0,0,0.15); filter: contrast(0.95);">
                                             <div class="absolute inset-0 opacity-[0.03] pointer-events-none" style="background-image: url('data:image/svg+xml,%3Csvg viewBox=%220 0 200 200%22 xmlns=%22http://www.w3.org/2000/svg%22%3E%3Cfilter id=%22noiseFilter%22%3E%3CfeTurbulence type=%22fractalNoise%22 baseFrequency=%220.8%22 numOctaves=%223%22 stitchTiles=%22stitch%22/%3E%3C/filter%3E%3Crect width=%22100%25%22 height=%22100%25%22 filter=%22url(%23noiseFilter)%22/%3E%3C/svg%3E'); mix-blend-mode: multiply;"></div>
                                             <!-- Masking tape holding the cutout -->
                                             <div class="absolute -top-3 left-6 w-8 h-4 bg-white/70 border border-white/30 transform -rotate-[5deg] shadow-[0_2px_4px_rgba(0,0,0,0.15)] z-30" style="backdrop-filter: blur(1px);"></div>
@@ -1162,11 +1279,11 @@
                                             <div class="flex items-center gap-1.5 opacity-60 mb-2 relative z-10">
                                                 <div aria-hidden="true" class="font-['Schoolbell'] text-[7px] uppercase tracking-[0.2em] font-bold text-black">CORE PHILOSOPHY</div>
                                             </div>
-                                            <h4 class="font-['Schoolbell'] font-bold text-[22px] leading-[1.1] mb-1 tracking-tight text-black uppercase relative z-10">ART WITH A PURPOSE.</h4>
-                                            <p class="font-['Schoolbell'] text-[14px] text-black/80 leading-snug relative z-10">I am an artist at heart. I obsess over aesthetics, but I love it even more when my art actually makes people feel something and take action.</p>
+                                            <h4 class="font-['Inter'] font-[900] text-[17px] leading-[1.1] mb-1 tracking-tighter text-black uppercase relative z-10">ART WITH A PURPOSE.</h4>
+                                            <p class="font-['DM_Sans'] text-[11px] text-black/70 leading-snug relative z-10">I am an artist at heart. I obsess over aesthetics, but I love it even more when my art actually makes people feel something and take action.</p>
                                             
                                             <!-- Handwritten caption -->
-                                            <div class="absolute -bottom-6 right-2 font-['Gloria_Hallelujah'] font-medium text-[13px] text-[#222]/90 tracking-tight rotate-[4deg] w-max">
+                                            <div class="absolute -bottom-6 right-2 font-['Caveat'] font-medium text-[20px] text-[#222]/90 tracking-tight rotate-[4deg]">
                                                 beautiful design that actually works.
                                             </div>
                                         </div>
@@ -1179,7 +1296,7 @@
                                             <div aria-hidden="true" class="text-[9px] font-bold text-[var(--navy)] tracking-wider mb-2 uppercase opacity-60">// PLACES I'VE HUSTLED AT</div>
                                             <p class="font-bold text-[12px] text-black mb-1">Founding Marketer at RNTL.</p>
                                             <p class="text-black/60 mb-2">Interned at <span class="border-b border-[#222]/30">Grimbyte</span>, <span class="border-b border-[#222]/30">MusicVerse</span>, <span class="border-b border-[#222]/30">Sinskari</span>, <span class="border-b border-[#222]/30">Frost & Sullivan</span> & <span class="border-b border-[#222]/30">Blue Tea</span>.</p>
-                                            <p class="text-black/60 mb-2">Grew an artist's community from scratch to <span class="font-bold text-[var(--navy)]">200K+ followers</span>, and pulled off a wild campus launch for a <span class="font-bold text-[var(--navy)]">Jio Hotstar show</span>.</p>
+                                            <p class="text-black/60">Grew an artist's community from scratch to <span class="font-bold text-[var(--navy)]">200K+ followers</span>, and pulled off a wild campus launch for a <span class="font-bold text-[var(--navy)]">Jio Hotstar show</span>.</p>
                                             
                                             <!-- Red Stamp overlapping the text -->
                                             <div aria-hidden="true" class="absolute bottom-[-15px] right-[10%] border-[2px] border-red-600 text-red-600 font-['Schoolbell'] text-[10px] font-bold uppercase tracking-widest p-1 transform rotate-[-15deg] opacity-70 mix-blend-multiply rounded-sm">
@@ -1187,7 +1304,7 @@
                                             </div>
                                             
                                             <!-- Scribble note -->
-                                            <div class="absolute top-[20%] right-[-25%] font-['Gloria_Hallelujah'] font-medium text-[13px] leading-tight text-[var(--blue)] tracking-tight rotate-[10deg]">
+                                            <div class="absolute top-[20%] right-[-25%] font-['Caveat'] font-medium text-[20px] text-[var(--blue)] tracking-tight rotate-[10deg] w-max">
                                                 learned a lot<br><span class="pl-2">here</span>
                                             </div>
                                         </div>
@@ -1195,22 +1312,22 @@
                                         <!-- METRICS SYSTEM (Clustered Evidence Stamps) -->
                                         <div id="metrics-stamps-group" class="relative md:absolute md:bottom-[18%] md:left-[8%] w-full max-w-[300px] md:max-w-none md:w-[84%] flex justify-between items-start gap-4 z-20">
                                             
-                                            <!-- Red Stamp (33M+) -->
+                                            <!-- Red Stamp (₹4.4L+) -->
                                             <div class="evidence-stamp-red flex-1 p-3 flex flex-col justify-between h-[115px] focus-lift-target">
                                                 <div>
                                                     <span class="font-['Bebas_Neue'] text-[32px] block leading-none tracking-tight mb-1">33M+</span>
                                                     <span aria-hidden="true" class="font-['Schoolbell'] font-bold text-[8px] leading-tight block uppercase">Campaign Reach</span>
                                                 </div>
-                                                <span class="font-['Gloria_Hallelujah'] font-medium text-[15px] text-red-800/80 tracking-tight block text-right mt-1 leading-tight">for flagship brand events.</span>
+                                                <span class="font-['Caveat'] font-medium text-[15px] text-red-800/80 tracking-tight block text-right mt-1">for flagship brand events.</span>
                                             </div>
 
-                                            <!-- Yellow Dotted Stamp (200K+) -->
+                                            <!-- Yellow Dotted Stamp (5+) -->
                                             <div class="evidence-stamp-yellow flex-1 p-3 flex flex-col justify-between h-[115px] focus-lift-target">
                                                 <div>
                                                     <span class="font-['Bebas_Neue'] text-[32px] block leading-none tracking-tight mb-1">40+</span>
                                                     <span aria-hidden="true" class="font-['Schoolbell'] font-bold text-[8px] leading-tight block uppercase">Live standup Shows</span>
                                                 </div>
-                                                <span class="font-['Gloria_Hallelujah'] font-medium text-[12px] leading-tight text-yellow-800/80 tracking-tight block text-right mt-1">Scaled & executed nationwide in 3 months</span>
+                                                <span class="font-['Caveat'] font-medium text-[12px] text-yellow-800/80 tracking-tight block text-right mt-1">Scaled & executed nationwide in 3 months</span>
                                             </div>
 
                                             <!-- Blue Stamp (DU Rank 1) -->
@@ -1219,7 +1336,7 @@
                                                     <span class="font-['Bebas_Neue'] text-[32px] block leading-none tracking-tight mb-1">DU Rank 1</span>
                                                     <span aria-hidden="true" class="font-['Schoolbell'] font-bold text-[8px] leading-tight block uppercase">5 Subjects</span>
                                                 </div>
-                                                <span class="font-['Gloria_Hallelujah'] font-medium text-[15px] text-[var(--blue)]/80 tracking-tight block text-right mt-1">gotta keep parents happy.</span>
+                                                <span class="font-['Caveat'] font-medium text-[15px] text-[var(--blue)]/80 tracking-tight block text-right mt-1">gotta keep parents happy.</span>
                                             </div>
 
                                         </div>
@@ -1227,13 +1344,13 @@
                                         <!-- torn look signature sheet (Moved here to align with end of SVG line) -->
                                         <div id="torn-signature-paper" class="relative md:absolute md:bottom-[-8%] md:left-[30%] bg-white/95 p-3 px-6 shadow-[2px_4px_8px_rgba(0,0,0,0.1)] border-t border-dashed border-gray-300 transform -rotate-2 focus-lift-target z-20">
                                             <div class="absolute -top-1 left-4 w-6 h-2 bg-yellow-200/50 mix-blend-multiply opacity-50 shadow-sm"></div>
-                                            <div class="font-['Gloria_Hallelujah'] font-medium text-[30px] text-[var(--blue)] leading-none">
+                                            <div class="font-['Caveat'] font-medium text-[30px] text-[var(--blue)] leading-none">
                                                 still figuring things out.
                                             </div>
                                         </div>
                                         
-                                        <!-- CLOSER FOOTNOTE BLOCK -->
-                                        <div id="other-highlights-block" aria-hidden="true" class="relative md:absolute md:bottom-[2%] md:left-[8%] w-[90%] max-w-[250px] text-left font-['Schoolbell'] text-[10px] text-[#222]/80 focus-lift-target leading-relaxed z-10">
+                                        <!-- OTHER HIGHLIGHTS FOOTNOTE BLOCK -->
+                                        <div id="other-highlights-block" aria-hidden="true" class="relative md:absolute md:bottom-[2%] md:left-[8%] w-[90%] max-w-[250px] text-left font-['Schoolbell'] text-[8px] text-[#222]/60 focus-lift-target leading-relaxed z-10">
                                             <p><span class="font-bold">PS//</span> The goal is simple: find artists and brands making incredible things, and help them grow using our respective arts.</p>
                                         </div>
 
@@ -1241,7 +1358,7 @@
 
                                     <!-- Bottom Right Footer (Torn Paper Note & Exit Status) -->
                                     <div class="flex justify-between items-end relative z-[70] h-[80px] w-full">
-                                        <div aria-hidden="true" class="flex flex-col items-start gap-1 font-['Schoolbell'] text-[12px] md:text-[14px] text-[#222]/80 font-bold mt-auto pb-2">
+                                        <div aria-hidden="true" class="flex flex-col items-start gap-1 font-['Schoolbell'] text-[7px] opacity-40 font-bold mt-auto pb-2">
                                             <span>END OF PAGE</span>
                                             <span>KEEP SCROLLING</span>
                                         </div>
@@ -1274,10 +1391,10 @@
 
                                         <!-- Typewriter Text -->
                                         <div class="relative z-10 pl-3">
-                                            <p class="font-['Schoolbell'] text-[15px] text-[#222]/90 leading-[24px] tracking-tight">
+                                            <p class="font-['Schoolbell'] text-[12px] text-[#222]/90 leading-[24px] tracking-tight">
                                                 I'm an open book.
                                                 <br>
-                                                <span class="text-[14px] text-black/70">Here is the unfiltered timeline of how<br>I figured things out.</span>
+                                                <span class="text-[11px] text-black/70">Here is the unfiltered timeline of how<br>I figured things out.</span>
                                             </p>
                                         </div>
                                     </div>
@@ -1295,7 +1412,7 @@
                                         <div class="relative flex-grow mt-6 mb-4 flex flex-col md:block items-center gap-8 md:gap-0 overflow-y-auto md:overflow-visible">
                                             
                                             <!-- Handwritten Tag entry -->
-                                            <div id="frag-origin-cursive" class="absolute top-[-2%] left-[4%] font-['Gloria_Hallelujah'] font-medium text-[28px] text-[var(--blue)] -rotate-3 focus-lift-target z-20">
+                                            <div id="frag-origin-cursive" class="absolute top-[-2%] left-[4%] font-['Caveat'] font-medium text-[24px] text-[var(--blue)] -rotate-3 focus-lift-target z-20">
                                                 how it all started.
                                             </div>
 
@@ -1312,40 +1429,24 @@
                                                 <span class="inline-block mt-1 relative text-[var(--blue)] py-1 px-3 z-30 font-black tracking-normal">
                                                     SNEAKERS
                                                     <!-- Circle drawing around Sneakers (Triggered by GSAP) -->
-                                                    <svg class="absolute inset-0 w-full h-full pointer-events-none scale-[1.15] -rotate-[3deg]" viewBox="0 0 100 40" preserveAspectRatio="none">
-                                                        <path id="sneaker-circle-path" class="glowing-circle-path" d="M 10,25 C -5,10 40,-2 90,14 C 105,28 60,42 10,28 C -2,22 4,16 12,12" />
+                                                    <svg class="absolute inset-0 w-full h-full pointer-events-none scale-y-110 scale-x-105" viewBox="0 0 100 40" preserveAspectRatio="none">
+                                                        <path id="sneaker-circle-path" class="glowing-circle-path" d="M 5,20 C 5,5 95,5 95,20 C 95,35 5,35 5,20 Z" />
                                                     </svg>
                                                 </span> 
                                                 <span class="text-black/95">ON MY OWN.</span>
                                             </div>
 
                                             <!-- Micro Story (Faded editorial ink block) -->
-                                            <div id="origin-micro-story" aria-hidden="true" class="absolute top-[48%] left-[4%] w-[65%] font-['Schoolbell'] text-[13px] md:text-[15px] text-[#222]/85 leading-relaxed focus-lift-target z-20">
+                                            <div id="origin-micro-story" aria-hidden="true" class="absolute top-[48%] left-[4%] w-[65%] font-['Schoolbell'] text-[10px] md:text-[11px] text-[#222]/85 leading-relaxed focus-lift-target z-20">
                                                 <p class="mb-3">I had no idea what a 'marketing strategy' was in 9th grade. I was just making YouTube thumbnails and taking whatever freelance gigs I could find through Insta & Discord...</p>
                                                 <p>I didn't know what a "value proposition" was. I kept making things because I liked seeing them work.</p>
                                             </div>
-                                            
-                                            <!-- Tiny Receipt pinned -->
-                                            <div id="origin-receipt" class="absolute top-[38%] md:top-[42%] right-[5%] md:right-[15%] w-[90px] md:w-[120px] bg-[#f8f9fa] shadow-[2px_6px_12px_rgba(0,0,0,0.15)] rotate-[8deg] p-2 md:p-3 flex flex-col font-['DM_Mono'] text-[7px] md:text-[9px] text-[#222] z-30 focus-lift-target will-change-transform border-t border-l border-white" style="clip-path: polygon(0 0, 100% 0, 100% 96%, 95% 100%, 90% 96%, 85% 100%, 80% 96%, 75% 100%, 70% 96%, 65% 100%, 60% 96%, 55% 100%, 50% 96%, 45% 100%, 40% 96%, 35% 100%, 30% 96%, 25% 100%, 20% 96%, 15% 100%, 10% 96%, 5% 100%, 0 96%);">
-                                                <!-- Push Pin -->
-                                                <div class="absolute -top-1 md:-top-1.5 left-1/2 -translate-x-1/2 w-3 h-3 md:w-4 md:h-4 bg-red-600 rounded-full shadow-[1px_2px_3px_rgba(0,0,0,0.4)] z-40 border border-red-800">
-                                                    <div class="absolute top-[1px] left-[2px] w-1 h-1 bg-white/50 rounded-full"></div>
-                                                </div>
-                                                <div class="text-center font-bold mb-1 border-b border-gray-300/60 pb-1 uppercase tracking-widest text-[6px] md:text-[7px]">RECEIPT</div>
-                                                <div class="flex justify-between mt-1 leading-[1.2] opacity-90">
-                                                    <span class="w-[45px] md:w-[65px] break-words">Nike Air Jordans</span>
-                                                    <span class="font-bold">₹2,999</span>
-                                                </div>
-                                                <div class="mt-2 border-t border-dashed border-gray-400/50 pt-1 text-center opacity-50 tracking-widest text-[5px] md:text-[6px]">
-                                                    PAID
-                                                </div>
-                                            </div>
 
                                             <!-- Transition Strategy Note (Floating Annotation) -->
-                                            <div id="frag-strategy-annot" class="absolute top-[75%] left-[2%] font-['Gloria_Hallelujah'] font-bold text-[14px] md:text-[16px] text-[var(--blue)] leading-tight -rotate-6 focus-lift-target z-20">
+                                            <div id="frag-strategy-annot" class="absolute top-[75%] left-[2%] font-['Caveat'] font-medium text-[24px] text-[var(--blue)] -rotate-6 focus-lift-target z-20">
                                                 It started as making things.<br>
                                                 <span class="pl-4">Then it became a way of thinking.</span><br>
-                                                <span class="text-[16px] md:text-[18px] pl-8">Strategy came later.</span>
+                                                <span class="text-[28px] pl-8">Strategy came later.</span>
                                             </div>
 
                                             <!-- Cutout Portrait with Blueprint Circle Overlay -->
@@ -1399,62 +1500,58 @@
                 </section>
 
                 <!-- 3. EXPERIENCE -->
-                <section id="experience" class="w-full h-screen min-h-[800px] relative bg-[#0F35FF] border-b-grid z-20 overflow-hidden flex flex-col justify-center">
-                    
+                <section id="experience" class="w-full h-screen min-h-[800px] relative bg-[var(--blue)] border-b-grid z-20 overflow-hidden flex flex-col justify-center pb-12 md:pb-20">
+
                     <!-- Creative Architectural & Editorial Background -->
                     <div class="absolute inset-0 pointer-events-none z-0 overflow-hidden">
-                        <!-- Paper Noise Texture -->
-                        <div class="absolute inset-0 opacity-[0.1]" style="background-image: url('data:image/svg+xml,%3Csvg viewBox=%220 0 200 200%22 xmlns=%22http://www.w3.org/2000/svg%22%3E%3Cfilter id=%22noiseFilter%22%3E%3CfeTurbulence type=%22fractalNoise%22 baseFrequency=%220.85%22 numOctaves=%223%22 stitchTiles=%22stitch%22/%3E%3C/filter%3E%3Crect width=%22100%25%22 height=%22100%25%22 filter=%22url(%23noiseFilter)%22/%3E%3C/svg%3E'); mix-blend-mode: multiply;"></div>
-                        
-                        <!-- Blueprint Grid Lines (Primary & Secondary) -->
-                        <div class="absolute inset-0 opacity-[0.1]" style="background-size: 40px 40px; background-image: linear-gradient(to right, white 1px, transparent 1px), linear-gradient(to bottom, white 1px, transparent 1px);"></div>
-                        <div class="absolute inset-0 opacity-[0.05]" style="background-size: 10px 10px; background-image: linear-gradient(to right, white 1px, transparent 1px), linear-gradient(to bottom, white 1px, transparent 1px);"></div>
+                        <!-- Noise Texture -->
+                        <div class="absolute inset-0 opacity-[0.08]" style="background-image: url('data:image/svg+xml,%3Csvg viewBox=%220 0 200 200%22 xmlns=%22http://www.w3.org/2000/svg%22%3E%3Cfilter id=%22noiseFilter%22%3E%3CfeTurbulence type=%22fractalNoise%22 baseFrequency=%220.85%22 numOctaves=%223%22 stitchTiles=%22stitch%22/%3E%3C/filter%3E%3Crect width=%22100%25%22 height=%22100%25%22 filter=%22url(%23noiseFilter)%22/%3E%3C/svg%3E'); mix-blend-mode: overlay;"></div>
 
-                        <!-- Giant Ghost Typography Marquees -->
-                        <div class="absolute top-1/2 -translate-y-1/2 -mt-[60px] left-0 w-[400vw] font-['Gloria_Hallelujah'] text-[120vh] leading-[0.8] text-white opacity-[0.08] tracking-tighter select-none pointer-events-none flex items-center whitespace-nowrap animate-marquee-left mix-blend-overlay">
-                            PROJECTS &nbsp; PROJECTS &nbsp; PROJECTS &nbsp; PROJECTS &nbsp; PROJECTS &nbsp; PROJECTS &nbsp; PROJECTS &nbsp; PROJECTS &nbsp; 
+                        <!-- Blueprint Grid Lines -->
+                        <div class="absolute inset-0 opacity-[0.08]" style="background-size: 40px 40px; background-image: linear-gradient(to right, rgba(255,255,255,1) 1px, transparent 1px), linear-gradient(to bottom, rgba(255,255,255,1) 1px, transparent 1px);"></div>
+                        <div class="absolute inset-0 opacity-[0.04]" style="background-size: 10px 10px; background-image: linear-gradient(to right, rgba(255,255,255,1) 1px, transparent 1px), linear-gradient(to bottom, rgba(255,255,255,1) 1px, transparent 1px);"></div>
+
+                        <!-- Artistic Giant Gloria Drift — full height, font in vh so bottom adjusts per viewport -->
+                        <div class="absolute bottom-0 left-0 w-full pointer-events-none z-0 flex items-end">
+                            <div class="whitespace-nowrap font-['Gloria_Hallelujah'] leading-[0.75] text-white opacity-[0.05] select-none will-change-transform" style="font-size: clamp(280px, 90vh, 1100px); animation: proj-gloria-drift 24s ease-in-out infinite alternate;">PROJECTS</div>
                         </div>
 
                         <!-- Architectural Registration Marks (Corners) -->
-                        <div class="absolute top-8 left-8 w-12 h-12 border-t-[3px] border-l-[3px] border-[var(--beige)] opacity-50"></div>
-                        <div class="absolute top-8 right-8 w-12 h-12 border-t-[3px] border-r-[3px] border-[var(--beige)] opacity-50"></div>
-                        <div class="absolute bottom-8 left-8 w-12 h-12 border-b-[3px] border-l-[3px] border-[var(--beige)] opacity-50"></div>
-                        <div class="absolute bottom-8 right-8 w-12 h-12 border-b-[3px] border-r-[3px] border-[var(--beige)] opacity-50"></div>
+                        <div class="absolute top-8 left-8 w-12 h-12 border-t-[3px] border-l-[3px] border-white opacity-30"></div>
+                        <div class="absolute top-8 right-8 w-12 h-12 border-t-[3px] border-r-[3px] border-white opacity-30"></div>
+                        <div class="absolute bottom-8 left-8 w-12 h-12 border-b-[3px] border-l-[3px] border-white opacity-30"></div>
+                        <div class="absolute bottom-8 right-8 w-12 h-12 border-b-[3px] border-r-[3px] border-white opacity-30"></div>
 
                         <!-- Technical Overlays (Text) -->
-
-                        <div aria-hidden="true" class="absolute bottom-10 right-24 font-['DM_Mono'] text-[10px] tracking-[0.2em] uppercase text-[var(--beige)] opacity-60 font-bold -rotate-90 origin-right">System_Active</div>
+                        <div aria-hidden="true" class="absolute top-10 left-24 font-['DM_Mono'] text-[10px] tracking-[0.2em] uppercase text-white opacity-30 font-bold rotate-90 origin-left">Sector 03 / Alpha</div>
+                        <div aria-hidden="true" class="absolute bottom-10 right-24 font-['DM_Mono'] text-[10px] tracking-[0.2em] uppercase text-white opacity-30 font-bold -rotate-90 origin-right">System_Active</div>
 
                         <!-- Central Axis Crosshairs -->
-                        <div class="absolute top-0 bottom-0 left-1/2 w-[1px] bg-gradient-to-b from-transparent via-white to-transparent opacity-30"></div>
-                        <div class="absolute left-0 right-0 top-1/2 h-[1px] bg-gradient-to-r from-transparent via-white to-transparent opacity-30"></div>
+                        <div class="absolute top-0 bottom-0 left-1/2 w-[1px] bg-gradient-to-b from-transparent via-white to-transparent opacity-10"></div>
+                        <div class="absolute left-0 right-0 top-1/2 h-[1px] bg-gradient-to-r from-transparent via-white to-transparent opacity-10"></div>
                     </div>
 
-                    <!-- Subtle Edge Burn / Vignette -->
-                    <div class="absolute inset-0 pointer-events-none z-0 shadow-[inset_0_0_150px_rgba(5,16,36,0.06)]"></div>
+                    <!-- Edge Vignette -->
+                    <div class="absolute inset-0 pointer-events-none z-0 shadow-[inset_0_0_150px_rgba(1,4,12,0.25)]"></div>
 
-                    <div class="max-w-[1400px] mx-auto w-full flex flex-col px-6 md:px-12 relative z-10 -mt-12 md:-mt-24">
-                        
+                    <div class="max-w-[1400px] mx-auto w-full flex flex-col px-6 md:px-12 relative z-10">
+
                         <!-- Top Header Area -->
-                        <div class="w-full flex flex-col md:flex-row justify-between items-start md:items-end mt-[20px] mb-16 md:mb-28 gap-8">
-                            <div class="flex flex-col translate-y-[25px]">
+                        <div class="w-full flex flex-col md:flex-row justify-between items-start md:items-end mb-12 md:mb-20 gap-8">
+                            <div class="flex flex-col mt-[25px]">
                                 <span id="proj-section-badge" class="text-xs font-bold uppercase tracking-widest text-[var(--beige)] block mb-6 md:mb-8 border-2 border-[var(--beige)] px-4 py-2 bg-[rgba(255,255,255,0.05)] w-max shadow-[4px_4px_0_var(--beige)]">Section 03</span>
                                 <h2 class="text-7xl md:text-[10vw] lg:text-[11vw] font-['Schoolbell'] leading-[1.1] relative inline-block py-4 pl-4 md:pl-8 pb-6 group cursor-pointer z-10 overflow-visible">
-                                    
+
                                     <!-- The Tilted Box (Placed absolutely behind the text) -->
                                     <div class="absolute top-1 bottom-4 left-0 w-[46%] md:w-[44%] bg-[#F4EFE6] border-[4px] border-[#0A0A0A] shadow-[-8px_8px_0_#0A0A0A] transform -rotate-[4deg] group-hover:-rotate-[1deg] group-hover:scale-105 transition-all duration-300 z-0 origin-center pointer-events-none">
-                                        <!-- Masking tape holding it -->
                                         <span class="absolute -top-3 left-[30%] w-10 h-4 bg-white/80 border border-black/10 rotate-[4deg] shadow-sm mix-blend-normal z-20"></span>
-                                        
-                                        <!-- Pop Star Sticker Element -->
                                         <svg class="absolute -bottom-4 -right-4 w-8 h-8 md:w-10 md:h-10 text-[#8DE254] drop-shadow-[2px_2px_0_#0A0A0A] z-30 transition-transform duration-500 group-hover:rotate-180" viewBox="0 0 24 24" fill="currentColor" stroke="#0A0A0A" stroke-width="2" stroke-linejoin="round">
                                             <path d="M12 2l2.4 7.4L22 9.6l-6 4.8 2.3 7.6-6.3-4.6-6.3 4.6 2.3-7.6-6-4.8 7.6-.2L12 2z"/>
                                         </svg>
                                     </div>
 
-                                    <!-- The cohesive text flow -->
                                     <span class="relative z-10 whitespace-nowrap">
-                                        <span id="proj-title-word1" class="inline-block text-[#0A0A0A]">Pro</span><span id="proj-title-word2" class="inline-block text-white drop-shadow-[0_4px_12px_rgba(0,0,0,0.15)]">jects</span>
+                                        <span id="proj-title-word1" class="inline-block text-[#0A0A0A] will-change-transform">Pro</span><span id="proj-title-word2" class="inline-block text-white drop-shadow-[0_4px_12px_rgba(0,0,0,0.15)] will-change-transform">jects</span>
                                     </span>
                                 </h2>
                             </div>
@@ -1501,12 +1598,12 @@
                         </div>
 
                         <!-- METRO ROUTE MAP BOARD -->
-                        <div id="fixed-route-board" class="absolute top-[39px] right-6 md:top-[55px] md:right-10 z-[100] w-[90%] md:w-[60%] lg:w-[50%] h-[140px] md:h-[180px] bg-[#ECE8E1] border-[4px] md:border-[5px] border-[#0A0A1A] shadow-[8px_8px_0_rgba(10,10,26,1)] pointer-events-none flex flex-col items-center justify-center overflow-hidden">
+                        <div id="fixed-route-board" class="absolute top-[39px] right-6 md:top-[55px] md:right-10 z-[100] w-[90%] md:w-[60%] lg:w-[50%] h-[140px] md:h-[180px] bg-[#ECE8E1] border-[4px] md:border-[5px] border-[#0A0A1A] shadow-[8px_8px_0_rgba(10,10,26,1)] pointer-events-none flex flex-col items-center justify-center overflow-visible">
                             <!-- Subtle Background Texture -->
                             <div class="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI0MCIgaGVpZ2h0PSI0MCI+PHBhdGggZD0iTTAgMGg0MHY0MEgweiIgZmlsbD0ibm9uZSIvPjxwaGF0aCBkPSJNMCAwaDQwdjQwSDB6IiBmaWxsPSJub25lIi8+PHBhdGggZD0iTTAgMGg0MHYxSDB6bTAgNDBoNDB2MUgwek0wIDBoMXY0MEgwek0zOSAwaDF2NDBoLTF6IiBmaWxsPSJyZ2JhKDEwLCAxMCwgMjYsIDAuMDUpIi8+PC9zdmc+')] opacity-60 z-0"></div>
                             
                             <!-- The Route Line -->
-                            <div class="relative w-[85%] mx-auto h-[40px] flex items-center justify-center z-10 mt-[39px]">
+                            <div class="relative w-[85%] mx-auto h-[40px] flex items-center justify-center z-10">
                                 <!-- Background Line -->
                                 <div class="absolute left-0 right-0 h-[6px] md:h-[8px] bg-[#C4C4C4] rounded-full"></div>
                                 <!-- Active Fill Line -->
@@ -1601,7 +1698,7 @@
                                     </div>
 
                                     <!-- Connector -->
-                                    <div class="w-[2.4vw] md:w-[1.8vw] h-[60%] bg-[#080808] border-[2px] border-[#111] flex flex-col justify-evenly opacity-95 z-0 flex-shrink-0 self-center">
+                                    <div class="w-[4vw] md:w-[3vw] h-[60%] bg-[#080808] border-[2px] border-[#111] flex flex-col justify-evenly opacity-95 z-0 flex-shrink-0 self-center">
                                         <div class="w-full h-[4px] bg-[#1a1a1a]"></div>
                                         <div class="w-full h-[4px] bg-[#1a1a1a]"></div>
                                         <div class="w-full h-[4px] bg-[#1a1a1a]"></div>
@@ -1678,7 +1775,7 @@
                                     <div class="w-full h-[8px] mt-1 relative z-10" style="background-image: radial-gradient(#0B0B0B 30%, transparent 30%); background-size: 8px 8px; background-position: 0 0; opacity: 0.15;"></div>
                                     
                                     <!-- Platform Easter Eggs -->
-                                    <div class="flex justify-between items-center px-12 md:px-24 mt-3 mb-2 relative z-10">
+                                    <div class="flex justify-between items-center px-8 md:px-16 mt-3 mb-2 relative z-10">
                                         <div aria-hidden="true" class="font-['Schoolbell'] text-[12px] md:text-[14px] text-[#0B0B0B] opacity-80">
                                             built in new delhi <span class="hidden md:inline opacity-40 mx-2">///</span> <span class="hidden md:inline">powered by caffeine</span>
                                         </div>
@@ -1689,31 +1786,21 @@
                                 </div>
                             </div>
 
-                        <!-- Navigation Arrows (Editorial) -->
+                        <!-- Navigation Arrows (Brutalist Square) -->
                         <div class="absolute right-4 md:right-8 top-[45%] -translate-y-1/2 z-[90] pointer-events-auto">
-                            <button id="transit-next-btn" class="focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#0F35FF] relative w-14 h-14 md:w-[72px] md:h-[72px] cursor-pointer group transition-all duration-200 hover:translate-x-[2px] hover:-translate-y-[2px]">
-                                <!-- Offset shadow square -->
-                                <div class="absolute inset-0 bg-[#0B0B0B] translate-x-[5px] translate-y-[5px] md:translate-x-[6px] md:translate-y-[6px] transition-transform duration-200 group-hover:translate-x-[3px] group-hover:translate-y-[3px]"></div>
-                                <!-- Main square -->
-                                <div class="absolute inset-0 bg-[#E8E4DD] border-[3px] md:border-[4px] border-[#0B0B0B] flex items-center justify-center">
-                                    <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#0B0B0B" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" class="md:w-[36px] md:h-[36px]"><polyline points="9 18 15 12 9 6"/></svg>
-                                </div>
+                            <button id="transit-next-btn" class="focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#0F35FF] w-12 h-12 md:w-14 md:h-14 border-[3px] border-[#0B0B0B] bg-[#ECE8E1] flex items-center justify-center cursor-pointer hover:bg-[#0F35FF] hover:text-white hover:border-[#0F35FF] hover:translate-x-[2px] hover:translate-y-[2px] hover:shadow-none transition-all duration-150 group shadow-[4px_4px_0_#0B0B0B]">
+                                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="square" stroke-linejoin="miter"><polyline points="9 18 15 12 9 6"/></svg>
                             </button>
                         </div>
                         <div class="absolute left-4 md:left-8 top-[45%] -translate-y-1/2 z-[90] pointer-events-auto">
-                            <button id="transit-prev-btn" class="focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#0F35FF] relative w-14 h-14 md:w-[72px] md:h-[72px] cursor-pointer group transition-all duration-200 hover:-translate-x-[2px] hover:-translate-y-[2px]">
-                                <!-- Offset shadow square -->
-                                <div class="absolute inset-0 bg-[#0B0B0B] translate-x-[5px] translate-y-[5px] md:translate-x-[6px] md:translate-y-[6px] transition-transform duration-200 group-hover:translate-x-[3px] group-hover:translate-y-[3px]"></div>
-                                <!-- Main square -->
-                                <div class="absolute inset-0 bg-[#E8E4DD] border-[3px] md:border-[4px] border-[#0B0B0B] flex items-center justify-center">
-                                    <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#0B0B0B" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" class="md:w-[36px] md:h-[36px]"><polyline points="15 18 9 12 15 6"/></svg>
-                                </div>
+                            <button id="transit-prev-btn" class="focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#0F35FF] w-12 h-12 md:w-14 md:h-14 border-[3px] border-[#0B0B0B] bg-[#ECE8E1] flex items-center justify-center cursor-pointer hover:bg-[#0F35FF] hover:text-white hover:border-[#0F35FF] hover:translate-x-[2px] hover:translate-y-[2px] hover:shadow-none transition-all duration-150 group shadow-[4px_4px_0_#0B0B0B]">
+                                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="square" stroke-linejoin="miter"><polyline points="15 18 9 12 15 6"/></svg>
                             </button>
                         </div>
                     </div>
 
                     <!-- CASE STUDY EXPANDED VIEW (Step Out Mode) -->
-                    <div id="transit-case-study-view" data-lenis-prevent="true" class="fixed top-0 left-0 w-full h-[100dvh] overflow-y-auto px-4 md:px-12 pt-24 z-[9999] hidden opacity-0 bg-[#ECE8E1] pointer-events-auto overscroll-contain">
+                    <div id="transit-case-study-view" data-lenis-prevent="true" class="absolute inset-0 w-full h-full overflow-y-auto px-4 md:px-12 pt-24 z-[100] hidden opacity-0 bg-[#ECE8E1] pointer-events-auto">
                         <!-- Action Bar -->
                         <div class="sticky top-6 z-[9999] mb-8 flex justify-between items-center w-full max-w-[1400px] mx-auto">
                             <button id="back-to-transit-btn" aria-label="Back to Transit Map" aria-hidden="true" class="focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#0F35FF] flex items-center gap-2 md:gap-3 bg-white text-[#0B0B0B] font-['Inter'] text-[10px] md:text-xs font-semibold uppercase tracking-widest px-5 py-3 border-[1.5px] border-[#0B0B0B] rounded-full hover:bg-[#0F35FF] hover:text-white hover:border-[#0F35FF] shadow-[0_4px_12px_rgba(11,11,11,0.05)] transition-all cursor-pointer">
@@ -1743,11 +1830,11 @@
                         <!-- Brutalist Intro Background -->
                         <div class="absolute inset-0 z-[5] flex flex-col justify-center items-center w-full text-center pointer-events-none">
                             <h2 class="font-['Schoolbell'] leading-[0.7] text-center select-none flex flex-col items-center">
-                                <span class="text-[29vw] md:text-[20vw] xl:text-[14.5vw] text-[var(--blue)]">insomniac</span>
-                                <span class="text-[29vw] md:text-[20vw] xl:text-[14.5vw] text-black -mt-[6vw] md:-mt-[4vw]">Work</span>
+                                <span class="text-[27vw] md:text-[18.7vw] xl:text-[13.6vw] text-[var(--blue)]">insomniac</span>
+                                <span class="text-[27vw] md:text-[18.7vw] xl:text-[13.6vw] text-black -mt-[5vw] md:-mt-[3.4vw]">Work</span>
                             </h2>
                             <div class="mt-8 md:mt-12">
-                                <div aria-hidden="true" class="text-[var(--navy)] px-6 py-2.5 rounded-full text-[13px] md:text-base font-bold tracking-[0.2em] font-['Schoolbell'] uppercase flex items-center gap-3 opacity-60">
+                                <div aria-hidden="true" class="text-[var(--navy)] px-6 py-2.5 rounded-full text-[14px] md:text-[17px] font-bold tracking-[0.2em] font-['Schoolbell'] uppercase flex items-center gap-3 opacity-60">
                                     <span class="w-1.5 h-1.5 bg-[var(--blue)] rounded-full animate-pulse shadow-[0_0_8px_var(--blue)]"></span> hover around to see the magic
                                 </div>
                             </div>
@@ -1871,8 +1958,8 @@
                     <div class="flex flex-col gap-2 max-w-2xl mb-12 md:mb-0 relative z-10 w-full md:w-1/2">
                         <!-- Headline -->
                         <h2 class="contact-stagger font-['Schoolbell'] leading-[0.7] select-none flex flex-col items-start md:items-start mb-6">
-                            <span class="text-[28vw] md:text-[16vw] xl:text-[13vw] text-[var(--blue)] tracking-tight">let's</span>
-                            <span class="text-[28vw] md:text-[16vw] xl:text-[13vw] text-[#f4efe6] -mt-[4vw] md:-mt-[2vw] ml-8 md:ml-12 tracking-tight">talk</span>
+                            <span class="text-[32vw] md:text-[18vw] xl:text-[14vw] text-[var(--blue)]">contact</span>
+                            <span class="text-[32vw] md:text-[18vw] xl:text-[14vw] text-[#f4efe6] -mt-[6vw] md:-mt-[4vw] ml-8 md:ml-12">Me</span>
                         </h2>
                         <!-- Subtext -->
                         <p class="contact-stagger font-['Schoolbell'] text-xl md:text-2xl text-white/65 max-w-md leading-relaxed mt-4">
@@ -1898,31 +1985,36 @@
                         </div>
 
                         <!-- Social Links -->
-                        <div class="contact-stagger flex flex-wrap gap-6 md:gap-8 mt-6">
+                        <div class="contact-stagger flex gap-8 mt-4">
                             <a href="https://www.instagram.com/bajkamal07/" target="_blank" rel="noopener noreferrer" 
-                               class="focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#0F35FF] relative text-[var(--beige)] font-['Schoolbell'] text-xl md:text-2xl uppercase tracking-widest hover:text-[var(--blue)] transition-all duration-300 hover:scale-[1.03] group">
-                                - INSTAGRAM
-                                <span class="absolute -bottom-1 left-0 w-0 h-[2px] bg-[var(--blue)] transition-all duration-300 group-hover:w-full"></span>
+                               class="focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#0F35FF] relative text-white/50 font-['Schoolbell'] text-sm md:text-base uppercase tracking-widest hover:text-[var(--blue)] transition-all duration-300 hover:scale-[1.03] group">
+                                INSTAGRAM
+                                <span class="absolute -bottom-1 left-0 w-0 h-[1px] bg-[var(--blue)] transition-all duration-300 group-hover:w-full"></span>
+                                <!-- Optional thin line extension (blueprint feel) -->
+                                <span class="absolute top-1/2 -left-3 w-2 h-[1px] bg-white/20 group-hover:bg-[var(--blue)] transition-colors"></span>
                             </a>
                             <a href="https://www.linkedin.com/in/bajkamalsingh/" target="_blank" rel="noopener noreferrer" 
-                               class="focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#0F35FF] relative text-[var(--beige)] font-['Schoolbell'] text-xl md:text-2xl uppercase tracking-widest hover:text-[var(--blue)] transition-all duration-300 hover:scale-[1.03] group">
-                                - LINKEDIN
-                                <span class="absolute -bottom-1 left-0 w-0 h-[2px] bg-[var(--blue)] transition-all duration-300 group-hover:w-full"></span>
+                               class="focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#0F35FF] relative text-white/50 font-['Schoolbell'] text-sm md:text-base uppercase tracking-widest hover:text-[var(--blue)] transition-all duration-300 hover:scale-[1.03] group">
+                                LINKEDIN
+                                <span class="absolute -bottom-1 left-0 w-0 h-[1px] bg-[var(--blue)] transition-all duration-300 group-hover:w-full"></span>
+                                <span class="absolute top-1/2 -left-3 w-2 h-[1px] bg-white/20 group-hover:bg-[var(--blue)] transition-colors"></span>
                             </a>
                             <a href="mailto:bajkamalsingh1@gmail.com?subject=Internship%3F%20You're%20hired.%20(Almost.)&body=Hey%20Bajkamal,%0A%0ACame%20here%20to%20check%20a%20portfolio.%0ALeft%20with%20a%20mild%20urge%20to%20hire%20you.%0A%0ALet%E2%80%99s%20talk%20before%20someone%20else%20hires%20you." 
-                               class="focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#0F35FF] relative text-[var(--beige)] font-['Schoolbell'] text-xl md:text-2xl uppercase tracking-widest hover:text-[var(--blue)] transition-all duration-300 hover:scale-[1.03] group">
-                                - MAIL
-                                <span class="absolute -bottom-1 left-0 w-0 h-[2px] bg-[var(--blue)] transition-all duration-300 group-hover:w-full"></span>
+                               class="focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#0F35FF] relative text-white/50 font-['Schoolbell'] text-sm md:text-base uppercase tracking-widest hover:text-[var(--blue)] transition-all duration-300 hover:scale-[1.03] group">
+                                MAIL
+                                <span class="absolute -bottom-1 left-0 w-0 h-[1px] bg-[var(--blue)] transition-all duration-300 group-hover:w-full"></span>
+                                <span class="absolute top-1/2 -left-3 w-2 h-[1px] bg-white/20 group-hover:bg-[var(--blue)] transition-colors"></span>
                             </a>
                         </div>
                     </div>
                 </section>
+                <!-- 5. GRID FOOTER -->
                 <footer id="contact" class="bg-[var(--beige)] text-[var(--navy)] border-t-[3px] border-[var(--navy)] py-12 px-8 md:px-12 relative flex flex-col md:flex-row justify-between items-start md:items-center gap-12 md:gap-8 z-40">
                     <div class="font-['Open_Sauce_One'] font-bold text-[15px] md:text-[18px] leading-tight tracking-tight flex flex-col justify-center gap-0.5 opacity-80 max-w-lg">
                         <span>Bye, have a great day at your job.</span>
                         <span>Hoping you get more creative portfolios to look at.</span>
                     </div>
-                    
+
                     <div class="flex flex-col items-start md:items-end md:text-right">
                         <span class="font-['Gloria_Hallelujah'] text-4xl md:text-[50px] text-[var(--navy)] leading-none transform -rotate-[2deg]">Bajkamal Singh</span>
                         <span class="font-['Gloria_Hallelujah'] text-4xl md:text-[50px] text-[var(--blue)] leading-none transform -rotate-[2deg] mt-1 md:mt-2">(Baaz)</span>
@@ -1981,36 +2073,36 @@
         // Define stackData at the very top of the script so it is initialized before renderStack() execution
         const stackData = [
             {
-                company: 'Grimbyte Technologies', desc: 'Consulting firm specializing in marketing transformation & GTM strategies', duration: '4 Weeks', role: 'Brand Strategy Intern',
+                company: 'Grimbyte Technologies', desc: 'Consulting firm specialising in marketing transformation & GTM strategies', duration: '4 Weeks', role: 'Brand Strategy Intern',
                 points: [
                     'Configured <strong class="text-current underline decoration-2 underline-offset-2">GA4, Meta & SEMrush dashboards</strong> for 6+ clients - replaced vanity metrics with performance KPIs to validate marketing spend and optimize budget allocation.',
                     'Mapped <strong class="text-current underline decoration-2 underline-offset-2">CX journeys for 4 clients</strong> to identify friction points & optimize user flows, reducing drop-off rates & manual touchpoints while improving lead capture.'
                 ],
-                stats: [{ num: '6+', label: 'Clients' }, { num: '3', label: 'Tools Mapped' }, { num: 'Page-1', label: 'SEO Target' }]
+                stats: [{ num: '6+', label: 'Clients' }, { num: '4', label: 'CX Journeys Mapped' }, { num: '3', label: 'Tools Deployed' }]
             },
             {
-                company: 'Blue Tea', desc: 'India’s leading herbal tea brand, featured on Shark Tank India, with 1M+ global customers', duration: '4 Weeks', role: 'Live Project Associate',
+                company: 'Blue Tea', desc: "India's leading herbal tea brand, featured on Shark Tank India, with 1M+ global customers", duration: '4 Weeks', role: 'Live Project Associate',
                 points: [
-                    'Architected an influencer campaign model, managing outreach to <strong class="text-current underline decoration-2 underline-offset-2">90+ creators</strong>, achieving ₹0.10 CPV outperforming industry benchmarks & maximizing ROI.',
-                    'Executed a targeted offline activation strategy, securing <strong class="text-current underline decoration-2 underline-offset-2">5+ strategic B2B partnerships</strong> to distribute 2,000+ units, penetrating high-value customer segments.'
+                    'Executed a targeted <strong class="text-current underline decoration-2 underline-offset-2">offline activation strategy</strong>, securing 5+ strategic B2B partnerships to distribute 2,000+ units, penetrating high-value customer segments.',
+                    'Architected an <strong class="text-current underline decoration-2 underline-offset-2">influencer campaign model</strong>, managing outreach to 90+ creators, achieving ₹0.10 CPV - outperforming industry benchmarks & maximizing ROI.'
                 ],
                 stats: [{ num: '90+', label: 'Creators outreached' }, { num: '₹0.10', label: 'CPV achieved' }, { num: '2K+', label: 'Units distributed' }]
             },
             {
                 company: 'Dr. Water', desc: 'Global US-based brand delivering premium hydrogen hydration solutions', duration: '8 Weeks', role: 'Project Head',
                 points: [
-                    'Identified <strong class="text-current underline decoration-2 underline-offset-2">6 key customer personas</strong> through primary & secondary research, analyzing 200+ responses & behavioural patterns, framing 360o marketing strategies.',
+                    'Identified <strong class="text-current underline decoration-2 underline-offset-2">6 key customer personas</strong> through primary & secondary research, analyzing 200+ responses & behavioural patterns, framing 360° marketing strategies.',
                     'Benchmarked <strong class="text-current underline decoration-2 underline-offset-2">18+ hydration brands</strong>, defining competitive gaps & synthesized over 2,000 data points, leveraging insights to inform targeted marketing strategies.'
                 ],
                 stats: [{ num: '6', label: 'Personas mapped' }, { num: '2K+', label: 'Data points' }, { num: '18+', label: 'Brands benchmarked' }]
             },
             {
-                company: 'Frost & Sullivan', desc: 'International consulting firm specializing in market research & strategic advisory', duration: '4 Weeks', role: 'Live Project Associate',
+                company: 'Frost & Sullivan', desc: 'International consulting firm specialising in market research & strategic advisory', duration: '4 Weeks', role: 'Live Project Associate',
                 points: [
                     'Benchmarked advancements in <strong class="text-current underline decoration-2 underline-offset-2">six mobility domains</strong>, identifying synergies projected to unlock ₹42,000 crore+ in combined market opportunities.',
                     'Evaluated & ranked <strong class="text-current underline decoration-2 underline-offset-2">200+ technologies</strong> using the Mobility Innovation Scoring Model, identifying the top 10 innovations for strategic client focus.'
                 ],
-                stats: [{ num: '200+', label: 'Tech ranked' }, { num: '₹42K Cr+', label: 'Market opportunity' }, { num: '12', label: 'Scoring Parameters' }]
+                stats: [{ num: '200+', label: 'Tech ranked' }, { num: '₹42K Cr+', label: 'Market opportunity' }, { num: '6', label: 'Mobility domains' }]
             }
         ];
 
@@ -2118,7 +2210,6 @@
 
         ScrollTrigger.defaults({ scroller: worldViewport });
         lenis.on('scroll', ScrollTrigger.update);
-        lenis.stop(); // Lock scrolling during intro
 
         // --- PRELOADER & HERO REVEAL ---
         const preloaderBg = document.getElementById('preloader-bg');
@@ -2157,36 +2248,30 @@
         const charIntentionalEnd = splitTextToChars('intentional-end');
 
         const introTl = gsap.timeline();
-        introTl.timeScale(1.45); // Speeds up the entire text timeline to finish around 3.5s
-
         const charDur = 1.0; const stg = 0.025; 
 
         // Loading Percentage Animation
         const loadingProgress = document.getElementById('loading-progress');
-        const loadingBar = document.getElementById('loading-bar');
-        const loadingDot = document.getElementById('loading-dot');
+        const loaderBar = document.getElementById('loader-bar');
+        const loaderDot = document.getElementById('loader-dot');
         if(loadingProgress) {
             gsap.to({ val: 0 }, {
                 val: 100,
-                duration: 3.3, // Matches the new sped-up timeline
+                duration: 4.9,
                 ease: "power1.inOut",
                 onUpdate: function() {
-                    const rawVal = Math.floor(this.targets()[0].val);
-                    const percent = rawVal.toString().padStart(2, '0');
+                    const raw = this.targets()[0].val;
+                    const percent = Math.floor(raw).toString().padStart(2, '0');
                     loadingProgress.innerText = `${percent}%`;
-                    if (loadingBar) loadingBar.style.width = `${rawVal}%`;
-                    if (rawVal === 100 && loadingDot) {
-                        loadingDot.classList.remove('bg-[#FF3333]', 'shadow-[0_0_10px_rgba(255,51,51,0.8)]', 'animate-pulse');
-                        loadingDot.classList.add('bg-[#10B981]', 'shadow-[0_0_10px_rgba(16,185,129,0.8)]');
+                    if (loaderBar) loaderBar.style.width = Math.floor(raw) + '%';
+                },
+                onComplete: function() {
+                    if (loaderDot) {
+                        loaderDot.style.backgroundColor = '#22c55e';
+                        loaderDot.style.boxShadow = '0 0 10px rgba(34,197,94,0.8)';
                     }
                 }
             });
-        }
-
-        // Removed Rapid Image Montage
-        const preloaderMontage = document.getElementById('preloader-montage');
-        if (preloaderMontage) {
-            preloaderMontage.remove();
         }
 
         introTl.to(charI, { opacity: 1, filter: "blur(0px)", duration: charDur, stagger: stg, ease: "power2.out" })
@@ -2230,12 +2315,6 @@
         function revealHero(speed = 1.0) {
             if (revealHeroHasRun) return;
             revealHeroHasRun = true;
-            
-            if (window.preloaderMontageInterval) {
-                clearInterval(window.preloaderMontageInterval);
-                const montage = document.getElementById('preloader-montage');
-                if(montage) gsap.to(montage, {opacity: 0, duration: 0.3});
-            }
 
             const d = 1.5 * speed; // slightly longer for the spatial feel
 
@@ -2251,9 +2330,6 @@
                     preloaderContent.style.display = 'none';
                     preloaderBg.style.display = 'none';
                     gsap.set(['#main-nav-container', '#top-ribbon'], { clearProps: "filter" });
-                    document.body.classList.remove('overflow-hidden');
-                    document.body.classList.add('overflow-x-hidden');
-                    if (typeof lenis !== 'undefined') lenis.start();
                 }
             });
 
@@ -3173,7 +3249,7 @@
             // -------------------------------------------------------------------------
             const tEpilogue = 31.5;
             aboutTl.to('#epilogue-quote', {
-                opacity: 0.9,
+                opacity: 0.4,
                 duration: 1.0,
                 ease: "power2.out"
             }, tEpilogue);
@@ -3319,14 +3395,6 @@
         const stackArea = document.getElementById('stack-area');
         let stackOpenIdx = -1;
 
-        // Close card if clicking outside of any stack-card
-        document.addEventListener('click', (e) => {
-            if (stackOpenIdx !== -1 && !e.target.closest('.stack-card')) {
-                stackOpenIdx = -1;
-                updateStack(false);
-            }
-        });
-
         function renderStack() {
             if(!stackArea) return;
             stackArea.innerHTML = '';
@@ -3362,11 +3430,11 @@
                         <span aria-hidden="true" class="font-['Schoolbell'] text-[10px] md:text-[11px] uppercase tracking-widest opacity-80 font-bold">${s.label}</span>
                     </div>
                 `).join('');
-                
+
                 card.innerHTML = `
                     <!-- Dossier Background Elements -->
                     <div class="absolute inset-0 opacity-[0.05] pointer-events-none mix-blend-multiply bg-[url('data:image/svg+xml,%3Csvg viewBox=%220 0 200 200%22 xmlns=%22http://www.w3.org/2000/svg%22%3E%3Cfilter id=%22noiseFilter%22%3E%3CfeTurbulence type=%22fractalNoise%22 baseFrequency=%220.85%22 numOctaves=%223%22 stitchTiles=%22stitch%22/%3E%3C/filter%3E%3Crect width=%22100%25%22 height=%22100%25%22 filter=%22url(%23noiseFilter)%22/%3E%3C/svg%3E')]"></div>
-                    
+
                     <div class="flex justify-between items-start w-full relative z-20 gap-4 mb-2 pr-2 md:pr-4">
                         <div class="flex flex-row items-baseline flex-wrap gap-x-4">
                             <div aria-hidden="true" class="font-['Bebas_Neue'] text-xl md:text-2xl uppercase tracking-wider opacity-90 shrink-0">
@@ -3374,40 +3442,35 @@
                             </div>
                             ${c.desc ? `<div class="font-['DM_Sans'] text-[11px] md:text-[12px] normal-case tracking-normal opacity-70 leading-snug">${c.desc}</div>` : ''}
                         </div>
-                        
                         <div class="flex items-center gap-3 shrink-0 pointer-events-none">
-
                             <div class="w-8 md:w-12 h-3 md:h-4 bg-current opacity-80"></div>
                         </div>
                     </div>
-                    
+
                     <div class="w-full h-[1px] ${theme.divider} opacity-20 mb-3 mt-1 relative z-10"></div>
-                    
+
                     <div class="flex justify-between items-end w-full relative z-20 mb-4 pr-2 md:pr-4">
                         <div class="font-['Schoolbell'] text-5xl md:text-6xl leading-[1.1] text-current capitalize transform -rotate-[1deg]">${c.role}</div>
                         <div class="font-['DM_Sans'] text-[11px] md:text-[13px] font-bold uppercase tracking-normal opacity-60 mb-2 pl-2">// ${c.duration}</div>
                     </div>
-                    
+
                     <div class="card-expand mt-0 relative z-10">
                         <div class="w-full h-[1px] ${theme.divider} opacity-20 mt-2 mb-6 md:mb-8"></div>
-                        
+
                         <div class="flex flex-col md:flex-row gap-8 md:gap-12 w-full relative z-10">
                             <!-- Left Column: Points -->
                             <div class="flex flex-col flex-[2] md:w-[65%] pr-0 md:pr-4">
                                 ${pointsHtml}
-                                
                                 <div class="w-full flex justify-center mt-4 pb-2">
                                     <span aria-hidden="true" class="font-['Schoolbell'] text-[9px] md:text-[10px] font-bold uppercase tracking-widest opacity-50 border-b border-current/30 pb-1 hover:opacity-100 transition-opacity">
                                         [ CLICK ANYWHERE TO CLOSE ]
                                     </span>
                                 </div>
                             </div>
-                            
+
                             <!-- Right Column: Stats -->
                             <div class="flex flex-col flex-[1] md:w-[35%] pt-2 relative">
-                                <!-- Status Stamp -->
                                 <div class="absolute bottom-4 right-0 font-['Schoolbell'] text-[40px] md:text-[50px] text-current opacity-[0.12] transform -rotate-[15deg] uppercase border-[4px] border-current px-4 py-1 leading-none pointer-events-none mix-blend-overlay font-bold z-0">Archived</div>
-                                
                                 <div class="relative z-10">
                                     ${statsHtml}
                                 </div>
@@ -3444,7 +3507,7 @@
 
         function updateStack(immediate = false) {
             if(!stackArea) return;
-            const STACK_GAP = window.innerWidth > 768 ? 95 : 75;
+            const STACK_GAP = window.innerWidth > 768 ? 90 : 72;
             const els = stackArea.querySelectorAll('.stack-card');
             
             // Increased push amount to make room for the much larger typography
@@ -3493,6 +3556,45 @@
 
         renderStack();
         window.addEventListener('resize', () => { if(document.getElementById('stack-area')) updateStack(true); });
+
+        // --- STACK CURSOR LABEL ---
+        const stackCursorLabel = document.getElementById('stack-cursor-label');
+        let stackLabelVisible = false;
+
+        window.addEventListener('mousemove', (e) => {
+            if (stackCursorLabel) {
+                gsap.set(stackCursorLabel, { x: e.clientX + 18, y: e.clientY });
+            }
+        });
+
+        document.addEventListener('mouseover', (e) => {
+            if (!stackCursorLabel) return;
+            const card = e.target.closest('.stack-card');
+            if (card && !stackLabelVisible) {
+                stackLabelVisible = true;
+                stackCursorLabel.classList.add('visible');
+            }
+        });
+
+        document.addEventListener('mouseout', (e) => {
+            if (!stackCursorLabel) return;
+            const card = e.target.closest('.stack-card');
+            if (card && !card.contains(e.relatedTarget)) {
+                stackLabelVisible = false;
+                stackCursorLabel.classList.remove('visible');
+            }
+        });
+
+        // --- CLICK OUTSIDE CARDS TO CLOSE ---
+        const experienceSection = document.getElementById('experience');
+        if (experienceSection) {
+            experienceSection.addEventListener('click', (e) => {
+                if (stackOpenIdx !== -1 && !e.target.closest('.stack-card')) {
+                    stackOpenIdx = -1;
+                    updateStack(false);
+                }
+            });
+        }
 
         // --- INTERACTIVE VENDING & 3D COVERFLOW LOGIC ---
         function buildFlow() {
@@ -3667,7 +3769,7 @@
                         </div>
 
                         <!-- Right Context Handwritten Note -->
-                        <div class="hidden xl:block absolute right-[5%] bottom-[25%] font-['Gloria_Hallelujah'] text-[32px] text-[#051024] rotate-3 z-30 leading-tight">
+                        <div class="hidden xl:block absolute right-[5%] bottom-[25%] font-['Caveat'] text-[32px] text-[#051024] rotate-3 z-30 leading-tight">
                             <svg class="absolute -left-16 -top-2 w-16 h-16 text-[#051024] -rotate-[160deg] opacity-50" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><path d="M22 12H2"/><path d="M14 20l8-8-8-8"/></svg>
                             <span class="bg-yellow-200/60 mix-blend-multiply px-2 py-1">Engagement shifted.</span><br>
                             Followers went from <br>passive to active distributors.
@@ -3774,26 +3876,26 @@
                     <div class="relative w-full max-w-4xl mx-auto mt-32 mb-40 reveal-blur" style="transition-delay: 0.4s;">
                         <!-- Top Left Annotation (Points to Card 1) -->
                         <div class="hidden lg:flex absolute -top-24 left-0 w-48 flex-col items-center gap-1 z-40 transform -translate-x-8">
-                            <p class="font-['Gloria_Hallelujah'] text-2xl text-[#051024] leading-tight text-center font-semibold">Positioned RNTL as a legitimate industry player from Day 1.</p>
+                            <p class="font-['Caveat'] text-2xl text-[#051024] leading-tight text-center font-semibold">Positioned RNTL as a legitimate industry player from Day 1.</p>
                             <svg class="w-8 h-10 text-[#051024] mt-1" viewBox="0 0 24 32" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2 C 8 12, 16 22, 12 30" /><path d="M6 24 L 12 30 L 18 24" /></svg>
                         </div>
                         
                         <!-- Top Right Annotation (Points to Card 5) -->
                         <div class="hidden lg:flex absolute -top-24 right-0 w-48 flex-col items-center gap-1 z-40 transform translate-x-8">
-                            <p class="font-['Gloria_Hallelujah'] text-2xl text-[#051024] leading-tight text-center font-semibold">Defined flow & interaction convo for narrative consistency.</p>
+                            <p class="font-['Caveat'] text-2xl text-[#051024] leading-tight text-center font-semibold">Defined flow & interaction convo for narrative consistency.</p>
                             <svg class="w-8 h-10 text-[#051024] mt-1" viewBox="0 0 24 32" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2 C 16 12, 8 22, 12 30" /><path d="M6 24 L 12 30 L 18 24" /></svg>
                         </div>
 
                         <!-- Bottom Left Annotation (Points to Card 2) -->
                         <div class="hidden lg:flex absolute -bottom-28 left-[20%] w-56 flex-col items-center gap-1 z-40 transform -translate-x-4">
                             <svg class="w-8 h-10 text-[#051024] mb-1" viewBox="0 0 24 32" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 30 C 8 20, 16 10, 12 2" /><path d="M6 8 L 12 2 L 18 8" /></svg>
-                            <p class="font-['Gloria_Hallelujah'] text-2xl text-[#051024] leading-tight text-center font-semibold">Removed consumer fear of "is this brand trustable?" via borrowed equity.</p>
+                            <p class="font-['Caveat'] text-2xl text-[#051024] leading-tight text-center font-semibold">Removed consumer fear of "is this brand trustable?" via borrowed equity.</p>
                         </div>
 
                         <!-- Bottom Right Annotation (Points to Card 4) -->
                         <div class="hidden lg:flex absolute -bottom-28 right-[20%] w-56 flex-col items-center gap-1 z-40 transform translate-x-4">
                             <svg class="w-8 h-10 text-[#051024] mb-1" viewBox="0 0 24 32" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 30 C 16 20, 8 10, 12 2" /><path d="M6 8 L 12 2 L 18 8" /></svg>
-                            <p class="font-['Gloria_Hallelujah'] text-2xl text-[#051024] leading-tight text-center font-semibold">Planned Q&A and SKU integration to endorse renting.</p>
+                            <p class="font-['Caveat'] text-2xl text-[#051024] leading-tight text-center font-semibold">Planned Q&A and SKU integration to endorse renting.</p>
                         </div>
 
                         <!-- Interactive Circle on the right (from screenshot) -->
@@ -3950,7 +4052,7 @@
                         </div>
                         
                         <!-- Handwritten Annotation floating outside -->
-                        <div class="absolute bottom-8 left-[10%] hidden xl:block font-['Gloria_Hallelujah'] font-medium text-[32px] text-[#F4EFE6] -rotate-6 z-30 opacity-90 drop-shadow-lg pointer-events-none">
+                        <div class="absolute bottom-8 left-[10%] hidden xl:block font-['Caveat'] font-medium text-[32px] text-[#F4EFE6] -rotate-6 z-30 opacity-90 drop-shadow-lg pointer-events-none">
                             Social proof scaled the conversion.
                             <svg class="absolute -top-8 right-[-50px] w-16 h-16 text-[#F4EFE6] opacity-80" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="M12 5l7 7-7 7"/></svg>
                         </div>
@@ -4479,142 +4581,6 @@
         const backToTransitBtn = document.getElementById('back-to-transit-btn');
         const progressText = document.getElementById('transit-progress-text');
         
-        // --- GUARD: prevents double-open and close-during-open ---
-        let _caseStudyOpen = false;
-
-        // Close case study when clicking the background overlay (not the card)
-        if (transitCsView && backToTransitBtn) {
-            transitCsView.addEventListener('click', (e) => {
-                if (e.target === transitCsView && !_caseStudyOpen) {
-                    backToTransitBtn.click();
-                }
-            });
-        }
-        
-        window.stepOutToCaseStudy = function(event, dataIndex) {
-            // BUG 4 FIX: Prevent re-entrant / double-click invocation
-            if (_caseStudyOpen) return;
-            _caseStudyOpen = true;
-
-            if (event) {
-                event.preventDefault();
-                event.stopPropagation();
-            }
-
-            // BUG 1 FIX (PART A): Kill ALL ScrollTriggers using transitCsView as
-            // their scroller BEFORE injecting new content.
-            if (typeof ScrollTrigger !== 'undefined') {
-                ScrollTrigger.getAll().forEach(st => {
-                    if (st.vars && st.vars.scroller === transitCsView) {
-                        st.kill();
-                    }
-                });
-            }
-
-            try {
-                if (typeof lenis !== 'undefined') lenis.stop();
-            } catch(e) { console.error("Lenis stop error:", e); }
-            
-            document.body.style.overflow = 'hidden';
-            document.documentElement.style.overflow = 'hidden';
-            document.body.style.touchAction = 'none';
-
-            try {
-                if (isAudioInit && typeof arrivalSynth !== 'undefined') {
-                    arrivalSynth.triggerAttackRelease(["E4", "G4", "C5"], "8n");
-                }
-            } catch(e) {}
-            
-            const data = inventoryData[dataIndex];
-            const bgHex = data.bg || '#F4EFE6';
-            const textHex = data.text || '#051024';
-            
-            // BUG 5 FIX: Clear old content first so the injection happens into
-            // an empty container, preventing a double-render of old+new DOM.
-            transitCsContent.innerHTML = '';
-            transitCsContent.style.backgroundColor = bgHex;
-            transitCsContent.style.borderColor = textHex;
-            transitCsContent.style.boxShadow = `16px 16px 0px ${textHex}`;
-
-            // BUG 5 FIX (cont.): Defer the HTML injection by one animation frame.
-            requestAnimationFrame(() => {
-                transitCsContent.innerHTML = data.customHTML;
-                
-                transitCsView.classList.remove('hidden');
-                
-                gsap.fromTo(transitCsView, 
-                    { opacity: 0, scale: 0.96, y: 20 }, 
-                    { 
-                        opacity: 1, scale: 1, y: 0, duration: 0.4, ease: "power2.out",
-                        onComplete: () => {
-                            // Release the double-click guard now that open is complete
-                            _caseStudyOpen = false;
-
-                            gsap.set(transitMapView, { height: 0, opacity: 0 });
-                            transitMapView.classList.add('hidden');
-                            
-                            if (typeof ScrollTrigger !== 'undefined') {
-                                const revealElements = transitCsContent.querySelectorAll(
-                                    '.reveal-text, .reveal-blur, .mockup-scene, .brutal-grid-3, .brutal-grid-2, .brutal-stat-card'
-                                );
-                                revealElements.forEach((el) => {
-                                    ScrollTrigger.create({
-                                        trigger: el,
-                                        scroller: transitCsView,
-                                        start: "top 90%",
-                                        toggleClass: "is-visible",
-                                        once: true  // WAS: once: false — stops constant GPU thrashing
-                                    });
-                                });
-                            }
-                        }
-                    }
-                );
-            });
-            
-            if (typeof triggerExploration === 'function') {
-                triggerExploration(`transit_project_${data.id}`);
-            }
-        };
-
-        if (backToTransitBtn) {
-            backToTransitBtn.addEventListener('click', () => {
-                // Don't allow closing while the open animation is still running
-                if (_caseStudyOpen) return;
-
-                if (typeof lenis !== 'undefined') lenis.start();
-                document.body.style.overflow = '';
-                document.documentElement.style.overflow = '';
-                document.body.style.touchAction = '';
-
-                if (isAudioInit && typeof popSynth !== 'undefined') {
-                    popSynth.triggerAttackRelease("C4", "8n");
-                }
-                
-                // BUG 1 FIX (PART B): Kill by scroller BEFORE clearing innerHTML.
-                if (typeof ScrollTrigger !== 'undefined') {
-                    ScrollTrigger.getAll().forEach(st => {
-                        if (st.vars && st.vars.scroller === transitCsView) {
-                            st.kill();
-                        }
-                    });
-                }
-
-                transitMapView.classList.remove('hidden');
-                gsap.set(transitMapView, { height: '100%', opacity: 1, scale: 0.90 });
-                gsap.to(transitMapView, { scale: 0.95, duration: 0.4, ease: "power2.out" });
-                
-                gsap.to(transitCsView, { 
-                    opacity: 0, scale: 0.98, y: 15, duration: 0.3, ease: "power2.in",
-                    onComplete: () => {
-                        transitCsView.classList.add('hidden');
-                        transitCsContent.innerHTML = '';
-                        // BUG 3 FIX: Removed ScrollTrigger.refresh() here to prevent stale DOM checks
-                    }
-                });
-            });
-        }
-
         let exploredTransit = new Set();
         
         const dmrcStations = ["NORTH CAMPUS", "GTB NAGAR", "VISHWAVIDYALAYA", "KASHMERE GATE", "RAJIV CHOWK", "RNTL TERMINAL"];
@@ -4678,7 +4644,7 @@
                             <!-- Small Node -->
                             <div class="route-dot w-2 h-2 md:w-[10px] md:h-[10px] rounded-full border-[2px] md:border-[3px] border-[#0A0A1A] bg-white transition-all duration-500 relative z-10"></div>
                             <!-- Text Below -->
-                            <div aria-hidden="true" class="absolute top-full pt-2 md:pt-3 font-['Open_Sauce_One'] text-[#0A0A1A] text-[10px] md:text-[12px] font-bold leading-none opacity-80 node-label text-center transform rotate-[-57deg] origin-top-right right-[50%] mr-1 md:mr-2 tracking-[-0.1em] uppercase">
+                            <div aria-hidden="true" class="absolute top-full pt-2 md:pt-3 font-['Open_Sauce_One'] text-[#0A0A1A] text-[10px] md:text-[12px] font-bold leading-none opacity-80 node-label text-center transform rotate-[57deg] origin-top-left left-[50%] ml-1 md:ml-2 tracking-[-0.1em] uppercase">
                                 ${name}
                             </div>
                         </div>
@@ -4778,17 +4744,6 @@
                             <div class="absolute top-[30%] left-[15%] w-[40px] md:w-[50px] h-[20px] bg-[#080808] -translate-x-1/2 rounded-sm z-[46] border-[2px] border-[#222]"></div>
                             <div class="absolute top-[30%] right-[15%] w-[40px] md:w-[50px] h-[20px] bg-[#080808] translate-x-1/2 rounded-sm z-[46] border-[2px] border-[#222]"></div>
 
-                            <!-- Top Left Aligned Step Out Button (Moved OUTSIDE Billboard frame to fix Safari hit-test bug) -->
-                            ${i !== 0 ? `
-                            <button id="step-out-btn-${i}" class="focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#0F35FF] step-out-btn absolute -top-5 md:-top-7 -left-4 md:-left-8 bg-[#D4A017] hover:bg-[#FF2A2A] text-[#0B0B0B] hover:text-white font-['Open_Sauce_One'] text-[12px] md:text-[14px] font-bold tracking-wide leading-tight uppercase px-5 md:px-8 py-2 md:py-3 border-[4px] border-[#0B0B0B] shadow-[8px_8px_0_rgba(11,11,11,1)] flex items-center gap-3 hover:translate-y-[2px] hover:shadow-[4px_4px_0_rgba(11,11,11,1)] transition-all cursor-pointer z-[99999] w-max group text-left" style="opacity: 0; pointer-events: none; background-image: repeating-linear-gradient(-45deg, transparent, transparent 10px, rgba(11,11,11,0.15) 10px, rgba(11,11,11,0.15) 20px);" ${clickHandler}>
-                                <div class="flex flex-col">
-                                    <span>STEP OUT FOR</span>
-                                    <span>DISSECTION</span>
-                                </div>
-                                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" class="transform group-hover:scale-110 transition-transform ml-2"><path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7"/></svg>
-                            </button>
-                            ` : ''}
-
                             <!-- Billboard Frame (Flatter, Cinematic Proportions) -->
                             <div class="w-full h-[220px] md:h-[240px] bg-[#0B0B0B] border-[6px] md:border-[8px] border-[#0B0B0B] flex flex-col md:flex-row items-stretch shadow-[16px_16px_0_rgba(11,11,11,0.2)] transition-transform duration-500 relative z-[50]">
                                 
@@ -4799,7 +4754,7 @@
                                     <!-- Print Noise Overlay -->
                                     <div class="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI0IiBoZWlnaHQ9IjQiPjxyZWN0IHdpZHRoPSI0IiBoZWlnaHQ9IjQiIGZpbGw9IiNmZmYiIGZpbGwtb3BhY2l0eT0iMC4wNSIvPjwvc3ZnPg==')] opacity-50 mix-blend-overlay pointer-events-none z-[6]"></div>
                                     <!-- Massive Handwritten Project Name -->
-                                    <h3 class="font-['Schoolbell'] text-[70px] md:text-[90px] leading-[0.8] relative z-10 -rotate-[4deg] drop-shadow-[4px_4px_0_rgba(11,11,11,0.3)] px-6 text-center transition-all duration-300 hover:scale-[1.03] hover:-rotate-[2deg] cursor-pointer" style="color: ${st.text || '#FFFFFF'};">${projectName}</h3>
+                                    <h3 class="font-['Schoolbell'] text-[70px] md:text-[90px] leading-[0.8] relative z-10 billboard-float drop-shadow-[4px_4px_0_rgba(11,11,11,0.3)] px-6 text-center" style="color: ${st.text || '#FFFFFF'};">${projectName}</h3>
                                 </div>
 
                                 <!-- Right Panel (Solid Black) -->
@@ -4822,24 +4777,24 @@
                                         </ul>
                                         `}
                                         ${i === 0 ? `
-                                        <div class="mt-2 md:mt-4 flex flex-col gap-5 md:gap-6 border-t border-white/20 pt-4 md:pt-5">
-                                            <div class="flex items-start gap-4 md:gap-5">
-                                                <div class="w-6 h-6 md:w-8 md:h-8 rounded-sm bg-[#D4A017] flex items-center justify-center text-[#0B0B0B] shrink-0 border-[2px] border-white/20">
-                                                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" class="md:w-[18px] md:h-[18px]"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+                                        <div class="mt-2 flex flex-col gap-2.5 border-t border-white/20 pt-2.5">
+                                            <div class="flex items-center gap-3">
+                                                <div class="w-6 h-6 md:w-7 md:h-7 rounded-sm bg-[#D4A017] flex items-center justify-center text-[#0B0B0B] shrink-0 border-[2px] border-white/20">
+                                                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
                                                 </div>
-                                                <div class="flex flex-col mt-[-2px]">
-                                                    <div aria-hidden="true" class="font-['Open_Sauce_One'] text-white text-[10px] md:text-[12px] font-bold tracking-wide uppercase mb-1">NAVIGATE</div>
-                                                    <div aria-hidden="true" class="font-['DM_Sans'] text-white/70 text-[11px] md:text-[13px] tracking-normal leading-snug">Swipe left or right to switch projects.</div>
+                                                <div class="flex flex-col">
+                                                    <div aria-hidden="true" class="font-['Inter'] text-white text-[10px] md:text-[11px] font-black tracking-widest uppercase mb-0.5">Navigate</div>
+                                                    <div aria-hidden="true" class="font-['Inter'] text-white/55 text-[10px] md:text-[11px] font-medium leading-tight">Arrow keys to browse projects.</div>
                                                 </div>
                                             </div>
-                                            
-                                            <div class="flex items-start gap-4 md:gap-5">
-                                                <div class="w-6 h-6 md:w-8 md:h-8 rounded-sm bg-[#0F35FF] flex items-center justify-center text-white shrink-0 border-[2px] border-white/20">
-                                                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" class="md:w-[18px] md:h-[18px]"><path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7"/></svg>
+
+                                            <div class="flex items-center gap-3">
+                                                <div class="w-6 h-6 md:w-7 md:h-7 rounded-sm bg-[#0F35FF] flex items-center justify-center text-white shrink-0 border-[2px] border-white/20">
+                                                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7"/></svg>
                                                 </div>
-                                                <div class="flex flex-col mt-[-2px]">
-                                                    <div aria-hidden="true" class="font-['Open_Sauce_One'] text-white text-[10px] md:text-[12px] font-bold tracking-wide uppercase mb-1">STEP OUT</div>
-                                                    <div aria-hidden="true" class="font-['DM_Sans'] text-white/70 text-[11px] md:text-[13px] tracking-normal leading-snug">Click 'Step Out' to view detailed project breakdowns.</div>
+                                                <div class="flex flex-col">
+                                                    <div aria-hidden="true" class="font-['Inter'] text-white text-[10px] md:text-[11px] font-black tracking-widest uppercase mb-0.5">Step Out</div>
+                                                    <div aria-hidden="true" class="font-['Inter'] text-white/55 text-[10px] md:text-[11px] font-medium leading-tight">Yellow button → deep-dive the project.</div>
                                                 </div>
                                             </div>
                                         </div>
@@ -4865,7 +4820,16 @@
                                     ` : ''}
                                 </div>
                                 
-
+                                <!-- Top Left Aligned Step Out Button -->
+                                ${i !== 0 ? `
+                                <button id="step-out-btn-${i}" class="focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#0F35FF] step-out-btn attention-pulse absolute -top-5 md:-top-7 -left-4 md:-left-8 bg-[#D4A017] hover:bg-[#FF2A2A] text-[#0B0B0B] hover:text-white font-['Open_Sauce_One'] text-[12px] md:text-[14px] font-bold tracking-wide leading-tight uppercase px-5 md:px-8 py-2 md:py-3 border-[4px] border-[#0B0B0B] shadow-[8px_8px_0_rgba(11,11,11,1)] flex items-center gap-3 hover:translate-y-[2px] hover:shadow-[4px_4px_0_rgba(11,11,11,1)] transition-all cursor-pointer z-[60] w-max opacity-0 pointer-events-none group text-left" style="background-image: repeating-linear-gradient(-45deg, transparent, transparent 10px, rgba(11,11,11,0.15) 10px, rgba(11,11,11,0.15) 20px);" ${clickHandler}>
+                                    <div class="flex flex-col">
+                                        <span>STEP OUT FOR</span>
+                                        <span>DISSECTION</span>
+                                    </div>
+                                    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" class="transform group-hover:scale-110 transition-transform ml-2"><path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7"/></svg>
+                                </button>
+                                ` : ''}
                             </div>
                         </div>
                     </div>
@@ -5013,16 +4977,7 @@
                 const activeBtn = document.getElementById(`step-out-btn-${index}`);
                 if (activeBtn) {
                     // Show the button only after the train stops (delay of 1s to match train movement)
-                    gsap.to(activeBtn, { 
-                        opacity: 1, 
-                        pointerEvents: 'auto', 
-                        duration: 0.5, 
-                        delay: 1,
-                        onStart: () => {
-                            activeBtn.classList.remove('pointer-events-none', 'opacity-0');
-                            activeBtn.style.pointerEvents = 'auto';
-                        }
-                    });
+                    gsap.to(activeBtn, { opacity: 1, pointerEvents: 'auto', duration: 0.5, delay: 1 });
                 }
             }
         }
@@ -5069,7 +5024,105 @@
             }
         });
 
+        window.stepOutToCaseStudy = function(event, dataIndex) {
+            if (event) event.stopPropagation();
 
+            if (typeof lenis !== 'undefined') lenis.stop();
+            document.body.style.overflow = 'hidden';
+
+            if (isAudioInit && typeof arrivalSynth !== 'undefined') arrivalSynth.triggerAttackRelease(["E4", "G4", "C5"], "8n");
+            
+            const data = inventoryData[dataIndex];
+            const bgHex = data.bg || '#F4EFE6';
+            const textHex = data.text || '#051024';
+            
+            // Inject preserved custom HTML. 
+            transitCsContent.innerHTML = data.customHTML;
+            transitCsContent.style.backgroundColor = bgHex;
+            transitCsContent.style.borderColor = textHex;
+            transitCsContent.style.boxShadow = `16px 16px 0px ${textHex}`;
+            
+            // Show the square card overlay coming from the bottom
+            const overlay = document.createElement('div');
+            overlay.id = 'step-out-overlay';
+            overlay.className = 'fixed inset-0 z-[9998] transform translate-y-full';
+            overlay.style.backgroundColor = bgHex;
+            document.body.appendChild(overlay);
+
+            gsap.to(overlay, { 
+                y: "0%", 
+                duration: 0.6, 
+                ease: "power3.inOut",
+                onComplete: () => {
+                    // Instantly swap visibility while covered
+                    gsap.set(transitMapView, { height: 0, opacity: 0 });
+                    transitMapView.classList.add('hidden');
+                    transitCsView.classList.remove('hidden');
+                    
+                    // Fade case study up slightly as overlay reveals it
+                    gsap.fromTo(transitCsView, 
+                        { opacity: 0, y: 30 }, 
+                        { opacity: 1, y: 0, duration: 0.5, ease: "power3.out", onComplete: () => {
+                            if (typeof ScrollTrigger !== 'undefined') {
+                                ScrollTrigger.refresh();
+                                const revealElements = transitCsContent.querySelectorAll('.reveal-text, .reveal-blur, .mockup-scene');
+                                revealElements.forEach((el) => {
+                                    ScrollTrigger.create({
+                                        trigger: el,
+                                        scroller: transitCsView,
+                                        start: "top 90%",
+                                        toggleClass: "is-visible",
+                                        once: false
+                                    });
+                                });
+                            }
+                        }}
+                    );
+                    
+                    // Slide overlay out to top (or just fade it)
+                    gsap.to(overlay, { opacity: 0, duration: 0.3, onComplete: () => overlay.remove() });
+                }
+            });
+            
+            if (typeof triggerExploration === 'function') triggerExploration(`transit_project_${data.id}`);
+        };
+
+        if (backToTransitBtn) {
+            backToTransitBtn.addEventListener('click', () => {
+                if (typeof lenis !== 'undefined') lenis.start();
+                document.body.style.overflow = '';
+                if (isAudioInit && typeof popSynth !== 'undefined') popSynth.triggerAttackRelease("C4", "8n");
+                
+                // Clear dynamic triggers
+                if (typeof ScrollTrigger !== 'undefined') {
+                    ScrollTrigger.getAll().forEach(st => {
+                        if (st.trigger && transitCsContent.contains(st.trigger)) st.kill();
+                    });
+                }
+
+                // Create overlay to cover again
+                const overlay = document.createElement('div');
+                overlay.id = 'step-out-overlay';
+                overlay.className = 'fixed inset-0 bg-[#F4EFE6] z-[9998] transform translate-y-full opacity-0';
+                document.body.appendChild(overlay);
+
+                gsap.to(overlay, { 
+                    y: "0%", opacity: 1, duration: 0.4, ease: "power3.inOut",
+                    onComplete: () => {
+                        transitCsView.classList.add('hidden');
+                        transitCsContent.innerHTML = '';
+                        
+                        transitMapView.classList.remove('hidden');
+                        gsap.set(transitMapView, { height: '100%', opacity: 1 });
+                        
+                        gsap.to(overlay, { y: "100%", duration: 0.5, ease: "power3.inOut", onComplete: () => {
+                            overlay.remove();
+                            if (typeof ScrollTrigger !== 'undefined') ScrollTrigger.refresh();
+                        }});
+                    }
+                });
+            });
+        }
 
         // Initialize Transit System
         buildTransitSystem();
@@ -5177,15 +5230,12 @@
                 if(metroWelcomeTriggered) return;
                 metroWelcomeTriggered = true;
                 
-                // Fade in the text/button and make it clickable
-                gsap.to('#metro-door-text', { 
-                    opacity: 1, 
-                    duration: 0.6,
-                    onComplete: () => {
-                        const doorText = document.getElementById('metro-door-text');
-                        if (doorText) doorText.style.pointerEvents = 'auto';
-                    }
-                });
+                const tl = gsap.timeline();
+                tl.to('#metro-door-text', { opacity: 1, duration: 0.4 })
+                  .to('#metro-door-text', { opacity: 0, duration: 0.4, delay: 2.4 })
+                  .to('#metro-door-left', { x: "-100%", duration: 1.2, ease: "power3.inOut" }, "-=0.1")
+                  .to('#metro-door-right', { x: "100%", duration: 1.2, ease: "power3.inOut" }, "<")
+                  .set('#metro-doors-overlay', { display: "none" });
             }
         });
 
