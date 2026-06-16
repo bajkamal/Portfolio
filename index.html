@@ -3114,14 +3114,14 @@
         /* ── 1920×1080 (Overrides 13): Pointers Text Size Correction */
         @media (min-width: 1920px) and (max-width: 1920px) and (min-height: 901px) and (max-height: 1080px) {
             #stack-area .stack-card .card-expand div[class*="items-start"] > div:last-child {
-                font-size: 20px !important;
+                font-size: 19px !important;
                 line-height: 1.8 !important;
             }
             /* Increase the bullet dot size proportionally */
             #stack-area .stack-card .card-expand div[class*="items-start"] > div:first-child {
                 width: 6px !important;
                 height: 6px !important;
-                margin-top: 13px !important;
+                margin-top: 12px !important;
             }
         }
 
@@ -3130,6 +3130,177 @@
             #hero .hero-overlay-text.bottom-16,
             #about-sticky-wrap > div.animate-pulse {
                 translate: 0 25px !important;
+            }
+        }
+
+        /* ── 1920×1080 (Overrides 15): Move Best Works and Section 04 down */
+        @media (min-width: 1920px) and (max-width: 1920px) and (min-height: 901px) and (max-height: 1080px) {
+            div.absolute:has(> .group > #vw-tilted-box) {
+                translate: 0 15px !important;
+            }
+        }
+
+        /* ── 1920×1080 (Overrides 16): Decrease navigation arrows slightly */
+        @media (min-width: 1920px) and (max-width: 1920px) and (min-height: 901px) and (max-height: 1080px) {
+            #transit-next-btn, #transit-prev-btn {
+                width: 105px !important;
+                height: 105px !important;
+            }
+            #transit-next-btn svg, #transit-prev-btn svg {
+                width: 40px !important;
+                height: 40px !important;
+            }
+        }
+
+        /* ── 1920×1080 (Overrides 17): Widen the dissected case study container */
+        @media (min-width: 1920px) and (max-width: 1920px) and (min-height: 901px) and (max-height: 1080px) {
+            #transit-cs-content,
+            #transit-case-study-view > div.sticky {
+                max-width: 1600px !important;
+            }
+        }
+
+        /* ── 1920×1080 (Overrides 18): Decrease size of open book note */
+        @media (min-width: 1920px) and (max-width: 1920px) and (min-height: 901px) and (max-height: 1080px) {
+            #intro-sticky-note {
+                transform: scale(0.85) rotate(-2deg) !important;
+                transform-origin: top right !important;
+            }
+        }
+
+        /* ── 1920×1080 (Overrides 19): Decrease text size and left padding of Origin headline */
+        @media (min-width: 1920px) and (max-width: 1920px) and (min-height: 901px) and (max-height: 1080px) {
+            #origin-headline {
+                font-size: 41px !important;
+                left: 2% !important;
+            }
+        }
+
+        /* ── 1920×1080 (Overrides 20): Move polaroid down by 5px */
+        @media (min-width: 1920px) and (max-width: 1920px) and (min-height: 901px) and (max-height: 1080px) {
+            #art-polaroid {
+                translate: 0 5px !important;
+            }
+        }
+
+        /* ── 1920×1080 (Overrides 21): Move places i have hustled at upwards by 10px */
+        @media (min-width: 1920px) and (max-width: 1920px) and (min-height: 901px) and (max-height: 1080px) {
+            #experience-typewriter {
+                translate: 0 -20px !important;
+            }
+        }
+
+        /* ── 1920×1080 (Overrides 22): Move stamps upwards by 10px */
+        @media (min-width: 1920px) and (max-width: 1920px) and (min-height: 901px) and (max-height: 1080px) {
+            #metrics-stamps-group {
+                translate: 0 -10px !important;
+            }
+        }
+
+        /* ── 1920×1080 (Overrides 23): Move ps note upwards by 10px */
+        @media (min-width: 1920px) and (max-width: 1920px) and (min-height: 901px) and (max-height: 1080px) {
+            #other-highlights-block {
+                translate: 0 -10px !important;
+            }
+        }
+
+        /* ── 1920×1080 (Overrides 24): Increase size of left contact paragraph */
+        @media (min-width: 1920px) and (max-width: 1920px) and (min-height: 901px) and (max-height: 1080px) {
+            #contact p.contact-stagger {
+                font-size: 34px !important;
+                line-height: 1.4 !important;
+                max-width: 800px !important;
+            }
+        }
+
+        /* ── 1920×1080 (Overrides 25): Increase size of Contact CTA area */
+        @media (min-width: 1920px) and (max-width: 1920px) and (min-height: 901px) and (max-height: 1080px) {
+            #contact a[href^="mailto"] {
+                font-size: 80px !important;
+            }
+            #contact .contact-stagger span[aria-hidden="true"] {
+                font-size: 20px !important;
+            }
+            #contact .contact-stagger.flex.gap-8 a {
+                font-size: 24px !important;
+            }
+        }
+
+        /* ── 1536×864 (Overrides 26): Move places i have hustled at upwards */
+        @media (min-width: 1536px) and (max-width: 1536px) and (min-height: 801px) and (max-height: 864px) {
+            #experience-typewriter {
+                translate: 0 -25px !important;
+            }
+        }
+
+        /* ── 1536×864 (Overrides 27): Move quick note upwards */
+        @media (min-width: 1536px) and (max-width: 1536px) and (min-height: 801px) and (max-height: 864px) {
+            #proj-helper-sticker {
+                transform: translateY(-32px) rotate(-2deg) !important;
+            }
+        }
+
+        /* ── 1536×864 (Overrides 28): Move cards stack upwards */
+        @media (min-width: 1536px) and (max-width: 1536px) and (min-height: 801px) and (max-height: 864px) {
+            #stack-area {
+                translate: 0 -15px !important;
+            }
+        }
+
+        /* ── 1536×864 (Overrides 29): Scale down Best heading */
+        @media (min-width: 1536px) and (max-width: 1536px) and (min-height: 801px) and (max-height: 864px) {
+            #vw-best {
+                font-size: 110px !important;
+            }
+        }
+
+        /* ── 1536×864 (Overrides 30): Scale down Work heading */
+        @media (min-width: 1536px) and (max-width: 1536px) and (min-height: 801px) and (max-height: 864px) {
+            #vw-work {
+                font-size: 110px !important;
+            }
+        }
+
+        /* ── 1536×864 (Overrides 31): Scale down Best Works tilted box */
+        @media (min-width: 1536px) and (max-width: 1536px) and (min-height: 801px) and (max-height: 864px) {
+            #vw-tilted-box {
+                height: 120px !important;
+            }
+        }
+
+        /* ── 1536×864 (Overrides 32): Move up and scale down route box */
+        @media (min-width: 1536px) and (max-width: 1536px) and (min-height: 801px) and (max-height: 864px) {
+            #fixed-route-board {
+                margin-top: -22px !important;
+                transform: translateX(18px) rotate(-1.2deg) scale(0.90) !important;
+            }
+        }
+
+        /* ── 1470×956 (Overrides 33): Move places i have hustled upwards */
+        @media (min-width: 1470px) and (max-width: 1470px) and (min-height: 901px) and (max-height: 956px) {
+            #experience-typewriter {
+                translate: 0 -18px !important;
+            }
+        }
+
+        /* ── 1470×956 (Overrides 34): Move stamps upwards */
+        @media (min-width: 1470px) and (max-width: 1470px) and (min-height: 901px) and (max-height: 956px) {
+            #metrics-stamps-group {
+                translate: 0 -18px !important;
+            }
+        }
+
+        /* ── 1470×956 (Overrides 35): Move ps note upwards */
+        @media (min-width: 1470px) and (max-width: 1470px) and (min-height: 901px) and (max-height: 956px) {
+            #other-highlights-block {
+                translate: 0 -18px !important;
+            }
+        }
+
+        /* ── 1470×956 (Overrides 36): Move origin micro story upwards */
+        @media (min-width: 1470px) and (max-width: 1470px) and (min-height: 901px) and (max-height: 956px) {
+            #origin-micro-story {
+                translate: 0 -10px !important;
             }
         }
     </style>
@@ -4723,6 +4894,9 @@
             if (revealHeroHasRun) return;
             revealHeroHasRun = true;
 
+            // Guarantee scroll starts at 0 — browser may restore a previous session position
+            if (worldViewport) worldViewport.scrollTop = 0;
+
             // Unlock immediately — never rely on onComplete to unfreeze the page
             isPhysicsActive = true;
             if (typeof lenis !== 'undefined' && lenis) lenis.start();
@@ -4745,6 +4919,10 @@
                     preloaderContent.style.display = 'none';
                     preloaderBg.style.display = 'none';
                     gsap.set(['#main-nav-container', '#top-ribbon'], { clearProps: "filter" });
+                    // Recalculate all ScrollTrigger positions now that the preloader is fully
+                    // gone and fonts have had time to load — prevents pin-spacer and section
+                    // offset mismatches that cause the "negative spacing" layout glitch.
+                    if (typeof ScrollTrigger !== 'undefined') ScrollTrigger.refresh();
                 }
             });
 
@@ -4862,6 +5040,7 @@
                 if (_skipEl) { _skipEl.style.opacity = '0'; _skipEl.style.pointerEvents = 'none'; }
 
                 // 3. Unlock scroll immediately — never wait for an animation to complete
+                if (worldViewport) worldViewport.scrollTop = 0;
                 if (typeof lenis !== 'undefined' && lenis) lenis.start();
                 isPhysicsActive = true;
 
@@ -6040,6 +6219,7 @@
                 };
 
                 const morphObj = { progress: 0 };
+                let originalD = null;
 
                 // Ensure strokeDasharray is removed so the whole line is visible during morph
                 aboutTl.to(tracePathEl, { strokeDasharray: "none", strokeDashoffset: 0, duration: 0.1 }, tMorph - 0.1);
@@ -6048,7 +6228,10 @@
                     progress: 1,
                     duration: 4.5,
                     ease: "power3.inOut",
-                    onStart: initMorphEngine,
+                    onStart: () => {
+                        if (!originalD) originalD = tracePathEl.getAttribute('d');
+                        initMorphEngine();
+                    },
                     onUpdate: () => {
                         if (!isEngineInit) initMorphEngine();
                         if (!isEngineInit) return;
@@ -6060,6 +6243,12 @@
                             if(i === 0) d += "L ";
                         }
                         tracePathEl.setAttribute('d', d);
+                    },
+                    onReverseComplete: () => {
+                        // Atomically restore the original route path + dash state so the
+                        // map-route shape never flashes while strokeDasharray is still "none"
+                        if (originalD) tracePathEl.setAttribute('d', originalD);
+                        gsap.set(tracePathEl, { strokeDasharray: pathLen, strokeDashoffset: 0 });
                     }
                 }, tMorph);
             }
