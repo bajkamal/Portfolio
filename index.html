@@ -3791,6 +3791,80 @@
                 translate: 0 -35px !important;
             }
         }
+        /* ── 1024×768 (Overrides 1): Reduce 'open book' note size */
+        @media (min-width: 1024px) and (max-width: 1024px) and (min-height: 768px) and (max-height: 768px) {
+            #intro-sticky-note {
+                zoom: 0.8 !important;
+            }
+        }
+
+        /* ── 1024×768 (Overrides 2): Reduce left padding of 'how it all started' and headline */
+        @media (min-width: 1024px) and (max-width: 1024px) and (min-height: 768px) and (max-height: 768px) {
+            #frag-origin-cursive,
+            #origin-headline {
+                margin-left: -25px !important;
+                margin-top: -10px !important;
+            }
+        }
+
+        /* ── 1024×768 (Overrides 3): Move origin page header up */
+        @media (min-width: 1024px) and (max-width: 1024px) and (min-height: 768px) and (max-height: 768px) {
+            #origin-page-header {
+                transform: translateY(-10px) !important;
+            }
+        }
+
+        /* ── 1024×768 (Overrides 4): Adjust micro-story (move up and align left) */
+        @media (min-width: 1024px) and (max-width: 1024px) and (min-height: 768px) and (max-height: 768px) {
+            #origin-micro-story {
+                margin-top: -15px !important;
+                margin-left: -25px !important;
+            }
+        }
+
+        /* ── 1024×768 (Overrides 5): Reduce font size of strategy note */
+        @media (min-width: 1024px) and (max-width: 1024px) and (min-height: 768px) and (max-height: 768px) {
+            #frag-strategy-annot {
+                font-size: 9px !important;
+            }
+        }
+
+        /* ── 1024×768 (Overrides 6): Reduce size of polaroid */
+        @media (min-width: 1024px) and (max-width: 1024px) and (min-height: 768px) and (max-height: 768px) {
+            #art-polaroid {
+                zoom: 0.8 !important;
+            }
+        }
+
+        /* ── 1024×768 (Overrides 7): Reduce size of philosophy note */
+        @media (min-width: 1024px) and (max-width: 1024px) and (min-height: 768px) and (max-height: 768px) {
+            #art-terminal {
+                zoom: 0.8 !important;
+            }
+        }
+
+        /* ── 1024×768 (Overrides 8): Reduce size of 186m note and move right/up */
+        @media (min-width: 1024px) and (max-width: 1024px) and (min-height: 768px) and (max-height: 768px) {
+            #art-stats {
+                zoom: 0.7 !important;
+                margin-left: 65px !important;
+                margin-top: -25px !important;
+            }
+        }
+
+        /* ── 1024×768 (Overrides 9): Move right page header up */
+        @media (min-width: 1024px) and (max-width: 1024px) and (min-height: 768px) and (max-height: 768px) {
+            #origin-page-header-2 {
+                transform: translateY(-7px) !important;
+            }
+        }
+
+        /* ── 1024×768 (Overrides 10): Reduce font size of places i have hustled at para */
+        @media (min-width: 1024px) and (max-width: 1024px) and (min-height: 768px) and (max-height: 768px) {
+            #experience-typewriter {
+                zoom: 0.8 !important;
+            }
+        }
     </style>
 </head>
 <body class="overflow-x-hidden selection:bg-[var(--blue)] selection:text-[var(--beige)]">
@@ -5607,9 +5681,20 @@
         });
         
         if (document.fonts) {
-            document.fonts.ready.then(() => updateNavState('hero', true));
+            document.fonts.ready.then(() => {
+                updateNavState('hero', true);
+                // Fonts may finish loading after the preloader's ScrollTrigger.refresh() fires,
+                // causing pin-spacer heights to be wrong on first load (gap bug). Re-refresh here
+                // so spacers are always measured after real font metrics are in place.
+                requestAnimationFrame(() => {
+                    if (typeof ScrollTrigger !== 'undefined') ScrollTrigger.refresh();
+                });
+            });
         } else {
-            setTimeout(() => updateNavState('hero', true), 250);
+            setTimeout(() => {
+                updateNavState('hero', true);
+                if (typeof ScrollTrigger !== 'undefined') ScrollTrigger.refresh();
+            }, 250);
         }
 
         // --- SYSTEM TRANSIT WARP (NAVBAR TRANSITIONS) ---
