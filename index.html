@@ -288,6 +288,10 @@
             will-change: transform, top;
         }
 
+        #transit-train {
+            height: 210px;
+        }
+
         /* Stack card cursor label */
         #stack-cursor-label {
             position: fixed;
@@ -2423,7 +2427,7 @@
         transform: translateY(-62px) scale(1.25) !important;
     }
     #transit-train {
-        height: 250px !important;
+        height: 170px !important;
     }
     #fixed-route-board {
         margin-top: 20px !important;
@@ -2707,6 +2711,106 @@
     #fixed-route-board {
         zoom: 0.78;
     }
+        }
+
+        @media (min-width: 1320px) and (max-width: 1380px) and (min-height: 580px) and (max-height: 665px) {
+            /* 1366×768 Windows laptop — real viewport ~1349×663 */
+            #frag-origin-cursive { margin-top: -30px; }
+            #origin-headline { margin-top: -20px; }
+            #origin-micro-story { font-size: 10px !important; line-height: 1.5 !important; }
+            #art-polaroid { zoom: 0.72; }
+            #art-terminal { zoom: 0.72; }
+            #art-stats { zoom: 0.68; }
+            #metrics-stamps-group .evidence-stamp-red,
+            #metrics-stamps-group .evidence-stamp-yellow,
+            #metrics-stamps-group .evidence-stamp-blue {
+                height: 80px !important;
+                padding: 5px !important;
+            }
+            #art-stats { margin-top: -30px; margin-left: 20px; }
+            #art-terminal { margin-top: -25px; }
+            #experience-typewriter { margin-top: -50px; }
+            #metrics-stamps-group { translate: 0 -20px; }
+            #art-polaroid { margin-bottom: -25px; }
+            #origin-micro-story { margin-top: 25px; }
+            #proj-section-badge { font-size: 8px; padding: 2px 8px; margin-top: 12px; }
+            #proj-section-badge + h2 { font-size: clamp(70px, 8vw, 100px) !important; margin-top: 8px; }
+            #proj-helper-sticker { margin-top: -30px; align-self: flex-start; }
+            #stack-area { margin-top: 25px; }
+            #stack-area .stack-card { padding-top: 10px !important; padding-bottom: 10px !important; }
+            #stack-area .stack-card .text-\[28px\] { font-size: 20px !important; }
+            #stack-area .stack-card .text-xs { font-size: 9px !important; }
+        }
+
+        @media (min-width: 1500px) and (max-width: 1560px) and (min-height: 660px) and (max-height: 760px) {
+            /* 1920×1080 Windows at 125% scaling — real viewport ~1519×710 */
+            #intro-sticky-note { zoom: 0.78; }
+            #frag-origin-cursive { font-size: 22px !important; }
+            #origin-micro-story { font-size: 10px !important; line-height: 1.5 !important; }
+            #personal-cutout { zoom: 0.82; }
+            #art-polaroid { zoom: 0.80; }
+            #origin-headline { font-size: 26px !important; line-height: 1.05 !important; }
+            #experience-typewriter { margin-top: 10px; margin-left: -20px; font-size: 10px !important; line-height: 1.4 !important; }
+            #metrics-stamps-group .evidence-stamp-red,
+            #metrics-stamps-group .evidence-stamp-yellow,
+            #metrics-stamps-group .evidence-stamp-blue {
+                height: 82px !important;
+                padding: 5px !important;
+            }
+            #frag-origin-cursive { font-size: 16px !important; }
+            #metrics-stamps-group .evidence-stamp-red > span:last-child,
+            #metrics-stamps-group .evidence-stamp-yellow > span:last-child,
+            #metrics-stamps-group .evidence-stamp-blue > span:last-child {
+                font-size: 7px !important;
+                line-height: 1.2 !important;
+            }
+            #proj-header-row > div:first-child { margin-top: 15px; }
+            #proj-helper-sticker { align-self: flex-start; margin-top: 30px; }
+            #stack-area { margin-top: -35px; }
+            #vw-best { font-size: 70px !important; }
+            #vw-work { font-size: 70px !important; }
+            #vw-tilted-box { height: 80px !important; }
+            div.absolute:has(> .group > #vw-tilted-box) { translate: 0 -25px; }
+            #fixed-route-board { zoom: 0.80; }
+            #transit-train { height: 90px !important; }
+            #transit-stations-container > div { padding-bottom: 240px !important; }
+        }
+
+        @media (min-width: 1880px) and (max-width: 1960px) and (min-height: 900px) and (max-height: 980px) {
+            /* 1920×1080 desktop monitor — real viewport ~1903×940 */
+            #transit-train { height: 170px !important; }
+            #transit-stations-container { zoom: 0.95; }
+            #fixed-route-board { zoom: 0.82; margin-top: -20px; }
+            #vw-best { font-size: 110px !important; }
+            #vw-work { font-size: 110px !important; }
+            #vw-tilted-box { height: 120px !important; }
+            div.absolute:has(> .group > #vw-tilted-box) { translate: 0 -30px; }
+            #transit-stations-container > div { padding-bottom: 260px !important; }
+        }
+
+        @media (min-width: 1561px) and (max-width: 1660px) and (min-height: 740px) and (max-height: 840px) {
+            /* 1600×900 laptop — real viewport ~1583×790 */
+            #personal-cutout { width: 28% !important; height: 38% !important; }
+            #origin-micro-story { font-size: 12px !important; line-height: 1.6 !important; margin-top: 25px; }
+            #art-terminal { zoom: 0.82; }
+            #art-stats { zoom: 0.80; }
+            #experience-typewriter { margin-top: -65px; }
+            #art-polaroid { zoom: 0.82; }
+            #vw-best { font-size: 105px !important; }
+            #vw-work { font-size: 105px !important; }
+            #vw-tilted-box { height: 115px !important; }
+            #fixed-route-board { zoom: 0.82; }
+            #transit-stations-container > div { padding-bottom: 200px !important; }
+            #transit-train { height: 150px !important; }
+        }
+
+        @media (min-width: 2500px) and (max-width: 2600px) and (min-height: 1280px) and (max-height: 1380px) {
+            /* 2560×1440 external monitor — real viewport ~2543×1330 */
+            #top-ribbon { height: 52px !important; font-size: 16px !important; }
+            .nav-brutal { padding: 10px !important; }
+            .nav-item { font-size: 16px !important; padding: 10px 20px !important; }
+            #hero-roles-block span[aria-hidden="true"] { font-size: 16px !important; }
+            #hero-roles-block span:not([aria-hidden]) { font-size: 32px !important; }
         }
 
         /* ── 1470×956 (Overrides 34): Move stamps upwards */
@@ -3988,7 +4092,7 @@
                             <div class="absolute bottom-0 left-0 w-full h-[35vh] z-[80] pointer-events-none flex flex-col justify-end overflow-visible">
                                 
                                 <!-- Train Assembly Container -->
-                                <div id="transit-train" class="relative flex flex-row-reverse items-end mb-[2px] transform translate-x-[5vw] will-change-transform transition-transform duration-[1.5s] h-[133px] md:h-[210px] pr-[5vw] md:pr-[10vw]" style="filter: drop-shadow(0 12px 32px rgba(11,11,11,0.25));">
+                                <div id="transit-train" class="relative flex flex-row-reverse items-end mb-[2px] transform translate-x-[5vw] will-change-transform transition-transform duration-[1.5s] h-[133px] pr-[5vw] md:pr-[10vw]" style="filter: drop-shadow(0 12px 32px rgba(11,11,11,0.25));">
                                     <div class="flex flex-row-reverse items-end w-full h-full">
                                     <!-- Right Carriage (Engine - Adjusted Spread) -->
                                     <div class="relative w-[68vw] md:w-[68vw] h-full flex flex-col justify-end flex-shrink-0">
@@ -4961,6 +5065,19 @@
             setTimeout(() => {
                 updateNavState('hero', true);
                 if (typeof ScrollTrigger !== 'undefined') ScrollTrigger.refresh();
+                // Set transit train height based on viewport
+                if (window.innerWidth >= 1880 && window.innerWidth <= 1960 && window.innerHeight >= 900 && window.innerHeight <= 980) {
+                    const trainEl = document.getElementById('transit-train');
+                    if (trainEl) {
+                        trainEl.style.setProperty('height', '170px', 'important');
+                    }
+                }
+                if (window.innerWidth >= 1561 && window.innerWidth <= 1660 && window.innerHeight >= 740 && window.innerHeight <= 840) {
+                    const trainEl = document.getElementById('transit-train');
+                    if (trainEl) {
+                        trainEl.style.setProperty('height', '150px', 'important');
+                    }
+                }
             }, 250);
         }
 
@@ -7836,7 +7953,7 @@
         // Lock the Metro section in place for a short scroll duration
         ScrollTrigger.create({
             trigger: "#vending",
-            start: "top top",
+            start: () => window.innerWidth <= 1380 ? "top -6%" : "top top",
             end: "+=1200",
             pin: true,
             pinSpacing: true,
