@@ -139,7 +139,7 @@
 
         #world-container {
             will-change: transform, filter, opacity;
-            background: var(--beige); 
+            background: var(--beige);
             min-height: 100vh;
             transform-origin: center bottom;
             transform-style: preserve-3d;
@@ -985,6 +985,7 @@
         html, body { max-width: 100%; overflow-x: clip; }
         #world-container { max-width: 100vw; overflow-x: clip; }
 
+
         /* 3. Fluid typography for the brutalist case-study section.
            These were hard px and stopped scaling on laptop/desktop widths,
            causing undersized display type on large monitors. */
@@ -1006,7 +1007,6 @@
         @supports (height: 100dvh) {
             #world-viewport         { height: 100dvh; }
             #world-container        { min-height: 100dvh; }
-            .h-screen               { height: 100dvh !important; }
         }
 
         /* ============================================================
@@ -1132,14 +1132,354 @@
            the top portion is clipped by overflow-hidden, cutting off #proj-section-badge.
            Fix: collapse the top margin on the badge's parent div only. */
         @media (min-width: 1280px) and (max-width: 1440px) and (max-height: 800px) {
-            div:has(> #proj-section-badge) {
-                margin-top: 16px;
-            }
-            /* Also tighten the header row bottom gap so the row fits without top-clipping */
-            #proj-section-badge {
-                margin-bottom: 16px;
-            }
-        }
+    div:has(> #proj-section-badge) {
+        margin-top: 16px;
+    }
+    #proj-section-badge {
+        margin-bottom: 16px;
+        margin-top: 34px;
+        font-size: 9px;
+        padding: 3px 10px;
+    }
+    div:has(> #stack-area) > div:first-child {
+        margin-bottom: 16px;
+    }
+    #proj-section-badge + h2 {
+        padding-bottom: 0;
+        font-size: 10vw;
+        padding-top: 8px;
+        margin-top: 20px;
+    }
+    #experience {
+        justify-content: flex-start;
+        padding-top: 20px;
+    }
+    #proj-helper-sticker {
+        padding: 14px;
+        width: 380px;
+        position: absolute;
+        right: 80px;
+        top: 80px;
+        transform: rotate(-2deg);
+        z-index: 30;
+    }
+    div:has(> #proj-helper-sticker) {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+    #proj-header-row {
+        flex-direction: row;
+        align-items: flex-start;
+    }
+    #proj-header-row > div:first-child {
+        margin-left: 45px;
+    }
+    #stack-area {
+        margin-top: 25px;
+    }
+    #stack-area .stack-card .card-expand > div:first-child {
+        margin-bottom: 8px;
+        margin-top: 4px;
+    }
+    #stack-area .stack-card .card-expand > div:last-child {
+        gap: 16px;
+    }
+    #stack-area .stack-card .card-expand > div:last-child > div:first-child > div[class*="items-start"] {
+        margin-bottom: 8px;
+    }
+    #stack-area .stack-card .card-expand > div:last-child > div:first-child > div[class*="items-start"] > div:last-child {
+        padding-right: 4px;
+    }
+    #stack-area .stack-card .card-expand > div:last-child > div:last-child > div:last-child > div[class*="border-l-"] {
+        margin-bottom: 8px;
+    }
+    #vw-best {
+        font-size: 105px;
+    }
+    #vw-work {
+        font-size: 105px;
+    }
+    #vw-tilted-box {
+        height: 100px;
+    }
+    #transit-stations-container > div {
+        padding-bottom: 180px;
+    }
+    #transit-stations-container > div > div:last-child > div:last-child {
+        height: 230px;
+    }
+    #transit-train {
+        height: 155px;
+    }
+    #transit-train + div {
+        height: 50px;
+    }
+    #transit-next-btn {
+        width: 64px;
+        height: 64px;
+    }
+    #transit-prev-btn {
+        width: 64px;
+        height: 64px;
+    }
+    #transit-map-view > div:last-child {
+        height: 26vh;
+        bottom: -45px;
+    }
+    #fixed-route-board {
+        top: calc(82px + 20px);
+        right: calc(55px + 20px);
+        height: 150px;
+    }
+    #fixed-route-nodes .route-major .node-label {
+        font-size: 10px !important;
+    }
+    #fixed-route-nodes .route-dummy .node-label {
+        font-size: 10px !important;
+    }
+    #fixed-route-nodes .route-dot {
+        width: 10px !important;
+        height: 10px !important;
+        border-width: 2px !important;
+    }
+    #transit-train + div > div:nth-child(3) {
+        top: 12px !important;
+    }
+    #transit-train + div > div:nth-child(1) {
+        top: 20px !important;
+    }
+    #transit-train + div > div:nth-child(2) {
+        top: 10px !important;
+    }
+    #transit-train + div > div:nth-child(6) {
+        margin-top: 16px !important;
+    }
+    #transit-train + div > div:nth-child(4) {
+        margin-top: 4px !important;
+    }
+    .step-out-btn {
+        font-size: 10px !important;
+        padding: 5px 14px !important;
+        border-width: 3px !important;
+        box-shadow: 5px 5px 0 rgba(11,11,11,1) !important;
+        gap: 6px !important;
+    }
+    .step-out-btn svg {
+        width: 16px !important;
+        height: 16px !important;
+    }
+    #contact h2 span:first-child {
+        font-size: 11vw;
+    }
+    #contact h2 span:last-child {
+        font-size: 11vw;
+        margin-top: -2.5vw;
+    }
+    #contact > div:first-child > p {
+        font-size: 16px;
+    }
+    #contact > div:last-child > div:first-child > a {
+        font-size: 34px;
+        white-space: nowrap;
+    }
+    #top-ribbon {
+        height: 40px;
+    }
+    #top-ribbon > div:first-child {
+        padding-left: 24px;
+        padding-right: 24px;
+        font-size: 11px;
+    }
+    #main-nav-container {
+        bottom: 20px;
+    }
+    #main-nav .nav-item {
+        padding-top: 6px;
+        padding-bottom: 6px;
+        padding-left: 12px;
+        padding-right: 12px;
+        font-size: 12px;
+    }
+    #proj-helper-sticker > span:first-of-type {
+        font-size: 17px;
+        margin-bottom: 4px;
+        line-height: 1.1;
+    }
+    #proj-helper-sticker > span:last-of-type {
+        font-size: 13px;
+        line-height: 1.3;
+    }
+    #stack-area .stack-card {
+        padding-top: 14px;
+        padding-bottom: 14px;
+        padding-left: 18px;
+        padding-right: 18px;
+    }
+    #stack-area .stack-card > div:nth-child(4) > div:first-child {
+        font-size: 40px;
+    }
+    #stack-area .stack-card > div:nth-child(4) {
+        margin-bottom: 8px;
+    }
+    #proj-helper-sticker > div:nth-child(2) {
+        padding-bottom: 8px;
+        margin-bottom: 8px;
+    }
+    #hero-quote-block > div > div:first-child > div:first-child {
+        font-size: 11px;
+    }
+    #hero-quote-block > div > div:first-child > div:nth-child(2),
+            #hero-quote-block > div > div:first-child > div:nth-child(3) {
+        font-size: 28px;
+    }
+    #hero-quote-block > div > div:last-child {
+        width: 90px;
+        height: 65px;
+        margin-left: 12px;
+    }
+    #left-page-base > div:last-child > div:first-child {
+        margin-top: -18px;
+    }
+    #origin-headline {
+        top: calc(4% + 9px);
+        left: 0%;
+    }
+    #intro-sticky-note {
+        transform: rotate(-2deg) scale(0.82) !important;
+        transform-origin: top right !important;
+        top: calc(11% + 0px);
+    }
+    #intro-sticky-note p {
+        font-size: 7px;
+    }
+    #intro-sticky-note span {
+        font-size: 7px;
+    }
+    #frag-origin-cursive {
+        top: 0%;
+        left: 0%;
+    }
+    #origin-micro-story {
+        font-size: 12px !important;
+        width: 70%;
+        top: calc(55% - 45px);
+        left: 0%;
+    }
+    #personal-cutout {
+        bottom: calc(-2% - 40px);
+        width: 36%;
+        height: 46%;
+        left: calc(5% + 15px);
+    }
+    #art-terminal {
+        top: calc(12% - 33px);
+        transform: rotate(-2deg) scale(0.9);
+        transform-origin: top left;
+        zoom: 0.95;
+    }
+    .realistic-paper-stack-right > div.relative > div:first-child {
+        margin-top: -18px;
+    }
+    #art-stats {
+        top: calc(5% - 14px) !important;
+        right: calc(8% - 7px) !important;
+        transform: rotate(6deg) scale(0.79) !important;
+        transform-origin: top right !important;
+    }
+    #art-stats > div.absolute.top-full {
+        font-size: 6px;
+        margin-top: 1px;
+        left: -9px;
+    }
+    #experience-typewriter {
+        font-size: 9px;
+        max-width: 220px;
+        padding-right: 2px;
+        top: calc(44% - 15px);
+    }
+    #experience-typewriter > p:first-of-type {
+        font-size: 10px;
+    }
+    #experience-typewriter > div:last-child {
+        font-size: 10px;
+        right: -15%;
+    }
+    .evidence-stamp-red {
+        height: 85px;
+        padding: 6px;
+    }
+    .evidence-stamp-yellow {
+        height: 85px;
+        padding: 6px;
+    }
+    .evidence-stamp-blue {
+        height: 85px;
+        padding: 6px;
+    }
+    .evidence-stamp-red > span:last-child {
+        font-size: 6px;
+    }
+    .evidence-stamp-yellow > span:last-child {
+        font-size: 6px;
+    }
+    .evidence-stamp-blue > span:last-child {
+        font-size: 6px;
+    }
+    #metrics-stamps-group {
+        gap: 6px;
+    }
+    #metrics-stamps-group .evidence-stamp-red {
+        height: 95px !important;
+        padding: 6px !important;
+    }
+    #metrics-stamps-group .evidence-stamp-yellow {
+        height: 95px !important;
+        padding: 6px !important;
+    }
+    #metrics-stamps-group .evidence-stamp-blue {
+        height: 95px !important;
+        padding: 6px !important;
+    }
+    #metrics-stamps-group .evidence-stamp-red > span:last-child {
+        font-size: 9px !important;
+    }
+    #metrics-stamps-group .evidence-stamp-yellow > span:last-child {
+        font-size: 9px !important;
+    }
+    #metrics-stamps-group .evidence-stamp-blue > span:last-child {
+        font-size: 9px !important;
+    }
+    #other-highlights-block {
+        bottom: calc(-4% + 7px);
+        font-size: 9px !important;
+    }
+    #torn-signature-paper {
+        bottom: calc(-8% - 20px);
+        zoom: 0.68;
+    }
+    #left-page-base > div:last-child {
+        padding-bottom: 20px;
+    }
+    #left-page-base > div:last-child > div:last-child {
+        font-size: 7px !important;
+    }
+    #personal-cutout > div:last-child {
+        bottom: calc(10% + 10px);
+    }
+    #frag-strategy-annot {
+        font-size: 11px !important;
+        top: calc(83% + 28px);
+        left: calc(73% - 8px);
+    }
+    #frag-strategy-annot span {
+        font-size: 13px !important;
+    }
+    #art-polaroid {
+        zoom: 0.88;
+        right: calc(2% - 5px);
+        bottom: calc(25% - 15px);
+    }
+}
 
         /* ── Tier 2.5-S (stack): Short laptop viewports — 1280px–1440px × ≤800px tall ──
            At 1366×768 the section forces min-h-[800px] with only ~720px usable height.
@@ -1147,1014 +1487,419 @@
            Frost & Sullivan (card 4, top=285) is clipped at the bottom.
            Fix: compress the header-row bottom margin and reduce h2 excess bottom padding.
            Each element in its own rule as required. */
-        @media (min-width: 1280px) and (max-width: 1440px) and (max-height: 800px) {
-            /* Compress the 80px gap between header row and project card stack */
-            div:has(> #stack-area) > div:first-child {
-                margin-bottom: 16px;
-            }
-            /* Trim h2 bottom padding — py-4 pb-6 leaves 24px below; reduce to 4px */
-            #proj-section-badge + h2 {
-                padding-bottom: 4px;
-            }
-        }
+        
 
         /* ── Tier 2.5-S (section layout): Switch #experience from justify-center → flex-start
            at 1280–1440×≤800 so Section 03 badge never clips at the top.
            justify-center was splitting overflow top+bottom; flex-start pins content
            to the top with explicit breathing room instead. */
-        @media (min-width: 1280px) and (max-width: 1440px) and (max-height: 800px) {
-            #experience {
-                justify-content: flex-start;
-                padding-top: 20px;
-            }
-        }
+        
 
         /* ── Tier 2.5-S (heading): Reduce Projects h2 from 11vw → 10vw so the
            header row is ~27px shorter and Frost & Sullivan clears the viewport bottom. */
-        @media (min-width: 1280px) and (max-width: 1440px) and (max-height: 800px) {
-            #proj-section-badge + h2 {
-                font-size: 10vw;
-                padding-top: 8px;
-                padding-bottom: 0;
-            }
-        }
+        
 
         /* ── Tier 2.5-S (sticker): Compact the Quick Note box so it doesn't
            visually crowd the first project card in the tighter layout. */
-        @media (min-width: 1280px) and (max-width: 1440px) and (max-height: 800px) {
-            #proj-helper-sticker {
-                padding: 14px;
-                width: 380px;
-            }
-        }
+        
 
         /* ── Tier 2.5-S (header row direction): Force the top header row into
            flex-row so the sticker renders on the right side, not stacked below. */
-        @media (min-width: 1280px) and (max-width: 1440px) and (max-height: 800px) {
-            div:has(> #proj-helper-sticker) {
-                flex-direction: row;
-                align-items: flex-start;
-            }
-        }
+        
 
         /* ── Tier 2.5-S (header row ID): ID-based flex-row rule — higher specificity
            than Tailwind's flex-col class, ensures sticker always lands on the right. */
-        @media (min-width: 1280px) and (max-width: 1440px) and (max-height: 800px) {
-            #proj-header-row {
-                flex-direction: row;
-                align-items: flex-start;
-            }
-        }
+        
 
         /* ── Tier 2.5-S (sticker position): Pull sticker out of the flex flow
            entirely and pin it absolutely to the top-right of the .max-w-[1400px]
            wrapper (which already carries position:relative). This bypasses all
            flex-direction specificity battles. */
-        @media (min-width: 1280px) and (max-width: 1440px) and (max-height: 800px) {
-            #proj-helper-sticker {
-                position: absolute;
-                right: 50px;
-                top: 60px;
-                transform: rotate(-2deg);
-                z-index: 30;
-            }
-        }
+        
 
-        @media (min-width: 1280px) and (max-width: 1440px) and (max-height: 800px) {
-            #proj-header-row > div:first-child {
-                margin-left: 45px;
-            }
-        }
+        
 
-        @media (min-width: 1280px) and (max-width: 1440px) and (max-height: 800px) {
-            #proj-section-badge {
-                margin-top: 17px;
-                font-size: 9px;
-                padding: 3px 10px;
-            }
-        }
+        
 
-        @media (min-width: 1280px) and (max-width: 1440px) and (max-height: 800px) {
-            #proj-section-badge + h2 {
-                margin-top: 15px;
-            }
-        }
+        
 
-        @media (min-width: 1280px) and (max-width: 1440px) and (max-height: 800px) {
-            #stack-area {
-                margin-top: 30px;
-            }
-        }
+        
 
-        @media (min-width: 1280px) and (max-width: 1440px) and (max-height: 800px) {
-            #proj-helper-sticker {
-                top: 80px;
-                right: 80px;
-            }
-        }
+        
 
-        @media (min-width: 1280px) and (max-width: 1440px) and (max-height: 800px) {
-            #proj-section-badge {
-                margin-top: 34px;
-            }
-        }
+        
 
-        @media (min-width: 1280px) and (max-width: 1440px) and (max-height: 800px) {
-            #proj-section-badge + h2 {
-                margin-top: 25px;
-            }
-        }
+        
 
-        @media (min-width: 1280px) and (max-width: 1440px) and (max-height: 800px) {
-            #proj-section-badge + h2 {
-                margin-top: 20px;
-            }
-        }
+        
 
-        @media (min-width: 1280px) and (max-width: 1440px) and (max-height: 800px) {
-            #stack-area {
-                margin-top: 25px;
-            }
-        }
+        
 
         /* Reduce inner divider bottom margin inside expanded card */
-        @media (min-width: 1280px) and (max-width: 1440px) and (max-height: 800px) {
-            #stack-area .stack-card .card-expand > div:first-child {
-                margin-bottom: 8px;
-                margin-top: 4px;
-            }
-        }
+        
 
         /* Reduce gap between left and right columns inside expanded card */
-        @media (min-width: 1280px) and (max-width: 1440px) and (max-height: 800px) {
-            #stack-area .stack-card .card-expand > div:last-child {
-                gap: 16px;
-            }
-        }
+        
 
         /* Reduce vertical gap between bullet point rows */
-        @media (min-width: 1280px) and (max-width: 1440px) and (max-height: 800px) {
-            #stack-area .stack-card .card-expand > div:last-child > div:first-child > div[class*="items-start"] {
-                margin-bottom: 8px;
-            }
-        }
+        
 
         /* Reduce right padding on bullet text — gives text more horizontal room so it wraps less */
-        @media (min-width: 1280px) and (max-width: 1440px) and (max-height: 800px) {
-            #stack-area .stack-card .card-expand > div:last-child > div:first-child > div[class*="items-start"] > div:last-child {
-                padding-right: 4px;
-            }
-        }
+        
 
         /* Reduce bottom margin on metric/stat items in right column */
-        @media (min-width: 1280px) and (max-width: 1440px) and (max-height: 800px) {
-            #stack-area .stack-card .card-expand > div:last-child > div:last-child > div:last-child > div[class*="border-l-"] {
-                margin-bottom: 8px;
-            }
-        }
+        
 
         /* ── Tier 2.5-S (Best Work — heading): Reduce "best" and "Work" font-size
            from 140px → 90px so the heading no longer reaches the billboard area. */
-        @media (min-width: 1280px) and (max-width: 1440px) and (max-height: 800px) {
-            #vw-best {
-                font-size: 90px;
-            }
-        }
+        
 
-        @media (min-width: 1280px) and (max-width: 1440px) and (max-height: 800px) {
-            #vw-work {
-                font-size: 90px;
-            }
-        }
+        
 
         /* ── Tier 2.5-S (Best Work — tilted box): Match the box height to the
            shorter 90px "best" line (90px × 0.85 leading + 16px top padding ≈ 93px). */
-        @media (min-width: 1280px) and (max-width: 1440px) and (max-height: 800px) {
-            #vw-tilted-box {
-                height: 100px;
-            }
-        }
+        
 
         /* ── Tier 2.5-S (Best Work — billboard position): Reduce station container
            padding-bottom from 280px → 210px so the billboard sits lower in the
            768px-tall section, clearing both the heading and the route board. */
-        @media (min-width: 1280px) and (max-width: 1440px) and (max-height: 800px) {
-            #transit-stations-container > div {
-                padding-bottom: 210px;
-            }
-        }
+        
 
         /* ── Tier 2.5-S (Best Work — billboard frame): Reduce frame height from
            240px → 180px so the full billboard fits between the heading and the train. */
-        @media (min-width: 1280px) and (max-width: 1440px) and (max-height: 800px) {
-            #transit-stations-container > div > div:last-child > div:last-child {
-                height: 180px;
-            }
-        }
+        
 
         /* ── Tier 2.5-S (Best Work — billboard gap): Bump station padding-bottom
            from 210px → 220px so the billboard bottom clears the metro roof by ~10px. */
-        @media (min-width: 1280px) and (max-width: 1440px) and (max-height: 800px) {
-            #transit-stations-container > div {
-                padding-bottom: 220px;
-            }
-        }
+        
 
         /* ── Tier 2.5-S (Best Work — metro train height): Reduce train from
            md:h-[210px] → 160px so the carriage is proportionally smaller at 768px. */
-        @media (min-width: 1280px) and (max-width: 1440px) and (max-height: 800px) {
-            #transit-train {
-                height: 160px;
-            }
-        }
+        
 
         /* ── Tier 2.5-S (Best Work — platform height): Raise the platform from
            8vh (~61px at 768px) → 90px so the Easter-egg text row fits without
            being clipped by the section's overflow-hidden. */
-        @media (min-width: 1280px) and (max-width: 1440px) and (max-height: 800px) {
-            #transit-train + div {
-                height: 90px;
-            }
-        }
+        
 
         /* ── Tier 2.5-S (Best Work — arrow next): Shrink the next arrow button
            from md:w-24/h-24 (96px) → 64px so it is proportional at 768px. */
-        @media (min-width: 1280px) and (max-width: 1440px) and (max-height: 800px) {
-            #transit-next-btn {
-                width: 64px;
-                height: 64px;
-            }
-        }
+        
 
         /* ── Tier 2.5-S (Best Work — arrow prev): Shrink the prev arrow button
            from md:w-24/h-24 (96px) → 64px to match the next button. */
-        @media (min-width: 1280px) and (max-width: 1440px) and (max-height: 800px) {
-            #transit-prev-btn {
-                width: 64px;
-                height: 64px;
-            }
-        }
+        
 
         /* Platform container — reduce height to compress vertical spread at 1366×768 */
-        @media (min-width: 1280px) and (max-width: 1440px) and (max-height: 800px) {
-            #transit-map-view > div:last-child {
-                height: 26vh;
-            }
-        }
+        
 
         /* Train — reduce height to match smaller platform container */
-        @media (min-width: 1280px) and (max-width: 1440px) and (max-height: 800px) {
-            #transit-train {
-                height: 135px;
-            }
-        }
+        
 
         /* Platform surface — reduce height proportionally */
-        @media (min-width: 1280px) and (max-width: 1440px) and (max-height: 800px) {
-            #transit-train + div {
-                height: 65px;
-            }
-        }
+        
 
         /* Billboard padding-bottom — pull closer to metro (5px gap: metro roof at 200px, billboard bottom at 205px) */
-        @media (min-width: 1280px) and (max-width: 1440px) and (max-height: 800px) {
-            #transit-stations-container > div {
-                padding-bottom: 205px;
-            }
-        }
+        
 
         /* Billboard frame — increase height to show full text metrics */
-        @media (min-width: 1280px) and (max-width: 1440px) and (max-height: 800px) {
-            #transit-stations-container > div > div:last-child > div:last-child {
-                height: 235px;
-            }
-        }
+        
 
         /* Billboard frame — reduce vertical spread */
-        @media (min-width: 1280px) and (max-width: 1440px) and (max-height: 800px) {
-            #transit-stations-container > div > div:last-child > div:last-child {
-                height: 210px;
-            }
-        }
+        
 
         /* Train — increase vertical spread */
-        @media (min-width: 1280px) and (max-width: 1440px) and (max-height: 800px) {
-            #transit-train {
-                height: 155px;
-            }
-        }
+        
 
         /* Platform surface — increase vertical spread */
-        @media (min-width: 1280px) and (max-width: 1440px) and (max-height: 800px) {
-            #transit-train + div {
-                height: 75px;
-            }
-        }
+        
 
         /* Billboard padding-bottom — maintain 3px gap above new metro roof (155+75=230px from bottom) */
-        @media (min-width: 1280px) and (max-width: 1440px) and (max-height: 800px) {
-            #transit-stations-container > div {
-                padding-bottom: 233px;
-            }
-        }
+        
 
         /* Platform surface — increase height to give space between yellow strip and footer text */
-        @media (min-width: 1280px) and (max-width: 1440px) and (max-height: 800px) {
-            #transit-train + div {
-                height: 95px;
-            }
-        }
+        
 
         /* Billboard padding-bottom — adjust for new metro roof at 155+95=250px */
-        @media (min-width: 1280px) and (max-width: 1440px) and (max-height: 800px) {
-            #transit-stations-container > div {
-                padding-bottom: 255px;
-            }
-        }
+        
 
         /* Billboard — move down to reduce gap with metro roof */
-        @media (min-width: 1280px) and (max-width: 1440px) and (max-height: 800px) {
-            #transit-stations-container > div {
-                padding-bottom: 232px;
-            }
-        }
+        
 
         /* Route box — move up 8px, right 15px, and reduce height */
-        @media (min-width: 1280px) and (max-width: 1440px) and (max-height: 800px) {
-            #fixed-route-board {
-                top: 47px;
-                right: 25px;
-                height: 150px;
-            }
-        }
+        
 
         /* Route box — move down 35px and left 30px */
-        @media (min-width: 1280px) and (max-width: 1440px) and (max-height: 800px) {
-            #fixed-route-board {
-                top: calc(47px + 35px);
-                right: calc(25px + 30px);
-            }
-        }
+        
 
         /* ── 1280×800 fix (Best Work — heading size): Bump "Best" and "Work" from
            the Tier-2.5-S 90px back up to 105px so the heading reads larger at this
            specific resolution without touching any other breakpoint. */
-        @media (min-width: 1280px) and (max-width: 1280px) and (max-height: 800px) {
-            #vw-best {
-                font-size: 105px;
-            }
-        }
+        
 
-        @media (min-width: 1280px) and (max-width: 1280px) and (max-height: 800px) {
-            #vw-work {
-                font-size: 105px;
-            }
-        }
+        
 
         /* ── 1280×800 fix (Best Work — route board position): Shift the board an
            additional 20px down and 20px to the left relative to its cascaded position
            at this exact screen size only. */
-        @media (min-width: 1280px) and (max-width: 1280px) and (max-height: 800px) {
-            #fixed-route-board {
-                top: calc(82px + 20px);
-                right: calc(55px + 20px);
-            }
-        }
+        
 
         /* Route box — reduce upper label (project name) font size */
-        @media (min-width: 1280px) and (max-width: 1440px) and (max-height: 800px) {
-            #fixed-route-nodes .route-major .node-label {
-                font-size: 10px !important;
-            }
-        }
+        
 
         /* Route box — reduce lower label (station name) font size */
-        @media (min-width: 1280px) and (max-width: 1440px) and (max-height: 800px) {
-            #fixed-route-nodes .route-dummy .node-label {
-                font-size: 10px !important;
-            }
-        }
+        
 
         /* Route box — reduce dot size */
-        @media (min-width: 1280px) and (max-width: 1440px) and (max-height: 800px) {
-            #fixed-route-nodes .route-dot {
-                width: 10px !important;
-                height: 10px !important;
-                border-width: 2px !important;
-            }
-        }
+        
 
         /* Platform — move yellow safety strip up (less grey above it) */
-        @media (min-width: 1280px) and (max-width: 1440px) and (max-height: 800px) {
-            #transit-train + div > div:nth-child(3) {
-                top: 22px !important;
-            }
-        }
+        
 
         /* Metro — shift entire train+platform assembly down (justify-end container; margin-top on child is ineffective) */
-        @media (min-width: 1280px) and (max-width: 1440px) and (max-height: 800px) {
-            #transit-map-view > div:last-child {
-                bottom: -10px;
-            }
-        }
+        
 
         /* Platform layout — move yellow strip down 10px */
-        @media (min-width: 1280px) and (max-width: 1440px) and (max-height: 800px) {
-            #transit-train + div > div:nth-child(3) {
-                top: 32px !important;
-            }
-        }
+        
 
         /* Platform — close gap between track lines and yellow strip; shift assembly further down */
-        @media (min-width: 1280px) and (max-width: 1440px) and (max-height: 800px) {
-            #transit-map-view > div:last-child {
-                bottom: -18px;
-            }
-        }
+        
 
-        @media (min-width: 1280px) and (max-width: 1440px) and (max-height: 800px) {
-            #transit-train + div > div:nth-child(3) {
-                top: 23px !important;
-            }
-        }
+        
 
         /* Platform layout — move black track line 1 down 10px */
-        @media (min-width: 1280px) and (max-width: 1440px) and (max-height: 800px) {
-            #transit-train + div > div:nth-child(1) {
-                top: 10px !important;
-            }
-        }
+        
 
         /* Platform layout — move black track line 2 down 10px */
-        @media (min-width: 1280px) and (max-width: 1440px) and (max-height: 800px) {
-            #transit-train + div > div:nth-child(2) {
-                top: 20px !important;
-            }
-        }
+        
 
         /* Platform — pull track lines tight against platform top to reduce gap with metro */
-        @media (min-width: 1280px) and (max-width: 1440px) and (max-height: 800px) {
-            #transit-train + div > div:nth-child(1) {
-                top: 3px !important;
-            }
-        }
+        
 
-        @media (min-width: 1280px) and (max-width: 1440px) and (max-height: 800px) {
-            #transit-train + div > div:nth-child(2) {
-                top: 10px !important;
-            }
-        }
+        
 
         /* Platform — move track lines down to close gap with yellow strip */
-        @media (min-width: 1280px) and (max-width: 1440px) and (max-height: 800px) {
-            #transit-train + div > div:nth-child(1) {
-                top: 10px !important;
-            }
-        }
+        
 
-        @media (min-width: 1280px) and (max-width: 1440px) and (max-height: 800px) {
-            #transit-train + div > div:nth-child(2) {
-                top: 17px !important;
-            }
-        }
+        
 
         /* Metro — shift assembly down along with track lines */
-        @media (min-width: 1280px) and (max-width: 1440px) and (max-height: 800px) {
-            #transit-map-view > div:last-child {
-                bottom: -22px;
-            }
-        }
+        
 
         /* Platform — push thin line (child 2) down toward yellow strip; shift assembly down */
-        @media (min-width: 1280px) and (max-width: 1440px) and (max-height: 800px) {
-            #transit-train + div > div:nth-child(2) {
-                top: 20px !important;
-            }
-        }
+        
 
-        @media (min-width: 1280px) and (max-width: 1440px) and (max-height: 800px) {
-            #transit-map-view > div:last-child {
-                bottom: -25px;
-            }
-        }
+        
 
         /* Platform — correct inverted order: swap values so thick stays above thin at 1366 */
-        @media (min-width: 1280px) and (max-width: 1440px) and (max-height: 800px) {
-            #transit-train + div > div:nth-child(1) {
-                top: 20px !important;
-            }
-        }
+        
 
-        @media (min-width: 1280px) and (max-width: 1440px) and (max-height: 800px) {
-            #transit-train + div > div:nth-child(2) {
-                top: 10px !important;
-            }
-        }
+        
 
         /* Platform layout — move footer text down 10px */
-        @media (min-width: 1280px) and (max-width: 1440px) and (max-height: 800px) {
-            #transit-train + div > div:nth-child(6) {
-                margin-top: 22px !important;
-            }
-        }
+        
 
         /* Platform — reduce height to close grey gap below yellow strip */
-        @media (min-width: 1280px) and (max-width: 1440px) and (max-height: 800px) {
-            #transit-train + div {
-                height: 75px;
-            }
-        }
+        
 
         /* Platform — pull footer text up to stay visible within reduced height */
-        @media (min-width: 1280px) and (max-width: 1440px) and (max-height: 800px) {
-            #transit-train + div > div:nth-child(6) {
-                margin-top: 4px !important;
-            }
-        }
+        
 
         /* Compress: reduce platform height */
-        @media (min-width: 1280px) and (max-width: 1440px) and (max-height: 800px) {
-            #transit-train + div {
-                height: 50px;
-            }
-        }
+        
 
         /* Compress: tighten yellow strip toward track lines */
-        @media (min-width: 1280px) and (max-width: 1440px) and (max-height: 800px) {
-            #transit-train + div > div:nth-child(3) {
-                top: 12px !important;
-            }
-        }
+        
 
         /* Compress: tighten yellow safety line margin to pull footer up */
-        @media (min-width: 1280px) and (max-width: 1440px) and (max-height: 800px) {
-            #transit-train + div > div:nth-child(4) {
-                margin-top: 4px !important;
-            }
-        }
+        
 
         /* Compress: tighten footer text */
-        @media (min-width: 1280px) and (max-width: 1440px) and (max-height: 800px) {
-            #transit-train + div > div:nth-child(6) {
-                margin-top: 16px !important;
-            }
-        }
+        
 
         /* Compress: push entire assembly down to free billboard space */
-        @media (min-width: 1280px) and (max-width: 1440px) and (max-height: 800px) {
-            #transit-map-view > div:last-child {
-                bottom: -45px;
-            }
-        }
+        
 
         /* Compress: reduce billboard padding-bottom to use freed space */
-        @media (min-width: 1280px) and (max-width: 1440px) and (max-height: 800px) {
-            #transit-stations-container > div {
-                padding-bottom: 172px;
-            }
-        }
+        
 
         /* Billboard — increase frame height to show full text content */
-        @media (min-width: 1280px) and (max-width: 1440px) and (max-height: 800px) {
-            #transit-stations-container > div > div:last-child > div:last-child {
-                height: 230px;
-            }
-        }
+        
 
         /* Billboard — increase padding-bottom to prevent metro overlap with taller frame */
-        @media (min-width: 1280px) and (max-width: 1440px) and (max-height: 800px) {
-            #transit-stations-container > div {
-                padding-bottom: 180px;
-            }
-        }
+        
 
         /* Step-out button — reduce size at 1366×768 */
-        @media (min-width: 1280px) and (max-width: 1440px) and (max-height: 800px) {
-            .step-out-btn {
-                font-size: 10px !important;
-                padding: 5px 14px !important;
-                border-width: 3px !important;
-                box-shadow: 5px 5px 0 rgba(11,11,11,1) !important;
-                gap: 6px !important;
-            }
-            .step-out-btn svg {
-                width: 16px !important;
-                height: 16px !important;
-            }
-        }
+        
 
         /* ── Tier 2.5-S (Contact — "contact" word): Scale down from lg:text-[16vw]
            (~218px) → 11vw (~150px) so the heading occupies less vertical space. */
-        @media (min-width: 1280px) and (max-width: 1440px) and (max-height: 800px) {
-            #contact h2 span:first-child {
-                font-size: 11vw;
-            }
-        }
+        
 
         /* ── Tier 2.5-S (Contact — "Me" word): Same size reduction as "contact";
            also tighten the negative overlap margin proportionally (16vw→11vw). */
-        @media (min-width: 1280px) and (max-width: 1440px) and (max-height: 800px) {
-            #contact h2 span:last-child {
-                font-size: 11vw;
-                margin-top: -2.5vw;
-            }
-        }
+        
 
         /* ── Tier 2.5-S (Contact — tagline): Reduce "Ready to make a move..."
            from md:text-2xl (24px) → 16px to match the smaller heading. */
-        @media (min-width: 1280px) and (max-width: 1440px) and (max-height: 800px) {
-            #contact > div:first-child > p {
-                font-size: 16px;
-            }
-        }
+        
 
         /* ── Tier 2.5-S (Contact — say hi link): Reduce from lg:text-5xl (48px)
            → 34px and lock to a single line so "say hi before overthinking it"
            never wraps at 1366×768. */
-        @media (min-width: 1280px) and (max-width: 1440px) and (max-height: 800px) {
-            #contact > div:last-child > div:first-child > a {
-                font-size: 34px;
-                white-space: nowrap;
-            }
-        }
+        
 
         /* ── Tier 2.5-S (ribbon height): Reduce top ribbon from 48px → 40px so it
            occupies the same ~5% of viewport height as it does at 1710×968. */
-        @media (min-width: 1280px) and (max-width: 1440px) and (max-height: 800px) {
-            #top-ribbon {
-                height: 40px;
-            }
-        }
+        
 
         /* ── Tier 2.5-S (ribbon name): Compact left name block horizontal padding
            and font size to fit the shorter ribbon gracefully. */
-        @media (min-width: 1280px) and (max-width: 1440px) and (max-height: 800px) {
-            #top-ribbon > div:first-child {
-                padding-left: 24px;
-                padding-right: 24px;
-                font-size: 11px;
-            }
-        }
+        
 
         /* ── Tier 2.5-S (nav bottom offset): Move the nav bar up slightly from
            bottom-8 (32px) → 20px so its total footer footprint shrinks proportionally. */
-        @media (min-width: 1280px) and (max-width: 1440px) and (max-height: 800px) {
-            #main-nav-container {
-                bottom: 20px;
-            }
-        }
+        
 
         /* ── Tier 2.5-S (nav items): Tighten vertical padding and font size on each
            nav link — md: classes set py-2.5 (10px) and text-[14px]; bring them
            closer to the base (12px/6px) for the short viewport. */
-        @media (min-width: 1280px) and (max-width: 1440px) and (max-height: 800px) {
-            #main-nav .nav-item {
-                padding-top: 6px;
-                padding-bottom: 6px;
-                padding-left: 12px;
-                padding-right: 12px;
-                font-size: 12px;
-            }
-        }
+        
 
         /* ── Tier 2.5-S (quick note title): Reduce "Worth a look." from md:text-2xl
            (24px) to 17px so the sticker occupies less vertical space. */
-        @media (min-width: 1280px) and (max-width: 1440px) and (max-height: 800px) {
-            #proj-helper-sticker > span:first-of-type {
-                font-size: 17px;
-                margin-bottom: 4px;
-            }
-        }
+        
 
         /* ── Tier 2.5-S (quick note body): Reduce body text from md:text-lg (18px)
            to 13px to match the proportionally smaller sticker. */
-        @media (min-width: 1280px) and (max-width: 1440px) and (max-height: 800px) {
-            #proj-helper-sticker > span:last-of-type {
-                font-size: 13px;
-            }
-        }
+        
 
         /* ── Tier 2.5-S (stack card padding): Reduce md:px-8 (32px) and md:py-6
            (24px) to 18px/14px so each collapsed card is noticeably shorter. */
-        @media (min-width: 1280px) and (max-width: 1440px) and (max-height: 800px) {
-            #stack-area .stack-card {
-                padding-top: 14px;
-                padding-bottom: 14px;
-                padding-left: 18px;
-                padding-right: 18px;
-            }
-        }
+        
 
         /* ── Tier 2.5-S (stack card role text): Reduce the Schoolbell role heading
            from md:text-6xl (60px) to 40px — the single largest height driver per card. */
-        @media (min-width: 1280px) and (max-width: 1440px) and (max-height: 800px) {
-            #stack-area .stack-card > div:nth-child(4) > div:first-child {
-                font-size: 40px;
-            }
-        }
+        
 
         /* ── Tier 2.5-S (stack card role row gap): Tighten the mb-4 (16px) below
            the role row to 8px so card body compresses further. */
-        @media (min-width: 1280px) and (max-width: 1440px) and (max-height: 800px) {
-            #stack-area .stack-card > div:nth-child(4) {
-                margin-bottom: 8px;
-            }
-        }
+        
 
         /* ── Tier 2.5-S (quick note position): At 1366×768 the md:flex-row header
            puts the sticker beside the heading. Switch to flex-col so the sticker
            stacks below the heading and above the cards (as the user expects). */
-        @media (min-width: 1280px) and (max-width: 1440px) and (max-height: 800px) {
-            div:has(> #proj-helper-sticker) {
-                flex-direction: column;
-                align-items: flex-start;
-            }
-        }
+        
 
         /* ── Tier 2.5-S (quick note line-height): Tighten line spacing on the
            "Worth a look." headline to reduce its vertical footprint. */
-        @media (min-width: 1280px) and (max-width: 1440px) and (max-height: 800px) {
-            #proj-helper-sticker > span:first-of-type {
-                line-height: 1.1;
-            }
-        }
+        
 
         /* ── Tier 2.5-S (quick note body line-height): Tighten line spacing on
            the body copy from leading-relaxed (1.625) to reduce vertical spread. */
-        @media (min-width: 1280px) and (max-width: 1440px) and (max-height: 800px) {
-            #proj-helper-sticker > span:last-of-type {
-                line-height: 1.3;
-            }
-        }
+        
 
         /* ── Tier 2.5-S (quick note header row gap): Reduce pb-3 mb-3 (12px each)
            on the "A QUICK NOTE" header row to tighten the divider gap. */
-        @media (min-width: 1280px) and (max-width: 1440px) and (max-height: 800px) {
-            #proj-helper-sticker > div:nth-child(2) {
-                padding-bottom: 8px;
-                margin-bottom: 8px;
-            }
-        }
+        
 
         /* ── Tier 2.5-S (Hero quote — small label): reduce "Creative by night," text */
-        @media (min-width: 1280px) and (max-width: 1440px) and (max-height: 800px) {
-            #hero-quote-block > div > div:first-child > div:first-child {
-                font-size: 11px;
-            }
-        }
+        
 
         /* ── Tier 2.5-S (Hero quote — Schoolbell lines): reduce "more creative" + "by midnight." */
-        @media (min-width: 1280px) and (max-width: 1440px) and (max-height: 800px) {
-            #hero-quote-block > div > div:first-child > div:nth-child(2),
-            #hero-quote-block > div > div:first-child > div:nth-child(3) {
-                font-size: 28px;
-            }
-        }
+        
 
         /* ── Tier 2.5-S (Hero quote — graph): shrink graph container */
-        @media (min-width: 1280px) and (max-width: 1440px) and (max-height: 800px) {
-            #hero-quote-block > div > div:last-child {
-                width: 90px;
-                height: 65px;
-                margin-left: 12px;
-            }
-        }
+        
 
         /* ── Tier 2.5-S (Origin — page header labels): pull "01 -- ORIGIN" + "THE BEGINNING" up 4px */
-        @media (min-width: 1280px) and (max-width: 1440px) and (max-height: 800px) {
-            #left-page-base > div:last-child > div:first-child {
-                margin-top: -4px;
-            }
-        }
+        
 
-        @media (min-width: 1280px) and (max-width: 1440px) and (max-height: 800px) {
-            #left-page-base > div:last-child > div:first-child {
-                margin-top: -18px;
-            }
-        }
+        
 
         /* ── Tier 2.5-S (Origin — headline gap): push headline down so cursive clears it */
-        @media (min-width: 1280px) and (max-width: 1440px) and (max-height: 800px) {
-            #origin-headline {
-                top: 9%;
-            }
-        }
+        
 
         /* ── Tier 2.5-S (Origin — sticky note): scale down the "I'm an open book" note */
-        @media (min-width: 1280px) and (max-width: 1440px) and (max-height: 800px) {
-            #intro-sticky-note {
-                transform: rotate(-2deg) scale(0.78);
-                transform-origin: top right;
-            }
-        }
+        
 
         /* ── Tier 2.5-S (Origin — sticky note override): tighter scale + 5px downward shift */
-        @media (min-width: 1280px) and (max-width: 1440px) and (max-height: 800px) {
-            #intro-sticky-note {
-                transform: rotate(-2deg) scale(0.60);
-                transform-origin: top right;
-                top: calc(8% + 5px);
-            }
-        }
+        
 
         /* ── Tier 2.5-S (Origin — sticky note paragraph): reduce main text size */
-        @media (min-width: 1280px) and (max-width: 1440px) and (max-height: 800px) {
-            #intro-sticky-note p {
-                font-size: 9px;
-            }
-        }
+        
 
         /* ── Tier 2.5-S (Origin — sticky note span): reduce subtext size */
-        @media (min-width: 1280px) and (max-width: 1440px) and (max-height: 800px) {
-            #intro-sticky-note span {
-                font-size: 8px;
-            }
-        }
+        
 
-        @media (min-width: 1280px) and (max-width: 1440px) and (max-height: 800px) {
-            #intro-sticky-note {
-                transform: rotate(-2deg) scale(0.48);
-                transform-origin: top right;
-                top: calc(8% + 5px);
-            }
-        }
+        
 
-        @media (min-width: 1280px) and (max-width: 1440px) and (max-height: 800px) {
-            #intro-sticky-note {
-                transform: rotate(-2deg) scale(0.36);
-                transform-origin: top right;
-                top: calc(8% + 5px);
-            }
-        }
+        
 
-        @media (min-width: 1280px) and (max-width: 1440px) and (max-height: 800px) {
-            #intro-sticky-note p {
-                font-size: 7px;
-            }
-        }
+        
 
-        @media (min-width: 1280px) and (max-width: 1440px) and (max-height: 800px) {
-            #intro-sticky-note span {
-                font-size: 7px;
-            }
-        }
+        
 
-        @media (min-width: 1280px) and (max-width: 1440px) and (max-height: 800px) {
-            #intro-sticky-note {
-                transform: rotate(-2deg) scale(0.75) !important;
-                transform-origin: top right !important;
-                top: calc(11% + 5px);
-            }
-        }
+        
 
-        @media (min-width: 1280px) and (max-width: 1440px) and (max-height: 800px) {
-            #frag-origin-cursive {
-                top: calc(1% - 5px);
-            }
-        }
+        
 
-        @media (min-width: 1280px) and (max-width: 1440px) and (max-height: 800px) {
-            #intro-sticky-note {
-                transform: rotate(-2deg) scale(0.75) !important;
-                transform-origin: top right !important;
-                top: calc(11% + 0px);
-            }
-        }
+        
 
         /* Intro sticky note — increase size */
-        @media (min-width: 1280px) and (max-width: 1440px) and (max-height: 800px) {
-            #intro-sticky-note {
-                transform: rotate(-2deg) scale(0.82) !important;
-            }
-        }
+        
 
         /* Reduce font size of origin paragraph */
-        @media (min-width: 1280px) and (max-width: 1440px) and (max-height: 800px) {
-            #origin-micro-story {
-                font-size: 11px !important;
-            }
-        }
+        
 
         /* Widen the paragraph to fit more words per line (reduce right padding effect) */
-        @media (min-width: 1280px) and (max-width: 1440px) and (max-height: 800px) {
-            #origin-micro-story {
-                width: 70%;
-            }
-        }
+        
 
         /* Push paragraph down to clear "SNEAKERS ON MY OWN" with at least 5px gap */
-        @media (min-width: 1280px) and (max-width: 1440px) and (max-height: 800px) {
-            #origin-micro-story {
-                top: 62%;
-            }
-        }
+        
 
-        @media (min-width: 1280px) and (max-width: 1440px) and (max-height: 800px) {
-            #origin-micro-story {
-                font-size: 12px !important;
-            }
-        }
+        
 
-        @media (min-width: 1280px) and (max-width: 1440px) and (max-height: 800px) {
-            #origin-micro-story {
-                top: calc(62% - 45px);
-            }
-        }
+        
 
         /* Move personal cutout down 20px */
-        @media (min-width: 1280px) and (max-width: 1440px) and (max-height: 800px) {
-            #personal-cutout {
-                bottom: calc(-2% - 20px);
-            }
-        }
+        
 
         /* Increase personal cutout size */
-        @media (min-width: 1280px) and (max-width: 1440px) and (max-height: 800px) {
-            #personal-cutout {
-                width: 45%;
-                height: 58%;
-            }
-        }
+        
 
         /* Decrease cutout size + move down another 20px */
-        @media (min-width: 1280px) and (max-width: 1440px) and (max-height: 800px) {
-            #personal-cutout {
-                bottom: calc(-2% - 40px);
-            }
-        }
+        
 
-        @media (min-width: 1280px) and (max-width: 1440px) and (max-height: 800px) {
-            #personal-cutout {
-                width: 36%;
-                height: 46%;
-            }
-        }
+        
 
         /* Reduce left indent of "how it all started" */
-        @media (min-width: 1280px) and (max-width: 1440px) and (max-height: 800px) {
-            #frag-origin-cursive {
-                left: 0%;
-            }
-        }
+        
 
         /* Reduce left indent of headline "I STARTED MAKING...ON MY OWN" */
-        @media (min-width: 1280px) and (max-width: 1440px) and (max-height: 800px) {
-            #origin-headline {
-                left: 0%;
-            }
-        }
+        
 
         /* Reduce left indent of paragraph "I had no idea...them work" */
-        @media (min-width: 1280px) and (max-width: 1440px) and (max-height: 800px) {
-            #origin-micro-story {
-                left: 0%;
-            }
-        }
+        
 
         /* Philosophy note — move up 15px */
-        @media (min-width: 1280px) and (max-width: 1440px) and (max-height: 800px) {
-            #art-terminal {
-                top: calc(12% - 15px);
-            }
-        }
+        
 
         /* Philosophy note — scale down to 90% */
-        @media (min-width: 1280px) and (max-width: 1440px) and (max-height: 800px) {
-            #art-terminal {
-                transform: rotate(-2deg) scale(0.9);
-                transform-origin: top left;
-            }
-        }
+        
 
         /* Philosophy note — scale 70%, move up additional 8px */
         /* zoom avoids GSAP inline-transform conflict (entrance pop uses scale on this element) */
-        @media (min-width: 1280px) and (max-width: 1440px) and (max-height: 800px) {
-            #art-terminal {
-                top: calc(12% - 23px);
-                zoom: 0.7;
-            }
-        }
+        
 
         /* Philosophy note — scale 80% */
-        @media (min-width: 1280px) and (max-width: 1440px) and (max-height: 800px) {
-            #art-terminal {
-                zoom: 0.8;
-            }
-        }
+        
 
         /* Philosophy note — scale 85% */
-        @media (min-width: 1280px) and (max-width: 1440px) and (max-height: 800px) {
-            #art-terminal {
-                zoom: 0.85;
-            }
-        }
+        
 
         /* Right page header — "02 -- one yes led to the next" / "things that happened" — move up to match left page */
-        @media (min-width: 1280px) and (max-width: 1440px) and (max-height: 800px) {
-            .realistic-paper-stack-right > div.relative > div:first-child {
-                margin-top: -18px;
-            }
-        }
+        
 
         /* ── Tier 2.6: Standard desktop — 1024px–1920px ──
            Explicitly cancel any inherited scale on the mockup/deck scenes
@@ -2187,401 +1932,172 @@
         /* ── Tier 2.5-S (Origin — 186M+ tag): At 1366×768 the art-stats archival tag
            is comparatively large and overlaps other elements. Move it up 4px, right 7px,
            and scale it down to 70% to match the proportions seen at 1710×968. */
-        @media (min-width: 1280px) and (max-width: 1440px) and (max-height: 800px) {
-            #art-stats {
-                top: calc(5% - 4px);
-                right: calc(8% - 7px);
-                transform: rotate(6deg) scale(0.70);
-                transform-origin: top right;
-            }
-        }
+        
 
         /* ── Tier 2.5-S (Origin — "crazy what happens" annotation): The annotation
            div sits outside the tag body but inside #art-stats. Compensate for the
            70% parent scale so the note stays visually attached and legible. */
-        @media (min-width: 1280px) and (max-width: 1440px) and (max-height: 800px) {
-            #art-stats > div.absolute.top-full {
-                font-size: 7px;
-                margin-top: 2px;
-                left: -11px;
-            }
-        }
+        
 
         /* ── Tier 2.5-S (Origin — 186M+ tag v2): Override to 55% — tag still too large
            at 1366×768. Further reduce from 70% → 55% and maintain the up-4px/right-7px
            positional correction from the previous rule. */
-        @media (min-width: 1280px) and (max-width: 1440px) and (max-height: 800px) {
-            #art-stats {
-                top: calc(5% - 4px) !important;
-                right: calc(8% - 7px) !important;
-                transform: rotate(6deg) scale(0.79) !important;
-                transform-origin: top right !important;
-            }
-        }
+        
 
         /* ── Tier 2.5-S (Origin — "crazy what happens" annotation v2): Recompensate
            for the smaller 55% parent scale — tighten font and offset further. */
-        @media (min-width: 1280px) and (max-width: 1440px) and (max-height: 800px) {
-            #art-stats > div.absolute.top-full {
-                font-size: 6px;
-                margin-top: 1px;
-                left: -9px;
-            }
-        }
+        
 
         /* 186M+ tag — move up 10px */
-        @media (min-width: 1280px) and (max-width: 1440px) and (max-height: 800px) {
-            #art-stats {
-                top: calc(5% - 14px) !important;
-            }
-        }
+        
 
         /* Philosophy note — move up 10px */
-        @media (min-width: 1280px) and (max-width: 1440px) and (max-height: 800px) {
-            #art-terminal {
-                top: calc(12% - 33px);
-            }
-        }
+        
 
         /* Philosophy note — scale up to 95% */
-        @media (min-width: 1280px) and (max-width: 1440px) and (max-height: 800px) {
-            #art-terminal {
-                zoom: 0.95;
-            }
-        }
+        
 
         /* Experience block — reduce font size and narrow width to prevent overlap with DU RANK 1 stamp */
-        @media (min-width: 1280px) and (max-width: 1440px) and (max-height: 800px) {
-            #experience-typewriter {
-                font-size: 9px;
-                max-width: 220px;
-                padding-right: 8px;
-            }
-        }
+        
 
         /* Experience block — reduce explicit bold heading size */
-        @media (min-width: 1280px) and (max-width: 1440px) and (max-height: 800px) {
-            #experience-typewriter > p:first-of-type {
-                font-size: 10px;
-            }
-        }
+        
 
         /* Experience block — less right padding + move up 15px */
-        @media (min-width: 1280px) and (max-width: 1440px) and (max-height: 800px) {
-            #experience-typewriter {
-                padding-right: 2px;
-                top: calc(44% - 15px);
-            }
-        }
+        
 
         /* "Learned a lot here" — reduce size and pull closer to parent */
-        @media (min-width: 1280px) and (max-width: 1440px) and (max-height: 800px) {
-            #experience-typewriter > div:last-child {
-                font-size: 10px;
-                right: -15%;
-            }
-        }
+        
 
         /* Stamps — reduce height to shrink vertical spread */
-        @media (min-width: 1280px) and (max-width: 1440px) and (max-height: 800px) {
-            .evidence-stamp-red { height: 85px; }
-        }
+        
 
-        @media (min-width: 1280px) and (max-width: 1440px) and (max-height: 800px) {
-            .evidence-stamp-yellow { height: 85px; }
-        }
+        
 
-        @media (min-width: 1280px) and (max-width: 1440px) and (max-height: 800px) {
-            .evidence-stamp-blue { height: 85px; }
-        }
+        
 
         /* Stamps — reduce supporting phrase font size */
-        @media (min-width: 1280px) and (max-width: 1440px) and (max-height: 800px) {
-            .evidence-stamp-red > span:last-child { font-size: 6px; }
-        }
+        
 
-        @media (min-width: 1280px) and (max-width: 1440px) and (max-height: 800px) {
-            .evidence-stamp-yellow > span:last-child { font-size: 6px; }
-        }
+        
 
-        @media (min-width: 1280px) and (max-width: 1440px) and (max-height: 800px) {
-            .evidence-stamp-blue > span:last-child { font-size: 6px; }
-        }
+        
 
         /* Stamps group — tighten gap so stamps get more horizontal width */
-        @media (min-width: 1280px) and (max-width: 1440px) and (max-height: 800px) {
-            #metrics-stamps-group { gap: 6px; }
-        }
+        
 
         /* Stamps — reduce internal padding to give phrases more horizontal room */
-        @media (min-width: 1280px) and (max-width: 1440px) and (max-height: 800px) {
-            .evidence-stamp-red { padding: 6px; }
-        }
+        
 
-        @media (min-width: 1280px) and (max-width: 1440px) and (max-height: 800px) {
-            .evidence-stamp-yellow { padding: 6px; }
-        }
+        
 
-        @media (min-width: 1280px) and (max-width: 1440px) and (max-height: 800px) {
-            .evidence-stamp-blue { padding: 6px; }
-        }
+        
 
         /* Stamps — height override with !important to beat Tailwind h-[115px], and ID-prefixed padding to beat p-3 */
-        @media (min-width: 1280px) and (max-width: 1440px) and (max-height: 800px) {
-            #metrics-stamps-group .evidence-stamp-red {
-                height: 85px !important;
-                padding: 6px !important;
-            }
-        }
+        
 
-        @media (min-width: 1280px) and (max-width: 1440px) and (max-height: 800px) {
-            #metrics-stamps-group .evidence-stamp-yellow {
-                height: 85px !important;
-                padding: 6px !important;
-            }
-        }
+        
 
-        @media (min-width: 1280px) and (max-width: 1440px) and (max-height: 800px) {
-            #metrics-stamps-group .evidence-stamp-blue {
-                height: 85px !important;
-                padding: 6px !important;
-            }
-        }
+        
 
         /* Stamps — force supporting phrase font-size with !important to beat Tailwind text-[9px], height to 95px */
-        @media (min-width: 1280px) and (max-width: 1440px) and (max-height: 800px) {
-            #metrics-stamps-group .evidence-stamp-red {
-                height: 95px !important;
-            }
-        }
+        
 
-        @media (min-width: 1280px) and (max-width: 1440px) and (max-height: 800px) {
-            #metrics-stamps-group .evidence-stamp-yellow {
-                height: 95px !important;
-            }
-        }
+        
 
-        @media (min-width: 1280px) and (max-width: 1440px) and (max-height: 800px) {
-            #metrics-stamps-group .evidence-stamp-blue {
-                height: 95px !important;
-            }
-        }
+        
 
-        @media (min-width: 1280px) and (max-width: 1440px) and (max-height: 800px) {
-            #metrics-stamps-group .evidence-stamp-red > span:last-child { font-size: 6px !important; }
-        }
+        
 
-        @media (min-width: 1280px) and (max-width: 1440px) and (max-height: 800px) {
-            #metrics-stamps-group .evidence-stamp-yellow > span:last-child { font-size: 6px !important; }
-        }
+        
 
-        @media (min-width: 1280px) and (max-width: 1440px) and (max-height: 800px) {
-            #metrics-stamps-group .evidence-stamp-blue > span:last-child { font-size: 6px !important; }
-        }
+        
 
         /* Supporting phrases — increase to 7.5px */
-        @media (min-width: 1280px) and (max-width: 1440px) and (max-height: 800px) {
-            #metrics-stamps-group .evidence-stamp-red > span:last-child { font-size: 7.5px !important; }
-        }
+        
 
-        @media (min-width: 1280px) and (max-width: 1440px) and (max-height: 800px) {
-            #metrics-stamps-group .evidence-stamp-yellow > span:last-child { font-size: 7.5px !important; }
-        }
+        
 
-        @media (min-width: 1280px) and (max-width: 1440px) and (max-height: 800px) {
-            #metrics-stamps-group .evidence-stamp-blue > span:last-child { font-size: 7.5px !important; }
-        }
+        
 
         /* Supporting phrases — 9px */
-        @media (min-width: 1280px) and (max-width: 1440px) and (max-height: 800px) {
-            #metrics-stamps-group .evidence-stamp-red > span:last-child { font-size: 9px !important; }
-        }
+        
 
-        @media (min-width: 1280px) and (max-width: 1440px) and (max-height: 800px) {
-            #metrics-stamps-group .evidence-stamp-yellow > span:last-child { font-size: 9px !important; }
-        }
+        
 
-        @media (min-width: 1280px) and (max-width: 1440px) and (max-height: 800px) {
-            #metrics-stamps-group .evidence-stamp-blue > span:last-child { font-size: 9px !important; }
-        }
+        
 
         /* PS// note — move down to clear stamps */
-        @media (min-width: 1280px) and (max-width: 1440px) and (max-height: 800px) {
-            #other-highlights-block {
-                bottom: calc(-4% - 20px);
-            }
-        }
+        
 
         /* PS// note — reduce offset back to stay within visible area */
-        @media (min-width: 1280px) and (max-width: 1440px) and (max-height: 800px) {
-            #other-highlights-block {
-                bottom: calc(-4% - 5px);
-            }
-        }
+        
 
         /* PS// note — move up 10px, size 8px */
-        @media (min-width: 1280px) and (max-width: 1440px) and (max-height: 800px) {
-            #other-highlights-block {
-                bottom: calc(-4% + 5px);
-                font-size: 8px !important;
-            }
-        }
+        
 
         /* PS// note — reduce font size to 7px */
-        @media (min-width: 1280px) and (max-width: 1440px) and (max-height: 800px) {
-            #other-highlights-block {
-                font-size: 7px !important;
-            }
-        }
+        
 
         /* PS// note — up 2px more, size 9px */
-        @media (min-width: 1280px) and (max-width: 1440px) and (max-height: 800px) {
-            #other-highlights-block {
-                bottom: calc(-4% + 7px);
-                font-size: 9px !important;
-            }
-        }
+        
 
         /* "Still figuring things out" — move down and scale via zoom (GSAP overrides transform scale on this element) */
-        @media (min-width: 1280px) and (max-width: 1440px) and (max-height: 800px) {
-            #torn-signature-paper {
-                bottom: calc(-8% - 20px);
-                zoom: 0.6;
-            }
-        }
+        
 
         /* "Still figuring things out" — increase size */
-        @media (min-width: 1280px) and (max-width: 1440px) and (max-height: 800px) {
-            #torn-signature-paper {
-                zoom: 0.68;
-            }
-        }
+        
 
         /* GOD'S PLAN footer — drop the left page content grid padding-bottom so footer sits lower */
-        @media (min-width: 1280px) and (max-width: 1440px) and (max-height: 800px) {
-            #left-page-base > div:last-child {
-                padding-bottom: 20px;
-            }
-        }
+        
 
         /* GOD'S PLAN footer — reduce font size */
-        @media (min-width: 1280px) and (max-width: 1440px) and (max-height: 800px) {
-            #left-page-base > div:last-child > div:last-child {
-                font-size: 7px !important;
-            }
-        }
+        
 
         /* Personal cutout — move right 15px */
-        @media (min-width: 1280px) and (max-width: 1440px) and (max-height: 800px) {
-            #personal-cutout {
-                left: calc(5% + 15px);
-            }
-        }
+        
 
         /* "how it all started" cursive — move up */
-        @media (min-width: 1280px) and (max-width: 1440px) and (max-height: 800px) {
-            #frag-origin-cursive {
-                top: 0%;
-            }
-        }
+        
 
         /* "I STARTED MAKING...ON MY OWN" headline — move up */
-        @media (min-width: 1280px) and (max-width: 1440px) and (max-height: 800px) {
-            #origin-headline {
-                top: 4%;
-            }
-        }
+        
 
         /* "I STARTED MAKING...ON MY OWN" headline — move down 5px */
-        @media (min-width: 1280px) and (max-width: 1440px) and (max-height: 800px) {
-            #origin-headline {
-                top: calc(4% + 5px);
-            }
-        }
+        
 
         /* "I STARTED MAKING...ON MY OWN" headline — move down another 4px */
-        @media (min-width: 1280px) and (max-width: 1440px) and (max-height: 800px) {
-            #origin-headline {
-                top: calc(4% + 9px);
-            }
-        }
+        
 
         /* "bajkamal / early phase" sticker — move up 5px to clear GOD'S PLAN */
-        @media (min-width: 1280px) and (max-width: 1440px) and (max-height: 800px) {
-            #personal-cutout > div:last-child {
-                bottom: calc(10% + 5px);
-            }
-        }
+        
 
         /* "bajkamal / early phase" sticker — move up another 5px */
-        @media (min-width: 1280px) and (max-width: 1440px) and (max-height: 800px) {
-            #personal-cutout > div:last-child {
-                bottom: calc(10% + 10px);
-            }
-        }
+        
 
         /* "I had no idea...seeing them work" paragraph — move up */
-        @media (min-width: 1280px) and (max-width: 1440px) and (max-height: 800px) {
-            #origin-micro-story {
-                top: calc(55% - 45px);
-            }
-        }
+        
 
         /* "It started...came later" — reduce font size */
-        @media (min-width: 1280px) and (max-width: 1440px) and (max-height: 800px) {
-            #frag-strategy-annot {
-                font-size: 9px !important;
-                top: calc(83% + 7px);
-            }
-        }
+        
 
         /* "Strategy came later." span — reduce size */
-        @media (min-width: 1280px) and (max-width: 1440px) and (max-height: 800px) {
-            #frag-strategy-annot span {
-                font-size: 11px !important;
-            }
-        }
+        
 
         /* "It started...came later" — increase size, move down 9px + left 3px */
-        @media (min-width: 1280px) and (max-width: 1440px) and (max-height: 800px) {
-            #frag-strategy-annot {
-                font-size: 10px !important;
-                top: calc(83% + 16px);
-                left: calc(73% - 3px);
-            }
-        }
+        
 
         /* "Strategy came later." span — increase size */
-        @media (min-width: 1280px) and (max-width: 1440px) and (max-height: 800px) {
-            #frag-strategy-annot span {
-                font-size: 12px !important;
-            }
-        }
+        
 
         /* "It started...came later" — increase size, move down 12px + left 5px */
-        @media (min-width: 1280px) and (max-width: 1440px) and (max-height: 800px) {
-            #frag-strategy-annot {
-                font-size: 11px !important;
-                top: calc(83% + 28px);
-                left: calc(73% - 8px);
-            }
-        }
+        
 
         /* "Strategy came later." span — increase size */
-        @media (min-width: 1280px) and (max-width: 1440px) and (max-height: 800px) {
-            #frag-strategy-annot span {
-                font-size: 13px !important;
-            }
-        }
+        
 
         /* Polaroid — scale down, move right 5px, move down 15px */
-        @media (min-width: 1280px) and (max-width: 1440px) and (max-height: 800px) {
-            #art-polaroid {
-                zoom: 0.88;
-                right: calc(2% - 5px);
-                bottom: calc(25% - 15px);
-            }
-        }
+        
 
         /* ═══════════════════════════════════════════════════════════════════
            1440 × 900 — Origin Section fixes
@@ -2591,99 +2107,134 @@
            ═══════════════════════════════════════════════════════════════════ */
 
         /* Philosophy note (#art-terminal) — move up 15px and scale down */
-        @media (min-width: 1440px) and (max-width: 1440px) and (min-height: 801px) and (max-height: 900px) {
-            #art-terminal {
-                top: calc(12% - 15px);
-                zoom: 0.88;
-            }
-        }
+        @media (min-width: 1420px) and (max-width: 1452px) and (min-height: 780px) and (max-height: 920px) {
+    #art-terminal {
+        top: calc(12% - 15px);
+        zoom: 0.88;
+    }
+    #art-stats {
+        right: calc(8% - 20px);
+        transform: rotate(6deg) scale(0.80);
+        transform-origin: top right;
+    }
+    #art-stats > div.absolute.top-full {
+        font-size: 7px;
+        margin-top: 1px;
+        left: -10px;
+    }
+    #experience-typewriter {
+        top: calc(48% - 40px);
+        right: calc(8% - 30px);
+    }
+    #torn-signature-paper {
+        bottom: calc(-8% - 30px);
+        zoom: 0.80;
+    }
+    #vw-best {
+        font-size: 100px;
+    }
+    #vw-work {
+        font-size: 100px;
+    }
+    #vw-tilted-box {
+        height: 110px;
+    }
+    #top-ribbon {
+        height: 40px;
+    }
+    #main-nav .nav-item {
+        padding-top: 6px;
+        padding-bottom: 6px;
+        padding-left: 14px;
+        padding-right: 14px;
+        font-size: 12px;
+    }
+    #main-nav-container {
+        bottom: 20px;
+    }
+    #proj-section-badge + h2 {
+        font-size: 120px !important;
+    }
+    #proj-section-badge {
+        margin-bottom: 14px;
+    }
+    #proj-header-row {
+        margin-bottom: 10px;
+    }
+    #proj-helper-sticker {
+        padding: 12px;
+        width: 460px;
+        transform: translateY(-50px) translateX(-20px) rotate(-2deg);
+    }
+    #stack-area .stack-card {
+        padding-top: 14px;
+        padding-bottom: 14px;
+        padding-left: 24px;
+        padding-right: 24px;
+    }
+    .card-expand.open {
+        max-height: 380px;
+        overflow-y: auto;
+    }
+    #proj-header-row > div:first-child {
+        margin-top: 40px;
+    }
+    #stack-area .stack-card > div:nth-child(4) > div:first-child {
+        font-size: 36px;
+    }
+    #proj-helper-sticker > span:first-of-type {
+        font-size: 17px;
+        line-height: 1.1;
+        margin-bottom: 4px;
+    }
+    #proj-helper-sticker > span:last-of-type {
+        font-size: 13px;
+        line-height: 1.25;
+    }
+    #stack-area {
+        margin-top: 30px;
+    }
+    #stack-area .stack-card .card-expand > div:last-child > div:first-child > div[class*="items-start"] {
+        margin-bottom: 4px;
+    }
+}
 
         /* 186M+ archival tag (#art-stats) — move further right and scale down */
-        @media (min-width: 1440px) and (max-width: 1440px) and (min-height: 801px) and (max-height: 900px) {
-            #art-stats {
-                right: calc(8% - 20px);
-                transform: rotate(6deg) scale(0.80);
-                transform-origin: top right;
-            }
-        }
+        
 
         /* "crazy what happens" annotation — compensate for parent scale */
-        @media (min-width: 1440px) and (max-width: 1440px) and (min-height: 801px) and (max-height: 900px) {
-            #art-stats > div.absolute.top-full {
-                font-size: 7px;
-                margin-top: 1px;
-                left: -10px;
-            }
-        }
+        
 
         /* "Places I've hustled" block (#experience-typewriter) — move up and right
            to prevent overlap with the stamp at 1440×900. */
-        @media (min-width: 1440px) and (max-width: 1440px) and (min-height: 801px) and (max-height: 900px) {
-            #experience-typewriter {
-                top: calc(48% - 40px);
-                right: calc(8% - 30px);
-            }
-        }
+        
 
         /* "Still figuring things out" note (#torn-signature-paper) — move down and
            scale down at 1440×900 to prevent overlap with the PS// note below it. */
-        @media (min-width: 1440px) and (max-width: 1440px) and (min-height: 801px) and (max-height: 900px) {
-            #torn-signature-paper {
-                bottom: calc(-8% - 30px);
-                zoom: 0.80;
-            }
-        }
+        
 
         /* ── 1440×900 fix (Best Works — "Best" heading): Reduce from xl:140px → 100px
            so the heading no longer overlaps the billboard frame at this screen size. */
-        @media (min-width: 1440px) and (max-width: 1440px) and (min-height: 801px) and (max-height: 900px) {
-            #vw-best {
-                font-size: 100px;
-            }
-        }
+        
 
         /* ── 1440×900 fix (Best Works — "Work" heading): Same reduction as "Best". */
-        @media (min-width: 1440px) and (max-width: 1440px) and (min-height: 801px) and (max-height: 900px) {
-            #vw-work {
-                font-size: 100px;
-            }
-        }
+        
 
         /* ── 1440×900 fix (Best Works — blue tilted box): Trim height from the bottom
            from md:150px → 110px so "Work" sits visibly outside/below the blue box. */
-        @media (min-width: 1440px) and (max-width: 1440px) and (min-height: 801px) and (max-height: 900px) {
-            #vw-tilted-box {
-                height: 110px;
-            }
-        }
+        
 
         /* ── 1440×900 fix (Ribbon — height): Reduce top ribbon from md:h-12 (48px)
            → 40px to shrink the header footprint at this screen size. */
-        @media (min-width: 1440px) and (max-width: 1440px) and (min-height: 801px) and (max-height: 900px) {
-            #top-ribbon {
-                height: 40px;
-            }
-        }
+        
 
         /* ── 1440×900 fix (Nav items — padding & font): Tighten md:py-2.5/text-14px
            → py-6px/text-12px so the nav bar occupies less vertical height. */
-        @media (min-width: 1440px) and (max-width: 1440px) and (min-height: 801px) and (max-height: 900px) {
-            #main-nav .nav-item {
-                padding-top: 6px;
-                padding-bottom: 6px;
-                padding-left: 14px;
-                padding-right: 14px;
-                font-size: 12px;
-            }
-        }
+        
 
         /* ── 1440×900 fix (Nav container — bottom offset): Pull the floating nav bar
            up from bottom-8 (32px) → 20px to reduce dead space at the bottom. */
-        @media (min-width: 1440px) and (max-width: 1440px) and (min-height: 801px) and (max-height: 900px) {
-            #main-nav-container {
-                bottom: 20px;
-            }
-        }
+        
 
         /* ═══════════════════════════════════════════════════════════════════
            1440 × 900 — Projects Section fixes
@@ -2692,1179 +2243,895 @@
            ═══════════════════════════════════════════════════════════════════ */
 
         /* (1) Section heading h2 — reduce from md:10vw (144px) → 100px */
-        @media (min-width: 1440px) and (max-width: 1440px) and (min-height: 801px) and (max-height: 900px) {
-            #proj-section-badge + h2 {
-                font-size: 100px !important;
-            }
-        }
+        
 
         /* (2) Badge bottom margin + header row bottom margin — tighten spacing */
-        @media (min-width: 1440px) and (max-width: 1440px) and (min-height: 801px) and (max-height: 900px) {
-            #proj-section-badge {
-                margin-bottom: 14px;
-            }
-            #proj-header-row {
-                margin-bottom: 10px;
-            }
-        }
+        
 
         /* (3) Quick note sticker — reduce width, padding and font sizes */
-        @media (min-width: 1440px) and (max-width: 1440px) and (min-height: 801px) and (max-height: 900px) {
-            #proj-helper-sticker {
-                padding: 12px;
-                width: 340px;
-            }
-        }
+        
 
         /* (4) Stack cards — tighten vertical padding so each card is shorter */
-        @media (min-width: 1440px) and (max-width: 1440px) and (min-height: 801px) and (max-height: 900px) {
-            #stack-area .stack-card {
-                padding-top: 14px;
-                padding-bottom: 14px;
-                padding-left: 24px;
-                padding-right: 24px;
-            }
-        }
+        
 
         /* (5) Card expand (dissection) — reduce max-height so content never
            pushes card fully off the bottom of the 900px viewport */
-        @media (min-width: 1440px) and (max-width: 1440px) and (min-height: 801px) and (max-height: 900px) {
-            .card-expand.open {
-                max-height: 480px;
-            }
-        }
+        
 
         /* (6) Header left column top spacer — the mt-[95px] wrapper above h2 burns
            ~95px; pull it down to 40px so the whole block sits much higher. */
-        @media (min-width: 1440px) and (max-width: 1440px) and (min-height: 801px) and (max-height: 900px) {
-            #proj-header-row > div:first-child {
-                margin-top: 40px;
-            }
-        }
+        
 
         /* (7) Expanded card role heading — the Schoolbell role text (e.g. "Project
            Head") renders at md:text-6xl (60px) and is the biggest vertical driver
            inside the open card. Reduce it to 36px at 1440×900. */
-        @media (min-width: 1440px) and (max-width: 1440px) and (min-height: 801px) and (max-height: 900px) {
-            #stack-area .stack-card > div:nth-child(4) > div:first-child {
-                font-size: 36px;
-            }
-        }
+        
 
         /* (8) Card expand — make it scrollable so stats never get clipped and
            cap the open height tighter than the 480px default above. */
-        @media (min-width: 1440px) and (max-width: 1440px) and (min-height: 801px) and (max-height: 900px) {
-            .card-expand.open {
-                max-height: 380px;
-                overflow-y: auto;
-            }
-        }
+        
 
         /* ── 1440×900 (Quick note — move up 15px): The sticker is bottom-aligned
            inside the flex row; nudge it 15px upward with translateY. */
-        @media (min-width: 1440px) and (max-width: 1440px) and (min-height: 801px) and (max-height: 900px) {
-            #proj-helper-sticker {
-                transform: translateY(-15px) rotate(-2deg);
-            }
-        }
+        
 
         /* ── 1440×900 (Quick note — increase width): Widen from 340px → 460px so
            more words fit on each line and the box doesn't wrap so aggressively. */
-        @media (min-width: 1440px) and (max-width: 1440px) and (min-height: 801px) and (max-height: 900px) {
-            #proj-helper-sticker {
-                width: 460px;
-            }
-        }
+        
 
         /* ── 1440×900 (Quick note — compress text): Tighten line-height on both
            the "Worth a look." title and the body copy, and reduce font sizes
            slightly so vertical spread shrinks while horizontal density increases. */
-        @media (min-width: 1440px) and (max-width: 1440px) and (min-height: 801px) and (max-height: 900px) {
-            #proj-helper-sticker > span:first-of-type {
-                font-size: 17px;
-                line-height: 1.1;
-                margin-bottom: 4px;
-            }
-            #proj-helper-sticker > span:last-of-type {
-                font-size: 13px;
-                line-height: 1.25;
-            }
-        }
+        
 
         /* ── 1440×900 (Quick note — move up 25px + left 10px): Overrides the earlier
            translateY(-15px); combined transform is now Y:-25px X:-10px + tilt. */
-        @media (min-width: 1440px) and (max-width: 1440px) and (min-height: 801px) and (max-height: 900px) {
-            #proj-helper-sticker {
-                transform: translateY(-25px) translateX(-10px) rotate(-2deg);
-            }
-        }
+        
 
         /* ── 1440×900 (Stack area — move down 15px): Adds top margin to the cards
            container so the deck shifts down without affecting header layout. */
-        @media (min-width: 1440px) and (max-width: 1440px) and (min-height: 801px) and (max-height: 900px) {
-            #stack-area {
-                margin-top: 15px;
-            }
-        }
+        
 
         /* ── 1440×900 (Quick note — +25px up +10px left, cumulative total Y:-50px X:-20px):
            Overrides the previous translateY(-25px)/translateX(-10px) block. */
-        @media (min-width: 1440px) and (max-width: 1440px) and (min-height: 801px) and (max-height: 900px) {
-            #proj-helper-sticker {
-                transform: translateY(-50px) translateX(-20px) rotate(-2deg);
-            }
-        }
+        
 
         /* ── 1440×900 (Stack area — +15px down, cumulative total margin-top: 30px):
            Overrides the previous margin-top: 15px block. */
-        @media (min-width: 1440px) and (max-width: 1440px) and (min-height: 801px) and (max-height: 900px) {
-            #stack-area {
-                margin-top: 30px;
-            }
-        }
+        
 
         /* ── 1440×900 (Dissected card bullet spacing): Reduce line spacing between
            the pointers (bullet points) to decrease the overall height of the dissected card. */
-        @media (min-width: 1440px) and (max-width: 1440px) and (min-height: 801px) and (max-height: 900px) {
-            #stack-area .stack-card .card-expand > div:last-child > div:first-child > div[class*="items-start"] {
-                margin-bottom: 4px;
-            }
-        }
+        
 
         /* ── 1440×900 (Projects heading size): Increase the size of the 'Projects'
            heading, overriding the previous 100px reduction. */
-        @media (min-width: 1440px) and (max-width: 1440px) and (min-height: 801px) and (max-height: 900px) {
-            #proj-section-badge + h2 {
-                font-size: 120px !important;
-            }
-        }
+        
 
         /* ═══════════════════════════════════════════════════════════════════
            1920 × 1080 — Projects Section & Global Navigation fixes
            ═══════════════════════════════════════════════════════════════════ */
 
         /* ── 1920×1080 (Projects Heading Position): Move up by 20px and left by 50px */
-        @media (min-width: 1920px) and (max-width: 1920px) and (min-height: 901px) and (max-height: 1080px) {
-            #proj-header-row > div:first-child {
-                transform: translate(-50px, -20px);
-            }
-        }
+        @media (min-width: 1880px) and (max-width: 1960px) and (min-height: 880px) and (max-height: 1100px) {
+    #proj-header-row > div:first-child {
+        transform: translate(-80px, -45px);
+    }
+    #proj-helper-sticker {
+        width: 600px;
+        padding: 24px;
+        transform: translate(50px, -70px) rotate(-2deg) !important;
+        padding-top: 36px !important;
+        padding-bottom: 36px !important;
+    }
+    #proj-helper-sticker > span:first-of-type {
+        font-size: 28px !important;
+        margin-bottom: 16px !important;
+    }
+    #proj-helper-sticker > span:last-of-type {
+        font-size: 22px !important;
+        line-height: 1.8 !important;
+    }
+    #stack-area .stack-card {
+        padding: 40px 48px;
+        padding-top: 24px;
+        padding-bottom: 24px;
+    }
+    #stack-area .stack-card > div:nth-child(4) > div:first-child {
+        font-size: 72px;
+    }
+    #main-nav .nav-item {
+        padding: 12px 24px;
+        font-size: 18px;
+    }
+    #main-nav-container {
+        bottom: 38px !important;
+    }
+    #top-ribbon {
+        height: 64px;
+    }
+    #top-ribbon > div:first-child {
+        font-size: 18px;
+        padding-left: 48px;
+        padding-right: 48px;
+    }
+    #hinglish-phrase {
+        font-size: 18px;
+    }
+    #scroll-progress-bar + div > span:first-child {
+        font-size: 16px;
+    }
+    #scroll-pct {
+        font-size: 18px;
+    }
+    #stack-area {
+        max-width: 1400px !important;
+        margin-top: -20px !important;
+    }
+    #stack-area .stack-card .card-expand .font-\['DM_Sans'\] {
+        font-size: 26px !important;
+        line-height: 1.8 !important;
+    }
+    #stack-area .stack-card .card-expand .font-\['Bebas_Neue'\] {
+        font-size: 72px !important;
+    }
+    #stack-area .stack-card .card-expand .font-\['Schoolbell'\] {
+        font-size: 14px !important;
+    }
+    #hero-badges {
+        transform: scale(1.35);
+        transform-origin: top left;
+    }
+    #hero-quote-block {
+        transform: scale(1.35);
+        transform-origin: top right;
+    }
+    #hero-roles-block {
+        transform: scale(1.35);
+        transform-origin: bottom left;
+    }
+    .hero-overlay-text.md\:bottom-20 {
+        bottom: 150px !important;
+        transform: translateX(-50%) scale(1.35) !important;
+        transform-origin: bottom center;
+    }
+    #preloader-content > div.font-\['Schoolbell'\] {
+        font-size: 150px !important;
+    }
+    #loader-container {
+        transform: scale(1.35);
+        transform-origin: bottom left;
+    }
+    #skip-btn {
+        transform: scale(1.35);
+        transform-origin: bottom right;
+    }
+    #metro-door-text h2 {
+        font-size: 180px !important;
+    }
+    #metro-door-text p {
+        font-size: 72px !important;
+        margin-top: 16px !important;
+        margin-bottom: 40px !important;
+    }
+    #metro-enter-btn {
+        font-size: 32px !important;
+        padding: 24px 72px !important;
+    }
+    #transit-stations-container > div > div:nth-child(2) {
+        transform-origin: bottom center !important;
+        transform: translateY(-62px) scale(1.25) !important;
+    }
+    #transit-train {
+        height: 250px !important;
+    }
+    #fixed-route-board {
+        margin-top: 20px !important;
+    }
+    div.absolute:has(> .group > #vw-tilted-box) {
+        margin-top: 20px !important;
+        translate: 0 15px !important;
+    }
+    #transit-next-btn, #transit-prev-btn {
+        width: 105px !important;
+        height: 105px !important;
+    }
+    #transit-next-btn svg, #transit-prev-btn svg {
+        width: 40px !important;
+        height: 40px !important;
+    }
+    #stack-area .stack-card .card-expand div[class*="items-start"] > div:last-child {
+        font-size: 19px !important;
+        line-height: 1.8 !important;
+    }
+    #stack-area .stack-card .card-expand div[class*="items-start"] > div:first-child {
+        width: 6px !important;
+        height: 6px !important;
+        margin-top: 12px !important;
+    }
+    #hero .hero-overlay-text.bottom-16,
+            #about-sticky-wrap > div.animate-pulse {
+        translate: 0 25px !important;
+    }
+    #transit-cs-content,
+            #transit-case-study-view > div.sticky {
+        max-width: 1600px !important;
+    }
+    #intro-sticky-note {
+        transform: scale(0.85) rotate(-2deg) !important;
+        transform-origin: top right !important;
+    }
+    #origin-headline {
+        font-size: 41px !important;
+        left: 2% !important;
+    }
+    #art-polaroid {
+        translate: 0 5px !important;
+    }
+    #experience-typewriter {
+        translate: 0 -20px !important;
+    }
+    #metrics-stamps-group {
+        translate: 0 -10px !important;
+    }
+    #other-highlights-block {
+        translate: 0 -10px !important;
+    }
+    #contact p.contact-stagger {
+        font-size: 34px !important;
+        line-height: 1.4 !important;
+        max-width: 800px !important;
+    }
+    #contact a[href^="mailto"] {
+        font-size: 80px !important;
+    }
+    #contact .contact-stagger span[aria-hidden="true"] {
+        font-size: 20px !important;
+    }
+    #contact .contact-stagger.flex.gap-8 a {
+        font-size: 24px !important;
+    }
+}
 
         /* ── 1920×1080 (Quick note size and position): Increase size, move up 20px and right 30px */
-        @media (min-width: 1920px) and (max-width: 1920px) and (min-height: 901px) and (max-height: 1080px) {
-            #proj-helper-sticker {
-                width: 550px;
-                padding: 24px;
-                transform: translate(30px, -20px) rotate(-2deg);
-            }
-            #proj-helper-sticker > span:first-of-type {
-                font-size: 28px;
-            }
-            #proj-helper-sticker > span:last-of-type {
-                font-size: 20px;
-            }
-        }
+        
 
         /* ── 1920×1080 (Cards size): Increase the padding and font sizes of the stack cards */
-        @media (min-width: 1920px) and (max-width: 1920px) and (min-height: 901px) and (max-height: 1080px) {
-            #stack-area .stack-card {
-                padding: 40px 48px;
-            }
-            #stack-area .stack-card > div:nth-child(4) > div:first-child {
-                font-size: 72px;
-            }
-        }
+        
 
         /* ── 1920×1080 (Navbar size): Increase padding, font size, and bottom offset */
-        @media (min-width: 1920px) and (max-width: 1920px) and (min-height: 901px) and (max-height: 1080px) {
-            #main-nav .nav-item {
-                padding: 12px 24px;
-                font-size: 18px;
-            }
-            #main-nav-container {
-                bottom: 48px;
-            }
-        }
+        
 
         /* ── 1920×1080 (Ribbon size): Increase height and font sizes inside the top ribbon */
-        @media (min-width: 1920px) and (max-width: 1920px) and (min-height: 901px) and (max-height: 1080px) {
-            #top-ribbon {
-                height: 64px;
-            }
-            #top-ribbon > div:first-child {
-                font-size: 18px;
-                padding-left: 48px;
-                padding-right: 48px;
-            }
-            #hinglish-phrase {
-                font-size: 18px;
-            }
-            #scroll-progress-bar + div > span:first-child {
-                font-size: 16px;
-            }
-            #scroll-pct {
-                font-size: 18px;
-            }
-        }
+        
 
         /* ── 1920×1080 (Overrides 2): Further adjustments based on feedback */
-        @media (min-width: 1920px) and (max-width: 1920px) and (min-height: 901px) and (max-height: 1080px) {
-            /* Move Projects heading further left (total -80px) */
-            #proj-header-row > div:first-child {
-                transform: translate(-80px, -20px);
-            }
-            /* Increase quick note size and move further right (total 50px) */
-            #proj-helper-sticker {
-                width: 600px;
-                transform: translate(50px, -20px) rotate(-2deg);
-            }
-            /* Increase the cards horizontal size by widening the stack area */
-            #stack-area {
-                max-width: 1200px !important;
-            }
-        }
+        
 
         /* ── 1920×1080 (Overrides 3): Increase text size in dissection */
-        @media (min-width: 1920px) and (max-width: 1920px) and (min-height: 901px) and (max-height: 1080px) {
-            /* Points text */
-            #stack-area .stack-card .card-expand .font-\['DM_Sans'\] {
-                font-size: 20px !important;
-                line-height: 1.6 !important;
-            }
-            /* Stats numbers */
-            #stack-area .stack-card .card-expand .font-\['Bebas_Neue'\] {
-                font-size: 72px !important;
-            }
-            /* Stats labels & click to close */
-            #stack-area .stack-card .card-expand .font-\['Schoolbell'\] {
-                font-size: 14px !important;
-            }
-        }
+        
 
         /* ── 1920×1080 (Overrides 4): Hero Section Labels */
-        @media (min-width: 1920px) and (max-width: 1920px) and (min-height: 901px) and (max-height: 1080px) {
-            /* Top Left Badge: SRCC '27 */
-            #hero-badges {
-                transform: scale(1.35);
-                transform-origin: top left;
-            }
-            
-            /* Right Side Quote: Creative by night... */
-            #hero-quote-block {
-                transform: scale(1.35);
-                transform-origin: top right;
-            }
-            
-            /* Bottom Left Timeline: Started As... */
-            #hero-roles-block {
-                transform: scale(1.35);
-                transform-origin: bottom left;
-            }
-
-            /* Scroll down indicator: move upwards to prevent navbar overlap & increase size */
-            .hero-overlay-text.md\:bottom-20 {
-                bottom: 150px !important;
-                transform: translateX(-50%) scale(1.35) !important;
-                transform-origin: bottom center;
-            }
-        }
+        
 
         /* ── 1920×1080 (Overrides 5): Preloader Section */
-        @media (min-width: 1920px) and (max-width: 1920px) and (min-height: 901px) and (max-height: 1080px) {
-            /* Main quote text */
-            #preloader-content > div.font-\['Schoolbell'\] {
-                font-size: 150px !important;
-            }
-            
-            /* Loader container (progress text, dot, bar) */
-            #loader-container {
-                transform: scale(1.35);
-                transform-origin: bottom left;
-            }
-            
-            /* Skip button */
-            #skip-btn {
-                transform: scale(1.35);
-                transform-origin: bottom right;
-            }
-        }
+        
 
         /* ── 1920×1080 (Overrides 6): Projects Section Adjustments */
-        @media (min-width: 1920px) and (max-width: 1920px) and (min-height: 901px) and (max-height: 1080px) {
-            /* Move Projects & Section 03 up by another 25px */
-            #proj-header-row > div:first-child {
-                transform: translate(-80px, -45px);
-            }
-            
-            /* Move Quick Note up by another 25px */
-            #proj-helper-sticker {
-                transform: translate(50px, -45px) rotate(-2deg);
-            }
-            
-            /* Decrease vertical padding of cards */
-            #stack-area .stack-card {
-                padding-top: 24px;
-                padding-bottom: 24px;
-            }
-            
-            /* Increase horizontal width of the card container */
-            #stack-area {
-                max-width: 1400px !important;
-            }
-        }
+        
 
         /* ── 1920×1080 (Overrides 7): Quick Note & Pointers Tweaks */
-        @media (min-width: 1920px) and (max-width: 1920px) and (min-height: 901px) and (max-height: 1080px) {
-            /* Move Quick Note up by another 25px (from -45px to -70px), increase padding */
-            #proj-helper-sticker {
-                transform: translate(50px, -70px) rotate(-2deg) !important;
-                padding-top: 36px !important;
-                padding-bottom: 36px !important;
-            }
-            
-            /* Increase text size and line spacing in Quick Note */
-            #proj-helper-sticker > span:first-of-type {
-                font-size: 28px !important;
-                margin-bottom: 16px !important;
-            }
-            #proj-helper-sticker > span:last-of-type {
-                font-size: 22px !important;
-                line-height: 1.8 !important;
-            }
-            
-            /* Increase text size of pointers in dissected card further */
-            #stack-area .stack-card .card-expand .font-\['DM_Sans'\] {
-                font-size: 26px !important;
-                line-height: 1.8 !important;
-            }
-        }
+        
 
         /* ── 1920×1080 (Overrides 8): Navbar position */
-        @media (min-width: 1920px) and (max-width: 1920px) and (min-height: 901px) and (max-height: 1080px) {
-            #main-nav-container {
-                bottom: 38px !important;
-            }
-        }
+        
 
         /* ── 1920×1080 (Overrides 9): Best Works Section */
-        @media (min-width: 1920px) and (max-width: 1920px) and (min-height: 901px) and (max-height: 1080px) {
-            /* Devanagari Text */
-            #metro-door-text h2 {
-                font-size: 180px !important;
-            }
-            
-            /* English Text */
-            #metro-door-text p {
-                font-size: 72px !important;
-                margin-top: 16px !important;
-                margin-bottom: 40px !important;
-            }
-            
-            /* Enter Button */
-            #metro-enter-btn {
-                font-size: 32px !important;
-                padding: 24px 72px !important;
-            }
-        }
+        
 
         /* ── 1920×1080 (Overrides 10): Move stack area up */
-        @media (min-width: 1920px) and (max-width: 1920px) and (min-height: 901px) and (max-height: 1080px) {
-            #stack-area {
-                margin-top: -20px !important;
-            }
-        }
+        
 
         /* ── 1920×1080 (Overrides 11): Pointers Text Size (Replaced by Overrides 13) */
 
         /* ── 1920×1080 (Overrides 12): Best Works Tweaks */
-        @media (min-width: 1920px) and (max-width: 1920px) and (min-height: 901px) and (max-height: 1080px) {
-            
-            /* 1. Increase size of billboard proportionally and maintain 3px gap */
-            #transit-stations-container > div > div:nth-child(2) {
-                transform-origin: bottom center !important;
-                transform: translateY(-62px) scale(1.25) !important;
-            }
-            
-            /* 2. Increase vertical size of metro */
-            #transit-train {
-                height: 250px !important;
-            }
-            
-            /* 3. Move route box down by 20px */
-            #fixed-route-board {
-                margin-top: 20px !important;
-            }
-            
-            /* 4. Move 'Best works' head down by 20px */
-            div.absolute:has(> .group > #vw-tilted-box) {
-                margin-top: 20px !important;
-            }
-            
-            /* 5. Increase size of navigation arrows */
-            #transit-next-btn, #transit-prev-btn {
-                width: 120px !important;
-                height: 120px !important;
-            }
-            #transit-next-btn svg, #transit-prev-btn svg {
-                width: 48px !important;
-                height: 48px !important;
-            }
-        }
+        
 
         /* ── 1920×1080 (Overrides 13): Pointers Text Size Correction */
-        @media (min-width: 1920px) and (max-width: 1920px) and (min-height: 901px) and (max-height: 1080px) {
-            #stack-area .stack-card .card-expand div[class*="items-start"] > div:last-child {
-                font-size: 19px !important;
-                line-height: 1.8 !important;
-            }
-            /* Increase the bullet dot size proportionally */
-            #stack-area .stack-card .card-expand div[class*="items-start"] > div:first-child {
-                width: 6px !important;
-                height: 6px !important;
-                margin-top: 12px !important;
-            }
-        }
+        
 
         /* ── 1920×1080 (Overrides 14): Scroll Down Elements */
-        @media (min-width: 1920px) and (max-width: 1920px) and (min-height: 901px) and (max-height: 1080px) {
-            #hero .hero-overlay-text.bottom-16,
-            #about-sticky-wrap > div.animate-pulse {
-                translate: 0 25px !important;
-            }
-        }
+        
 
         /* ── 1920×1080 (Overrides 15): Move Best Works and Section 04 down */
-        @media (min-width: 1920px) and (max-width: 1920px) and (min-height: 901px) and (max-height: 1080px) {
-            div.absolute:has(> .group > #vw-tilted-box) {
-                translate: 0 15px !important;
-            }
-        }
+        
 
         /* ── 1920×1080 (Overrides 16): Decrease navigation arrows slightly */
-        @media (min-width: 1920px) and (max-width: 1920px) and (min-height: 901px) and (max-height: 1080px) {
-            #transit-next-btn, #transit-prev-btn {
-                width: 105px !important;
-                height: 105px !important;
-            }
-            #transit-next-btn svg, #transit-prev-btn svg {
-                width: 40px !important;
-                height: 40px !important;
-            }
-        }
+        
 
         /* ── 1920×1080 (Overrides 17): Widen the dissected case study container */
-        @media (min-width: 1920px) and (max-width: 1920px) and (min-height: 901px) and (max-height: 1080px) {
-            #transit-cs-content,
-            #transit-case-study-view > div.sticky {
-                max-width: 1600px !important;
-            }
-        }
+        
 
         /* ── 1920×1080 (Overrides 18): Decrease size of open book note */
-        @media (min-width: 1920px) and (max-width: 1920px) and (min-height: 901px) and (max-height: 1080px) {
-            #intro-sticky-note {
-                transform: scale(0.85) rotate(-2deg) !important;
-                transform-origin: top right !important;
-            }
-        }
+        
 
         /* ── 1920×1080 (Overrides 19): Decrease text size and left padding of Origin headline */
-        @media (min-width: 1920px) and (max-width: 1920px) and (min-height: 901px) and (max-height: 1080px) {
-            #origin-headline {
-                font-size: 41px !important;
-                left: 2% !important;
-            }
-        }
+        
 
         /* ── 1920×1080 (Overrides 20): Move polaroid down by 5px */
-        @media (min-width: 1920px) and (max-width: 1920px) and (min-height: 901px) and (max-height: 1080px) {
-            #art-polaroid {
-                translate: 0 5px !important;
-            }
-        }
+        
 
         /* ── 1920×1080 (Overrides 21): Move places i have hustled at upwards by 10px */
-        @media (min-width: 1920px) and (max-width: 1920px) and (min-height: 901px) and (max-height: 1080px) {
-            #experience-typewriter {
-                translate: 0 -20px !important;
-            }
-        }
+        
 
         /* ── 1920×1080 (Overrides 22): Move stamps upwards by 10px */
-        @media (min-width: 1920px) and (max-width: 1920px) and (min-height: 901px) and (max-height: 1080px) {
-            #metrics-stamps-group {
-                translate: 0 -10px !important;
-            }
-        }
+        
 
         /* ── 1920×1080 (Overrides 23): Move ps note upwards by 10px */
-        @media (min-width: 1920px) and (max-width: 1920px) and (min-height: 901px) and (max-height: 1080px) {
-            #other-highlights-block {
-                translate: 0 -10px !important;
-            }
-        }
+        
 
         /* ── 1920×1080 (Overrides 24): Increase size of left contact paragraph */
-        @media (min-width: 1920px) and (max-width: 1920px) and (min-height: 901px) and (max-height: 1080px) {
-            #contact p.contact-stagger {
-                font-size: 34px !important;
-                line-height: 1.4 !important;
-                max-width: 800px !important;
-            }
-        }
+        
 
         /* ── 1920×1080 (Overrides 25): Increase size of Contact CTA area */
-        @media (min-width: 1920px) and (max-width: 1920px) and (min-height: 901px) and (max-height: 1080px) {
-            #contact a[href^="mailto"] {
-                font-size: 80px !important;
-            }
-            #contact .contact-stagger span[aria-hidden="true"] {
-                font-size: 20px !important;
-            }
-            #contact .contact-stagger.flex.gap-8 a {
-                font-size: 24px !important;
-            }
-        }
+        
 
         /* ── 1536×864 (Overrides 26): Move places i have hustled at upwards */
-        @media (min-width: 1536px) and (max-width: 1536px) and (min-height: 801px) and (max-height: 864px) {
-            #experience-typewriter {
-                translate: 0 -25px !important;
-            }
-        }
+        @media (min-width: 1536px) and (max-width: 1560px) and (min-height: 740px) and (max-height: 870px) {
+    #experience-typewriter {
+        translate: 0 -25px !important;
+    }
+    #proj-helper-sticker {
+        transform: translateY(-32px) rotate(-2deg) !important;
+    }
+    #stack-area {
+        translate: 0 -15px !important;
+    }
+    #vw-best {
+        font-size: 110px !important;
+    }
+    #vw-work {
+        font-size: 110px !important;
+    }
+    #vw-tilted-box {
+        height: 120px !important;
+    }
+    #fixed-route-board {
+        margin-top: -22px !important;
+        transform: translateX(18px) rotate(-1.2deg) scale(0.90) !important;
+    }
+}
 
         /* ── 1536×864 (Overrides 27): Move quick note upwards */
-        @media (min-width: 1536px) and (max-width: 1536px) and (min-height: 801px) and (max-height: 864px) {
-            #proj-helper-sticker {
-                transform: translateY(-32px) rotate(-2deg) !important;
-            }
-        }
+        
 
         /* ── 1536×864 (Overrides 28): Move cards stack upwards */
-        @media (min-width: 1536px) and (max-width: 1536px) and (min-height: 801px) and (max-height: 864px) {
-            #stack-area {
-                translate: 0 -15px !important;
-            }
-        }
+        
 
         /* ── 1536×864 (Overrides 29): Scale down Best heading */
-        @media (min-width: 1536px) and (max-width: 1536px) and (min-height: 801px) and (max-height: 864px) {
-            #vw-best {
-                font-size: 110px !important;
-            }
-        }
+        
 
         /* ── 1536×864 (Overrides 30): Scale down Work heading */
-        @media (min-width: 1536px) and (max-width: 1536px) and (min-height: 801px) and (max-height: 864px) {
-            #vw-work {
-                font-size: 110px !important;
-            }
-        }
+        
 
         /* ── 1536×864 (Overrides 31): Scale down Best Works tilted box */
-        @media (min-width: 1536px) and (max-width: 1536px) and (min-height: 801px) and (max-height: 864px) {
-            #vw-tilted-box {
-                height: 120px !important;
-            }
-        }
+        
 
         /* ── 1536×864 (Overrides 32): Move up and scale down route box */
-        @media (min-width: 1536px) and (max-width: 1536px) and (min-height: 801px) and (max-height: 864px) {
-            #fixed-route-board {
-                margin-top: -22px !important;
-                transform: translateX(18px) rotate(-1.2deg) scale(0.90) !important;
-            }
-        }
+        
 
         /* ── 1470×956 (Overrides 33): Move places i have hustled upwards */
-        @media (min-width: 1470px) and (max-width: 1470px) and (min-height: 901px) and (max-height: 956px) {
-            #experience-typewriter {
-                translate: 0 -18px !important;
-            }
+        @media (min-width: 1453px) and (max-width: 1535px) and (min-height: 781px) and (max-height: 960px) {
+    #experience-typewriter {
+        font-size: 11px;
+        line-height: 1.4;
+        margin-top: -45px;
+    }
+    #verified-stamp {
+        bottom: -30px;
+        right: 5%;
+    }
+    #other-highlights-block {
+        translate: 0 -20px;
+    }
+    #origin-micro-story {
+        translate: 0 -10px !important;
+    }
+    #torn-signature-paper {
+        zoom: 0.80;
+    }
+    .realistic-paper-stack-right {
+        overflow: visible;
+    }
+    #art-terminal {
+        zoom: 0.78;
+    }
+    #vw-best {
+        font-size: 105px !important;
+    }
+    #vw-work {
+        font-size: 105px !important;
+    }
+    #vw-tilted-box {
+        height: 115px !important;
+    }
+    div.absolute:has(> .group > #vw-tilted-box) {
+        margin-top: -20px !important;
+        translate: 0 35px;
+    }
+    #transit-stations-container > div {
+        padding-bottom: 245px !important;
+    }
+    #fixed-route-board {
+        margin-top: -15px !important;
+    }
+    #art-polaroid {
+        translate: 0 25px;
+    }
+    #proj-helper-sticker {
+        align-self: flex-start;
+        margin-top: 110px;
+        margin-right: 40px;
+    }
+    #stack-area {
+        margin-top: -35px;
+    }
+}
+
+        @media (min-width: 1255px) and (max-width: 1380px) and (min-height: 660px) and (max-height: 760px) {
+            /* 1280×832 Mac More Space scaling — real viewport ~1280×714 */
+    #art-terminal {
+        zoom: 0.75;
+    }
+    #art-stats {
+        zoom: 0.75;
+    }
+    #experience-typewriter {
+        margin-top: -40px;
+    }
+    #vw-best {
+        font-size: 95px !important;
+    }
+    #vw-work {
+        font-size: 95px !important;
+    }
+    #vw-tilted-box {
+        height: 105px !important;
+    }
+    div:has(> #transit-next-btn) {
+        top: 42% !important;
+    }
+    div:has(> #transit-prev-btn) {
+        top: 42% !important;
+    }
+    #fixed-route-board {
+        zoom: 0.78;
+    }
         }
 
         /* ── 1470×956 (Overrides 34): Move stamps upwards */
-        @media (min-width: 1470px) and (max-width: 1470px) and (min-height: 901px) and (max-height: 956px) {
-            #metrics-stamps-group {
-                translate: 0 -18px !important;
-            }
-        }
+        
 
         /* ── 1470×956 (Overrides 35): Move ps note upwards */
-        @media (min-width: 1470px) and (max-width: 1470px) and (min-height: 901px) and (max-height: 956px) {
-            #other-highlights-block {
-                translate: 0 -18px !important;
-            }
-        }
+        
 
         /* ── 1470×956 (Overrides 36): Move origin micro story upwards */
-        @media (min-width: 1470px) and (max-width: 1470px) and (min-height: 901px) and (max-height: 956px) {
-            #origin-micro-story {
-                translate: 0 -10px !important;
-            }
-        }
+        
 
         /* ── 844×390 (Overrides 37): Mobile Landscape Enhancements */
         @media (min-width: 844px) and (max-width: 844px) and (min-height: 390px) and (max-height: 390px) {
-            /* Hero Section */
-            #hero h1 { font-size: 60px !important; }
-            #hero-job-title { font-size: 10px !important; bottom: 10px !important; }
-            
-            /* About Section */
-            #about-sticky h2 { font-size: 50px !important; padding-top: 10px !important; }
-            #torn-signature-paper { zoom: 0.5 !important; bottom: -20px !important; }
-            
-            /* Projects Section */
-            #vw-best, #vw-work { font-size: 70px !important; }
-            #vw-tilted-box { height: 80px !important; }
-            #fixed-route-board { height: 90px !important; transform: scale(0.65) !important; margin-top: -10px !important; right: 20px !important; }
-            
-            /* Origin Section */
-            #origin-headline { font-size: 50px !important; }
-            #art-polaroid { transform: scale(0.6) rotate(4deg) !important; bottom: 5% !important; }
-            #experience-typewriter { font-size: 20px !important; translate: 0 -10px !important; }
-        }
+    #hero h1 {
+        font-size: 225px !important;
+    }
+    #hero-job-title {
+        font-size: 10px !important;
+        bottom: 10px !important;
+    }
+    #about-sticky h2 {
+        font-size: 50px !important;
+        padding-top: 10px !important;
+    }
+    #torn-signature-paper {
+        zoom: 0.5 !important;
+        bottom: -20px !important;
+    }
+    #vw-best, #vw-work {
+        font-size: 70px !important;
+    }
+    #vw-tilted-box {
+        height: 80px !important;
+    }
+    #fixed-route-board {
+        height: 90px !important;
+        transform: scale(0.65) !important;
+        margin-top: -10px !important;
+        right: 20px !important;
+    }
+    #origin-headline {
+        font-size: 50px !important;
+    }
+    #art-polaroid {
+        transform: translateX(30px) translateY(-30px) rotate(4deg) !important;
+        bottom: 5% !important;
+        max-width: 90px !important;
+    }
+    #experience-typewriter {
+        font-size: 20px !important;
+        translate: 0 -10px !important;
+    }
+    #hero-roles-block {
+        zoom: 0.55 !important;
+        bottom: 5% !important;
+    }
+    #hero-quote-block {
+        zoom: 0.55 !important;
+        top: 15% !important;
+    }
+    #top-ribbon {
+        zoom: 0.6 !important;
+    }
+    #main-nav-container {
+        bottom: 12px !important;
+    }
+    #main-nav {
+        zoom: 0.65 !important;
+    }
+    #hero .hero-overlay-text.bottom-16 {
+        zoom: 0.6 !important;
+        bottom: 39px !important;
+    }
+    #sound-toggle {
+        zoom: 0.65 !important;
+    }
+    #hero-badges {
+        top: 75px !important;
+        left: 69px !important;
+        bottom: auto !important;
+        right: auto !important;
+        zoom: 0.75 !important;
+    }
+    #intro-sticky-note {
+        transform: scale(0.5) rotate(-2deg) !important;
+        transform-origin: top right !important;
+    }
+    #origin-page-header {
+        font-size: 6px !important;
+        transform: translateY(-20px) !important;
+        margin-top: -11px !important;
+    }
+    #frag-origin-cursive,
+            #origin-headline {
+        zoom: 0.3 !important;
+        margin-top: -120px !important;
+        margin-left: -60px !important;
+    }
+    #origin-micro-story {
+        zoom: 0.6 !important;
+        margin-top: -17px !important;
+        margin-left: -35px !important;
+    }
+    #left-page-base > div:last-child > div:last-child {
+        font-size: 9px !important;
+        transform: translateY(15px) !important;
+    }
+    #personal-cutout > div:last-child {
+        zoom: 0.7 !important;
+    }
+    #frag-strategy-annot, #frag-strategy-annot span {
+        font-size: 7px !important;
+        line-height: 1.2 !important;
+    }
+    #personal-cutout {
+        transform: translateY(20px) !important;
+    }
+    #sticker-baaz {
+        transform: translate(-50%, 0) rotate(4deg) scale(0.6) !important;
+    }
+    #art-terminal {
+        transform: translate(-60px, -80px) rotate(-2deg) scale(0.45) !important;
+    }
+    #art-stats {
+        transform: rotate(6deg) scale(0.4) !important;
+    }
+    #origin-page-header-2 {
+        transform: scale(0.75) !important;
+        transform-origin: top center !important;
+        width: 133% !important;
+    }
+}
 
         /* ── 844×390 (Overrides 38): Reduce size of Hero Roles labels drastically */
-        @media (min-width: 844px) and (max-width: 844px) and (min-height: 390px) and (max-height: 390px) {
-            #hero-roles-block {
-                zoom: 0.45 !important;
-                bottom: 5% !important;
-            }
-            #hero-quote-block {
-                zoom: 0.45 !important;
-                top: 15% !important;
-            }
-        }
+        
 
         /* ── 844×390 (Overrides 39): Reduce top ribbon size */
-        @media (min-width: 844px) and (max-width: 844px) and (min-height: 390px) and (max-height: 390px) {
-            #top-ribbon {
-                zoom: 0.6 !important;
-            }
-        }
+        
 
         /* ── 844×390 (Overrides 40): Reduce navbar size */
-        @media (min-width: 844px) and (max-width: 844px) and (min-height: 390px) and (max-height: 390px) {
-            #main-nav-container {
-                bottom: 12px !important;
-            }
-            #main-nav {
-                zoom: 0.65 !important;
-            }
-        }
+        
 
         /* ── 844×390 (Overrides 41): Reduce Hero Scroll Indicator */
-        @media (min-width: 844px) and (max-width: 844px) and (min-height: 390px) and (max-height: 390px) {
-            #hero .hero-overlay-text.bottom-16 {
-                zoom: 0.6 !important;
-                bottom: 35px !important;
-            }
-        }
+        
 
         /* ── 844×390 (Overrides 42): Reduce Volume Button */
-        @media (min-width: 844px) and (max-width: 844px) and (min-height: 390px) and (max-height: 390px) {
-            #sound-toggle {
-                zoom: 0.65 !important;
-            }
-        }
+        
 
         /* ── 844×390 (Overrides 43): Increase Baaz text size */
-        @media (min-width: 844px) and (max-width: 844px) and (min-height: 390px) and (max-height: 390px) {
-            #hero h1 {
-                font-size: 130px !important;
-            }
-        }
+        
 
         /* ── 844×390 (Overrides 44): Increase Hero Roles Labels slightly */
-        @media (min-width: 844px) and (max-width: 844px) and (min-height: 390px) and (max-height: 390px) {
-            #hero-roles-block {
-                zoom: 0.55 !important;
-            }
-        }
+        
 
         /* ── 844×390 (Overrides 45): Increase Hero Quote Label slightly */
-        @media (min-width: 844px) and (max-width: 844px) and (min-height: 390px) and (max-height: 390px) {
-            #hero-quote-block {
-                zoom: 0.55 !important;
-            }
-        }
+        
 
         /* ── 844×390 (Overrides 46): Increase Baaz text size to 140px */
-        @media (min-width: 844px) and (max-width: 844px) and (min-height: 390px) and (max-height: 390px) {
-            #hero h1 {
-                font-size: 140px !important;
-            }
-        }
+        
 
         /* ── 844×390 (Overrides 47): Move Hero Scroll Indicator up slightly */
-        @media (min-width: 844px) and (max-width: 844px) and (min-height: 390px) and (max-height: 390px) {
-            #hero .hero-overlay-text.bottom-16 {
-                bottom: 37px !important;
-            }
-        }
+        
 
         /* ── 844×390 (Overrides 48): Move Hero Scroll Indicator up another 2px */
-        @media (min-width: 844px) and (max-width: 844px) and (min-height: 390px) and (max-height: 390px) {
-            #hero .hero-overlay-text.bottom-16 {
-                bottom: 39px !important;
-            }
-        }
+        
 
         /* ── 844×390 (Overrides 49): Increase Baaz text size to 150px */
-        @media (min-width: 844px) and (max-width: 844px) and (min-height: 390px) and (max-height: 390px) {
-            #hero h1 {
-                font-size: 150px !important;
-            }
-        }
+        
 
         /* ── 844×390 (Overrides 50): Move srcc'27 label up and left (consolidated) */
-        @media (min-width: 844px) and (max-width: 844px) and (min-height: 390px) and (max-height: 390px) {
-            #hero-badges {
-                top: 75px !important;
-                left: 69px !important;
-                bottom: auto !important;
-                right: auto !important;
-            }
-        }
+        
 
         /* ── 844×390 (Overrides 52): Increase Baaz text size to 160px */
-        @media (min-width: 844px) and (max-width: 844px) and (min-height: 390px) and (max-height: 390px) {
-            #hero h1 {
-                font-size: 160px !important;
-            }
-        }
+        
 
         /* ── 844×390 (Overrides 53): Increase Baaz text size to 250px */
-        @media (min-width: 844px) and (max-width: 844px) and (min-height: 390px) and (max-height: 390px) {
-            #hero h1 {
-                font-size: 250px !important;
-            }
-        }
+        
 
         /* ── 844×390 (Overrides 54): Increase Baaz text size to 225px */
-        @media (min-width: 844px) and (max-width: 844px) and (min-height: 390px) and (max-height: 390px) {
-            #hero h1 {
-                font-size: 225px !important;
-            }
-        }
+        
 
         /* ── 844×390 (Overrides 55): Reduce srcc'27 label size */
-        @media (min-width: 844px) and (max-width: 844px) and (min-height: 390px) and (max-height: 390px) {
-            #hero-badges {
-                zoom: 0.75 !important;
-            }
-        }
+        
 
         /* ── 844×390 (Overrides 56): Reduce 'open book' note to 50% */
-        @media (min-width: 844px) and (max-width: 844px) and (min-height: 390px) and (max-height: 390px) {
-            #intro-sticky-note {
-                transform: scale(0.5) rotate(-2deg) !important;
-                transform-origin: top right !important;
-            }
-        }
+        
 
         /* ── 844×390 (Overrides 57): Reduce origin page header size and move up */
-        @media (min-width: 844px) and (max-width: 844px) and (min-height: 390px) and (max-height: 390px) {
-            #origin-page-header {
-                font-size: 6px !important;
-                transform: translateY(-20px) !important;
-            }
-        }
+        
 
         /* ── 844×390 (Overrides 58): Reduce 'how it all started' to 'on my own' size, move up, reduce left padding */
-        @media (min-width: 844px) and (max-width: 844px) and (min-height: 390px) and (max-height: 390px) {
-            #frag-origin-cursive,
-            #origin-headline {
-                zoom: 0.3 !important;
-                margin-top: -120px !important;
-                margin-left: -60px !important;
-            }
-        }
+        
 
         /* ── 844×390 (Overrides 59): Reduce 'I had no idea...' micro story size, left padding, and move up */
-        @media (min-width: 844px) and (max-width: 844px) and (min-height: 390px) and (max-height: 390px) {
-            #origin-micro-story {
-                zoom: 0.6 !important;
-                margin-top: -17px !important;
-                margin-left: -35px !important;
-            }
-        }
+        
 
         /* ── 844×390 (Overrides 60): Move Origin page header up */
-        @media (min-width: 844px) and (max-width: 844px) and (min-height: 390px) and (max-height: 390px) {
-            #origin-page-header {
-                margin-top: -11px !important;
-            }
-        }
+        
 
         /* ── 844×390 (Overrides 61): GOD'S PLAN footer size and position */
-        @media (min-width: 844px) and (max-width: 844px) and (min-height: 390px) and (max-height: 390px) {
-            #left-page-base > div:last-child > div:last-child {
-                font-size: 9px !important;
-                transform: translateY(15px) !important;
-            }
-        }
+        
 
         /* ── 844×390 (Overrides 62): Reduce bajkamal sticker size */
-        @media (min-width: 844px) and (max-width: 844px) and (min-height: 390px) and (max-height: 390px) {
-            #personal-cutout > div:last-child {
-                zoom: 0.7 !important;
-            }
-        }
+        
 
         /* ── 844×390 (Overrides 63): Move polaroid right 30px and up 30px */
-        @media (min-width: 844px) and (max-width: 844px) and (min-height: 390px) and (max-height: 390px) {
-            #art-polaroid {
-                transform: translateX(30px) translateY(-30px) rotate(4deg) !important;
-            }
-        }
+        
 
         /* ── 844×390 (Overrides 64): Reduce 'It started as...' text size */
-        @media (min-width: 844px) and (max-width: 844px) and (min-height: 390px) and (max-height: 390px) {
-            #frag-strategy-annot, #frag-strategy-annot span {
-                font-size: 7px !important;
-                line-height: 1.2 !important;
-            }
-        }
+        
 
         /* ── 844×390 (Overrides 65): Move cutout up by 15px */
-        @media (min-width: 844px) and (max-width: 844px) and (min-height: 390px) and (max-height: 390px) {
-            #personal-cutout {
-                transform: translateY(20px) !important;
-            }
-        }
+        
 
         /* ── 844×390 (Overrides 66): Reduce polaroid size further */
-        @media (min-width: 844px) and (max-width: 844px) and (min-height: 390px) and (max-height: 390px) {
-            #art-polaroid {
-                max-width: 90px !important;
-            }
-        }
+        
 
         /* ── 844×390 (Overrides 67): Reduce Baaz sticker size */
-        @media (min-width: 844px) and (max-width: 844px) and (min-height: 390px) and (max-height: 390px) {
-            #sticker-baaz {
-                transform: translate(-50%, 0) rotate(4deg) scale(0.6) !important;
-            }
-        }
+        
 
         /* ── 844×390 (Overrides 68): Reduce philosophy note size and move up/left */
-        @media (min-width: 844px) and (max-width: 844px) and (min-height: 390px) and (max-height: 390px) {
-            #art-terminal {
-                transform: translate(-60px, -80px) rotate(-2deg) scale(0.45) !important;
-            }
-        }
+        
 
         /* ── 844×390 (Overrides 69): Reduce 186M note size further */
-        @media (min-width: 844px) and (max-width: 844px) and (min-height: 390px) and (max-height: 390px) {
-            #art-stats {
-                transform: rotate(6deg) scale(0.4) !important;
-            }
-        }
+        
 
         /* ── 844×390 (Overrides 70): Scale down 02 page header to match 01 */
-        @media (min-width: 844px) and (max-width: 844px) and (min-height: 390px) and (max-height: 390px) {
-            #origin-page-header-2 {
-                transform: scale(0.75) !important;
-                transform-origin: top center !important;
-                width: 133% !important; /* compensate for scale so justify-between still reaches the edges */
-                margin-left: -16.5% !important; /* center the scaled up width back into the container */
-            }
-        }
+        
 
         /* ── 1470×832 (Best Works — "Best" heading): Scale down from xl:140px → 115px */
-        @media (min-width: 1441px) and (max-width: 1535px) and (min-height: 801px) and (max-height: 865px) {
-            #vw-best {
-                font-size: 115px !important;
-            }
-        }
+        @media (min-width: 1441px) and (max-width: 1535px) and (min-height: 701px) and (max-height: 780px) {
+    #vw-best {
+        font-size: 110px !important;
+    }
+    #vw-work {
+        font-size: 110px !important;
+    }
+    #fixed-route-board {
+        top: 58px !important;
+        right: 55px !important;
+        transform: rotate(-1.2deg) !important;
+    }
+    #transit-train {
+        height: 175px !important;
+    }
+    #transit-stations-container > div {
+        margin-top: 45px !important;
+    }
+    #vw-tilted-box {
+        height: 95px !important;
+    }
+    #art-polaroid {
+        bottom: calc(25% - 20px) !important;
+    }
+    #experience-typewriter {
+        font-size: 10px !important;
+        padding-right: 6px !important;
+        top: calc(48% - 60px) !important;
+    }
+    #art-stats {
+        transform: rotate(6deg) scale(0.78) !important;
+        transform-origin: top right !important;
+    }
+    #art-terminal {
+        zoom: 0.78;
+    }
+    #metrics-stamps-group {
+        translate: 0 -35px !important;
+    }
+    #other-highlights-block {
+        translate: 0 -20px !important;
+    }
+}
 
         /* ── 1470×832 (Best Works — "Work" heading): Scale down from xl:140px → 115px */
-        @media (min-width: 1441px) and (max-width: 1535px) and (min-height: 801px) and (max-height: 865px) {
-            #vw-work {
-                font-size: 115px !important;
-            }
-        }
+        
 
         /* ── 1470×832 (Best Works — route box): Scale down, move up 10px and right 10px */
-        @media (min-width: 1441px) and (max-width: 1535px) and (min-height: 801px) and (max-height: 865px) {
-            #fixed-route-board {
-                top: 88px !important;
-                right: 105px !important;
-                transform: rotate(-1.2deg) scale(0.88) !important;
-            }
-        }
+        
 
         /* ── 1470×832 (Best Works — metro height): Reduce vertical spread from md:210px → 175px */
-        @media (min-width: 1441px) and (max-width: 1535px) and (min-height: 801px) and (max-height: 865px) {
-            #transit-train {
-                height: 175px !important;
-            }
-        }
+        
 
         /* ── 1470×832 v2 (Best Works — "Best" heading): Tiny reduction 140px → 130px */
-        @media (min-width: 1441px) and (max-width: 1535px) and (min-height: 801px) and (max-height: 865px) {
-            #vw-best {
-                font-size: 130px !important;
-            }
-        }
+        
 
         /* ── 1470×832 v2 (Best Works — "Work" heading): Tiny reduction 140px → 130px */
-        @media (min-width: 1441px) and (max-width: 1535px) and (min-height: 801px) and (max-height: 865px) {
-            #vw-work {
-                font-size: 130px !important;
-            }
-        }
+        
 
         /* ── 1470×832 v2 (Best Works — route box): Move up 20px, right 30px from base */
-        @media (min-width: 1441px) and (max-width: 1535px) and (min-height: 801px) and (max-height: 865px) {
-            #fixed-route-board {
-                top: 78px !important;
-                right: 85px !important;
-                transform: rotate(-1.2deg) !important;
-            }
-        }
+        
 
         /* ── 1470×832 v2 (Best Works — metro height): Reduce vertical spread → 175px */
-        @media (min-width: 1441px) and (max-width: 1535px) and (min-height: 801px) and (max-height: 865px) {
-            #transit-train {
-                height: 175px !important;
-            }
-        }
+        
 
         /* ── 1470×832 v3 (Best Works — "Best" heading): Tiny bit more → 120px */
-        @media (min-width: 1441px) and (max-width: 1535px) and (min-height: 801px) and (max-height: 865px) {
-            #vw-best {
-                font-size: 120px !important;
-            }
-        }
+        
 
         /* ── 1470×832 v3 (Best Works — "Work" heading): Tiny bit more → 120px */
-        @media (min-width: 1441px) and (max-width: 1535px) and (min-height: 801px) and (max-height: 865px) {
-            #vw-work {
-                font-size: 120px !important;
-            }
-        }
+        
 
         /* ── 1470×832 v4 (Best Works — billboard): Move down 5px */
-        @media (min-width: 1441px) and (max-width: 1535px) and (min-height: 801px) and (max-height: 865px) {
-            #transit-stations-container > div {
-                margin-top: 5px !important;
-            }
-        }
+        
 
         /* ── 1470×832 v5 (Best Works — billboard): Move down 9px total */
-        @media (min-width: 1441px) and (max-width: 1535px) and (min-height: 801px) and (max-height: 865px) {
-            #transit-stations-container > div {
-                margin-top: 9px !important;
-            }
-        }
+        
 
         /* ── 1470×832 v6 (Best Works — billboard): Move down by 12px → 21px */
-        @media (min-width: 1441px) and (max-width: 1535px) and (min-height: 801px) and (max-height: 865px) {
-            #transit-stations-container > div {
-                margin-top: 21px !important;
-            }
-        }
+        
 
         /* ── 1470×832 v4 (Best Works — blue tilted box): Trim height so "Work" sits outside */
-        @media (min-width: 1441px) and (max-width: 1535px) and (min-height: 801px) and (max-height: 865px) {
-            #vw-tilted-box {
-                height: 95px !important;
-            }
-        }
+        
 
         /* ── 1470×832 v4 (Best Works — "Best" heading): Tiny bit more → 110px */
-        @media (min-width: 1441px) and (max-width: 1535px) and (min-height: 801px) and (max-height: 865px) {
-            #vw-best {
-                font-size: 110px !important;
-            }
-        }
+        
 
         /* ── 1470×832 v4 (Best Works — "Work" heading): Tiny bit more → 110px */
-        @media (min-width: 1441px) and (max-width: 1535px) and (min-height: 801px) and (max-height: 865px) {
-            #vw-work {
-                font-size: 110px !important;
-            }
-        }
+        
 
         /* ── 1470×832 v3 (Best Works — route box): Another 20px up, 30px right from v2 */
-        @media (min-width: 1441px) and (max-width: 1535px) and (min-height: 801px) and (max-height: 865px) {
-            #fixed-route-board {
-                top: 58px !important;
-                right: 55px !important;
-                transform: rotate(-1.2deg) !important;
-            }
-        }
+        
 
         /* ── 1470×832 (Origins — polaroid): Move down 10px */
-        @media (min-width: 1441px) and (max-width: 1535px) and (min-height: 801px) and (max-height: 865px) {
-            #art-polaroid {
-                bottom: calc(25% - 10px) !important;
-            }
-        }
+        
 
         /* ── 1470×832 (Origins — hustled-at block): Smaller font, less right padding */
-        @media (min-width: 1441px) and (max-width: 1535px) and (min-height: 801px) and (max-height: 865px) {
-            #experience-typewriter {
-                font-size: 10px !important;
-                padding-right: 6px !important;
-            }
-        }
+        
 
         /* ── 1470×832 v7 (Best Works — billboard): Move down 12px → 33px total */
-        @media (min-width: 1441px) and (max-width: 1535px) and (min-height: 801px) and (max-height: 865px) {
-            #transit-stations-container > div {
-                margin-top: 33px !important;
-            }
-        }
+        
 
         /* ── 1470×832 v8 (Best Works — billboard): Move down another 12px → 45px total */
-        @media (min-width: 1441px) and (max-width: 1535px) and (min-height: 801px) and (max-height: 865px) {
-            #transit-stations-container > div {
-                margin-top: 45px !important;
-            }
-        }
+        
 
         /* ── 1470×832 (Origins — 186M tag): Scale down */
-        @media (min-width: 1441px) and (max-width: 1535px) and (min-height: 801px) and (max-height: 865px) {
-            #art-stats {
-                transform: rotate(6deg) scale(0.78) !important;
-                transform-origin: top right !important;
-            }
-        }
+        
 
         /* ── 1470×832 (Origins — hustled-at block): Move up 10px */
-        @media (min-width: 1441px) and (max-width: 1535px) and (min-height: 801px) and (max-height: 865px) {
-            #experience-typewriter {
-                top: calc(48% - 10px) !important;
-            }
-        }
+        
 
         /* ── 1470×832 v2 (Origins — polaroid): Move down another 10px → calc(25% - 20px) */
-        @media (min-width: 1441px) and (max-width: 1535px) and (min-height: 801px) and (max-height: 865px) {
-            #art-polaroid {
-                bottom: calc(25% - 20px) !important;
-            }
-        }
+        
 
         /* ── 1470×832 (Origins — philosophy note): Scale down */
-        @media (min-width: 1441px) and (max-width: 1535px) and (min-height: 801px) and (max-height: 865px) {
-            #art-terminal {
-                transform: rotate(-2deg) scale(0.78) !important;
-                transform-origin: top left !important;
-            }
-        }
+        
 
         /* ── 1470×832 v2 (Origins — hustled-at block): Move up another 20px → calc(48% - 30px) */
-        @media (min-width: 1441px) and (max-width: 1535px) and (min-height: 801px) and (max-height: 865px) {
-            #experience-typewriter {
-                top: calc(48% - 30px) !important;
-            }
-        }
+        
 
         /* ── 1470×832 v3 (Origins — hustled-at block): Move up another 30px → calc(48% - 60px) */
-        @media (min-width: 1441px) and (max-width: 1535px) and (min-height: 801px) and (max-height: 865px) {
-            #experience-typewriter {
-                top: calc(48% - 60px) !important;
-            }
-        }
+        
 
         /* ── 1470×832 (Origins — stamps): Move up 20px */
-        @media (min-width: 1441px) and (max-width: 1535px) and (min-height: 801px) and (max-height: 865px) {
-            #metrics-stamps-group {
-                translate: 0 -20px !important;
-            }
-        }
+        
 
         /* ── 1470×832 (Origins — ps note): Move up 20px */
-        @media (min-width: 1441px) and (max-width: 1535px) and (min-height: 801px) and (max-height: 865px) {
-            #other-highlights-block {
-                translate: 0 -20px !important;
-            }
-        }
+        
 
         /* ── 1470×832 v2 (Origins — stamps): Move up another 15px → -35px total */
-        @media (min-width: 1441px) and (max-width: 1535px) and (min-height: 801px) and (max-height: 865px) {
-            #metrics-stamps-group {
-                translate: 0 -35px !important;
-            }
-        }
+        
         /* ── 1024×768 (Overrides 1): Reduce 'open book' note size */
-        @media (min-width: 1024px) and (max-width: 1024px) and (min-height: 768px) and (max-height: 768px) {
-            #intro-sticky-note {
-                zoom: 0.8 !important;
-            }
-        }
+        @media (min-width: 1000px) and (max-width: 1100px) and (min-height: 680px) and (max-height: 800px) {
+    #intro-sticky-note {
+        zoom: 0.8 !important;
+    }
+    #frag-origin-cursive,
+            #origin-headline {
+        margin-left: -25px !important;
+        margin-top: -10px !important;
+    }
+    #origin-page-header {
+        transform: translateY(-10px) !important;
+    }
+    #origin-micro-story {
+        margin-top: -15px !important;
+        margin-left: -25px !important;
+    }
+    #frag-strategy-annot {
+        font-size: 9px !important;
+    }
+    #art-polaroid {
+        zoom: 0.8 !important;
+    }
+    #art-terminal {
+        zoom: 0.8 !important;
+    }
+    #art-stats {
+        zoom: 0.7 !important;
+        margin-left: 65px !important;
+        margin-top: -25px !important;
+    }
+    #origin-page-header-2 {
+        transform: translateY(-7px) !important;
+    }
+    #experience-typewriter {
+        zoom: 0.8 !important;
+    }
+}
 
         /* ── 1024×768 (Overrides 2): Reduce left padding of 'how it all started' and headline */
-        @media (min-width: 1024px) and (max-width: 1024px) and (min-height: 768px) and (max-height: 768px) {
-            #frag-origin-cursive,
-            #origin-headline {
-                margin-left: -25px !important;
-                margin-top: -10px !important;
-            }
-        }
+        
 
         /* ── 1024×768 (Overrides 3): Move origin page header up */
-        @media (min-width: 1024px) and (max-width: 1024px) and (min-height: 768px) and (max-height: 768px) {
-            #origin-page-header {
-                transform: translateY(-10px) !important;
-            }
-        }
+        
 
         /* ── 1024×768 (Overrides 4): Adjust micro-story (move up and align left) */
-        @media (min-width: 1024px) and (max-width: 1024px) and (min-height: 768px) and (max-height: 768px) {
-            #origin-micro-story {
-                margin-top: -15px !important;
-                margin-left: -25px !important;
-            }
-        }
+        
 
         /* ── 1024×768 (Overrides 5): Reduce font size of strategy note */
-        @media (min-width: 1024px) and (max-width: 1024px) and (min-height: 768px) and (max-height: 768px) {
-            #frag-strategy-annot {
-                font-size: 9px !important;
-            }
-        }
+        
 
         /* ── 1024×768 (Overrides 6): Reduce size of polaroid */
-        @media (min-width: 1024px) and (max-width: 1024px) and (min-height: 768px) and (max-height: 768px) {
-            #art-polaroid {
-                zoom: 0.8 !important;
-            }
-        }
+        
 
         /* ── 1024×768 (Overrides 7): Reduce size of philosophy note */
-        @media (min-width: 1024px) and (max-width: 1024px) and (min-height: 768px) and (max-height: 768px) {
-            #art-terminal {
-                zoom: 0.8 !important;
-            }
-        }
+        
 
         /* ── 1024×768 (Overrides 8): Reduce size of 186m note and move right/up */
-        @media (min-width: 1024px) and (max-width: 1024px) and (min-height: 768px) and (max-height: 768px) {
-            #art-stats {
-                zoom: 0.7 !important;
-                margin-left: 65px !important;
-                margin-top: -25px !important;
-            }
-        }
+        
 
         /* ── 1024×768 (Overrides 9): Move right page header up */
-        @media (min-width: 1024px) and (max-width: 1024px) and (min-height: 768px) and (max-height: 768px) {
-            #origin-page-header-2 {
-                transform: translateY(-7px) !important;
-            }
-        }
+        
 
         /* ── 1024×768 (Overrides 10): Reduce font size of places i have hustled at para */
-        @media (min-width: 1024px) and (max-width: 1024px) and (min-height: 768px) and (max-height: 768px) {
-            #experience-typewriter {
-                zoom: 0.8 !important;
-            }
-        }
+        
     </style>
 </head>
 <body class="overflow-x-hidden selection:bg-[var(--blue)] selection:text-[var(--beige)]">
@@ -4361,7 +3628,7 @@
                                             <p class="text-black/60">Grew an artist's community from scratch to <span class="font-bold text-[var(--navy)]">200K+ followers</span>, and pulled off a wild campus launch for a <span class="font-bold text-[var(--navy)]">Jio Hotstar show</span>.</p>
                                             
                                             <!-- Red Stamp overlapping the text -->
-                                            <div aria-hidden="true" class="absolute bottom-[-15px] right-[10%] border-[2px] border-red-600 text-red-600 font-['Schoolbell'] text-[10px] font-bold uppercase tracking-widest p-1 transform rotate-[-15deg] opacity-70 mix-blend-multiply rounded-sm">
+                                            <div id="verified-stamp" aria-hidden="true" class="absolute bottom-[-15px] right-[10%] border-[2px] border-red-600 text-red-600 font-['Schoolbell'] text-[10px] font-bold uppercase tracking-widest p-1 transform rotate-[-15deg] opacity-70 mix-blend-multiply rounded-sm">
                                                 VERIFIED
                                             </div>
                                             
@@ -5350,7 +4617,7 @@
             lenis = new Lenis({
                 wrapper: worldViewport,
                 content: worldContainer,
-                duration: 1.2,
+                duration: 0.8,
                 easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t))
             });
             // Merge Lenis into GSAP's single ticker (eliminates a second RAF loop)
@@ -5715,7 +4982,7 @@
                 // Refresh before measuring so pin-spacer heights are always current
                 if (typeof ScrollTrigger !== 'undefined') ScrollTrigger.refresh();
                 let targetScroll = worldViewport.scrollTop + targetEl.getBoundingClientRect().top;
-                
+
                 // UX Hint: When navigating to Origin (#about), scroll just deep enough (40vh) so the diary has emerged, but before the camera starts tracking across the pages or zooming.
                 if (targetId === '#about') {
                     targetScroll += window.innerHeight * 0.4;
@@ -8561,7 +7828,7 @@
         ScrollTrigger.create({
             trigger: "#experience",
             start: "top top",
-            end: "+=600", // A slight lock, less than the Metro lock
+            end: "+=600",
             pin: true,
             pinSpacing: true,
         });
@@ -8570,7 +7837,7 @@
         ScrollTrigger.create({
             trigger: "#vending",
             start: "top top",
-            end: "+=1200", // The lock duration
+            end: "+=1200",
             pin: true,
             pinSpacing: true,
         });
